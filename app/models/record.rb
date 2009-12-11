@@ -4,6 +4,7 @@ class Record < ActiveRecord::Base
 
   has_many :photos, :dependent => :destroy
   
+  acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos
   
   
