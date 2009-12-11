@@ -26,25 +26,21 @@
     <%=f.select(:genre, @record.get_genre) %>
 </p>
 <p>
-<div id="mugshots">
+<div id="photos">
 	
 </div>
-	<%= link_to_function "Add additional images" do |page|
-	  page.insert_html :bottom, :mugshots, :partial => 'mugshot', :object => Mugshot.new
-	end %>
+
 
 </p><br><br>
 
 <p>
 <b>Attachments:</b><br>
-	<% @record.mugshots.each do |mugshot| %>
+	<% @record.photos.each do |photo| %>
 	
-		<% if mugshot.image? %>
-			<%= link_to image_tag(mugshot.public_filename(:small)), mugshot.public_filename(:large) %>
+		<% unless photo.nil? %>
+			<%= link_to image_tag(photo.data.url(:thumb)), photo.data.url(:medium) %>
 			
-			<%= link_to 'Destroy', mugshot, :confirm => 'Are you sure?', :method => :delete %><br>
-			<%= mugshot.content_type %> (<%= mugshot.size %>k)<br>
-			<%= mugshot.filename %>
+			<%= link_to 'Destroy', photo, :confirm => 'Are you sure?', :method => :delete %><br>
 			
 			<br />
 		<% end %>

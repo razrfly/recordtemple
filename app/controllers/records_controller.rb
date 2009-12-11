@@ -5,12 +5,13 @@ class RecordsController < ApplicationController
 before_filter :login_required
 
   def index
+      #@records = Record.all
       @records = Record.search(params[:artist], params[:page], current_user.login)
       #calculations
-      @myvalue = Record.values(params[:artist], current_user.login)
-      @hisvalue = Record.osbourne(params[:artist], current_user.login)
-      @chart_months = Record.chart_months
-      @chart_months_data = Record.chart_months_data
+      #@myvalue = Record.values(params[:artist], current_user.login)
+      #@hisvalue = Record.osbourne(params[:artist], current_user.login)
+      #@chart_months = Record.chart_months
+      #@chart_months_data = Record.chart_months_data
       
       respond_to do |format|
         format.html # index.html.erb
@@ -36,7 +37,7 @@ before_filter :login_required
     @record = Record.new
 
     #@mugshot = Mugshot.new
-    @record.mugshots.build
+    @record.photos.build
 
     if params[:id]
       @price = Price.find(params[:id])
@@ -50,7 +51,7 @@ before_filter :login_required
   # GET /records/1/edit
   def edit
     @record = Record.find(params[:id])
-    @record.mugshots.build
+    @record.photos.build
   end
 
   # POST /records

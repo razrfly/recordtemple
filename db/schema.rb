@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091210143048) do
+ActiveRecord::Schema.define(:version => 20091211130400) do
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(:version => 20091210143048) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "condition"
-    t.string   "user"
+    t.string   "username"
   end
 
   create_table "searches", :force => true do |t|

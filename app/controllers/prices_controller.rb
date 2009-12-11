@@ -2,21 +2,21 @@ class PricesController < ApplicationController
   
   before_filter :login_required
   
+  protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]
+  
   def auto_complete_for_price_artist
     @prices = Price.find(:all,
-      :conditions => [ 'LOWER(artist) LIKE ?',
-        "#{params[:price][:artist].downcase}%" ],
+        :select => 'DISTINCT(artist)',
+        :conditions => [ 'LOWER(artist) LIKE ?', "#{params[:price][:artist].downcase}%" ],
         :order => 'artist ASC',
-        :group => 'artist',
         :limit => 8)
       render :partial => 'artists'  
   end
   def auto_complete_for_price_label
     @prices = Price.find(:all,
-      :conditions => [ 'LOWER(label) LIKE ?',
-        "#{params[:price][:label].downcase}%" ],
+        :select => 'DISTINCT(label)',
+        :conditions => [ 'LOWER(label) LIKE ?', "#{params[:price][:label].downcase}%" ],
         :order => 'label ASC',
-        :group => 'label',
         :limit => 8)
       render :partial => 'labels'
   end
@@ -123,8 +123,6 @@ class PricesController < ApplicationController
       format.xml  { head :ok }
     end
   end
-  
-
-  protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]  
+    
 
 end

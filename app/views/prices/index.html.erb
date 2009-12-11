@@ -1,7 +1,7 @@
 <h1>Search Osbourne's Cyberguide for Records</h1>
 
 <%  form_remote_tag :url => prices_path,
-	:loading => "Element.show('busy')",
+	#:loading => "Element.show('busy')",
 	:html => { :method => "get" },
 	:method => "get" do %>
 	<table>
@@ -14,11 +14,11 @@
 	  </tr>
 		
 		<% if params[:price] %>
-			<td><%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "20", :value => params[:price][:artist] %></td>
-			<td><%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "20", :value => params[:price][:label] %></td>
+			<td><%= text_field_with_auto_complete :price, :artist, { :autocomplete => "off", :size => "20", :value => params[:price][:artist] }, :method => :post %></td>
+			<td><%= text_field_with_auto_complete :price, :label, { :autocomplete => "off", :size => "20", :value => params[:price][:label]}, :method => :post  %></td>
 		<% else %>
-			<td><%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "20" %></td>
-			<td><%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "20" %></td>
+			<td><%= text_field_with_auto_complete :price, :artist, { :autocomplete => "off", :size => "20" }, :method => :post %></td>
+			<td><%= text_field_with_auto_complete :price, :label, { :autocomplete => "off", :size => "20" }, :method => :post %></td>
 		<% end %>
 		
 		<td><%=select_tag :type, options_for_select(["","Singles","LPs","EPs","Picture Sleeves"]) %></td>

@@ -1,24 +1,28 @@
 class Record < ActiveRecord::Base
   belongs_to :price
-  validates_presence_of :price_id, :genre, :condition, :user 
-  has_many :mugshots, :dependent => :destroy
-  has_many :photos
+  validates_presence_of :price_id, :genre, :condition, :username
+
+  has_many :photos, :dependent => :destroy
+  
+  accepts_nested_attributes_for :photos
+  
   
   def self.search(search, page, user)
+    unless search.nil? then search = search.downcase end
     paginate :per_page => 20, :page => page,
-                                :joins => "left outer join prices on prices.id = records.price_id",
-                                :conditions => ['artist like ? and user = ?', "%#{search}%", user],
-                                :order => 'updated_at DESC'
+                              :joins => :price,
+                              :conditions => [ 'LOWER(artist) like ? and username = ?', "%#{search}%", user ],
+                              :order => 'updated_at DESC'
   end
   
   def self.values(search, user)
     Record.sum(:value, :joins => "left outer join prices on prices.id = records.price_id",
-                            :conditions => ['artist like ? and user = ?', "%#{search}%", user])
+                            :conditions => ['artist like ? and username = ?', "%#{search}%", user])
   end
   
   def self.osbourne(search, user)
     Record.sum(:pricehigh, :joins => "left outer join prices on prices.id = records.price_id",
-               :conditions => ['artist like ? and user = ?', "%#{search}%", user])
+               :conditions => ['artist like ? and username = ?', "%#{search}%", user])
   end
   
   def cyberguide
@@ -58,7 +62,7 @@ class Record < ActiveRecord::Base
   
   def self.chart_raw
     Record.find_by_sql("SELECT Year(created_at) as year, DATE_FORMAT(created_at, '%M') as month, COUNT(id) as num 
-                        FROM `records` WHERE created_at BETWEEN DATE_ADD(CURDATE(), INTERVAL -6 MONTH) AND CURDATE()
+                        FROM records WHERE created_at BETWEEN DATE_ADD(CURDATE(), INTERVAL -6 MONTH) AND CURDATE()
                         GROUP BY year, month")
   end
   

@@ -2,7 +2,7 @@
 <h1><%=h current_user.login.capitalize %>'s Current Records</h1>
 <h4>This is the overview of your current collection</h4>
 
-<%= image_tag("http://chart.apis.google.com/chart?cht=p3&chs=200x90&chco=0000FF&chd=t:#{@chart_months_data}&chl=#{@chart_months}")%>
+<%# image_tag("http://chart.apis.google.com/chart?cht=p3&chs=200x90&chco=0000FF&chd=t:#{@chart_months_data}&chl=#{@chart_months}")%>
 
 
 <% form_tag records_path, :method => 'get' do %>
@@ -41,7 +41,7 @@
     <td class="<%=current_cycle%>"><%=h record.price.detail %> <%=h record.price.footnote %></td>
     <td class="<%=current_cycle%>"><%=h real_currency record.value %></td>
     <td class="<%=current_cycle%>"><%=h record.cyberguide %></td>
-	<td class="<%=current_cycle%>"><% if record.mugshots.last != nil %><%=image_tag("check.jpg")%><% end %></td>
+	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("check.jpg")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Edit', edit_record_path(record) %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Destroy', record, :confirm => 'Are you sure?', :method => :delete %></td>
@@ -54,8 +54,8 @@
 	<td></td>
 	<td></td>
 	<% if @myvalue != 0 %>
-		<td><strong>$<%= @myvalue %></strong></td>
-		<td><strong>$<%= @hisvalue %></strong></td>
+		<td><strong>$<%# @myvalue %></strong></td>
+		<td><strong>$<%# @hisvalue %></strong></td>
 	<% end %>
 </tr>
 </table>

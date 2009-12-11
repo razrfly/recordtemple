@@ -19,7 +19,7 @@ class Price < ActiveRecord::Base
   
   def get_format
     #Price.find(:all, :group => :format, :order => 'format', :limit => 20)
-    Price.find_by_sql("SELECT DISTINCT format FROM `prices` LIMIT 8")
+    Price.find_by_sql("SELECT DISTINCT format FROM prices LIMIT 8")
     #["Singles","LPs","EPs","Picture Sleeves"]
   end
   

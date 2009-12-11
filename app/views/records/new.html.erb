@@ -28,12 +28,13 @@
     <%=f.select(:condition, @record.get_condition, {:include_blank => true}) %>
   </p>
   <p>
-  <div id="mugshots">
-	
+  <div id="photos">
+	<% if @record.new_record? %>
+		<%= render :partial => 'photo', :locals => { :form => f, :photo => @record.photos.build } %>
+	<% end %>
   </div>
-	<%= link_to_function "Add additional image(s)" do |page|
-	  page.insert_html :bottom, :mugshots, :partial => 'mugshot', :object => Mugshot.new
-	end %>
+  <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
+
 
   </p><br><br>
     <%= f.label :value %><br />
@@ -49,7 +50,7 @@
   </p>
   <p>
 	<%= f.hidden_field :quantity, :value => 1 %>
-	<%= f.hidden_field :user, :value => current_user.login %>
+	<%= f.hidden_field :username, :value => current_user.login %>
     <%= f.submit "Create" %>
 
   </p>
