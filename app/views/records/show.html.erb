@@ -40,6 +40,14 @@
   <%=h @record.price.format %>
 </p>
 
+<% @record.songs.each do |song| %>
+
+	<% if song %>
+		<%= mp3_player song.mp3.url %><%= link_to 'Download', song.mp3.url %><br />
+	<% end %>
+
+<% end %>
+
 <p>
   <b>Detail:</b>
   <%=h @record.price.detail %>

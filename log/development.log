@@ -27285,3 +27285,1751 @@ Rendering template within layouts/application
 Rendering home/index
   [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
 Completed in 50ms (View: 46, DB: 1) | 200 OK [http://localhost/]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (11.7ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Migrating to CreatePrices (20090420140251)
+Migrating to CreateRecords (20090420140900)
+Migrating to AddColumn (20090420155814)
+Migrating to AddColumnUser (20090421213054)
+Migrating to CreateUsers (20090421215158)
+Migrating to AddColumnFootnotes (20090422191925)
+Migrating to CreateBubbles (20090423113046)
+Migrating to CreateMugshots (20090423200720)
+Migrating to SwapvarcharToInt (20090426232518)
+Migrating to AddColumnToPrices (20090513130716)
+Migrating to CreateSearches (20090811122610)
+Migrating to AddColumnToSearch (20090811150326)
+Migrating to CreatePhotos (20091210142901)
+Migrating to AddAttachmentsDataToPhoto (20091210143048)
+Migrating to RenameColumnRecordUser (20091211130400)
+Migrating to CreateSongs (20091211202308)
+  [4;35;1mSQL (0.3ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (190.2ms)[0m   [0;1mCREATE TABLE "songs" ("id" serial primary key, "record_id" integer, "created_at" timestamp, "updated_at" timestamp) [0m
+  [4;35;1mSQL (13.3ms)[0m   [0mINSERT INTO schema_migrations (version) VALUES ('20091211202308')[0m
+  [4;36;1mSQL (1.8ms)[0m   [0;1mCOMMIT[0m
+Migrating to AddAttachmentsDataToSong (20091211202426)
+  [4;35;1mSQL (0.4ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mALTER TABLE "songs" ADD COLUMN "data_file_name" character varying(255)[0m
+  [4;35;1mSQL (2.0ms)[0m   [0mALTER TABLE "songs" ADD COLUMN "data_content_type" character varying(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "songs" ADD COLUMN "data_file_size" integer[0m
+  [4;35;1mSQL (0.4ms)[0m   [0mALTER TABLE "songs" ADD COLUMN "data_updated_at" timestamp[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20091211202426')[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to AddAttachmentsDataToSong (20091211202426)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (57.7ms)[0m   [0mALTER TABLE "songs" DROP "data_file_name"[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "songs" DROP "data_content_type"[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mALTER TABLE "songs" DROP "data_file_size"[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mALTER TABLE "songs" DROP "data_updated_at"[0m
+  [4;35;1mSQL (1.1ms)[0m   [0mDELETE FROM schema_migrations WHERE version = '20091211202426'[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1mCOMMIT[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+  [4;36;1mSQL (0.6ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+Migrating to CreatePrices (20090420140251)
+Migrating to CreateRecords (20090420140900)
+Migrating to AddColumn (20090420155814)
+Migrating to AddColumnUser (20090421213054)
+Migrating to CreateUsers (20090421215158)
+Migrating to AddColumnFootnotes (20090422191925)
+Migrating to CreateBubbles (20090423113046)
+Migrating to CreateMugshots (20090423200720)
+Migrating to SwapvarcharToInt (20090426232518)
+Migrating to AddColumnToPrices (20090513130716)
+Migrating to CreateSearches (20090811122610)
+Migrating to AddColumnToSearch (20090811150326)
+Migrating to CreatePhotos (20091210142901)
+Migrating to AddAttachmentsDataToPhoto (20091210143048)
+Migrating to RenameColumnRecordUser (20091211130400)
+Migrating to CreateSongs (20091211202308)
+Migrating to AddAttachmentsMp3ToSong (20091211203242)
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1mALTER TABLE "songs" ADD COLUMN "mp3_file_name" character varying(255)[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mALTER TABLE "songs" ADD COLUMN "mp3_content_type" character varying(255)[0m
+  [4;36;1mSQL (0.3ms)[0m   [0;1mALTER TABLE "songs" ADD COLUMN "mp3_file_size" integer[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mALTER TABLE "songs" ADD COLUMN "mp3_updated_at" timestamp[0m
+  [4;36;1mSQL (0.4ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20091211203242')[0m
+  [4;35;1mSQL (1.2ms)[0m   [0mCOMMIT[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-11 14:50:27) [GET]
+Rendering template within layouts/application
+Rendering home/index
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+Completed in 50ms (View: 47, DB: 1) | 200 OK [http://localhost/]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#index (for 127.0.0.1 at 2009-12-11 14:50:33) [GET]
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.8ms)[0m   [0;1mSELECT * FROM "prices" LIMIT 10[0m
+  [4;35;1mSQL (143.9ms)[0m   [0mSELECT count(*) AS count_all FROM "prices" [0m
+Rendering template within layouts/application
+Rendering prices/index
+Completed in 271ms (View: 105, DB: 146) | 200 OK [http://localhost/prices]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 14:50:38) [POST]
+  Parameters: {"price"=>{"artist"=>"bea"}, "authenticity_token"=>"d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw="}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mPrice Load (191.2ms)[0m   [0mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'bea%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (4.4ms)
+Completed in 220ms (View: 10, DB: 192) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 14:50:39) [POST]
+  Parameters: {"price"=>{"artist"=>"beat"}, "authenticity_token"=>"d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw="}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mPrice Load (183.4ms)[0m   [0mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'beat%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (3.5ms)
+Completed in 206ms (View: 5, DB: 184) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 14:50:39) [POST]
+  Parameters: {"price"=>{"artist"=>"beatl"}, "authenticity_token"=>"d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw="}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mPrice Load (207.3ms)[0m   [0mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'beatl%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (3.5ms)
+Completed in 238ms (View: 5, DB: 208) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#index (for 127.0.0.1 at 2009-12-11 14:50:43) [GET]
+  Parameters: {"price"=>{"label"=>"", "artist"=>"BEATLES"}, "num_of_result"=>"10", "authenticity_token"=>"d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw=", "type"=>"", "detail"=>"", "_"=>"1260564643293", "hidden"=>{"created_by"=>""}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;35;1mPrice Load (1.6ms)[0m   [0mSELECT * FROM "prices" WHERE (artist LIKE E'%BEATLES%' and label LIKE E'%%' and format LIKE E'%%' and detail LIKE E'%%') LIMIT 10[0m
+  [4;36;1mSQL (79.0ms)[0m   [0;1mSELECT count("prices".id) AS count_id FROM "prices" WHERE (artist LIKE E'%BEATLES%' and label LIKE E'%%' and format LIKE E'%%' and detail LIKE E'%%') [0m
+Rendering prices/index
+  [4;35;1mBubble Load (43.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (59.1ms)
+  [4;35;1mBubble Load (43.4ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195146) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195146) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (46.2ms)
+  [4;35;1mBubble Load (43.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195147) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195147) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (46.1ms)
+  [4;35;1mBubble Load (43.1ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195148) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195148) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (46.0ms)
+  [4;35;1mBubble Load (42.6ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195149) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195149) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (45.5ms)
+  [4;35;1mBubble Load (42.2ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195150) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195150) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (45.0ms)
+  [4;35;1mBubble Load (41.9ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195151) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195151) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (44.9ms)
+  [4;35;1mBubble Load (47.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195152) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195152) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (50.2ms)
+  [4;35;1mBubble Load (46.3ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195153) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195153) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (49.3ms)
+  [4;35;1mBubble Load (41.1ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195154) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195154) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (44.0ms)
+Completed in 594ms (View: 55, DB: 516) | 200 OK [http://localhost/prices?_=1260564643293&price%5Bartist%5D=BEATLES&price%5Blabel%5D=&type=&detail=&num_of_result=10&hidden%5Bcreated_by%5D=&authenticity_token=d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw%3D]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:50:53) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (1.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.7ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (44.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.8ms)
+Rendered records/_photo (1.2ms)
+
+ActionView::TemplateError (undefined method `songs' for #<Record:0x102faa610>) on line #40 of app/views/records/new.html.erb:
+37: 
+38:   <div id="songs">
+39: 	<% if @record.new_record? %>
+40: 		<%= render :partial => 'song', :locals => { :form => f, :song => @record.songs.build } %>
+41: 	<% end %>	
+42:   </div>
+43: 
+
+    app/views/records/new.html.erb:40
+    app/views/records/new.html.erb:3
+    app/controllers/records_controller.rb:45:in `new'
+
+Rendered rescues/_trace (132.7ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+  [4;35;1mSQL (0.2ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:52:00) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (44.2ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.3ms)
+Rendered records/_photo (1.1ms)
+
+ActionView::TemplateError (undefined local variable or method `photo_form' for #<ActionView::Base:0x1034a5bd8>) on line #4 of app/views/records/_song.html.erb:
+1: <div id="song">
+2:   <p>
+3:   <% form.fields_for :songs, song, :child_index => (song.new_record? ? "index_to_replace_with_js" : nil) do |song_form| %>    
+4:     <%= photo_form.file_field :mp3 %>
+5:     <%= link_to_function "delete", "$('#song').remove();" %><br/>
+6:   <% end %>
+7:   </p>
+
+    app/views/records/_song.html.erb:4
+    app/views/records/_song.html.erb:3
+    app/views/records/new.html.erb:40
+    app/views/records/new.html.erb:3
+    app/controllers/records_controller.rb:45:in `new'
+
+Rendered rescues/_trace (139.2ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:52:32) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (42.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_photo (1.1ms)
+Rendered records/_song (1.4ms)
+Completed in 198ms (View: 123, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:58:45) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (44.9ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.9ms)
+Completed in 122ms (View: 42, DB: 47) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:59:48) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (44.2ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.8ms)
+Rendered records/_song (0.7ms)
+Completed in 128ms (View: 44, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 14:59:53) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (45.2ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.4ms)
+Rendered records/_song (0.8ms)
+Rendered records/_song (0.7ms)
+Completed in 190ms (View: 40, DB: 47) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:00:07) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (44.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.9ms)
+Completed in 204ms (View: 121, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:01:05) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"d5Lc4N70h2AGSjeKHFWTTvYuCaRVV2IphBtSSEfQ5kw=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-4gnwac-0>}, "quantity"=>"1", "username"=>"greggie", "condition"=>"1", "value"=>"5", "genre"=>"8", "price_id"=>"195145"}}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 1) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2176287320) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (40.7ms)
+Rendered rescues/_request_and_response (0.5ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing SessionsController#destroy (for 127.0.0.1 at 2009-12-11 15:02:01) [GET]
+Redirected to http://localhost:3000/
+Completed in 9ms (DB: 0) | 302 Found [http://localhost/logout]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-11 15:02:01) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 11ms (View: 8, DB: 0) | 200 OK [http://localhost/]
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2009-12-11 15:02:03) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 18ms (View: 16, DB: 1) | 200 OK [http://localhost/login]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2009-12-11 15:02:08) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "login"=>"holden", "password"=>"sawyer"}
+  [4;36;1mUser Load (1.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."login" = E'holden') LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mCOMMIT[0m
+Redirected to http://localhost:3000/
+Completed in 19ms (DB: 2) | 302 Found [http://localhost/session]
+  [4;35;1mSQL (0.2ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-11 15:02:08) [GET]
+Rendering template within layouts/application
+Rendering home/index
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+Completed in 24ms (View: 21, DB: 1) | 200 OK [http://localhost/]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#index (for 127.0.0.1 at 2009-12-11 15:02:14) [GET]
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.8ms)[0m   [0mSELECT * FROM "prices" LIMIT 10[0m
+  [4;36;1mSQL (57.4ms)[0m   [0;1mSELECT count(*) AS count_all FROM "prices" [0m
+Rendering template within layouts/application
+Rendering prices/index
+Completed in 169ms (View: 90, DB: 59) | 200 OK [http://localhost/prices]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 15:02:16) [POST]
+  Parameters: {"price"=>{"artist"=>"be"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+  [4;35;1mUser Load (0.9ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (193.5ms)[0m   [0;1mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'be%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (4.2ms)
+Completed in 220ms (View: 6, DB: 195) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 15:02:17) [POST]
+  Parameters: {"price"=>{"artist"=>"bea"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+  [4;35;1mUser Load (1.1ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (225.5ms)[0m   [0;1mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'bea%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (5.6ms)
+Completed in 251ms (View: 7, DB: 227) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;35;1mSQL (0.2ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 15:02:21) [POST]
+  Parameters: {"price"=>{"artist"=>"beat"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (190.4ms)[0m   [0;1mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'beat%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (3.4ms)
+Completed in 215ms (View: 5, DB: 191) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 15:02:21) [POST]
+  Parameters: {"price"=>{"artist"=>"beatl"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (188.2ms)[0m   [0;1mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'beatl%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (3.6ms)
+Completed in 213ms (View: 5, DB: 189) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-11 15:02:22) [POST]
+  Parameters: {"price"=>{"artist"=>"beatle"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (189.2ms)[0m   [0;1mSELECT DISTINCT(artist) FROM "prices" WHERE (LOWER(artist) LIKE E'beatle%') ORDER BY artist ASC LIMIT 8[0m
+Rendered prices/_artists (3.6ms)
+Completed in 212ms (View: 5, DB: 190) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing PricesController#index (for 127.0.0.1 at 2009-12-11 15:02:25) [GET]
+  Parameters: {"price"=>{"label"=>"", "artist"=>"BEATLES"}, "num_of_result"=>"10", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "type"=>"", "detail"=>"", "_"=>"1260565345625", "hidden"=>{"created_by"=>""}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (1.5ms)[0m   [0;1mSELECT * FROM "prices" WHERE (artist LIKE E'%BEATLES%' and label LIKE E'%%' and format LIKE E'%%' and detail LIKE E'%%') LIMIT 10[0m
+  [4;35;1mSQL (77.7ms)[0m   [0mSELECT count("prices".id) AS count_id FROM "prices" WHERE (artist LIKE E'%BEATLES%' and label LIKE E'%%' and format LIKE E'%%' and detail LIKE E'%%') [0m
+Rendering prices/index
+  [4;36;1mBubble Load (43.4ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (54.3ms)
+  [4;36;1mBubble Load (40.9ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195146) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195146) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (43.2ms)
+  [4;36;1mBubble Load (40.7ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195147) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195147) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (43.0ms)
+  [4;36;1mBubble Load (39.1ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195148) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195148) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (41.4ms)
+  [4;36;1mBubble Load (40.3ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195149) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195149) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (42.6ms)
+  [4;36;1mBubble Load (38.8ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195150) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195150) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (41.4ms)
+  [4;36;1mBubble Load (40.5ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195151) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195151) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (43.3ms)
+  [4;36;1mBubble Load (39.3ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195152) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195152) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (41.7ms)
+  [4;36;1mBubble Load (38.9ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195153) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195153) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (41.2ms)
+  [4;36;1mBubble Load (38.7ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195154) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195154) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered prices/_price (41.6ms)
+Completed in 619ms (View: 115, DB: 481) | 200 OK [http://localhost/prices?_=1260565345625&price%5Bartist%5D=BEATLES&price%5Blabel%5D=&type=&detail=&num_of_result=10&hidden%5Bcreated_by%5D=&authenticity_token=zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94%3D]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:02:29) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (44.1ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.9ms)
+Completed in 124ms (View: 43, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:02:47) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "photos_attributes"=>{"1260565354052"=>{"data"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-1r0mjo-0>}}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"6", "genre"=>"4", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.3ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (27.8ms)[0m   [0;1mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 21:02:49.038826', 1, '2009-12-11 21:02:49.038826', E'holden', 1, 6, 4, 195145) RETURNING "id"[0m
+  [4;35;1mSQL (1.8ms)[0m   [0mINSERT INTO "photos" ("record_id", "created_at", "data_updated_at", "updated_at", "data_content_type", "data_file_name", "data_file_size") VALUES(7181, '2009-12-11 21:02:49.076025', '2009-12-11 21:02:47.305417', '2009-12-11 21:02:49.076025', E'image/jpeg', E'20off-right3.jpg', 123417) RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving images/records/7181/medium/20off-right3.jpg
+[paperclip] saving images/records/7181/large/20off-right3.jpg
+[paperclip] saving images/records/7181/original/20off-right3.jpg
+[paperclip] saving images/records/7181/thumb/20off-right3.jpg
+[paperclip] saving images/records/7181/small/20off-right3.jpg
+  [4;36;1mSQL (1.6ms)[0m   [0;1mCOMMIT[0m
+Redirected to http://localhost:3000/records/7181
+Completed in 10858ms (DB: 33) | 302 Found [http://localhost/records]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:02:58) [GET]
+  Parameters: {"id"=>"7181"}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRecord Load (0.6ms)[0m   [0;1mSELECT * FROM "records" WHERE ("records"."id" = 7181) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;35;1mPhoto Load (20.9ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7181) [0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (44.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 235ms (View: 140, DB: 67) | 200 OK [http://localhost/records/7181]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 15:03:06) [GET]
+  Parameters: {"id"=>"7181"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7181) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.0ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7181) [0m
+Rendered records/_photo (1.4ms)
+Completed in 87ms (View: 63, DB: 3) | 200 OK [http://localhost/records/7181/edit]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:03:36) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-1r8tzf2-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2174854700) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (107.1ms)
+Rendered rescues/_request_and_response (0.5ms)
+Rendering rescues/layout (internal_server_error)
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:04:58) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-9gqf18-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+SyntaxError (/Users/holden/Code/recordapp-heroku/app/models/song.rb:24: syntax error, unexpected tSYMBEG, expecting kDO or '{' or '('
+    validates_attachment_presence :mp3
+                                   ^):
+  /Library/Ruby/Gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:206:in `const_missing'
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (50.1ms)
+Rendered rescues/_request_and_response (0.5ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:05:44) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-1mha6cw-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2171930240) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (43.5ms)
+Rendered rescues/_request_and_response (0.6ms)
+Rendering rescues/layout (internal_server_error)
+  [4;35;1mSQL (0.2ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:06:30) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34735-7h9omy-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2172376360) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (120.9ms)
+Rendered rescues/_request_and_response (0.6ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:13:58) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (1.0ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (42.8ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.9ms)
+Rendered records/_song (1.4ms)
+Completed in 281ms (View: 134, DB: 45) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:14:12) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34899-4k03w3-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2172851600) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:60:in `new'
+  app/controllers/records_controller.rb:60:in `create'
+
+Rendered rescues/_trace (124.3ms)
+Rendered rescues/_request_and_response (1.6ms)
+Rendering rescues/layout (internal_server_error)
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:18:35) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mPrice Load (0.8ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;35;1mBubble Load (42.5ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.8ms)
+Completed in 113ms (View: 29, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:18:55) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "songs"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34899-1c8429u-0>}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+
+ActiveRecord::AssociationTypeMismatch (Song(#2175786740) expected, got Array(#2148251280)):
+  app/controllers/records_controller.rb:61:in `new'
+  app/controllers/records_controller.rb:61:in `create'
+
+Rendered rescues/_trace (43.2ms)
+Rendered rescues/_request_and_response (0.5ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:20:16) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (41.7ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.3ms)
+Rendered records/_song (0.8ms)
+Completed in 303ms (View: 234, DB: 43) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:20:26) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "photos_attributes"=>{"1260566419134"=>{"data"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34899-7qu85s-0>}}, "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"4", "price_id"=>"195145"}}
+  [4;36;1mUser Load (10.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 21:20:28.152699', 1, '2009-12-11 21:20:28.152699', E'holden', 1, NULL, 4, 195145) RETURNING "id"[0m
+  [4;35;1mSQL (0.6ms)[0m   [0mINSERT INTO "photos" ("record_id", "created_at", "data_updated_at", "updated_at", "data_content_type", "data_file_name", "data_file_size") VALUES(7182, '2009-12-11 21:20:28.160986', '2009-12-11 21:20:26.944890', '2009-12-11 21:20:28.160986', E'image/jpeg', E'20off-right3.jpg', 123417) RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving images/records/7182/medium/20off-right3.jpg
+[paperclip] saving images/records/7182/large/20off-right3.jpg
+[paperclip] saving images/records/7182/original/20off-right3.jpg
+[paperclip] saving images/records/7182/thumb/20off-right3.jpg
+[paperclip] saving images/records/7182/small/20off-right3.jpg
+  [4;36;1mSQL (1.5ms)[0m   [0;1mCOMMIT[0m
+Redirected to http://localhost:3000/records/7182
+Completed in 11613ms (DB: 13) | 302 Found [http://localhost/records]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:20:38) [GET]
+  Parameters: {"id"=>"7182"}
+  [4;35;1mUser Load (1.1ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRecord Load (0.6ms)[0m   [0;1mSELECT * FROM "records" WHERE ("records"."id" = 7182) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;35;1mPhoto Load (1.1ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7182) [0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (43.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 114ms (View: 44, DB: 47) | 200 OK [http://localhost/records/7182]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 15:21:32) [GET]
+  Parameters: {"id"=>"7182"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7182) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.7ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.0ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7182) [0m
+Rendered records/_photo (1.2ms)
+Completed in 152ms (View: 49, DB: 3) | 200 OK [http://localhost/records/7182/edit]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing PhotosController#destroy (for 127.0.0.1 at 2009-12-11 15:21:42) [DELETE]
+  Parameters: {"authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "id"=>"1716"}
+  [4;36;1mPhoto Load (1.3ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos"."id" = 1716) [0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+[paperclip] Deleting attachments.
+[paperclip] deleting images/records/7182/original/20off-right3.jpg
+[paperclip] deleting images/records/7182/medium/20off-right3.jpg
+[paperclip] deleting images/records/7182/large/20off-right3.jpg
+[paperclip] deleting images/records/7182/thumb/20off-right3.jpg
+[paperclip] deleting images/records/7182/small/20off-right3.jpg
+  [4;36;1mPhoto Destroy (0.6ms)[0m   [0;1mDELETE FROM "photos" WHERE "id" = 1716[0m
+  [4;35;1mSQL (1.2ms)[0m   [0mCOMMIT[0m
+Redirected to http://localhost:3000/records/7182/edit
+Completed in 1922ms (DB: 3) | 302 Found [http://localhost/photos/1716]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 15:21:44) [GET]
+  Parameters: {"id"=>"7182"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.6ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7182) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.1ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7182) [0m
+Rendered records/_photo (1.3ms)
+Completed in 141ms (View: 35, DB: 3) | 200 OK [http://localhost/records/7182/edit]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:21:56) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (42.2ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.3ms)
+Rendered records/_song (1.5ms)
+Completed in 118ms (View: 49, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:23:22) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.5ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (42.2ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (2.0ms)
+Rendered records/_song (1.4ms)
+Completed in 279ms (View: 195, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:23:57) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (41.6ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (0.9ms)
+Completed in 202ms (View: 45, DB: 43) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:25:50) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (43.4ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_song (0.9ms)
+Rendered records/_photo (1.3ms)
+Completed in 210ms (View: 138, DB: 45) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:26:58) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (1.3ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (43.5ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.4ms)
+Rendered records/_song (1.2ms)
+Completed in 124ms (View: 52, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:27:28) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"", "value"=>"", "songs_attributes"=>{"1260566839913"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-44k4ej-0>}}, "genre"=>"", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+Rendering template within layouts/application
+Rendering records/new
+Rendered records/_photo (1.2ms)
+Rendered records/_song (1.1ms)
+Completed in 73ms (View: 35, DB: 2) | 200 OK [http://localhost/records]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:27:45) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"2", "value"=>"", "songs_attributes"=>{"1260566855226"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-6bfwm8-0>}}, "genre"=>"4", "price_id"=>"195145"}}
+  [4;35;1mUser Load (0.7ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.8ms)[0m   [0mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 21:27:45.971496', 1, '2009-12-11 21:27:45.971496', E'holden', 2, NULL, 4, 195145) RETURNING "id"[0m
+  [4;36;1mSQL (0.9ms)[0m   [0;1mINSERT INTO "songs" ("record_id", "mp3_file_name", "created_at", "mp3_file_size", "updated_at", "mp3_content_type", "mp3_updated_at") VALUES(7183, E'error.jpg', '2009-12-11 21:27:45.977949', 54189, '2009-12-11 21:27:45.977949', E'image/jpeg', '2009-12-11 21:27:45.967957') RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving music/7183/original/error.jpg
+  [4;35;1mSQL (1.5ms)[0m   [0mCOMMIT[0m
+Redirected to http://localhost:3000/records/7183
+Completed in 1905ms (DB: 4) | 302 Found [http://localhost/records]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:27:47) [GET]
+  Parameters: {"id"=>"7183"}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.6ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7183) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7183) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mBubble Load (41.1ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 101ms (View: 34, DB: 44) | 200 OK [http://localhost/records/7183]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:29:04) [GET]
+  Parameters: {"id"=>"7183"}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRecord Load (0.8ms)[0m   [0;1mSELECT * FROM "records" WHERE ("records"."id" = 7183) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;35;1mPhoto Load (2.6ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7183) [0m
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (43.1ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 177ms (View: 33, DB: 48) | 200 OK [http://localhost/records/7183]
+  [4;36;1mSQL (0.5ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 15:29:16) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (41.2ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.2ms)
+Rendered records/_song (1.3ms)
+Completed in 185ms (View: 116, DB: 43) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:29:30) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"3", "value"=>"", "songs_attributes"=>{"1260566962480"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-1uzyl8n-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mROLLBACK[0m
+Rendering template within layouts/application
+Rendering records/new
+Rendered records/_photo (1.3ms)
+Rendered records/_song (1.5ms)
+Completed in 76ms (View: 35, DB: 1) | 200 OK [http://localhost/records]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:30:07) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"3", "value"=>"", "songs_attributes"=>{"1260566974346"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-5lrvw7-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;35;1mUser Load (0.8ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mROLLBACK[0m
+Rendering template within layouts/application
+Rendering records/new
+Rendered records/_photo (1.4ms)
+Rendered records/_song (1.2ms)
+Completed in 702ms (View: 101, DB: 1) | 200 OK [http://localhost/records]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:30:59) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"3", "value"=>"", "songs_attributes"=>{"1260567017267"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-2nt6pq-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mROLLBACK[0m
+Rendering template within layouts/application
+Rendering records/new
+Rendered records/_photo (1.2ms)
+Rendered records/_song (1.2ms)
+Completed in 612ms (View: 35, DB: 2) | 200 OK [http://localhost/records]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 15:31:41) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"3", "value"=>"", "songs_attributes"=>{"1260567075881"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-34990-r35ulb-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;35;1mUser Load (1.0ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mSQL (0.2ms)[0m   [0;1mBEGIN[0m
+  [4;35;1mSQL (0.9ms)[0m   [0mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 21:31:42.454445', 1, '2009-12-11 21:31:42.454445', E'holden', 3, NULL, 8, 195145) RETURNING "id"[0m
+  [4;36;1mSQL (0.5ms)[0m   [0;1mINSERT INTO "songs" ("record_id", "mp3_file_name", "created_at", "mp3_file_size", "updated_at", "mp3_content_type", "mp3_updated_at") VALUES(7184, E'Breathe.mp3', '2009-12-11 21:31:42.463476', 6465394, '2009-12-11 21:31:42.463476', E'audio/mpg', '2009-12-11 21:31:42.244235') RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving music/7184/original/Breathe.mp3
+  [4;35;1mSQL (1.3ms)[0m   [0mCOMMIT[0m
+Redirected to http://localhost:3000/records/7184
+Completed in 167935ms (DB: 4) | 302 Found [http://localhost/records]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:34:29) [GET]
+  Parameters: {"id"=>"7184"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.6ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7184) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) [0m
+  [4;35;1mPrice Load (0.5ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mBubble Load (41.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 95ms (View: 29, DB: 44) | 200 OK [http://localhost/records/7184]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:39:31) [GET]
+  Parameters: {"id"=>"7184"}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7184) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.1ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) [0m
+  [4;35;1mSong Load (0.6ms)[0m   [0mSELECT * FROM "songs" WHERE ("songs".record_id = 7184) [0m
+  [4;36;1mPrice Load (0.8ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (42.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 264ms (View: 182, DB: 47) | 200 OK [http://localhost/records/7184]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:40:48) [GET]
+  Parameters: {"id"=>"7184"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7184) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.3ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.6ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7184) [0m
+  [4;35;1mBubble Load (53.9ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 311ms (View: 173, DB: 58) | 200 OK [http://localhost/records/7184]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 15:41:34) [GET]
+  Parameters: {"id"=>"7184"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7184) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.6ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7184) [0m
+  [4;35;1mBubble Load (43.9ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 116ms (View: 47, DB: 48) | 200 OK [http://localhost/records/7184]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 15:43:20) [GET]
+  Parameters: {"id"=>"7184"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.6ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7184) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.9ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.0ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) [0m
+Rendered records/_photo (2.4ms)
+Completed in 74ms (View: 48, DB: 3) | 200 OK [http://localhost/records/7184/edit]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:02:37) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (42.2ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (2.0ms)
+Rendered records/_song (2.5ms)
+Completed in 328ms (View: 244, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 16:03:43) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"3", "value"=>"", "songs_attributes"=>{"1260568974960"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-35255-24mrct-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.2ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (0.8ms)[0m   [0;1mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 22:03:43.690980', 1, '2009-12-11 22:03:43.690980', E'holden', 3, NULL, 8, 195145) RETURNING "id"[0m
+  [4;35;1mSQL (51.0ms)[0m   [0mINSERT INTO "songs" ("record_id", "mp3_file_name", "created_at", "mp3_file_size", "updated_at", "mp3_content_type", "mp3_updated_at") VALUES(7185, E'01_Rehab.mp3', '2009-12-11 22:03:43.697664', 5589916, '2009-12-11 22:03:43.697664', E'audio/mpg', '2009-12-11 22:03:43.516142') RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving music/7185/original/01_Rehab.mp3
+  [4;36;1mSQL (43.0ms)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:04:39) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+ERROR: compiling _run_erb_app47views47records47new46html46erb RAISED compile error
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected ',', expecting kEND
+...ml => { :multipart => true }), :class => 'ajax' do |f| ; @ou...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected kDO, expecting kEND
+...> true }), :class => 'ajax' do |f| ; @output_buffer.concat "...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63: syntax error, unexpected kENSURE, expecting $end
+Function body:           def _run_erb_app47views47records47new46html46erb(local_assigns)
+            old_output_buffer = output_buffer;;@output_buffer = '';  __in_erb_template=true ; @output_buffer.concat "<h1>New record</h1>\n\n"
+
+;  form_for(@record, :html => { :multipart => true }), :class => 'ajax' do |f| ; @output_buffer.concat "\n  "
+; @output_buffer.concat(( f.error_messages ).to_s); @output_buffer.concat " \n\n"
+
+;  if params[:id] ; @output_buffer.concat "\n<ul>\n\t<li class=\"inline\">"
+
+; @output_buffer.concat((h @price.artist ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.label ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.format ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.detail ).to_s); @output_buffer.concat "</li>\n    <li class=\"inline\">$"
+; @output_buffer.concat((h @price.price_range ).to_s); @output_buffer.concat "</li>\n    <li class=\"inline\">"
+; @output_buffer.concat((h @price.date_range ).to_s); @output_buffer.concat "</li>\n</ul>\n\n\n"
+
+
+
+;  end ; @output_buffer.concat "  \n\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.hidden_field :price_id, :value => params[:id] ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :genre ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat((f.select(:genre, @record.get_genre.sort, {:include_blank => true}) ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :condition ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat((f.select(:condition, @record.get_condition, {:include_blank => true}) ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n  <div id=\"photos\">\n\n  </div>\n  "
+
+
+
+
+
+; @output_buffer.concat(( add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") ).to_s); @output_buffer.concat "\n\n  <div id=\"songs\">\n\t\n  </div>\n  "
+
+
+
+
+; @output_buffer.concat(( add_object_link("New Song", f, @record.songs.build, "song", "#songs") ).to_s); @output_buffer.concat "\n\n  </p><br><br>\n    "
+
+
+; @output_buffer.concat(( f.label :value ).to_s); @output_buffer.concat "<br />\n\t"
+;  if params[:id] ; @output_buffer.concat "\n\t\t"
+; @output_buffer.concat(( f.text_field :value, :value => "#{@price.pricehigh}" ).to_s); @output_buffer.concat "\n\t"
+;  else ; @output_buffer.concat "\n    \t"
+; @output_buffer.concat(( f.text_field :value ).to_s); @output_buffer.concat "\n\t"
+;  end ; @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :comment ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat(( f.text_area :comment ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n\t"
+
+
+; @output_buffer.concat(( f.hidden_field :quantity, :value => 1 ).to_s); @output_buffer.concat "\n\t"
+; @output_buffer.concat(( f.hidden_field :username, :value => current_user.login ).to_s); @output_buffer.concat "\n    "
+; @output_buffer.concat(( f.submit "Create" ).to_s); @output_buffer.concat "\n\n  </p>\n"
+
+
+;  end ; @output_buffer.concat "\n\n"
+
+; @output_buffer.concat(( link_to 'Back', records_path ).to_s); @output_buffer.concat "\n"
+; @output_buffer
+          ensure
+            self.output_buffer = old_output_buffer
+          end
+Backtrace: /Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63:in `compile!'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:61:in `compile'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:28:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/template.rb:199:in `render_template'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:260:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:343:in `_render_with_layout'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:257:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1250:in `render_for_file'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:951:in `render_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:135:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:135:in `custom'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:179:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:179:in `respond'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:173:in `each'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:173:in `respond'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:107:in `respond_to'
+/Users/holden/Code/recordapp-heroku/app/controllers/records_controller.rb:42:in `new'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1331:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1331:in `perform_action_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:617:in `call_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/rescue.rb:160:in `perform_action_without_flash'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/flash.rb:146:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `process_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:606:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:391:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:386:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/routing/route_set.rb:437:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:87:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:121:in `_call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:130:in `build_middleware_stack'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:9:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:28:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:361:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/head.rb:9:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/methodoverride.rb:24:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/params_parser.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/session/cookie_store.rb:93:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/failsafe.rb:26:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:114:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/reloader.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:108:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/static.rb:31:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:46:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `each'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/log_tailer.rb:17:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/content_length.rb:13:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/chunked.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:61:in `process'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:159:in `process_client'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `process_client'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `initialize'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `new'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `initialize'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `new'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `run'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/commands/server.rb:111
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+./script/server:3
+
+ActionView::TemplateError (compile error
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected ',', expecting kEND
+...ml => { :multipart => true }), :class => 'ajax' do |f| ; @ou...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected kDO, expecting kEND
+...> true }), :class => 'ajax' do |f| ; @output_buffer.concat "...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63: syntax error, unexpected kENSURE, expecting $end) on line #3 of app/views/records/new.html.erb:
+1: <h1>New record</h1>
+2: 
+3: <% form_for(@record, :html => { :multipart => true }), :class => 'ajax' do |f| %>
+4:   <%= f.error_messages %> 
+5: 
+6: <% if params[:id] %>
+
+    app/views/records/new.html.erb:63:in `compile!'
+    app/controllers/records_controller.rb:42:in `new'
+
+Rendered rescues/_trace (118.7ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:04:40) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (1.1ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (1.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+ERROR: compiling _run_erb_app47views47records47new46html46erb RAISED compile error
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected ',', expecting kEND
+...ml => { :multipart => true }), :class => 'ajax' do |f| ; @ou...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected kDO, expecting kEND
+...> true }), :class => 'ajax' do |f| ; @output_buffer.concat "...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63: syntax error, unexpected kENSURE, expecting $end
+Function body:           def _run_erb_app47views47records47new46html46erb(local_assigns)
+            old_output_buffer = output_buffer;;@output_buffer = '';  __in_erb_template=true ; @output_buffer.concat "<h1>New record</h1>\n\n"
+
+;  form_for(@record, :html => { :multipart => true }), :class => 'ajax' do |f| ; @output_buffer.concat "\n  "
+; @output_buffer.concat(( f.error_messages ).to_s); @output_buffer.concat " \n\n"
+
+;  if params[:id] ; @output_buffer.concat "\n<ul>\n\t<li class=\"inline\">"
+
+; @output_buffer.concat((h @price.artist ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.label ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.format ).to_s); @output_buffer.concat "</li>\n\t<li class=\"inline\">"
+; @output_buffer.concat((h @price.detail ).to_s); @output_buffer.concat "</li>\n    <li class=\"inline\">$"
+; @output_buffer.concat((h @price.price_range ).to_s); @output_buffer.concat "</li>\n    <li class=\"inline\">"
+; @output_buffer.concat((h @price.date_range ).to_s); @output_buffer.concat "</li>\n</ul>\n\n\n"
+
+
+
+;  end ; @output_buffer.concat "  \n\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.hidden_field :price_id, :value => params[:id] ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :genre ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat((f.select(:genre, @record.get_genre.sort, {:include_blank => true}) ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :condition ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat((f.select(:condition, @record.get_condition, {:include_blank => true}) ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n  <div id=\"photos\">\n\n  </div>\n  "
+
+
+
+
+
+; @output_buffer.concat(( add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") ).to_s); @output_buffer.concat "\n\n  <div id=\"songs\">\n\t\n  </div>\n  "
+
+
+
+
+; @output_buffer.concat(( add_object_link("New Song", f, @record.songs.build, "song", "#songs") ).to_s); @output_buffer.concat "\n\n  </p><br><br>\n    "
+
+
+; @output_buffer.concat(( f.label :value ).to_s); @output_buffer.concat "<br />\n\t"
+;  if params[:id] ; @output_buffer.concat "\n\t\t"
+; @output_buffer.concat(( f.text_field :value, :value => "#{@price.pricehigh}" ).to_s); @output_buffer.concat "\n\t"
+;  else ; @output_buffer.concat "\n    \t"
+; @output_buffer.concat(( f.text_field :value ).to_s); @output_buffer.concat "\n\t"
+;  end ; @output_buffer.concat "\n  </p>\n  <p>\n    "
+
+
+; @output_buffer.concat(( f.label :comment ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat(( f.text_area :comment ).to_s); @output_buffer.concat "\n  </p>\n  <p>\n\t"
+
+
+; @output_buffer.concat(( f.hidden_field :quantity, :value => 1 ).to_s); @output_buffer.concat "\n\t"
+; @output_buffer.concat(( f.hidden_field :username, :value => current_user.login ).to_s); @output_buffer.concat "\n    "
+; @output_buffer.concat(( f.submit "Create" ).to_s); @output_buffer.concat "\n\n  </p>\n"
+
+
+;  end ; @output_buffer.concat "\n\n"
+
+; @output_buffer.concat(( link_to 'Back', records_path ).to_s); @output_buffer.concat "\n"
+; @output_buffer
+          ensure
+            self.output_buffer = old_output_buffer
+          end
+Backtrace: /Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63:in `compile!'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:61:in `compile'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:28:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/template.rb:199:in `render_template'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:260:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:343:in `_render_with_layout'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:257:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1250:in `render_for_file'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:951:in `render_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:135:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:135:in `custom'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:179:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:179:in `respond'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:173:in `each'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:173:in `respond'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/mime_responds.rb:107:in `respond_to'
+/Users/holden/Code/recordapp-heroku/app/controllers/records_controller.rb:42:in `new'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1331:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1331:in `perform_action_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:617:in `call_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/rescue.rb:160:in `perform_action_without_flash'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/flash.rb:146:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `process_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:606:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:391:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:386:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/routing/route_set.rb:437:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:87:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:121:in `_call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:130:in `build_middleware_stack'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:9:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:28:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:361:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/head.rb:9:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/methodoverride.rb:24:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/params_parser.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/session/cookie_store.rb:93:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/failsafe.rb:26:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:114:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/reloader.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:108:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/static.rb:31:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:46:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `each'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/urlmap.rb:40:in `call'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/rails/rack/log_tailer.rb:17:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/content_length.rb:13:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/chunked.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:61:in `process'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:159:in `process_client'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `each'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:158:in `process_client'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `initialize'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `new'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:285:in `run'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `initialize'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `new'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/gems/1.8/gems/mongrel-1.1.5/lib/mongrel.rb:268:in `run'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.0/lib/rack/handler/mongrel.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/rails-2.3.4/lib/commands/server.rb:111
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `gem_original_require'
+/Library/Ruby/Site/1.8/rubygems/custom_require.rb:31:in `require'
+./script/server:3
+
+ActionView::TemplateError (compile error
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected ',', expecting kEND
+...ml => { :multipart => true }), :class => 'ajax' do |f| ; @ou...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:3: syntax error, unexpected kDO, expecting kEND
+...> true }), :class => 'ajax' do |f| ; @output_buffer.concat "...
+                              ^
+/Users/holden/Code/recordapp-heroku/app/views/records/new.html.erb:63: syntax error, unexpected kENSURE, expecting $end) on line #3 of app/views/records/new.html.erb:
+1: <h1>New record</h1>
+2: 
+3: <% form_for(@record, :html => { :multipart => true }), :class => 'ajax' do |f| %>
+4:   <%= f.error_messages %> 
+5: 
+6: <% if params[:id] %>
+
+    app/views/records/new.html.erb:63:in `compile!'
+    app/controllers/records_controller.rb:42:in `new'
+
+Rendered rescues/_trace (131.4ms)
+Rendered rescues/_request_and_response (0.6ms)
+Rendering rescues/layout (internal_server_error)
+  [4;36;1mSQL (0.3ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.7ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:04:56) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (43.8ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.8ms)
+Rendered records/_song (1.9ms)
+Completed in 271ms (View: 198, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:05:28) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (44.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.3ms)
+Rendered records/_song (1.3ms)
+Completed in 124ms (View: 53, DB: 46) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 16:05:55) [POST]
+  Parameters: {"commit"=>"Create", "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "songs_attributes"=>{"1260569140816"=>{"mp3"=>#<File:/var/folders/jK/jKhpduoEE40HqaXKgL9Bh++++TI/-Tmp-/RackMultipart20091211-35269-qtlxl8-0>}}, "genre"=>"8", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.3ms)[0m   [0;1mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 22:05:55.837857', 1, '2009-12-11 22:05:55.837857', E'holden', 1, NULL, 8, 195145) RETURNING "id"[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mINSERT INTO "songs" ("record_id", "mp3_file_name", "created_at", "mp3_file_size", "updated_at", "mp3_content_type", "mp3_updated_at") VALUES(7186, E'01_Rehab.mp3', '2009-12-11 22:05:55.847456', 5589916, '2009-12-11 22:05:55.847456', E'audio/mpg', '2009-12-11 22:05:55.667751') RETURNING "id"[0m
+[paperclip] Saving attachments.
+[paperclip] saving music/7186/original/01_Rehab.mp3
+  [4;36;1mSQL (1.8ms)[0m   [0;1mCOMMIT[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2009-12-11 16:07:03) [GET]
+  Parameters: {"id"=>"195145"}
+  [4;36;1mUser Load (0.9ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mPrice Load (0.7ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+Rendering template within layouts/application
+Rendering records/new
+  [4;36;1mBubble Load (42.7ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Rendered records/_photo (1.9ms)
+Rendered records/_song (1.9ms)
+Completed in 288ms (View: 200, DB: 44) | 200 OK [http://localhost/records/new/195145]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#create (for 127.0.0.1 at 2009-12-11 16:07:21) [POST]
+  Parameters: {"authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "record"=>{"comment"=>"", "quantity"=>"1", "username"=>"holden", "condition"=>"1", "value"=>"", "genre"=>"8", "price_id"=>"195145"}}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mBEGIN[0m
+  [4;36;1mSQL (1.4ms)[0m   [0;1mINSERT INTO "records" ("comment", "created_at", "quantity", "updated_at", "username", "condition", "value", "genre", "price_id") VALUES(E'', '2009-12-11 22:07:21.081919', 1, '2009-12-11 22:07:21.081919', E'holden', 1, NULL, 8, 195145) RETURNING "id"[0m
+  [4;35;1mSQL (1.3ms)[0m   [0mCOMMIT[0m
+Redirected to http://localhost:3000/records/7187
+Completed in 34ms (DB: 4) | 302 Found [http://localhost/records]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 16:07:21) [GET]
+  Parameters: {"id"=>"7187"}
+  [4;36;1mUser Load (1.5ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.6ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7187) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.4ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7187) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.6ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7187) [0m
+  [4;35;1mBubble Load (43.9ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 130ms (View: 60, DB: 49) | 200 OK [http://localhost/records/7187]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-11 16:12:39) [GET]
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (6.6ms)[0m   [0mSELECT "records".* FROM "records" INNER JOIN "prices" ON "prices".id = "records".price_id WHERE (LOWER(artist) like E'%%' and username = E'holden') ORDER BY updated_at DESC LIMIT 20 OFFSET 0[0m
+Rendering template within layouts/application
+Rendering records/index
+  [4;36;1mPrice Load (0.5ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (46.1ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (70.5ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7187) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (1.0ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7186) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.8ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.8ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7183) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7182) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.3ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7181) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (0.3ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 127442) [0m
+  [4;36;1mBubble Load (36.1ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 127442) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.4ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7180) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mPrice Load (0.3ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 10685) [0m
+  [4;35;1mBubble Load (38.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 10685) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7177) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (0.3ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 11235) [0m
+  [4;36;1mBubble Load (35.5ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 11235) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.9ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7176) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mPrice Load (0.3ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 181160) [0m
+  [4;35;1mBubble Load (36.7ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 181160) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.9ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 518) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (0.3ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 9) [0m
+  [4;36;1mBubble Load (36.6ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 9) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 517) ORDER BY photos.id DESC LIMIT 1[0m
+Completed in 572ms (View: 209, DB: 319) | 200 OK [http://localhost/records]
+  [4;36;1mSQL (0.4ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 16:12:58) [GET]
+  Parameters: {"id"=>"7187"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7187) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7187) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.6ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7187) [0m
+  [4;35;1mBubble Load (43.5ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 190ms (View: 121, DB: 47) | 200 OK [http://localhost/records/7187]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-11 16:13:02) [GET]
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (6.6ms)[0m   [0mSELECT "records".* FROM "records" INNER JOIN "prices" ON "prices".id = "records".price_id WHERE (LOWER(artist) like E'%%' and username = E'holden') ORDER BY updated_at DESC LIMIT 20 OFFSET 0[0m
+Rendering template within layouts/application
+Rendering records/index
+  [4;36;1mPrice Load (0.5ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mBubble Load (45.8ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (1.4ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7187) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.9ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7186) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.8ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7184) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.8ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7183) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7182) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.3ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7181) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (0.4ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 127442) [0m
+  [4;36;1mBubble Load (37.8ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 127442) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.6ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7180) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mPrice Load (0.4ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 10685) [0m
+  [4;35;1mBubble Load (36.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 10685) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (1.1ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7177) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (1.0ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 11235) [0m
+  [4;36;1mBubble Load (38.4ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 11235) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.8ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7176) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;36;1mPrice Load (0.3ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 181160) [0m
+  [4;35;1mBubble Load (43.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 181160) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mPhoto Load (0.8ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 518) ORDER BY photos.id DESC LIMIT 1[0m
+  [4;35;1mPrice Load (0.3ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 9) [0m
+  [4;36;1mBubble Load (36.6ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 9) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mPhoto Load (0.9ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 517) ORDER BY photos.id DESC LIMIT 1[0m
+Completed in 355ms (View: 69, DB: 258) | 200 OK [http://localhost/records]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 16:13:04) [GET]
+  Parameters: {"id"=>"7186"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.7ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7186) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.1ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7186) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.6ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7186) [0m
+  [4;35;1mBubble Load (42.7ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 194ms (View: 41, DB: 47) | 200 OK [http://localhost/records/7186]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 16:13:18) [GET]
+  Parameters: {"id"=>"7185"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7185) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.1ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) [0m
+  [4;35;1mPrice Load (0.7ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (1.2ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7185) [0m
+  [4;35;1mBubble Load (44.6ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 191ms (View: 120, DB: 49) | 200 OK [http://localhost/records/7185]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 16:13:40) [GET]
+  Parameters: {"id"=>"7185"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7185) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.7ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.1ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) [0m
+Rendered records/_photo (1.9ms)
+Completed in 69ms (View: 43, DB: 3) | 200 OK [http://localhost/records/7185/edit]
+  [4;36;1mSQL (0.2ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 16:16:18) [GET]
+  Parameters: {"id"=>"7185"}
+  [4;36;1mUser Load (0.8ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7185) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;36;1mPrice Load (0.6ms)[0m   [0;1mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;35;1mPhoto Load (1.1ms)[0m   [0mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) [0m
+  [4;36;1mSong Load (0.8ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7185) [0m
+Rendered records/_photo (1.4ms)
+Rendered records/_song (1.9ms)
+Completed in 176ms (View: 65, DB: 4) | 200 OK [http://localhost/records/7185/edit]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing SongsController#destroy (for 127.0.0.1 at 2009-12-11 16:16:28) [DELETE]
+  Parameters: {"authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "id"=>"3"}
+  [4;35;1mSong Load (0.8ms)[0m   [0mSELECT * FROM "songs" WHERE ("songs"."id" = 3) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mBEGIN[0m
+[paperclip] Deleting attachments.
+  [4;35;1mSong Destroy (0.6ms)[0m   [0mDELETE FROM "songs" WHERE "id" = 3[0m
+  [4;36;1mSQL (1.7ms)[0m   [0;1mCOMMIT[0m
+Redirected to http://localhost:3000/records/7185/edit
+Completed in 329ms (DB: 3) | 302 Found [http://localhost/songs/3]
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'panic'[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-11 16:16:29) [GET]
+  Parameters: {"id"=>"7185"}
+  [4;35;1mUser Load (0.9ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;36;1mRecord Load (0.5ms)[0m   [0;1mSELECT * FROM "records" WHERE ("records"."id" = 7185) [0m
+Rendering template within layouts/application
+Rendering records/edit
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) [0m
+  [4;35;1mSong Load (0.7ms)[0m   [0mSELECT * FROM "songs" WHERE ("songs".record_id = 7185) [0m
+Rendered records/_photo (1.9ms)
+Rendered records/_song (1.3ms)
+Completed in 76ms (View: 50, DB: 4) | 200 OK [http://localhost/records/7185/edit]
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSET client_min_messages TO 'panic'[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSET client_min_messages TO 'notice'[0m
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-11 16:16:41) [GET]
+  Parameters: {"id"=>"7185"}
+  [4;36;1mUser Load (0.7ms)[0m   [0;1mSELECT * FROM "users" WHERE ("users"."id" = 2) LIMIT 1[0m
+  [4;35;1mRecord Load (0.5ms)[0m   [0mSELECT * FROM "records" WHERE ("records"."id" = 7185) [0m
+Rendering template within layouts/application
+Rendering records/show
+  [4;36;1mPhoto Load (1.0ms)[0m   [0;1mSELECT * FROM "photos" WHERE ("photos".record_id = 7185) [0m
+  [4;35;1mPrice Load (0.6ms)[0m   [0mSELECT * FROM "prices" WHERE ("prices"."id" = 195145) [0m
+  [4;36;1mSong Load (0.8ms)[0m   [0;1mSELECT * FROM "songs" WHERE ("songs".record_id = 7185) [0m
+  [4;35;1mBubble Load (44.4ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;36;1mCACHE (0.0ms)[0m   [0;1mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+  [4;35;1mCACHE (0.0ms)[0m   [0mSELECT * FROM "bubbles" WHERE ("bubbles".price_id = 195145) ORDER BY bubbles.id DESC LIMIT 1[0m
+Completed in 178ms (View: 108, DB: 48) | 200 OK [http://localhost/records/7185]

@@ -36,9 +36,6 @@ before_filter :login_required
   def new
     @record = Record.new
 
-    #@mugshot = Mugshot.new
-    @record.photos.build
-
     if params[:id]
       @price = Price.find(params[:id])
     end

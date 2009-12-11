@@ -31,21 +31,30 @@
 
 <b>Attachments:</b><br>
 	<% @record.photos.each do |photo| %>
-	
 		<% unless photo.nil? %>
 			<%= link_to image_tag(photo.data.url(:thumb)), photo.data.url(:medium) %>
-			
 			<%= link_to 'Destroy', photo, :confirm => 'Are you sure?', :method => :delete %><br>
-			
 			<br />
 		<% end %>
-
+	<% end %>
+	
+	<% @record.songs.each do |song| %>
+		<% unless song.nil? %>
+			<%= mp3_player song.mp3.url %>
+			<%= link_to 'Destroy', song, :confirm => 'Are you sure?', :method => :delete %><br>
+			<br />
+		<% end %>
 	<% end %>
 	
   <div id="photos">
 
   </div>
   <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
+
+  <div id="songs">
+	
+  </div>
+  <%= add_object_link("New Song", f, @record.songs.build, "song", "#songs") %>
 
 </p>
   <p>

@@ -3,9 +3,10 @@ class Record < ActiveRecord::Base
   validates_presence_of :price_id, :genre, :condition, :username
 
   has_many :photos, :dependent => :destroy
+  has_many :songs, :dependent => :destroy
   
   acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos
+  accepts_nested_attributes_for :photos, :songs
   
   
   def self.search(search, page, user)

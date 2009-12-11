@@ -13,6 +13,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :records
   map.resources :prices
   map.resources :photos
+  map.resources :songs
   map.resources :home
 
   # The priority is based upon order of creation: first created -> highest priority.

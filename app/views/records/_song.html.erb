@@ -1,0 +1,8 @@
+<div id="song">
+  <p>
+  <% form.fields_for :songs, song, :child_index => (song.new_record? ? "index_to_replace_with_js" : nil) do |song_form| %>    
+    <%= song_form.file_field :mp3 %>
+    <%= link_to_function "delete", "$('#song').remove();" %><br/>
+  <% end %>
+  </p>
+</div>

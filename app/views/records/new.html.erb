@@ -29,12 +29,14 @@
   </p>
   <p>
   <div id="photos">
-	<% if @record.new_record? %>
-		<%= render :partial => 'photo', :locals => { :form => f, :photo => @record.photos.build } %>
-	<% end %>
+
   </div>
   <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
 
+  <div id="songs">
+	
+  </div>
+  <%= add_object_link("New Song", f, @record.songs.build, "song", "#songs") %>
 
   </p><br><br>
     <%= f.label :value %><br />
