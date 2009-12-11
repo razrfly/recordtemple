@@ -1,8 +1,0 @@
-<div class="mugshot">
-<% fields_for "record[mugshot_attributes][]", mugshot do |mugshot_form| %>
-  <p>
-	Image: <%= mugshot_form.file_field :uploaded_data, :index => nil %> 
-	<%= link_to_function "remove", "this.up('.mugshot').remove()" %>
-  </p>
-<% end %>
-</div>
