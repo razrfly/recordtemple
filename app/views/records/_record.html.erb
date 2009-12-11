@@ -1,0 +1,12 @@
+  <tr>
+	<th scope="row" abbr="Arist" class="<%= cycle("spec", "specalt") -%>"><%= link_to record.price.artist, records_path + '?artist='+ record.price.artist %></td>
+	<td class="<%=current_cycle%>"><%=h record.price.label %></td>
+    <td class="<%=current_cycle%>"><%=h record.price.format %></td>
+    <td class="<%=current_cycle%>"><%=h record.price.detail %> <%=h record.price.footnote %></td>
+    <td class="<%=current_cycle%>"><%=h real_currency record.value %></td>
+    <td class="<%=current_cycle%>"><%=h record.cyberguide %></td>
+	<td class="<%=current_cycle%>"><% if record.mugshots.last != nil %><%=image_tag("check.jpg")%><% end %></td>
+    <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
+    <td class="<%=current_cycle%>"><%= link_to 'Edit', edit_record_path(record) %></td>
+    <td class="<%=current_cycle%>"><%= link_to 'Destroy', record, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>

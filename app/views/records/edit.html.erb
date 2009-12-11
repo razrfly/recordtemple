@@ -1,0 +1,70 @@
+<h1>Editing record</h1>
+
+<% form_for(@record, :html => { :multipart => true }) do |f| %>
+  <%= f.error_messages %>
+<p>
+  <b>Artist:</b>
+  <%=h @record.price.artist %>
+</p>
+
+<p>
+  <b>Label:</b>
+  <%=h @record.price.label %>
+</p>
+
+<p>
+  <b>Format:</b>
+  <%=h @record.price.format %>
+</p>
+<p>
+  <b>Detail:</b>
+  <%=h @record.price.detail %>
+</p>
+<p>
+  <b>Condition & Genre:</b><br>
+	<%=f.select(:condition, @record.get_condition) %>
+    <%=f.select(:genre, @record.get_genre) %>
+</p>
+<p>
+<div id="mugshots">
+	
+</div>
+	<%= link_to_function "Add additional images" do |page|
+	  page.insert_html :bottom, :mugshots, :partial => 'mugshot', :object => Mugshot.new
+	end %>
+
+</p><br><br>
+
+<p>
+<b>Attachments:</b><br>
+	<% @record.mugshots.each do |mugshot| %>
+	
+		<% if mugshot.image? %>
+			<%= link_to image_tag(mugshot.public_filename(:small)), mugshot.public_filename(:large) %>
+			
+			<%= link_to 'Destroy', mugshot, :confirm => 'Are you sure?', :method => :delete %><br>
+			<%= mugshot.content_type %> (<%= mugshot.size %>k)<br>
+			<%= mugshot.filename %>
+			
+			<br />
+		<% end %>
+
+	<% end %>
+
+</p>
+  <p>
+    <%= f.label :value, "My Value" %><br />
+    <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment %>
+  </p>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @record %> |
+<%= link_to 'Back', records_path %>

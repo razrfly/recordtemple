@@ -1,0 +1,40 @@
+<h1>Advanced search</h1>
+
+<% form_for(@search) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :artist %><br />
+    <%= f.text_field :artist %>
+  </p>
+  <p>
+    <%= f.label :label %><br />
+    <%= f.text_field :label %>
+  </p>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :format %><br />
+    <%=f.select :format, (["","Singles","LPs","EPs","Picture Sleeves"]) %>
+  </p>
+  <p>
+    <%= f.label :genre %><br />
+    <%=f.select(:genre, @record.get_genre.sort, {:include_blank => true}) %>
+  </p>
+  <p>
+    <%= f.label "Price Range" %><br />
+    <%= f.text_field :minimum_value, :size => "5" %> - <%= f.text_field :maximum_value, :size => "5" %>
+  </p>
+  <p>
+    <%= f.label "Condition (At or better than:)" %><br />
+    <%=f.select(:condition, @record.get_condition, {:include_blank => true}) %>
+  </p>
+    <%= f.text_field :page %>
+  <p>
+    <%= f.submit "Search" %>
+  </p>
+<% end %>
+
+<%= link_to 'Back to Your Records', records_path %>

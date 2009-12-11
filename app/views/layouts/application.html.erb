@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Records: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'cloud', 'message' %>
+  <%= javascript_include_tag :all, :cache => true %>
+</head>
+<body>
+	
+<div id='message' style="display: none;">
+	<span id="jones">Currently only editing singular results, close this to resume normal activity.</span>
+	<%= link_to_function 'X' do |page|
+		page[:hidden_created_by].value = ""
+		page.visual_effect :SwitchOff, :message
+	end
+	%>
+</div>
+
+<div id="container">
+
+<div id="header" class="group">	
+	<%= link_to image_tag("recordtemple.png"), root_path, :id => "logo", :class => "logo" %>
+	<% if logged_in? %>
+	<div id="menu">
+
+	You are logged in as <%=h current_user.login %>
+	<em><%= link_to 'Logout', logout_path %></em>
+
+	</div><br>
+	
+	<% else %>
+	<div id="menu" class="group"> 
+	  You are currently not logged in.
+
+	    <em><%= link_to 'Login', login_path %></em>
+
+	</div><br>
+
+	<% end %>
+	
+</div>
+
+<div id="nav">
+<ul class="group">
+  <li><%= link_to 'Main Menu', root_path %></li>
+  <li><%= link_to 'My Records', records_path %></li> 
+  <li><%= link_to "Price Guide", prices_path %></li> 
+</ul>
+</div>
+
+<div id="content">
+
+<% unless flash[:notice].blank? %>
+	<div id="notification"><%= flash[:notice] %></div>
+<% end %>
+<% unless flash[:error].blank? %>
+	<div id="error"><%= flash[:error] %></div>
+<% end %>
+
+<%= yield  %>
+
+</div>
+
+
+</div>
+
+
+
+</body>
+</html>

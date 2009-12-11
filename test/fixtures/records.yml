@@ -1,0 +1,15 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  genre: MyString
+  value: 1
+  comment: MyText
+  quantity: 1
+  price_id: 1
+
+two:
+  genre: MyString
+  value: 1
+  comment: MyText
+  quantity: 1
+  price_id: 1

@@ -1,0 +1,17 @@
+<% if logged_in? %>
+<h1><%=h current_user.login.capitalize %>'s Record Command Center</h1>
+<h3>Where do you want to go today?</h3>
+
+<ul>
+	<li><%= link_to 'Manage my Collection (Add/Edit some new records)', records_path %></li>
+	<li><%= link_to 'Search the Cyberguides Price list', prices_path %></li>
+	<li><%= link_to 'Add a new Price to the Cyberguides Price list', new_price_path %></li>
+	<li>Sell my records on the Ebay (coming soon)</li>
+	<li>Add records to my online store (coming soon)</li>
+</ul>
+<% else %>
+
+<h1>You are not currently logged in... please do so.</h1>
+
+<% end %>
+

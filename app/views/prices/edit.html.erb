@@ -1,0 +1,46 @@
+<h1>Editing price</h1>
+
+<% form_for @price do |f| %>
+  <%= f.error_messages %>
+
+
+
+  <p>
+    <%= f.label :artist %><br />
+    <%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "30" %>
+  </p>
+  <p>
+    <%= f.label :format %><br />
+    <%=f.select(:format, @price.get_format.collect {|site| site.format}, {:include_blank => true}) %>
+  </p>
+  <p>
+    <%= f.label :label %><br />
+    <%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "30" %>
+  </p>
+  <p>
+    <%= f.label :detail %><br />
+    <%= f.text_area :detail, :size => "70" %>
+  </p>
+  <p>
+    <%= f.label :year %> (19XX-19XX)<br />
+    <%= f.text_field :yearbegin, :size => "4" %>-<%= f.text_field :yearend, :size => "4" %>
+  </p>
+
+
+		<% fields_for :bubble do |e| %>
+  			<p>
+				<%= e.label :price %> $(10-25)<br />
+    			$<%= e.text_field :low, :size => "4" %>-<%= e.text_field :high, :size => "4" %>
+  			</p>
+  		<% end %>
+
+
+
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @price %> |
+<%= link_to 'Back', prices_path %>

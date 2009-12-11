@@ -1,0 +1,46 @@
+<h1>Osbourne Price</h1>
+
+<p>
+  <b>Artist:</b>
+  <%=h @price.artist %>
+</p>
+
+<p>
+  <b>Label:</b>
+  <%=h @price.label %>
+</p>
+
+<p>
+  <b>Format:</b>
+  <%=h @price.format %>
+</p>
+
+<p>
+  <b>Detail:</b>
+  <%=h @price.detail %>
+</p>
+
+<p>
+  <b>Footnote:</b>
+  <%=h @price.footnote %>
+</p>
+
+<p>
+  <b>Price Range:</b>
+  $<%=h @price.price_range %>
+</p>
+
+<p>
+  <b>Approx Date:</b>
+	<%=h @price.date_range %>
+</p>
+
+<p>
+
+<%= button_to "Make it mine!", :controller => 'records', :action => 'new', :id => @price.id %><br>
+<%= link_to "Edit", edit_price_path(@price) %> | 
+
+<% if current_user.login == "holden" or @price.created_by == current_user.login %><%= link_to 'Destroy', :price, :confirm => 'Are you sure?', :method => :delete %> | <% end %>
+</p>
+
+<%= link_to 'Back', prices_path %>

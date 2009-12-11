@@ -1,0 +1,91 @@
+<div class="container">
+	<div class="spacer">
+  		&nbsp;
+	</div>
+
+
+	<% @record.photos.each do |photo| %>
+	
+	<div class="float">
+		<% if photo %>
+			<%= link_to image_tag(photo.data.url(:medium)), photo.data.url(:large) %><br />
+		<% end %>
+	</div>
+
+	<% end %>
+	
+	<div class="spacer">
+	  &nbsp;
+	</div>
+
+</div>
+
+<p>
+  <b>Artist:</b>
+  <%=h @record.price.artist %>
+</p>
+
+<p>
+  <b>Label:</b>
+  <%=h @record.price.label %>
+</p>
+
+<p>
+  <b>Date:</b>
+  <%=h @record.price.date_range %>
+</p>
+
+<p>
+  <b>Format:</b>
+  <%=h @record.price.format %>
+</p>
+
+<p>
+  <b>Detail:</b>
+  <%=h @record.price.detail %>
+</p>
+
+<p>
+  <b>Footnote:</b>
+  <%=h @record.price.footnote %>
+</p>
+
+<p>
+  <b>Genre:</b>
+  <%= @record.get_genre[@record.genre.to_i-1][0] %>
+</p>
+
+<p>
+  <b>Condition:</b>
+  <%= @record.get_condition[@record.condition.to_i-1][0] %>
+</p>
+
+<p>
+  <b>Price Guide List Price:</b>
+  $<%=h @record.price.bubbles.last.low %>-<%=h @record.price.bubbles.last.high %>
+</p>
+
+<p>
+  <b>My Value:</b>
+  $<%=h @record.value %>
+</p>
+
+<p>
+  <b>His Value:</b>
+  $<%=h @record.cyberguide %>
+</p>
+
+<p>
+  <b>Comment:</b>
+  <%=h @record.comment %>
+</p>
+
+
+<p>
+  <b>PriceGuide ID:</b>
+  <%=link_to @record.price_id, price_path(@record.price_id) %>
+</p>
+
+
+<%= link_to 'Edit', edit_record_path(@record) %> |
+<%= link_to 'Back', records_path %>

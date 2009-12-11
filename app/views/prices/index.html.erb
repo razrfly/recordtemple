@@ -1,0 +1,50 @@
+<h1>Search Osbourne's Cyberguide for Records</h1>
+
+<%  form_remote_tag :url => prices_path,
+	:loading => "Element.show('busy')",
+	:html => { :method => "get" },
+	:method => "get" do %>
+	<table>
+	  <tr>
+		<th>Artist</th>
+		<th>Label</th>
+		<th>Format</th>
+		<th>Details</th>
+		<th colspan="2"># Results</th>
+	  </tr>
+		
+		<% if params[:price] %>
+			<td><%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "20", :value => params[:price][:artist] %></td>
+			<td><%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "20", :value => params[:price][:label] %></td>
+		<% else %>
+			<td><%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "20" %></td>
+			<td><%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "20" %></td>
+		<% end %>
+		
+		<td><%=select_tag :type, options_for_select(["","Singles","LPs","EPs","Picture Sleeves"]) %></td>
+		<td><%= text_field_tag :detail, params[:detail] %></td>
+		<td><%=select_tag :num_of_result, options_for_select(["10","20","50","100"]) %></td>
+
+		<%= hidden_field :hidden, :created_by, :value => '' %>
+		<td><%= submit_tag "Search" %></td><div id="reqs_count"><%= @prices_raw %> Records</div><br>
+	</tr></table>
+<% end %>
+
+<div id="busy" style="display:none;"><%= image_tag("/images/loading.gif") %></div>
+
+<div id="reqs">
+
+<br>Searches are good, try to be vague at first and narrow the search as you go along.  
+<br>You can always add more search criteria later.
+	
+</div>
+<br>
+
+<%= link_to 'Back to Your Records', records_path %> | 
+<%= link_to 'Add a new Price to the Guide', new_price_path %> | 
+
+<%= link_to_function 'Show/Edit all prices you contributed' do |page|
+	page[:hidden_created_by].value = "greggie"
+	page.visual_effect :Appear, :message
+end
+%>

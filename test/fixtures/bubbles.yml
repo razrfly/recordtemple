@@ -1,0 +1,11 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  pricelow: 1
+  pricehigh: 1
+  price_id: 1
+
+two:
+  pricelow: 1
+  pricehigh: 1
+  price_id: 1

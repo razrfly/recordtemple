@@ -1,0 +1,4 @@
+thoughtbot-paperclip --source http://gems.github.com
+aws-s3
+right_aws --version 1.9.0
+mislav-will_paginate --source gems.github.com

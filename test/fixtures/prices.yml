@@ -1,0 +1,21 @@
+# Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
+
+one:
+  artist: MyString
+  format: MyString
+  label: MyString
+  detail: MyString
+  pricelow: 1
+  pricehigh: 1
+  yearbegin: 1
+  yearend: 1
+
+two:
+  artist: MyString
+  format: MyString
+  label: MyString
+  detail: MyString
+  pricelow: 1
+  pricehigh: 1
+  yearbegin: 1
+  yearend: 1
