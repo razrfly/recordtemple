@@ -33,7 +33,7 @@ Rails::Initializer.run do |config|
   config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem "jrails"
   #config.gem "iconv"
-  config.gem "ruby-mp3info"
+  #config.gem "ruby-mp3info", :version => '~> 0.8.5'
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
