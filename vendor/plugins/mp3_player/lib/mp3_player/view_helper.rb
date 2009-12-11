@@ -1,4 +1,4 @@
-require "URI"
+#require "URI"
 module Mp3Player
   
   # This module contains the view helper <tt>mp3_player</tt>
