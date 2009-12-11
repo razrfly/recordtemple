@@ -51,7 +51,7 @@ before_filter :login_required
   # GET /records/1/edit
   def edit
     @record = Record.find(params[:id])
-    @record.photos.build
+    #@record.photos.build
   end
 
   # POST /records

@@ -25,15 +25,10 @@
 	<%=f.select(:condition, @record.get_condition) %>
     <%=f.select(:genre, @record.get_genre) %>
 </p>
-<p>
-<div id="photos">
-	
-</div>
+
+<p><br><br>
 
 
-</p><br><br>
-
-<p>
 <b>Attachments:</b><br>
 	<% @record.photos.each do |photo| %>
 	
@@ -46,6 +41,11 @@
 		<% end %>
 
 	<% end %>
+	
+  <div id="photos">
+
+  </div>
+  <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
 
 </p>
   <p>
