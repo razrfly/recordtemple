@@ -43,8 +43,7 @@
     <td class="<%=current_cycle%>"><%=h record.cyberguide %></td>
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("check.jpg")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
-    <td class="<%=current_cycle%>"><%= link_to 'Edit', edit_record_path(record) %></td>
-    <td class="<%=current_cycle%>"><%= link_to 'Destroy', record, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td class="<%=current_cycle%>"><%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %></td>
   </tr>
 <% end %>
 
@@ -68,4 +67,4 @@
   <%= will_paginate @records, :container => false %>
 </div><br>
 
-<%= link_to 'New record', prices_path %>
+<%= link_to 'New record', prices_path %> | <%= link_to 'Download pdf', prices_path %>
