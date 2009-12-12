@@ -23,11 +23,11 @@ class PricesController < ApplicationController
 
   def index
     if params[:price] and params[:id] = "" and params[:hidden][:created_by] == ""
-      @prices = Price.find(:all, :conditions => ['artist LIKE ? and label LIKE ? and format LIKE ? and detail LIKE ?',
-         "%#{params[:price][:artist]}%", "%#{params[:price][:label]}%", "%#{params[:type]}%", "%#{params[:detail]}%"],
+      @prices = Price.find(:all, :conditions => ['LOWER(artist) LIKE ? and LOWER(label) LIKE ? and format LIKE ? and LOWER(detail) LIKE ?',
+         "%#{params[:price][:artist].downcase unless nil}%", "%#{params[:price][:label].downcase unless nil}%", "%#{params[:type]}%", "%#{params[:detail].downcase unless nil}%"],
          :limit => "#{params[:num_of_result]}")
-      @prices_raw = Price.count(:id, :conditions => ['artist LIKE ? and label LIKE ? and format LIKE ? and detail LIKE ?',
-          "%#{params[:price][:artist]}%", "%#{params[:price][:label]}%", "%#{params[:type]}%", "%#{params[:detail]}%"])      
+      @prices_raw = Price.count(:id, :conditions => ['LOWER(artist) LIKE ? and LOWER(label) LIKE ? and format LIKE ? and LOWER(detail) LIKE ?',
+          "%#{params[:price][:artist].downcase unless nil}%", "%#{params[:price][:label].downcase unless nil}%", "%#{params[:type]}%", "%#{params[:detail].downcase unless nil}%"])      
       respond_to do |format|
         format.html
         format.js
