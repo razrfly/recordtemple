@@ -1,0 +1,6 @@
+<h1>Labels#index</h1>
+<p>Find me in app/views/labels/index.html.erb</p>
+
+<% @labels.each do |label| %>
+  <%= image_tag(label.photos.first.data.url(:thumb)) %>
+<% end %>
