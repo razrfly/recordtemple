@@ -7,7 +7,7 @@
 
   <p>
     <%= f.label :artist %><br />
-    <%= text_field_with_auto_complete :price, :artist, :autocomplete => "off", :size => "30" %>
+    <%= text_field_with_auto_complete :price, :artist, { :autocomplete => "off", :size => "30" }, :method => :post %>
   </p>
   <p>
     <%= f.label :format %><br />

@@ -30698,3 +30698,54 @@ LINE 1: SELECT DISTINCT(format), COUNT(format) FROM "prices"
  ^
 : SELECT DISTINCT(format), COUNT(format) FROM "prices" [0m
   [4;35;1mPrice Load (135.7ms)[0m   [0mSELECT DISTINCT(format), COUNT(format) FROM "prices" GROUP BY format[0m
+
+
+Processing PricesController#new (for 127.0.0.1 at 2009-12-12 15:25:39) [GET]
+Rendering template within layouts/application
+Rendering prices/new
+Completed in 334ms (View: 65, DB: 147) | 200 OK [http://localhost/prices/new]
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-12 15:25:43) [GET]
+  Parameters: {"price"=>{"artist"=>"be"}, "id"=>"auto_complete_for_price_artist"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_artist):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (136.4ms)
+Rendered rescues/_request_and_response (1.4ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-12 15:25:45) [GET]
+  Parameters: {"price"=>{"artist"=>"bea"}, "id"=>"auto_complete_for_price_artist"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_artist):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (44.1ms)
+Rendered rescues/_request_and_response (0.4ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-12 15:25:58) [GET]
+  Parameters: {"price"=>{"artist"=>"beat"}, "id"=>"auto_complete_for_price_artist"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_artist):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (154.8ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#new (for 127.0.0.1 at 2009-12-12 15:26:32) [GET]
+Rendering template within layouts/application
+Rendering prices/new
+Completed in 189ms (View: 23, DB: 142) | 200 OK [http://localhost/prices/new]
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-12 15:26:35) [POST]
+  Parameters: {"price"=>{"artist"=>"be"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_artists (4.5ms)
+Completed in 358ms (View: 11, DB: 223) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
