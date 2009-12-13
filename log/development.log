@@ -30937,3 +30937,152 @@ Processing LabelsController#index (for 127.0.0.1 at 2009-12-12 16:31:42) [GET]
 Rendering template within layouts/application
 Rendering labels/index
 Completed in 7344ms (View: 6713, DB: 595) | 200 OK [http://localhost/labels]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-13 15:18:07) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 278ms (View: 226, DB: 50) | 200 OK [http://localhost/]
+
+
+Processing PricesController#index (for 127.0.0.1 at 2009-12-13 15:18:39) [GET]
+Rendering template within layouts/application
+Rendering prices/index
+Completed in 959ms (View: 39, DB: 875) | 200 OK [http://localhost/prices]
+
+
+Processing PricesController#new (for 127.0.0.1 at 2009-12-13 15:18:45) [GET]
+Rendering template within layouts/application
+Rendering prices/new
+Completed in 299ms (View: 44, DB: 163) | 200 OK [http://localhost/prices/new]
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-13 15:18:55) [GET]
+  Parameters: {"price"=>{"label"=>"ca"}, "id"=>"auto_complete_for_price_label"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_label):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (36.5ms)
+Rendered rescues/_request_and_response (1.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-13 15:18:58) [GET]
+  Parameters: {"price"=>{"label"=>"CA"}, "id"=>"auto_complete_for_price_label"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_label):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (39.5ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#show (for 127.0.0.1 at 2009-12-13 15:18:59) [GET]
+  Parameters: {"price"=>{"label"=>"CAP"}, "id"=>"auto_complete_for_price_label"}
+
+ActiveRecord::RecordNotFound (Couldn't find Price with ID=auto_complete_for_price_label):
+  app/controllers/prices_controller.rb:52:in `show'
+
+Rendered rescues/_trace (116.0ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2009-12-13 15:19:23) [POST]
+  Parameters: {"price"=>{"artist"=>"be"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_artists (22.6ms)
+Completed in 289ms (View: 28, DB: 241) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+
+
+Processing PricesController#new (for 127.0.0.1 at 2009-12-13 15:20:16) [GET]
+Rendering template within layouts/application
+Rendering prices/new
+Completed in 170ms (View: 24, DB: 126) | 200 OK [http://localhost/prices/new]
+
+
+Processing PricesController#auto_complete_for_price_label (for 127.0.0.1 at 2009-12-13 15:20:20) [POST]
+  Parameters: {"price"=>{"label"=>"ca"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_labels (30.9ms)
+Completed in 236ms (View: 36, DB: 182) | 200 OK [http://localhost/prices/auto_complete_for_price_label]
+
+
+Processing PricesController#auto_complete_for_price_label (for 127.0.0.1 at 2009-12-13 15:20:20) [POST]
+  Parameters: {"price"=>{"label"=>"cap"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_labels (3.7ms)
+Completed in 199ms (View: 5, DB: 175) | 200 OK [http://localhost/prices/auto_complete_for_price_label]
+
+
+Processing PricesController#auto_complete_for_price_label (for 127.0.0.1 at 2009-12-13 15:21:51) [POST]
+  Parameters: {"price"=>{"label"=>"ca"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_labels (3.8ms)
+Completed in 203ms (View: 5, DB: 179) | 200 OK [http://localhost/prices/auto_complete_for_price_label]
+
+
+Processing PricesController#auto_complete_for_price_label (for 127.0.0.1 at 2009-12-13 15:21:51) [POST]
+  Parameters: {"price"=>{"label"=>"cap"}, "authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94="}
+Rendered prices/_labels (4.0ms)
+Completed in 218ms (View: 5, DB: 190) | 200 OK [http://localhost/prices/auto_complete_for_price_label]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:22:08) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1167ms (View: 366, DB: 733) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:24:26) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 548ms (View: 189, DB: 333) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-13 15:24:29) [GET]
+  Parameters: {"id"=>"7187"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 261ms (View: 156, DB: 84) | 200 OK [http://localhost/records/7187]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:24:38) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 435ms (View: 99, DB: 303) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-13 15:24:41) [GET]
+  Parameters: {"id"=>"7187"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 114ms (View: 43, DB: 47) | 200 OK [http://localhost/records/7187]
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-13 15:24:46) [GET]
+  Parameters: {"id"=>"7187"}
+Rendering template within layouts/application
+Rendering records/edit
+Rendered records/_photo (17.6ms)
+Rendered records/_song (10.4ms)
+Completed in 208ms (View: 183, DB: 4) | 200 OK [http://localhost/records/7187/edit]
+
+
+Processing SongsController#destroy (for 127.0.0.1 at 2009-12-13 15:24:50) [DELETE]
+  Parameters: {"authenticity_token"=>"zTnYsUwNDraBfEbKp7sshb9bnOVH6rxgfcME8lSMH94=", "id"=>"6"}
+Redirected to http://localhost:3000/records/7187/edit
+Completed in 692ms (DB: 62) | 302 Found [http://localhost/songs/6]
+
+
+Processing RecordsController#edit (for 127.0.0.1 at 2009-12-13 15:24:50) [GET]
+  Parameters: {"id"=>"7187"}
+Rendering template within layouts/application
+Rendering records/edit
+Rendered records/_photo (2.2ms)
+Rendered records/_song (1.2ms)
+Completed in 159ms (View: 51, DB: 4) | 200 OK [http://localhost/records/7187/edit]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:25:35) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 452ms (View: 165, DB: 261) | 200 OK [http://localhost/records]

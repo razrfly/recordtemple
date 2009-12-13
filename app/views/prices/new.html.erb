@@ -15,7 +15,7 @@
   </p>
   <p>
     <%= f.label :label %><br />
-    <%= text_field_with_auto_complete :price, :label, :autocomplete => "off", :size => "30" %>
+    <%= text_field_with_auto_complete :price, :label, { :autocomplete => "off", :size => "30" }, :method => :post %>
   </p>
   <p>
     <%= f.label :detail %><br />
