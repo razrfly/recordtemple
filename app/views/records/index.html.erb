@@ -41,7 +41,7 @@
     <td class="<%=current_cycle%>"><%=h record.price.detail %> <%=h record.price.footnote %></td>
     <td class="<%=current_cycle%>"><%=h real_currency record.value %></td>
     <td class="<%=current_cycle%>"><%=h record.cyberguide %></td>
-	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("check.jpg")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
+	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %></td>
   </tr>

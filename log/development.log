@@ -31086,3 +31086,9 @@ Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:25:35) [GET]
 Rendering template within layouts/application
 Rendering records/index
 Completed in 452ms (View: 165, DB: 261) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:28:27) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 458ms (View: 169, DB: 263) | 200 OK [http://localhost/records]
