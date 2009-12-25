@@ -9,13 +9,13 @@ class Search < ActiveRecord::Base
     scope = Record.scoped({})
     #artist
     scope = scope.scoped :joins => "left outer join prices on prices.id = records.price_id",
-                         :conditions => ["artist LIKE ?", "%#{artist}%"] unless artist.blank?
+                         :conditions => ["LOWER(artist) LIKE ?", "%#{artist.downcase}%"] unless artist.blank?
     #label
     scope = scope.scoped :joins => "left outer join prices on prices.id = records.price_id",
-                         :conditions => ["label LIKE ?", "%#{label}%"] unless label.blank?
+                         :conditions => ["LOWER(label) LIKE ?", "%#{label.downcase}%"] unless label.blank?
     #format
     scope = scope.scoped :joins => "left outer join prices on prices.id = records.price_id",
-                         :conditions => ["format LIKE ?", "%#{format}%"] unless format.blank?  
+                         :conditions => ["LOWER(format) LIKE ?", "%#{format.downcase}%"] unless format.blank?  
     #price (between $ .. $)
     scope = scope.scoped :joins => "left outer join prices on prices.id = records.price_id",
                          :conditions => ["pricelow >= ?", minimum_value] unless minimum_value.blank?

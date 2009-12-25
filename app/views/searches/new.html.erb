@@ -31,7 +31,7 @@
     <%= f.label "Condition (At or better than:)" %><br />
     <%=f.select(:condition, @record.get_condition, {:include_blank => true}) %>
   </p>
-    <%= f.text_field :page %>
+
   <p>
     <%= f.submit "Search" %>
   </p>
