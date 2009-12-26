@@ -31092,3 +31092,96 @@ Processing RecordsController#index (for 127.0.0.1 at 2009-12-13 15:28:27) [GET]
 Rendering template within layouts/application
 Rendering records/index
 Completed in 458ms (View: 169, DB: 263) | 200 OK [http://localhost/records]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-26 17:22:35) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 252ms (View: 250, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2009-12-26 17:22:39) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 46ms (View: 44, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2009-12-26 17:22:43) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"4YentHsbRPUBuk8Vla8CWll0YobaWahStx5Ng2JnB0A=", "login"=>"holden", "password"=>"sawyer"}
+Redirected to http://localhost:3000/
+Completed in 680ms (DB: 51) | 302 Found [http://localhost/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2009-12-26 17:22:44) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 98ms (View: 22, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-26 17:22:45) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1786ms (View: 424, DB: 1272) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-26 17:22:51) [GET]
+  Parameters: {"id"=>"7186"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 315ms (View: 187, DB: 106) | 200 OK [http://localhost/records/7186]
+
+
+Processing RecordsController#destroy (for 127.0.0.1 at 2009-12-26 17:23:00) [DELETE]
+  Parameters: {"authenticity_token"=>"4YentHsbRPUBuk8Vla8CWll0YobaWahStx5Ng2JnB0A=", "id"=>"7186"}
+Redirected to http://localhost:3000/records
+Completed in 621ms (DB: 128) | 302 Found [http://localhost/records/7186]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-26 17:23:00) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 463ms (View: 79, DB: 282) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-26 17:23:07) [GET]
+  Parameters: {"id"=>"7184"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 197ms (View: 124, DB: 53) | 200 OK [http://localhost/records/7184]
+
+
+Processing RecordsController#destroy (for 127.0.0.1 at 2009-12-26 17:23:14) [DELETE]
+  Parameters: {"authenticity_token"=>"4YentHsbRPUBuk8Vla8CWll0YobaWahStx5Ng2JnB0A=", "id"=>"7184"}
+Redirected to http://localhost:3000/records
+Completed in 237ms (DB: 8) | 302 Found [http://localhost/records/7184]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-26 17:23:14) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 455ms (View: 88, DB: 265) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-26 17:23:18) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 446ms (View: 150, DB: 271) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2009-12-26 17:23:20) [GET]
+  Parameters: {"id"=>"7183"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 197ms (View: 125, DB: 47) | 200 OK [http://localhost/records/7183]
+
+
+Processing RecordsController#destroy (for 127.0.0.1 at 2009-12-26 17:23:26) [DELETE]
+  Parameters: {"authenticity_token"=>"4YentHsbRPUBuk8Vla8CWll0YobaWahStx5Ng2JnB0A=", "id"=>"7183"}
+Redirected to http://localhost:3000/records
+Completed in 235ms (DB: 8) | 302 Found [http://localhost/records/7183]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2009-12-26 17:23:26) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 421ms (View: 64, DB: 250) | 200 OK [http://localhost/records]
