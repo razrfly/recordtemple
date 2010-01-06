@@ -42,6 +42,7 @@ desc "Backs up the database to S3"
        :content_type => 'application/x-gzip'
 
     puts "Backup ended on #{Time.now}"
+    `rm #{backup_path}`
      
   end
    
