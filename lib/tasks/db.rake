@@ -6,7 +6,7 @@ desc "Backs up the database to S3"
     puts "Back up started on #{Time.now}..."
     APP_NAME = 'recordapp'
     BACKUP_BUCKET = 'recordtemple.com'
-    PATH_TO_CLIENT_BACKUP = 'backup'
+    PATH_TO_CLIENT_BACKUP = '/backup'
 
     puts "Pulling database..."
     backup_name =  "ew#{Time.now.to_i}.db"
