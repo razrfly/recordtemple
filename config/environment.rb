@@ -35,6 +35,7 @@ Rails::Initializer.run do |config|
   #config.gem "googlecharts"
   #config.gem "iconv"
   config.gem "ruby-mp3info", :lib => "mp3info"
+  #config.gem "yaml_db"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
   # in vendor/plugins are loaded in alphabetical order.
