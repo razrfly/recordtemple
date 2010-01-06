@@ -29,10 +29,10 @@ desc "Backs up the database to S3"
 
     puts "Finding S3 bucket..."
     begin
-      bucket = AWS::S3::Bucket.find config['bucket']
+      bucket = AWS::S3::Bucket.find config['bucket_name']
     rescue AWS::S3::NoSuchBucket
-      AWS::S3::Bucket.create config['bucket']
-      bucket = AWS::S3::Bucket.find config['bucket']
+      AWS::S3::Bucket.create config['bucket_name']
+      bucket = AWS::S3::Bucket.find config['bucket_name']
     end
 
     puts "Storing backup database on S3..."
