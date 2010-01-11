@@ -53,8 +53,8 @@
 	<td></td>
 	<td></td>
 	<% if @myvalue != 0 %>
-		<td><strong>$<%= @myvalue %></strong></td>
-		<td><strong>$<%= @hisvalue %></strong></td>
+		<td><strong><%= number_to_currency(@myvalue) %></strong></td>
+		<td><strong><%= number_to_currency(@hisvalue) %></strong></td>
 	<% end %>
 </tr>
 </table>
