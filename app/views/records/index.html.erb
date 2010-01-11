@@ -39,8 +39,8 @@
 	<td class="<%=current_cycle%>"><%=h record.price.label %></td>
     <td class="<%=current_cycle%>"><%=h record.price.format %></td>
     <td class="<%=current_cycle%>"><%=h record.price.detail %> <%=h record.price.footnote %></td>
-    <td class="<%=current_cycle%>"><%=h number_to_currency record.value %></td>
-    <td class="<%=current_cycle%>"><%=h number_to_currency record.cyberguide.to_f %></td>
+    <td class="<%=current_cycle%>"><%= number_to_currency record.value %></td>
+    <td class="<%=current_cycle%>"><%= number_to_currency record.cyberguide %></td>
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %></td>
