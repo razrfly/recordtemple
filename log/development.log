@@ -31221,3 +31221,45 @@ Processing HomeController#index (for 127.0.0.1 at 2010-01-06 19:35:26) [GET]
 Rendering template within layouts/application
 Rendering home/index
 Completed in 67ms (View: 64, DB: 0) | 200 OK [http://recordapp.local/]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-11 14:28:43) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 36ms (View: 34, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-01-11 14:28:45) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 15ms (View: 14, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-01-11 14:28:52) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"AuMxGLgBRmnUzUYixlM6NlhYPxqqyL9wJn0Xry2QuTY=", "login"=>"greggie", "password"=>"holdy1"}
+Redirected to http://localhost:3001/
+Completed in 47ms (DB: 7) | 302 Found [http://localhost/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-11 14:28:52) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 19ms (View: 17, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-11 14:28:54) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1772ms (View: 211, DB: 1532) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-11 14:29:26) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1075ms (View: 98, DB: 951) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-11 14:33:22) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1294ms (View: 211, DB: 1042) | 200 OK [http://localhost/records]

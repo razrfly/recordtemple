@@ -9,7 +9,9 @@ before_filter :login_required
       @records = Record.search(params[:artist], params[:page], current_user.login)
       #calculations
       #@myvalue = Record.values(params[:artist], current_user.login)
+      @myvalue = Record.sum('value', :conditions => [ 'username = ?', current_user.login ])
       #@hisvalue = Record.osbourne(params[:artist], current_user.login)
+      @hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'username = ?', current_user.login ])
       #@chart_months = Record.chart_months
       #@chart_months_data = Record.chart_months_data
       

@@ -53,8 +53,8 @@
 	<td></td>
 	<td></td>
 	<% if @myvalue != 0 %>
-		<td><strong>$<%# @myvalue %></strong></td>
-		<td><strong>$<%# @hisvalue %></strong></td>
+		<td><strong>$<%= @myvalue %></strong></td>
+		<td><strong>$<%= @hisvalue %></strong></td>
 	<% end %>
 </tr>
 </table>
@@ -67,4 +67,4 @@
   <%= will_paginate @records, :container => false %>
 </div><br>
 
-<%= link_to 'New record', prices_path %> | <%= link_to 'Download pdf', prices_path %>
+<%= link_to 'New record', prices_path %>
