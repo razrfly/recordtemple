@@ -15,6 +15,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :photos
   map.resources :songs
   map.resources :home
+  map.resources :labels
 
   # The priority is based upon order of creation: first created -> highest priority.
 

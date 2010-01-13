@@ -1,5 +1,4 @@
 <h1><%= @labels.size %> Labels</h1>
-<p>Merry X-mas Greggie!!!</p>
 
 <% @labels.each do |label| %>
   <%= image_tag(label.photos.first.data.url(:thumb)) %>
