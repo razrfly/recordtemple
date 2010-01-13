@@ -1,10 +1,14 @@
 ActionController::Routing::Routes.draw do |map|
+  map.resources :recommendations
+
+
   map.resources :searches
 
   map.logout '/logout', :controller => 'sessions', :action => 'destroy'
   map.login '/login', :controller => 'sessions', :action => 'new'
   map.register '/register', :controller => 'users', :action => 'create'
   map.signup '/signup', :controller => 'users', :action => 'new'
+  map.share 'shared/:token', :controller => 'recommendations', :action => 'show'
   #map.search '/search', :controller => 'searches', :action => 'new'
   map.resources :users
 

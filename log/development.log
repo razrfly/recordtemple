@@ -32351,3 +32351,1537 @@ Rendered prices/_price (37.1ms)
 Rendered prices/_price (38.2ms)
 Rendered prices/_price (37.9ms)
 Completed in 688ms (View: 40, DB: 629) | 200 OK [http://recordapp.local/prices?_=1263388532615&price%5Bartist%5D=&price%5Blabel%5D=SUN&type=&detail=&num_of_result=10&hidden%5Bcreated_by%5D=&authenticity_token=AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs%3D]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 15:16:16) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 56ms (View: 52, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:16:21) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1388ms (View: 277, DB: 1081) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:16:24) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 187ms (View: 105, DB: 61) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:16:27) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+
+ActionView::TemplateError (undefined method `title' for #<ActionView::Base:0x10514ef78>) on line #1 of app/views/recommendations/new.html.erb:
+1: <% title "New Recommendation" %>
+2: 
+3: <%= render :partial => 'form' %>
+4: 
+
+    app/views/recommendations/new.html.erb:1
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (35.3ms)
+Rendered rescues/_request_and_response (1.0ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:17:00) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 98ms (View: 37, DB: 41) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:17:02) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+
+ActionView::TemplateError (undefined method `title' for #<ActionView::Base:0x104d0ca28>) on line #1 of app/views/recommendations/new.html.erb:
+1: <% title "New Recommendation" %>
+2: 
+3: <%= render :partial => 'form' %>
+4: 
+
+    app/views/recommendations/new.html.erb:1
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (98.4ms)
+Rendered rescues/_request_and_response (0.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:17:55) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (9.8ms)
+Completed in 38ms (View: 29, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:23:11) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (71.4ms)
+Completed in 100ms (View: 90, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:23:20) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.4ms)
+Completed in 31ms (View: 21, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:24:03) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.6ms)
+Completed in 27ms (View: 18, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:25:03) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/recommendations/1
+Completed in 19ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:25:03) [GET]
+  Parameters: {"id"=>"1"}
+Rendering template within layouts/application
+Rendering recommendations/show
+
+ActionView::TemplateError (undefined method `title' for #<ActionView::Base:0x105153708>) on line #1 of app/views/recommendations/show.html.erb:
+1: <% title "Recommendation" %>
+2: 
+3: <p>
+4:   <strong>Email:</strong>
+
+    app/views/recommendations/show.html.erb:1
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (33.7ms)
+Rendered rescues/_request_and_response (0.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:26:37) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+
+ActionController::RoutingError (record_url failed to generate from {:controller=>"records", :action=>"show"} - you may have ambiguous routes, or you may need to supply additional parameters for this route.  content_url has the following required parameters: ["records", :id] - are they all satisfied?):
+  (eval):16:in `record_path'
+  app/controllers/recommendations_controller.rb:15:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendering rescues/layout (not_found)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:26:48) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/records
+Completed in 18ms (DB: 1) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:26:48) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1339ms (View: 201, DB: 1053) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:27:08) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/records
+Completed in 19ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:27:08) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1333ms (View: 258, DB: 1047) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:27:17) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 92ms (View: 31, DB: 41) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:27:18) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.5ms)
+Completed in 95ms (View: 86, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:27:38) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/records.7406
+Completed in 19ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index to 7406 (for 127.0.0.1 at 2010-01-13 15:27:38) [GET]
+Completed in 609ms (View: 24, DB: 557) | 406 Not Acceptable [http://recordapp.local/records.7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:28:01) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/records
+Completed in 83ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:28:01) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1233ms (View: 165, DB: 1040) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:29:10) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 94ms (View: 33, DB: 42) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:29:11) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+ERROR: compiling _run_erb_app47views47recommendations47_form46html46erb_locals_form_object RAISED compile error
+/Users/holden/Code/recordapp/app/views/recommendations/_form.html.erb:3: syntax error, unexpected '=', expecting ')'
+...den_field :record_id, :value = '123' ).to_s); @output_buffer...
+                              ^
+Function body:           def _run_erb_app47views47recommendations47_form46html46erb_locals_form_object(local_assigns)
+            old_output_buffer = output_buffer;object = local_assigns[:object];form = local_assigns[:form];;@output_buffer = '';  __in_erb_template=true ;  form_for @recommendation do |f| ; @output_buffer.concat "\n  "
+; @output_buffer.concat(( f.error_messages ).to_s); @output_buffer.concat "\n  "
+; @output_buffer.concat(( f.hidden_field :record_id, :value = '123' ).to_s); @output_buffer.concat "\n  <p>\n    "
+
+; @output_buffer.concat(( f.label :email ).to_s); @output_buffer.concat "<br />\n    "
+; @output_buffer.concat(( f.text_field :email ).to_s); @output_buffer.concat "\n  </p>\n\n  <p>"
+
+
+; @output_buffer.concat(( f.submit "Submit" ).to_s); @output_buffer.concat "</p>\n"
+;  end ; @output_buffer.concat "\n"
+; @output_buffer
+          ensure
+            self.output_buffer = old_output_buffer
+          end
+Backtrace: /Users/holden/Code/recordapp/app/views/recommendations/_form.html.erb:14:in `compile!'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:61:in `compile'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:28:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable_partial.rb:20:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:26:in `benchmark'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:26:in `benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable_partial.rb:19:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/template.rb:199:in `render_template'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable_partial.rb:44:in `render_partial'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/partials.rb:184:in `render_partial'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:262:in `render'
+/Users/holden/Code/recordapp/app/views/recommendations/new.html.erb:3:in `_run_erb_app47views47recommendations47new46html46erb'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:34:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:34:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:301:in `with_template'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/renderable.rb:30:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/template.rb:199:in `render_template'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:260:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:343:in `_render_with_layout'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_view/base.rb:257:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1250:in `render_for_file'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:945:in `render_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:51:in `render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1326:in `default_render'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:1332:in `perform_action_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:617:in `call_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:610:in `perform_action_without_benchmark'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/System/Library/Frameworks/Ruby.framework/Versions/1.8/usr/lib/ruby/1.8/benchmark.rb:308:in `realtime'
+/Library/Ruby/Gems/1.8/gems/activesupport-2.3.4/lib/active_support/core_ext/benchmark.rb:17:in `ms'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/benchmarking.rb:68:in `perform_action_without_rescue'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/rescue.rb:160:in `perform_action_without_flash'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/flash.rb:146:in `perform_action'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `send'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:532:in `process_without_filters'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/filters.rb:606:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:391:in `process'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/base.rb:386:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/routing/route_set.rb:437:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:87:in `dispatch'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:121:in `_call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:130:in `build_middleware_stack'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:29:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/query_cache.rb:34:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:9:in `cache'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/query_cache.rb:28:in `call'
+/Library/Ruby/Gems/1.8/gems/activerecord-2.3.4/lib/active_record/connection_adapters/abstract/connection_pool.rb:361:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.1/lib/rack/head.rb:9:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.1/lib/rack/methodoverride.rb:24:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/params_parser.rb:15:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/session/cookie_store.rb:93:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/failsafe.rb:26:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.1/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.1/lib/rack/lock.rb:11:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/rack-1.0.1/lib/rack/lock.rb:11:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:114:in `call'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/reloader.rb:34:in `run'
+/Library/Ruby/Gems/1.8/gems/actionpack-2.3.4/lib/action_controller/dispatcher.rb:108:in `call'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/utils.rb:184:in `safe_fork'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:163:in `start'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+/Library/Ruby/Gems/1.8/gems/passenger-2.2.8/bin/passenger-spawn-server:61
+
+ActionView::TemplateError (compile error
+/Users/holden/Code/recordapp/app/views/recommendations/_form.html.erb:3: syntax error, unexpected '=', expecting ')'
+...den_field :record_id, :value = '123' ).to_s); @output_buffer...
+                              ^) on line #3 of app/views/recommendations/_form.html.erb:
+1: <% form_for @recommendation do |f| %>
+2:   <%= f.error_messages %>
+3:   <%= f.hidden_field :record_id, :value = '123' %>
+4:   <p>
+5:     <%= f.label :email %><br />
+6:     <%= f.text_field :email %>
+
+    app/views/recommendations/_form.html.erb:14:in `compile!'
+    app/views/recommendations/new.html.erb:3
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (40.4ms)
+Rendered rescues/_request_and_response (0.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:30:06) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.5ms)
+Completed in 101ms (View: 91, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:31:51) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.1ms)
+Completed in 30ms (View: 20, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:32:03) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+Redirected to http://recordapp.local/records
+Completed in 17ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:32:03) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1250ms (View: 106, DB: 1055) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:32:41) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 94ms (View: 33, DB: 40) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:32:43) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.6ms)
+Completed in 27ms (View: 18, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:33:23) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"joe@aol.com"}}
+Redirected to http://recordapp.local/records
+Completed in 17ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:33:23) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1241ms (View: 167, DB: 1048) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:34:17) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 93ms (View: 33, DB: 41) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:34:19) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.6ms)
+Completed in 33ms (View: 22, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:34:22) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record"=>"34444", "email"=>"sdfsdf"}}
+
+ActiveRecord::AssociationTypeMismatch (Record(#2188154800) expected, got String(#2148246520)):
+  app/controllers/recommendations_controller.rb:12:in `new'
+  app/controllers/recommendations_controller.rb:12:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (96.2ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:34:45) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.4ms)
+Completed in 29ms (View: 20, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:34:48) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"3444", "email"=>"sdfsdf"}}
+Redirected to http://recordapp.local/records
+Completed in 17ms (DB: 1) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:34:48) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1241ms (View: 103, DB: 1048) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:35:43) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 93ms (View: 33, DB: 41) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:35:44) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.3ms)
+Completed in 31ms (View: 20, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:35:47) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"dsfsdf"}}
+Redirected to http://recordapp.local/records
+Completed in 18ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:35:47) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1253ms (View: 167, DB: 1059) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:47:07) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 401ms (View: 323, DB: 41) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:47:10) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.4ms)
+Completed in 37ms (View: 25, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:47:14) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Wed, 13 Jan 2010 15:47:14 +0100
+From: auto-bob@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: Notifier#recommendation
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+You have been shared a record!
+
+http://www.google.com
+Redirected to http://recordapp.local/records
+Completed in 4527ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:47:19) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1253ms (View: 175, DB: 1050) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:49:08) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 163ms (View: 102, DB: 40) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:49:09) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (2.7ms)
+Completed in 27ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:49:14) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Wed, 13 Jan 2010 15:49:14 +0100
+From: auto-bob@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: Notifier#recommendation
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+You have been shared a record!
+
+http://recordapp.local/records/a966539e516b7f7baa93363f2aa3eb7a892f146b
+Redirected to http://recordapp.local/records
+Completed in 3927ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:49:18) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1254ms (View: 167, DB: 1060) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:51:25) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 164ms (View: 35, DB: 40) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:51:26) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (2.6ms)
+Completed in 27ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:51:32) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+
+NoMethodError (undefined method `share' for #<RecommendationsController:0x104d7da20>):
+  app/controllers/recommendations_controller.rb:14:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (28.8ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:53:07) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+
+NoMethodError (undefined method `share' for #<RecommendationsController:0x10529ac88>):
+  app/controllers/recommendations_controller.rb:14:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (28.4ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:53:40) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+
+NoMethodError (undefined method `share' for #<RecommendationsController:0x104e422f8>):
+  app/controllers/recommendations_controller.rb:14:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (29.9ms)
+Rendered rescues/_request_and_response (1.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:53:56) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Wed, 13 Jan 2010 15:53:56 +0100
+From: auto-bob@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: Notifier#recommendation
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+You have been shared a record!
+
+http://recordapp.local/share/74381173b8cfb59db14e3a65ccec82d251702722
+Redirected to http://recordapp.local/records
+Completed in 8127ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:54:04) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1274ms (View: 176, DB: 1069) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:54:19) [GET]
+  Parameters: {"invitation_token"=>"74381173b8cfb59db14e3a65ccec82d251702722"}
+
+ActiveRecord::RecordNotFound (Couldn't find Record without an ID):
+  app/controllers/records_controller.rb:28:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (28.9ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 15:55:22) [GET]
+  Parameters: {"id"=>"7406"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 157ms (View: 95, DB: 42) | 200 OK [http://recordapp.local/records/7406]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 15:55:23) [GET]
+  Parameters: {"record_id"=>"7406"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.6ms)
+Completed in 37ms (View: 27, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7406]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:55:28) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+
+NoMethodError (undefined method `shared_url' for #<RecommendationsController:0x104d20780>):
+  app/controllers/recommendations_controller.rb:14:in `create'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (98.2ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 15:55:56) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7406", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Wed, 13 Jan 2010 15:55:56 +0100
+From: auto-bob@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: Notifier#recommendation
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+You have been shared a record!
+
+http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290
+Redirected to http://recordapp.local/records
+Completed in 3787ms (DB: 1) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 15:56:00) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1256ms (View: 162, DB: 1066) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:56:16) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+ActiveRecord::RecordNotFound (Couldn't find Recommendation without an ID):
+  app/controllers/recommendations_controller.rb:4:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (29.4ms)
+Rendered rescues/_request_and_response (0.5ms)
+Rendering rescues/layout (not_found)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:56:38) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+ActiveRecord::RecordNotFound (Couldn't find Recommendation without an ID):
+  app/controllers/recommendations_controller.rb:4:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (27.8ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:56:40) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+ActiveRecord::RecordNotFound (Couldn't find Recommendation without an ID):
+  app/controllers/recommendations_controller.rb:4:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (29.9ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (not_found)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:57:01) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 24ms (View: 21, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:57:19) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 23ms (View: 13, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:58:13) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+NoMethodError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.record_id):
+  app/controllers/recommendations_controller.rb:5:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (94.4ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:58:25) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+NoMethodError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.record_id):
+  app/controllers/recommendations_controller.rb:5:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (28.1ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:58:27) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+
+NoMethodError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.record_id):
+  app/controllers/recommendations_controller.rb:5:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (95.7ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:58:41) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 23ms (View: 13, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 15:59:05) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+
+ActionView::TemplateError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.email) on line #3 of app/views/recommendations/show.html.erb:
+1: <p>
+2:   <strong>Email:</strong>
+3:   <%=h @recommendation.email %>
+4: </p>
+5: <p>
+6:   <strong>Token:</strong>
+
+    app/views/recommendations/show.html.erb:3
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (102.1ms)
+Rendered rescues/_request_and_response (0.2ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:00:15) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+
+ActionView::TemplateError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.email) on line #3 of app/views/recommendations/show.html.erb:
+1: <p>
+2:   <strong>Email:</strong>
+3:   <%=h @recommendation.email %>
+4: </p>
+5: <p>
+6:   <strong>Token:</strong>
+
+    app/views/recommendations/show.html.erb:3
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (34.1ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:01:09) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+
+ActionView::TemplateError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.token) on line #7 of app/views/recommendations/show.html.erb:
+4: </p>
+5: <p>
+6:   <strong>Token:</strong>
+7:   <%=h @recommendation.token %>
+8: </p>
+9: <p>
+10:   <strong>Expiration:</strong>
+
+    app/views/recommendations/show.html.erb:7
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (33.6ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:02:08) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 94ms (View: 84, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:02:19) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+
+ActionView::TemplateError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.email) on line #3 of app/views/recommendations/show.html.erb:
+1: <p>
+2:   <strong>Email:</strong>
+3:   <%=h @recommendation.email %>
+4: </p>
+
+    app/views/recommendations/show.html.erb:3
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (33.8ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:03:13) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 95ms (View: 85, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:03:20) [GET]
+  Parameters: {"invitation_token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 27ms (View: 17, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:04:21) [GET]
+  Parameters: {"token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 27ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:04:32) [GET]
+  Parameters: {"token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 26ms (View: 15, DB: 2) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:04:43) [GET]
+  Parameters: {"token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 29ms (View: 18, DB: 2) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:07:35) [GET]
+  Parameters: {"token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e290"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 101ms (View: 42, DB: 43) | 200 OK [http://recordapp.local/shared/b7aac7ae0826090eb54ce0fabb4c579fd0a1e290]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:08:16) [GET]
+  Parameters: {"token"=>"b7aac7ae0826090eb54ce0fabb4c579fd0a1e2902"}
+
+NoMethodError (You have a nil object when you didn't expect it!
+The error occurred while evaluating nil.record_id):
+  app/controllers/recommendations_controller.rb:5:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (26.6ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 16:08:25) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1324ms (View: 116, DB: 1113) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 16:08:32) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1445ms (View: 110, DB: 1239) | 200 OK [http://recordapp.local/records?page=2]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 16:08:35) [GET]
+  Parameters: {"id"=>"7380"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 111ms (View: 50, DB: 41) | 200 OK [http://recordapp.local/records/7380]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 16:08:38) [GET]
+  Parameters: {"record_id"=>"7380"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (3.1ms)
+Completed in 98ms (View: 18, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7380]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-13 16:08:43) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"AdgkfiRv4fHpnl5WM64II9k4Y7fNRwVqqJZLOOwKefs=", "recommendation"=>{"record_id"=>"7380", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Wed, 13 Jan 2010 16:08:43 +0100
+From: auto-bob@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: Notifier#recommendation
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+You have been shared a record!
+
+http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68
+Redirected to http://recordapp.local/records
+Completed in 5165ms (DB: 2) | 302 Found [http://recordapp.local/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 16:08:48) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1234ms (View: 165, DB: 1045) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:08:55) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 182ms (View: 57, DB: 43) | 200 OK [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:10:05) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb689"}
+Redirected to http://recordapp.local/
+Completed in 12ms (DB: 1) | 302 Found [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb689]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 16:10:05) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 91ms (View: 88, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:10:33) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb689"}
+Redirected to http://recordapp.local/
+Completed in 10ms (DB: 1) | 302 Found [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb689]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 16:10:33) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 19ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:12:06) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 184ms (View: 121, DB: 45) | 200 OK [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:12:51) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 185ms (View: 125, DB: 43) | 200 OK [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:12:52) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 183ms (View: 122, DB: 43) | 200 OK [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:14:32) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Rendering template within layouts/application
+Rendering recommendations/show
+Completed in 116ms (View: 56, DB: 44) | 200 OK [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:14:47) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Redirected to http://recordapp.local/
+Completed in 12ms (DB: 1) | 302 Found [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 16:14:47) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 18ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:15:38) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Redirected to http://recordapp.local/
+Completed in 11ms (DB: 1) | 302 Found [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 16:15:38) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 81ms (View: 79, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecommendationsController#show (for 127.0.0.1 at 2010-01-13 16:15:47) [GET]
+  Parameters: {"token"=>"8b83731218fcdd1481de05a89599a20c3287fb68"}
+Redirected to http://recordapp.local/
+Completed in 11ms (DB: 1) | 302 Found [http://recordapp.local/shared/8b83731218fcdd1481de05a89599a20c3287fb68]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 16:15:47) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 18ms (View: 16, DB: 1) | 200 OK [http://recordapp.local/]

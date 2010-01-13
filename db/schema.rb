@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20091211203242) do
+ActiveRecord::Schema.define(:version => 20100113140716) do
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
@@ -55,6 +55,15 @@ ActiveRecord::Schema.define(:version => 20091211203242) do
     t.datetime "updated_at"
     t.string   "footnote"
     t.string   "created_by"
+  end
+
+  create_table "recommendations", :force => true do |t|
+    t.string   "email"
+    t.string   "token"
+    t.date     "expiration"
+    t.integer  "record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "records", :force => true do |t|

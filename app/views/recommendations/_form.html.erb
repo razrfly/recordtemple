@@ -1,0 +1,10 @@
+<% form_for @recommendation do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :record_id, :value => params[:record_id] %>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+
+  <p><%= f.submit "Submit" %></p>
+<% end %>
