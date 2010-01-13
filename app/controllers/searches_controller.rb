@@ -4,6 +4,7 @@ class SearchesController < ApplicationController
   # GET /searches/1.xml
   def show
     @search = Search.find(params[:id])
+    @records = @search.records(params[:page])
 
     respond_to do |format|
       format.html # show.html.erb

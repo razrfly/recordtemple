@@ -31263,3 +31263,884 @@ Processing RecordsController#index (for 127.0.0.1 at 2010-01-11 14:33:22) [GET]
 Rendering template within layouts/application
 Rendering records/index
 Completed in 1294ms (View: 211, DB: 1042) | 200 OK [http://localhost/records]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:37:56) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 44ms (View: 41, DB: 0) | 200 OK [http://recordapp.local/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-01-13 13:37:58) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 16ms (View: 14, DB: 0) | 200 OK [http://recordapp.local/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-01-13 13:38:04) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"Ihm9I07v0zatsPCamZ0DHxg50JgzVftv6M2kQRE+YrM=", "login"=>"greggie", "password"=>"holdy1"}
+Redirected to http://recordapp.local/
+Completed in 127ms (DB: 9) | 302 Found [http://recordapp.local/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:38:05) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 21ms (View: 19, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing PricesController#index (for 127.0.0.1 at 2010-01-13 13:38:07) [GET]
+Rendering template within layouts/application
+Rendering prices/index
+Completed in 522ms (View: 19, DB: 483) | 200 OK [http://recordapp.local/prices]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:38:10) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 20ms (View: 17, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 13:38:12) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1692ms (View: 243, DB: 1404) | 200 OK [http://recordapp.local/records]
+
+
+Processing SearchesController#new (for 127.0.0.1 at 2010-01-13 13:38:16) [GET]
+Rendering template within layouts/application
+Rendering searches/new
+Completed in 126ms (View: 94, DB: 1) | 200 OK [http://recordapp.local/searches/new]
+
+
+Processing SearchesController#create (for 127.0.0.1 at 2010-01-13 13:38:19) [POST]
+  Parameters: {"commit"=>"Search", "authenticity_token"=>"Ihm9I07v0zatsPCamZ0DHxg50JgzVftv6M2kQRE+YrM=", "search"=>{"maximum_value"=>"", "label"=>"", "artist"=>"beatles", "format"=>"", "minimum_value"=>"", "title"=>"", "condition"=>"", "genre"=>""}}
+Redirected to http://recordapp.local/searches/40
+Completed in 92ms (DB: 51) | 302 Found [http://recordapp.local/searches]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:38:19) [GET]
+  Parameters: {"id"=>"40"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (131.9ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (43.9ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.9ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (41.7ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (41.9ms)
+Rendered records/_record (41.5ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (41.5ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (41.6ms)
+Rendered records/_record (41.7ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (41.7ms)
+Rendered records/_record (41.5ms)
+Completed in 1103ms (View: 331, DB: 764) | 200 OK [http://recordapp.local/searches/40]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:38:30) [GET]
+  Parameters: {"method"=>"post", "id"=>"40", "page"=>"6"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (64.2ms)
+Rendered records/_record (45.1ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.9ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.1ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (42.6ms)
+Completed in 1030ms (View: 257, DB: 763) | 200 OK [http://recordapp.local/searches/40?method=post&page=6]
+
+
+Processing SearchesController#create (for 127.0.0.1 at 2010-01-13 13:41:05) [POST]
+  Parameters: {"commit"=>"Search", "authenticity_token"=>"Ihm9I07v0zatsPCamZ0DHxg50JgzVftv6M2kQRE+YrM=", "search"=>{"maximum_value"=>"", "label"=>"", "artist"=>"beatles", "format"=>"", "minimum_value"=>"", "title"=>"", "condition"=>"", "genre"=>""}}
+Redirected to http://recordapp.local/searches/41
+Completed in 18ms (DB: 2) | 302 Found [http://recordapp.local/searches]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:41:05) [GET]
+  Parameters: {"id"=>"41"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (62.2ms)
+Rendered records/_record (44.9ms)
+Rendered records/_record (45.1ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (103.0ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (42.4ms)
+Rendered records/_record (6.7ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (42.1ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (41.5ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (41.6ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (42.1ms)
+Completed in 1012ms (View: 251, DB: 752) | 200 OK [http://recordapp.local/searches/41]
+
+
+Processing SearchesController#create (for 127.0.0.1 at 2010-01-13 13:41:29) [POST]
+  Parameters: {"commit"=>"Search", "authenticity_token"=>"Ihm9I07v0zatsPCamZ0DHxg50JgzVftv6M2kQRE+YrM=", "search"=>{"maximum_value"=>"", "label"=>"", "artist"=>"beatles", "format"=>"", "minimum_value"=>"", "title"=>"", "condition"=>"", "genre"=>""}}
+Redirected to http://recordapp.local/searches/42
+Completed in 18ms (DB: 1) | 302 Found [http://recordapp.local/searches]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:41:29) [GET]
+  Parameters: {"id"=>"42"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (64.2ms)
+Rendered records/_record (44.4ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (6.5ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (5.5ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (44.1ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.9ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (44.2ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (42.7ms)
+Completed in 1100ms (View: 256, DB: 764) | 200 OK [http://recordapp.local/searches/42]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:41:37) [GET]
+  Parameters: {"method"=>"post", "id"=>"42", "page"=>"2"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (131.2ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (45.0ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (6.7ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.9ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (45.9ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (47.1ms)
+Rendered records/_record (46.4ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (42.1ms)
+Rendered records/_record (5.5ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (42.6ms)
+Completed in 1112ms (View: 329, DB: 774) | 200 OK [http://recordapp.local/searches/42?method=post&page=2]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:41:49) [GET]
+  Parameters: {"id"=>"42", "page"=>"2"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (63.5ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (109.3ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (44.1ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (42.7ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (45.4ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (44.1ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.2ms)
+Completed in 1036ms (View: 257, DB: 769) | 200 OK [http://recordapp.local/searches/42?page=2]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:43:09) [GET]
+  Parameters: {"id"=>"42", "page"=>"2"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (64.6ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (42.9ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (107.0ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (42.4ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (42.5ms)
+Completed in 1104ms (View: 337, DB: 758) | 200 OK [http://recordapp.local/searches/42?page=2]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:43:14) [GET]
+  Parameters: {"method"=>"get", "id"=>"42", "page"=>"2"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (130.6ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (5.5ms)
+Rendered records/_record (42.4ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (43.8ms)
+Completed in 1101ms (View: 327, DB: 764) | 200 OK [http://recordapp.local/searches/42?method=get&page=2]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:43:18) [GET]
+  Parameters: {"method"=>"get", "id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (63.1ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.7ms)
+Rendered records/_record (71.8ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.2ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (5.5ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (42.3ms)
+Completed in 1020ms (View: 252, DB: 759) | 200 OK [http://recordapp.local/searches/42?method=get&page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:44:09) [GET]
+  Parameters: {"id"=>"42"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (64.2ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.2ms)
+Rendered records/_record (42.2ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (45.1ms)
+Rendered records/_record (70.7ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (6.5ms)
+Rendered records/_record (44.3ms)
+Rendered records/_record (42.9ms)
+Completed in 1104ms (View: 336, DB: 759) | 200 OK [http://recordapp.local/searches/42]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:44:14) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (130.2ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (44.4ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (46.1ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (42.0ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (42.1ms)
+Rendered records/_record (42.7ms)
+Completed in 1096ms (View: 322, DB: 765) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:44:57) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (65.0ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (44.3ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (46.6ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (43.9ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (5.9ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (5.6ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (42.8ms)
+Completed in 1046ms (View: 265, DB: 771) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:48:48) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (66.2ms)
+Rendered records/_record (6.7ms)
+Rendered records/_record (46.8ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (45.6ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (44.4ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (108.4ms)
+Rendered records/_record (44.8ms)
+Rendered records/_record (6.8ms)
+Rendered records/_record (6.7ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (6.9ms)
+Completed in 1045ms (View: 333, DB: 703) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:49:13) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+
+SyntaxError (/Users/holden/Code/recordapp/app/models/search.rb:2: syntax error, unexpected tINTEGER, expecting ')'
+  def records(3)
+               ^
+/Users/holden/Code/recordapp/app/models/search.rb:34: syntax error, unexpected kEND, expecting $end):
+  /Library/Ruby/Gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:206:in `const_missing'
+  app/controllers/searches_controller.rb:6:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (31.7ms)
+Rendered rescues/_request_and_response (1.1ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:49:13) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+
+SyntaxError (/Users/holden/Code/recordapp/app/models/search.rb:2: syntax error, unexpected tINTEGER, expecting ')'
+  def records(3)
+               ^
+/Users/holden/Code/recordapp/app/models/search.rb:34: syntax error, unexpected kEND, expecting $end):
+  /Library/Ruby/Gems/1.8/gems/aws-s3-0.6.2/lib/aws/s3/extensions.rb:206:in `const_missing'
+  app/controllers/searches_controller.rb:6:in `show'
+  passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+  passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+  passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+  passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (31.4ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:49:26) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+
+ActionView::TemplateError (wrong number of arguments (0 for 1)) on line #14 of app/views/searches/show.html.erb:
+11:     <th colspan="3">Actions</th>
+12:   </tr>
+13: 
+14: <%= render :partial => @search.records %>
+15: 
+16: 
+17: </table>
+
+    app/views/searches/show.html.erb:14:in `records'
+    app/views/searches/show.html.erb:14
+    app/controllers/searches_controller.rb:8:in `show'
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (125.7ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:49:26) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+
+ActionView::TemplateError (wrong number of arguments (0 for 1)) on line #14 of app/views/searches/show.html.erb:
+11:     <th colspan="3">Actions</th>
+12:   </tr>
+13: 
+14: <%= render :partial => @search.records %>
+15: 
+16: 
+17: </table>
+
+    app/views/searches/show.html.erb:14:in `records'
+    app/views/searches/show.html.erb:14
+    app/controllers/searches_controller.rb:8:in `show'
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (208.3ms)
+Rendered rescues/_request_and_response (1.1ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:50:36) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+
+ActionView::TemplateError (undefined method `records' for #<Array:0x1047e7b88>) on line #14 of app/views/searches/show.html.erb:
+11:     <th colspan="3">Actions</th>
+12:   </tr>
+13: 
+14: <%= render :partial => @search.records %>
+15: 
+16: 
+17: </table>
+
+    app/views/searches/show.html.erb:14
+    app/controllers/searches_controller.rb:8:in `show'
+    passenger (2.2.8) lib/phusion_passenger/rack/request_handler.rb:92:in `process_request'
+    passenger (2.2.8) lib/phusion_passenger/abstract_request_handler.rb:207:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:385:in `start_request_handler'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:343:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/utils.rb:184:in `safe_fork'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:341:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:163:in `start'
+    passenger (2.2.8) lib/phusion_passenger/railz/application_spawner.rb:209:in `start'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:262:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:126:in `lookup_or_add'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:256:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:80:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server_collection.rb:79:in `synchronize'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:255:in `spawn_rails_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:154:in `spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/spawn_manager.rb:287:in `handle_spawn_application'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `__send__'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:352:in `main_loop'
+    passenger (2.2.8) lib/phusion_passenger/abstract_server.rb:196:in `start_synchronously'
+
+Rendered rescues/_trace (38.3ms)
+Rendered rescues/_request_and_response (0.3ms)
+Rendering rescues/layout (internal_server_error)
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:51:24) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (134.2ms)
+Rendered records/_record (6.5ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (101.2ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (44.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (44.3ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (45.1ms)
+Rendered records/_record (5.7ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.4ms)
+Completed in 1148ms (View: 337, DB: 802) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:54:24) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:54:24) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (87.9ms)
+Rendered records/_record (87.6ms)
+Rendered records/_record (17.6ms)
+Rendered records/_record (18.2ms)
+Rendered records/_record (6.1ms)
+Rendered records/_record (6.5ms)
+Rendered records/_record (48.6ms)
+Rendered records/_record (49.0ms)
+Rendered records/_record (46.6ms)
+Rendered records/_record (46.8ms)
+Rendered records/_record (50.2ms)
+Rendered records/_record (51.3ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (6.2ms)
+Rendered records/_record (50.0ms)
+Rendered records/_record (49.9ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (7.5ms)
+Rendered records/_record (51.6ms)
+Rendered records/_record (75.4ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (52.3ms)
+Rendered records/_record (47.0ms)
+Rendered records/_record (46.5ms)
+Rendered records/_record (6.6ms)
+Rendered records/_record (46.0ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (48.2ms)
+Rendered records/_record (47.6ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (49.0ms)
+Rendered records/_record (47.4ms)
+Rendered records/_record (49.6ms)
+Rendered records/_record (52.4ms)
+Rendered records/_record (122.2ms)
+Rendered records/_record (48.1ms)
+Rendered records/_record (48.1ms)
+Rendered records/_record (50.8ms)
+Rendered records/_record (50.7ms)
+Rendered records/_record (49.2ms)
+Rendered records/_record (48.2ms)
+Rendered records/_record (45.6ms)
+Rendered records/_record (6.3ms)
+Rendered records/_record (45.1ms)
+Rendered records/_record (6.8ms)
+Rendered records/_record (51.6ms)
+Rendered records/_record (47.8ms)
+Rendered records/_record (48.8ms)
+Rendered records/_record (47.4ms)
+Completed in 1235ms (View: 310, DB: 903) | 200 OK [http://recordapp.local/searches/42?page=5]
+Completed in 1232ms (View: 314, DB: 899) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:55:06) [GET]
+  Parameters: {"id"=>"42", "page"=>"5"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (65.0ms)
+Rendered records/_record (44.6ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (6.4ms)
+Rendered records/_record (42.7ms)
+Rendered records/_record (42.1ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (5.8ms)
+Rendered records/_record (42.3ms)
+Rendered records/_record (7.0ms)
+Rendered records/_record (45.5ms)
+Rendered records/_record (46.0ms)
+Rendered records/_record (42.4ms)
+Rendered records/_record (42.4ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (41.9ms)
+Rendered records/_record (110.9ms)
+Rendered records/_record (42.5ms)
+Rendered records/_record (6.5ms)
+Completed in 1292ms (View: 334, DB: 940) | 200 OK [http://recordapp.local/searches/42?page=5]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:55:10) [GET]
+  Parameters: {"method"=>"post", "id"=>"42", "page"=>"1"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (62.5ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (44.5ms)
+Rendered records/_record (44.8ms)
+Rendered records/_record (44.2ms)
+Rendered records/_record (6.0ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (112.7ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (42.7ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (42.9ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (43.4ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (43.1ms)
+Completed in 1478ms (View: 254, DB: 1204) | 200 OK [http://recordapp.local/searches/42?method=post&page=1]
+
+
+Processing SearchesController#show (for 127.0.0.1 at 2010-01-13 13:55:15) [GET]
+  Parameters: {"method"=>"post", "id"=>"42", "page"=>"6"}
+Rendering template within layouts/application
+Rendering searches/show
+Rendered records/_record (64.1ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (43.3ms)
+Rendered records/_record (44.2ms)
+Rendered records/_record (44.3ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.5ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.7ms)
+Rendered records/_record (42.6ms)
+Rendered records/_record (42.8ms)
+Rendered records/_record (46.2ms)
+Rendered records/_record (43.2ms)
+Rendered records/_record (43.6ms)
+Rendered records/_record (43.8ms)
+Rendered records/_record (43.1ms)
+Rendered records/_record (43.0ms)
+Rendered records/_record (43.2ms)
+Completed in 1135ms (View: 215, DB: 830) | 200 OK [http://recordapp.local/searches/42?method=post&page=6]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:55:30) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 20ms (View: 18, DB: 1) | 200 OK [http://recordapp.local/]

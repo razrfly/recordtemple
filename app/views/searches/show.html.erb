@@ -11,13 +11,13 @@
     <th colspan="3">Actions</th>
   </tr>
 
-<%= render :partial => @search.records %>
+<%= render :partial => @records %>
 
 
 </table>
 
 <p>
-	<%= will_paginate @search.records, :params => { :method => "post" } %>
+	<%= will_paginate @records, :params => { :method => :post } %>
 </p>
 
 

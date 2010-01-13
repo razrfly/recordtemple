@@ -1,11 +1,11 @@
 class Search < ActiveRecord::Base
-  def records
-    @records ||= find_records
+  def records(page)
+    @records ||= find_records(page)
   end
   
   private
   
-  def find_records
+  def find_records(page)
     scope = Record.scoped({})
     #artist
     scope = scope.scoped :joins => "left outer join prices on prices.id = records.price_id",
@@ -29,6 +29,6 @@ class Search < ActiveRecord::Base
     
     #condition
     scope = scope.scoped :conditions => ["'condition' <= ?", condition] unless condition.blank?
-    scope.paginate :per_page => 5, :page => page
+    scope.paginate :per_page => 25, :page => page
   end
 end
