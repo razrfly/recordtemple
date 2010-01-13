@@ -1,5 +1,6 @@
 class Record < ActiveRecord::Base
   belongs_to :price
+  belongs_to :user
   validates_presence_of :price_id, :genre, :condition, :username
 
   has_many :photos, :dependent => :destroy

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100113140716) do
+ActiveRecord::Schema.define(:version => 20100113153424) do
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(:version => 20100113140716) do
 
   create_table "recommendations", :force => true do |t|
     t.string   "email"
+    t.text     "message"
     t.string   "token"
     t.date     "expiration"
     t.integer  "record_id"
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20100113140716) do
     t.datetime "updated_at"
     t.integer  "condition"
     t.string   "username"
+    t.integer  "user_id"
   end
 
   create_table "searches", :force => true do |t|

@@ -1,5 +1,5 @@
 class Recommendation < ActiveRecord::Base
-  attr_accessible :email, :token, :expiration, :record_id
+  attr_accessible :email, :message, :token, :expiration, :record_id
   belongs_to :record
   
   before_create :generate_token, :set_expiration
