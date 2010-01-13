@@ -32144,3 +32144,44 @@ Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:55:30) [GET]
 Rendering template within layouts/application
 Rendering home/index
 Completed in 20ms (View: 18, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 13:56:07) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1290ms (View: 175, DB: 1089) | 200 OK [http://recordapp.local/records]
+
+
+Processing SearchesController#new (for 127.0.0.1 at 2010-01-13 13:56:10) [GET]
+Rendering template within layouts/application
+Rendering searches/new
+Completed in 40ms (View: 24, DB: 1) | 200 OK [http://recordapp.local/searches/new]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 13:56:18) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1228ms (View: 163, DB: 1038) | 200 OK [http://recordapp.local/records]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:56:43) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 19ms (View: 17, DB: 1) | 200 OK [http://recordapp.local/]
+
+
+Processing SessionsController#destroy (for 127.0.0.1 at 2010-01-13 13:56:47) [GET]
+Redirected to http://recordapp.local/
+Completed in 7ms (DB: 0) | 302 Found [http://recordapp.local/logout]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-13 13:56:47) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 7ms (View: 5, DB: 0) | 200 OK [http://recordapp.local/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-01-13 13:56:50) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 11ms (View: 9, DB: 0) | 200 OK [http://recordapp.local/login]

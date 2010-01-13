@@ -7,7 +7,7 @@ class PricesController < ApplicationController
   def auto_complete_for_price_artist
     @prices = Price.find(:all,
         :select => 'DISTINCT(artist)',
-        :conditions => [ 'LOWER(artist) LIKE ?', "#{params[:price][:artist].downcase}%" ],
+        :conditions => [ 'LOWER(artist) LIKE ?', "%#{params[:price][:artist].downcase}%" ],
         :order => 'artist ASC',
         :limit => 8)
       render :partial => 'artists'  
