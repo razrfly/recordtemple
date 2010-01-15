@@ -34077,3 +34077,144 @@ Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 17:32:32) [GET]
 Rendering template within layouts/application
 Rendering records/index
 Completed in 1508ms (View: 189, DB: 1291) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-13 18:22:48) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1780ms (View: 439, DB: 1290) | 200 OK [http://recordapp.local/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-13 18:22:58) [GET]
+  Parameters: {"id"=>"7562"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 101ms (View: 39, DB: 41) | 200 OK [http://recordapp.local/records/7562]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-13 18:23:07) [GET]
+  Parameters: {"record_id"=>"7562"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (4.4ms)
+Completed in 111ms (View: 28, DB: 1) | 200 OK [http://recordapp.local/recommendations/new?record_id=7562]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-15 17:57:29) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 138ms (View: 137, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-01-15 17:57:32) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 14ms (View: 13, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-01-15 17:57:37) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"7jFhCbdQlkSeBykF40fIMp0xZND0VOMyt+z3ISiNoX8=", "login"=>"greggie", "password"=>"sawyer"}
+Failed login for 'greggie' from 127.0.0.1 at Fri Jan 15 16:57:37 UTC 2010
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 147ms (View: 7, DB: 13) | 200 OK [http://localhost/session]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-01-15 17:57:40) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"7jFhCbdQlkSeBykF40fIMp0xZND0VOMyt+z3ISiNoX8=", "login"=>"greggie", "password"=>"holdy1"}
+Redirected to http://localhost:3001/
+Completed in 76ms (DB: 2) | 302 Found [http://localhost/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-15 17:57:40) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 21ms (View: 18, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-15 17:57:42) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 2275ms (View: 289, DB: 1933) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-15 17:57:46) [GET]
+  Parameters: {"id"=>"7569"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 124ms (View: 47, DB: 56) | 200 OK [http://localhost/records/7569]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-15 17:57:47) [GET]
+  Parameters: {"record_id"=>"7569"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (75.5ms)
+Completed in 143ms (View: 121, DB: 1) | 200 OK [http://localhost/recommendations/new?record_id=7569]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-15 17:57:51) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"7jFhCbdQlkSeBykF40fIMp0xZND0VOMyt+z3ISiNoX8=", "recommendation"=>{"record_id"=>"7569", "message"=>"dsfsdf", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Fri, 15 Jan 2010 17:57:51 +0100
+From: greggie@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: You have some hot vinyl and its burning a hole in your inbox!
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Lucky you, greggie has shared a record with you from his vinyl archive stored on the RecordTemple.
+
+Personal Message: dsfsdf
+
+http://localhost:3001/shared/e85c17af2142e605b8769e3294f319078134e012
+Redirected to http://localhost:3001/records
+Completed in 7713ms (DB: 86) | 302 Found [http://localhost/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-15 17:57:59) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1515ms (View: 170, DB: 1250) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-01-15 18:26:49) [GET]
+  Parameters: {"id"=>"7569"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 294ms (View: 150, DB: 40) | 200 OK [http://localhost/records/7569]
+
+
+Processing RecommendationsController#new (for 127.0.0.1 at 2010-01-15 18:26:52) [GET]
+  Parameters: {"record_id"=>"7569"}
+Rendering template within layouts/application
+Rendering recommendations/new
+Rendered recommendations/_form (17.9ms)
+Completed in 145ms (View: 135, DB: 1) | 200 OK [http://localhost/recommendations/new?record_id=7569]
+
+
+Processing RecommendationsController#create (for 127.0.0.1 at 2010-01-15 18:26:55) [POST]
+  Parameters: {"commit"=>"Submit", "authenticity_token"=>"7jFhCbdQlkSeBykF40fIMp0xZND0VOMyt+z3ISiNoX8=", "recommendation"=>{"record_id"=>"7569", "message"=>"sdfdsf", "email"=>"holden.thomas@gmail.com"}}
+Sent mail to holden.thomas@gmail.com
+
+Date: Fri, 15 Jan 2010 18:26:55 +0100
+From: greggie@recordtemple.com
+To: holden.thomas@gmail.com
+Subject: You have some hot vinyl and its burning a hole in your inbox!
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Lucky you, greggie has shared a record with you from his vinyl archive stored on the RecordTemple.
+
+Personal Message: sdfdsf
+
+http://localhost:3001/shared/c1609ea394c4990a81e720ca0eee3ed5b45ea315
+Redirected to http://localhost:3001/records
+Completed in 5456ms (DB: 2) | 302 Found [http://localhost/recommendations]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-15 18:27:01) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1328ms (View: 177, DB: 1124) | 200 OK [http://localhost/records]
