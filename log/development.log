@@ -34218,3 +34218,87 @@ Processing RecordsController#index (for 127.0.0.1 at 2010-01-15 18:27:01) [GET]
 Rendering template within layouts/application
 Rendering records/index
 Completed in 1328ms (View: 177, DB: 1124) | 200 OK [http://localhost/records]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-16 18:56:08) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 153ms (View: 150, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#destroy (for 127.0.0.1 at 2010-01-16 18:56:11) [GET]
+Redirected to http://localhost:3000/
+Completed in 8ms (DB: 0) | 302 Found [http://localhost/logout]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-16 18:56:11) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 7ms (View: 6, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-01-16 18:56:15) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 74ms (View: 13, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-01-16 18:56:19) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"b+UB12uRRIRCohaamwg01O0lzx0LoHX57r60YDUE80Q=", "login"=>"holden", "password"=>"sawyer"}
+Redirected to http://localhost:3000/
+Completed in 18ms (DB: 1) | 302 Found [http://localhost/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-01-16 18:56:19) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 22ms (View: 20, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing PricesController#new (for 127.0.0.1 at 2010-01-16 18:56:21) [GET]
+Rendering template within layouts/application
+Rendering prices/new
+Completed in 555ms (View: 23, DB: 442) | 200 OK [http://localhost/prices/new]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-01-16 18:56:23) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 595ms (View: 173, DB: 393) | 200 OK [http://localhost/records]
+
+
+Processing PricesController#index (for 127.0.0.1 at 2010-01-16 18:56:26) [GET]
+Rendering template within layouts/application
+Rendering prices/index
+Completed in 102ms (View: 18, DB: 48) | 200 OK [http://localhost/prices]
+
+
+Processing PricesController#auto_complete_for_price_artist (for 127.0.0.1 at 2010-01-16 18:56:29) [POST]
+  Parameters: {"price"=>{"artist"=>"nirvana"}, "authenticity_token"=>"b UB12uRRIRCohaamwg01O0lzx0LoHX57r60YDUE80Q="}
+Rendered prices/_artists (4.1ms)
+Completed in 244ms (View: 8, DB: 152) | 200 OK [http://localhost/prices/auto_complete_for_price_artist]
+
+
+Processing PricesController#index (for 127.0.0.1 at 2010-01-16 18:56:31) [GET]
+  Parameters: {"price"=>{"label"=>"", "artist"=>"NIRVANA"}, "num_of_result"=>"10", "authenticity_token"=>"b+UB12uRRIRCohaamwg01O0lzx0LoHX57r60YDUE80Q=", "type"=>"", "detail"=>"", "_"=>"1263664591522", "hidden"=>{"created_by"=>""}}
+Rendering prices/index
+Rendered prices/_price (49.8ms)
+Rendered prices/_price (39.3ms)
+Rendered prices/_price (40.8ms)
+Rendered prices/_price (38.9ms)
+Rendered prices/_price (39.2ms)
+Rendered prices/_price (39.4ms)
+Rendered prices/_price (38.7ms)
+Rendered prices/_price (39.2ms)
+Rendered prices/_price (39.2ms)
+Rendered prices/_price (39.0ms)
+Completed in 706ms (View: 48, DB: 638) | 200 OK [http://localhost/prices?_=1263664591522&price%5Bartist%5D=NIRVANA&price%5Blabel%5D=&type=&detail=&num_of_result=10&hidden%5Bcreated_by%5D=&authenticity_token=b%2BUB12uRRIRCohaamwg01O0lzx0LoHX57r60YDUE80Q%3D]
+
+
+Processing RecordsController#new (for 127.0.0.1 at 2010-01-16 18:56:33) [GET]
+  Parameters: {"id"=>"127441"}
+Rendering template within layouts/application
+Rendering records/new
+Rendered records/_photo (1.9ms)
+Rendered records/_song (1.9ms)
+Completed in 159ms (View: 54, DB: 45) | 200 OK [http://localhost/records/new/127441]
