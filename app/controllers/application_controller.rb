@@ -12,7 +12,9 @@ class ApplicationController < ActionController::Base
   # from your application log (in this case, all fields with names like "password"). 
   # filter_parameter_logging :password
   
-  def self.backlog
+  private
+  
+  def backlog
     request.env["HTTP_X_HEROKU_QUEUE_DEPTH"]
   end
   
