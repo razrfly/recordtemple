@@ -1,5 +1,9 @@
-<h1><%= @labels.size %> Labels</h1>
+<h1><%= page_entries_info @labels %></h1>
 
-<% @labels.each do |label| %>
-  <%= image_tag(label.photos.first.data.url(:thumb)) %>
-<% end %>
+<%= will_paginate @records, :container => false %>
+
+<ul class="thumb">
+	<% @labels.each do |label| %>
+	  <li><%= image_tag(label.photos.first.data.url(:medium)) %></li>
+	<% end %>
+</ul>

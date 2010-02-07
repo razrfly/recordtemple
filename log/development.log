@@ -34302,3 +34302,198 @@ Rendering records/new
 Rendered records/_photo (1.9ms)
 Rendered records/_song (1.9ms)
 Completed in 159ms (View: 54, DB: 45) | 200 OK [http://localhost/records/new/127441]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-02-07 14:55:34) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 56ms (View: 54, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 14:55:36) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 5759ms (View: 1970, DB: 3580) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 14:57:22) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 4059ms (View: 1922, DB: 2107) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 14:57:26) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 2114ms (View: 1837, DB: 181) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 14:58:12) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 2190ms (View: 1842, DB: 258) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:01:51) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 1399ms (View: 1181, DB: 124) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:02:08) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 425ms (View: 352, DB: 52) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:02:08) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 424ms (View: 350, DB: 52) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:02:31) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 414ms (View: 343, DB: 51) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:02:31) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 342ms (View: 270, DB: 52) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:04:08) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 349ms (View: 276, DB: 52) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:05:21) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 336ms (View: 268, DB: 48) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:05:26) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 422ms (View: 276, DB: 51) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:06:50) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 407ms (View: 270, DB: 50) | 200 OK [http://localhost/labels]
+
+
+Processing ApplicationController#index (for 127.0.0.1 at 2010-02-07 15:06:53) [GET]
+
+ActionController::RoutingError (No route matches "/stylesheets/thumb_bg.png" with {:method=>:get}):
+  
+
+Rendering rescues/layout (not_found)
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:08:40) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 347ms (View: 275, DB: 50) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:09:12) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 418ms (View: 279, DB: 49) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:10:29) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 431ms (View: 289, DB: 51) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:10:30) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 432ms (View: 356, DB: 53) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:15:09) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 605ms (View: 461, DB: 121) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:16:03) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 451ms (View: 374, DB: 55) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:16:03) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 371ms (View: 292, DB: 56) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:17:34) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 361ms (View: 285, DB: 54) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:18:07) [GET]
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 358ms (View: 287, DB: 51) | 200 OK [http://localhost/labels]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:18:19) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 345ms (View: 275, DB: 50) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:27:08) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 479ms (View: 335, DB: 53) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:27:09) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 429ms (View: 355, DB: 54) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:27:59) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 412ms (View: 343, DB: 49) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:28:29) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 429ms (View: 355, DB: 52) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:28:30) [GET]
+  Parameters: {"page"=>"2"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 367ms (View: 293, DB: 54) | 200 OK [http://localhost/labels?page=2]
+
+
+Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:28:34) [GET]
+  Parameters: {"page"=>"3"}
+Rendering template within layouts/application
+Rendering labels/index
+Completed in 354ms (View: 281, DB: 53) | 200 OK [http://localhost/labels?page=3]
