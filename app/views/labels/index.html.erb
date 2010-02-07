@@ -7,3 +7,5 @@
 	  <li><%= image_tag(label.photos.first.data.url(:medium)) %></li>
 	<% end %>
 </ul>
+
+<%= will_paginate @records, :container => false %>
