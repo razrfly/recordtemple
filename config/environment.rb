@@ -23,20 +23,13 @@ Rails::Initializer.run do |config|
   # Specify gems that this application depends on. 
   # They can then be installed with "rake gems:install" on new installations.
   # You have to specify the :lib option for libraries, where the Gem name (sqlite3-ruby) differs from the file itself (sqlite3)
-  # config.gem "bj"
-  # config.gem "hpricot", :version => '0.6', :source => "http://code.whytheluckystiff.net"
-  # config.gem "sqlite3-ruby", :lib => "sqlite3"
-  # config.gem "aws-s3", :lib => "aws/s3"
+
   config.gem "aws-s3", :lib => "aws/s3"
   config.gem "right_aws", :version => "1.9.0"
   config.gem "paperclip"
-  #config.gem 'mislav-will_paginate', :version => '~> 2.3.11', :lib => 'will_paginate', :source => 'http://gems.github.com'
   config.gem "will_paginate"
   config.gem "jrails"
-  #config.gem "googlecharts"
-  #config.gem "iconv"
   config.gem "ruby-mp3info", :lib => "mp3info"
-  #config.gem "yaml_db"
   config.gem "heroku"
 
   # Only load the plugins named here, in the order given. By default, all plugins 
