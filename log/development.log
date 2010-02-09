@@ -34497,3 +34497,61 @@ Processing LabelsController#index (for 127.0.0.1 at 2010-02-07 15:28:34) [GET]
 Rendering template within layouts/application
 Rendering labels/index
 Completed in 354ms (View: 281, DB: 53) | 200 OK [http://localhost/labels?page=3]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-02-09 11:25:59) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 37ms (View: 35, DB: 0) | 200 OK [http://localhost/]
+
+
+Processing SessionsController#new (for 127.0.0.1 at 2010-02-09 11:26:02) [GET]
+Rendering template within layouts/application
+Rendering sessions/new
+Completed in 16ms (View: 14, DB: 0) | 200 OK [http://localhost/login]
+
+
+Processing SessionsController#create (for 127.0.0.1 at 2010-02-09 11:26:07) [POST]
+  Parameters: {"commit"=>"Log in", "authenticity_token"=>"8+jlz2DwdN1WAiELy+4eqxlB29fyTjs4JJIeVe9xSQo=", "login"=>"greggie", "password"=>"holdy1"}
+Redirected to http://localhost:3001/
+Completed in 33ms (DB: 2) | 302 Found [http://localhost/session]
+
+
+Processing HomeController#index (for 127.0.0.1 at 2010-02-09 11:26:08) [GET]
+Rendering template within layouts/application
+Rendering home/index
+Completed in 21ms (View: 19, DB: 1) | 200 OK [http://localhost/]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-02-09 11:26:09) [GET]
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1601ms (View: 289, DB: 1212) | 200 OK [http://localhost/records]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-02-09 11:26:16) [GET]
+  Parameters: {"page"=>"4"}
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1170ms (View: 174, DB: 965) | 200 OK [http://localhost/records?page=4]
+
+
+Processing RecordsController#index (for 127.0.0.1 at 2010-02-09 11:26:19) [GET]
+  Parameters: {"page"=>"7"}
+Rendering template within layouts/application
+Rendering records/index
+Completed in 1553ms (View: 188, DB: 1336) | 200 OK [http://localhost/records?page=7]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-02-09 11:26:23) [GET]
+  Parameters: {"id"=>"41"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 205ms (View: 74, DB: 40) | 200 OK [http://localhost/records/41]
+
+
+Processing RecordsController#show (for 127.0.0.1 at 2010-02-09 11:26:39) [GET]
+  Parameters: {"id"=>"7907"}
+Rendering template within layouts/application
+Rendering records/show
+Completed in 176ms (View: 116, DB: 40) | 200 OK [http://localhost/records/7907]

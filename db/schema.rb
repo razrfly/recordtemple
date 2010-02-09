@@ -9,25 +9,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100113153424) do
+ActiveRecord::Schema.define(:version => 20100209101406) do
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
     t.integer  "high"
     t.integer  "price_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "mugshots", :force => true do |t|
-    t.integer  "record_id"
-    t.integer  "parent_id"
-    t.string   "content_type"
-    t.string   "filename"
-    t.string   "thumbnail"
-    t.integer  "size"
-    t.integer  "width"
-    t.integer  "height"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
