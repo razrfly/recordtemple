@@ -18,7 +18,7 @@ class Photo < ActiveRecord::Base
     #:path => "images/:class/:id_:timestamp.:style.:extension",
     :path => "images/records/:record_id/:style/:basename.:extension",
     
-    :styles => { :thumb => "60x60#", :small => "200x200>", :medium => "400x300>", :large => "800x600>" },
+    :styles => { :thumb => "60x60#", :small => "200x200#", :medium => "400x400#", :large => "800x800#" },
     
     :default_style => :original,
     :default_url => 'http://recordtemple.com.s3.amazonaws.com/images/records/m1.png',
