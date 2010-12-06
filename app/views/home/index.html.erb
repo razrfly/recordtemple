@@ -1,5 +1,5 @@
-<% if logged_in? %>
-<h1><%=h current_user.login.capitalize %>'s Record Command Center</h1>
+<% if user_signed_in? %>
+<h1><%= current_user.nickname.capitalize %>'s Record Command Center</h1>
 <h3>Where do you want to go today?</h3>
 
 <ul>

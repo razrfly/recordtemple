@@ -22,40 +22,41 @@
 
 <p>
   <b>Artist:</b>
-  <%=h @record.price.artist %>
+  <%= @record.price.artist %>
 </p>
 
 <p>
   <b>Label:</b>
-  <%=h @record.price.label %>
+  <%= @record.price.label %>
 </p>
 
 <p>
   <b>Date:</b>
-  <%=h @record.price.date_range %>
+  <%= @record.price.date_range %>
 </p>
 
 <p>
   <b>Format:</b>
-  <%=h @record.price.format %>
+  <%= @record.price.format %>
 </p>
 
-<% @record.songs.each do |song| %>
+<% unless @record.songs.blank? %>
 
-	<% if song %>
-		<%= mp3_player song.mp3.url %><%= link_to 'Download', song.mp3.url %><br />
-	<% end %>
+		<%#= mp3_player song.mp3.url %><%#= link_to 'Download', song.mp3.url %><br />
+	
+	<%= render :partial => 'jplayer' %>
+
 
 <% end %>
 
 <p>
   <b>Detail:</b>
-  <%=h @record.price.detail %>
+  <%= @record.price.detail %>
 </p>
 
 <p>
   <b>Footnote:</b>
-  <%=h @record.price.footnote %>
+  <%= @record.price.footnote %>
 </p>
 
 <p>
@@ -70,22 +71,22 @@
 
 <p>
   <b>Price Guide List Price:</b>
-  $<%=h @record.price.bubbles.last.low %>-<%=h @record.price.bubbles.last.high %>
+  $<%= @record.price.bubbles.last.low %>-<%= @record.price.bubbles.last.high %>
 </p>
 
 <p>
   <b>My Value:</b>
-  $<%=h @record.value %>
+  $<%= @record.value %>
 </p>
 
 <p>
   <b>His Value:</b>
-  $<%=h @record.cyberguide %>
+  $<%= @record.cyberguide %>
 </p>
 
 <p>
   <b>Comment:</b>
-  <%=h @record.comment %>
+  <%= @record.comment %>
 </p>
 
 

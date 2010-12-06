@@ -1,82 +1,47 @@
 class PricesController < ApplicationController
   
-  before_filter :login_required
+  before_filter :authenticate_user!
   
-  protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]
+  #protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]
   
-  def auto_complete_for_price_artist
-    @prices = Price.find(:all,
-        :select => 'DISTINCT(artist)',
-        :conditions => [ 'LOWER(artist) LIKE ?', "%#{params[:price][:artist].downcase}%" ],
-        :order => 'artist ASC',
-        :limit => 8)
-      render :partial => 'artists'  
-  end
-  def auto_complete_for_price_label
-    @prices = Price.find(:all,
-        :select => 'DISTINCT(label)',
-        :conditions => [ 'LOWER(label) LIKE ?', "#{params[:price][:label].downcase}%" ],
-        :order => 'label ASC',
-        :limit => 8)
-      render :partial => 'labels'
-  end
+  #def auto_complete_for_price_artist
+  #  @prices = Price.find(:all,
+  #      :select => 'DISTINCT(artist)',
+  #      :conditions => [ 'LOWER(artist) LIKE ?', "%#{params[:price][:artist].downcase}%" ],
+  #      :order => 'artist ASC',
+  #      :limit => 8)
+  #    render :partial => 'artists'  
+  #end
+  #def auto_complete_for_price_label
+  #  @prices = Price.find(:all,
+  #      :select => 'DISTINCT(label)',
+  #      :conditions => [ 'LOWER(label) LIKE ?', "#{params[:price][:label].downcase}%" ],
+  #      :order => 'label ASC',
+  #      :limit => 8)
+  #    render :partial => 'labels'
+  #end
 
   def index
-    if params[:price] and params[:id] = "" and params[:hidden][:created_by] == ""
-      @prices = Price.find(:all, :conditions => ['LOWER(artist) LIKE ? and LOWER(label) LIKE ? and format LIKE ? and LOWER(detail) LIKE ?',
-         "%#{params[:price][:artist].downcase unless nil}%", "%#{params[:price][:label].downcase unless nil}%", "%#{params[:type]}%", "%#{params[:detail].downcase unless nil}%"],
-         :limit => "#{params[:num_of_result]}")
-      @prices_raw = Price.count(:id, :conditions => ['LOWER(artist) LIKE ? and LOWER(label) LIKE ? and format LIKE ? and LOWER(detail) LIKE ?',
-          "%#{params[:price][:artist].downcase unless nil}%", "%#{params[:price][:label].downcase unless nil}%", "%#{params[:type]}%", "%#{params[:detail].downcase unless nil}%"])      
-      respond_to do |format|
-        format.html
-        format.js
-      end
-    #elsif params[:id]
-     # @prices = Price.count(params[:id], :limit => '10')
-      #@prices_raw = Price.find(params[:id])
-    elsif params[:hidden]  
-      @prices = Price.find(:all, :conditions => ['created_by = ?', params[:hidden][:created_by] ])
-      @prices_raw = Price.count(:all, :conditions => ['created_by = ?', params[:hidden][:created_by] ])
-    else
-      #@prices = Price.find(:all)
-      @prices = Price.find(:all, :limit => '10')
-      @prices_raw = Price.count
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @records }
-      end
+    if params[:artist]
+      @prices = Price.where("LOWER(artist) LIKE ? AND LOWER(label) LIKE ? AND LOWER(format) LIKE ?", "#{params[:artist].downcase}%", "#{params[:label].downcase}%", "%#{params[:media_type].downcase}%").paginate :page => params[:page], :per_page => params[:per_page]
+      #@prices = Price.where("LOWER(artist) LIKE ? AND LOWER(label) LIKE ?", "#{params[:artist].downcase}%", "#{params[:label].downcase}%")
     end
   end
+  
   def show
     @price = Price.find(params[:id])
 
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @price }
-    end
   end
   
-  # GET /prices/new
-  # GET /prices/new.xml
   def new
     @price = Price.new
-    #@bubble = Bubble.new
 
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @price }
-    end
   end
 
-  # GET /records/1/edit
   def edit
     @price = Price.find(params[:id])
-    #@record.mugshots.build
   end
 
-  # POST /prices
-  # POST /prices.xml
   def create
     @price = Price.new(params[:price])
     @bubble = @price.bubbles.build(params[:bubble])
@@ -93,8 +58,6 @@ class PricesController < ApplicationController
     end
   end
   
-  # PUT /records/1
-  # PUT /records/1.xml
   def update
     @price = Price.find(params[:id])
 
@@ -111,8 +74,6 @@ class PricesController < ApplicationController
     end
   end  
   
-  # DELETE /prices/1
-  # DELETE /prices/1.xml
   def destroy
     @price = Price.find(params[:id])
     @price.destroy

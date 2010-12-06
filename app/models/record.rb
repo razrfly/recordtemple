@@ -1,7 +1,7 @@
 class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
-  validates_presence_of :price_id, :genre, :condition, :username
+  validates_presence_of :price_id, :genre, :condition, :user
 
   has_many :photos, :dependent => :destroy
   has_many :songs, :dependent => :destroy
@@ -15,7 +15,7 @@ class Record < ActiveRecord::Base
     unless search.nil? then search = search.downcase end
     paginate :per_page => 20, :page => page,
                               :joins => :price,
-                              :conditions => [ 'LOWER(artist) like ? and username = ?', "%#{search}%", user ],
+                              :conditions => [ 'LOWER(artist) like ? and user_id = ?', "%#{search}%", user.id ],
                               :order => 'updated_at DESC'
   end
   

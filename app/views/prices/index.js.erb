@@ -1,0 +1,6 @@
+<% unless @prices.blank? %>
+	$("#reqs").html("<%= escape_javascript(render :partial => 'prices') %>");
+	$("#reqs_count").html("<%= page_entries_info @prices %>");
+<% else %>
+	$("#reqs").html("Wtf?");
+<% end %>

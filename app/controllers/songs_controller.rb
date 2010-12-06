@@ -1,4 +1,5 @@
 class SongsController < ApplicationController
+  
   def destroy
     @song = Song.find(params[:id])
     @song.destroy

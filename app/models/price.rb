@@ -4,6 +4,9 @@ class Price < ActiveRecord::Base
   validates_presence_of :artist, :label, :format
   #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]
 
+  cattr_reader :per_page
+  @@per_page = 50
+
   def price_range
     [bubbles.last.low, bubbles.last.high].join('-')
     #[pricelow, pricehigh].join('-')

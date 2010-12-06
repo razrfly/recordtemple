@@ -1,0 +1,18 @@
+<% for price in @prices %>
+	<div id="price">
+		<ul>
+			<li class="inline"><%= price.artist %></li>
+			<li class="inline"><%= price.label %></li>
+			<li class="inline"><%= price.format %></li>
+		    <li class="inline"><%= price.detail %></li>
+		    <li class="inline"><%= price.footnote %></li>
+		    <li class="inline">$<%= price.price_range %></li>
+		    <li class="inline"><%= price.date_range %></li>
+			<li class="inline"><%= link_to "Add to Collection", :controller => 'records', :action => 'new', :id => price.id %></li>
+			<li class="inline"><%= link_to "Details", price %></li>
+		</ul>
+	</div>
+	
+<% end %>
+
+<%= will_paginate @prices %>
