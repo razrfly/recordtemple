@@ -1,19 +1,17 @@
 class RecordsController < ApplicationController
-  # GET /records
-  # GET /records.xml
-  
-before_filter :login_required
+
+before_filter :authenticate_user!
 
   def index
       #@records = Record.all
-      @records = Record.search(params[:artist], params[:page], current_user.login)
-      #calculations
-      #@myvalue = Record.values(params[:artist], current_user.login)
-      @myvalue = Record.sum('value', :conditions => [ 'username = ?', current_user.login ])
-      #@hisvalue = Record.osbourne(params[:artist], current_user.login)
-      @hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'username = ?', current_user.login ])
-      #@chart_months = Record.chart_months
-      #@chart_months_data = Record.chart_months_data
+      #@records = Record.search(params[:artist], params[:page], current_user)
+      ###@myvalue = Record.sum('value', :conditions => [ 'username = ?', current_user.nickname ])
+      ####@hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'username = ?', current_user.login ])
+      if params[:artist]
+        @records = Record.search(params[:artist], params[:page], current_user)
+      else
+        @records = Record.search(params[:artist], params[:page], current_user)
+      end
       
       respond_to do |format|
         format.html # index.html.erb
@@ -22,8 +20,6 @@ before_filter :login_required
 
   end
 
-  # GET /records/1
-  # GET /records/1.xml
   def show
     @record = Record.find(params[:id])
 
@@ -33,35 +29,20 @@ before_filter :login_required
     end
   end
 
-  # GET /records/new
-  # GET /records/new.xml
   def new
     @record = Record.new
 
     if params[:id]
       @price = Price.find(params[:id])
     end
-    respond_to do |format|
-      format.html # new.html.erb
-      format.xml  { render :xml => @record }
-    end
   end
 
-  # GET /records/1/edit
   def edit
     @record = Record.find(params[:id])
-    #@record.photos.build
   end
 
-  # POST /records
-  # POST /records.xml
   def create
     @record = Record.new(params[:record])
-
-    #@mugshot = Mugshot.new(:uploaded_data => params[:mugshot_file])
-    #@mugshot.save 
-    
-    #@service = RecordService.new(@record, @mugshot) 
 
     respond_to do |format|
       if @record.save
@@ -75,14 +56,8 @@ before_filter :login_required
     end
   end
 
-
-  # PUT /records/1
-  # PUT /records/1.xml
   def update
     @record = Record.find(params[:id])
-    #@mugshot = @record.mugshot 
-    #@record.mugshots.build
-    #@service = RecordService.new(@record, @mugshot) 
     
 
     respond_to do |format|
@@ -97,12 +72,9 @@ before_filter :login_required
     end
   end
 
-  # DELETE /records/1
-  # DELETE /records/1.xml
   def destroy
     @record = Record.find(params[:id])
     @record.destroy
-
 
     respond_to do |format|
       format.html { redirect_to(records_url) }

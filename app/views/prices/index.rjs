@@ -1,3 +1,0 @@
-page.replace_html :reqs, :partial => "price", :collection => @prices
-page.replace_html :reqs_count, "#{@prices_raw} records found"
-page.hide 'busy'

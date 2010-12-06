@@ -1,6 +1,8 @@
 class Song < ActiveRecord::Base
   belongs_to :record
   
+  attr_accessor :wow
+  
   Paperclip.interpolates :record_id  do |attachment, style|
     attachment.instance.record_id
   end
@@ -13,11 +15,15 @@ class Song < ActiveRecord::Base
     :url => ':s3_alias_url',
     :path => "music/:record_id/:style/:basename.:extension"
     
-    validates_attachment_presence :mp3
+  validates_attachment_presence :mp3
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
-    validates_attachment_size :mp3, :less_than => 10.megabytes
+  validates_attachment_size :mp3, :less_than => 10.megabytes
     
-    validate :must_have_valid_artist_tag
+  validate :must_have_valid_artist_tag
+  
+  def wow
+    "sdfsdf"
+  end
 
     protected
 

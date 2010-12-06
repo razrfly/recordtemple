@@ -1,0 +1,14 @@
+embed_assets: on
+
+javascripts:
+  common:
+    - public/javascripts/common/jquery.min.js
+    - public/javascripts/common/*.js
+  helpers:
+    - public/javascripts/helpers/*.js
+
+stylesheets:
+  common:
+    - public/stylesheets/common/*.css
+  helpers:
+    - public/stylesheets/helpers/*.css
