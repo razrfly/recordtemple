@@ -16,15 +16,14 @@ $(document).ready(function(){
 	var jpPlayTime = $("#jplayer_play_time");
 	var jpTotalTime = $("#jplayer_total_time");
 	
-	//$("#jpId").jPlayer( {
-	//  swfPath: "/flash"
-	//});
 
 	$("#jquery_jplayer").jPlayer({
 		ready: function() {
+			//swfPath: "/flash/";
 			displayPlayList();
 			playListInit(false); // Parameter is a boolean for autoplay.
-		}
+		},
+		oggSupport: false
 	})
 	.jPlayer("onProgressChange", function(loadPercent, playedPercentRelative, playedPercentAbsolute, playedTime, totalTime) {
 		jpPlayTime.text($.jPlayer.convertTime(playedTime));
