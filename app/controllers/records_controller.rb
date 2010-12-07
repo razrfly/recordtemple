@@ -5,8 +5,8 @@ before_filter :authenticate_user!
   def index
       #@records = Record.all
       #@records = Record.search(params[:artist], params[:page], current_user)
-      ###@myvalue = Record.sum('value', :conditions => [ 'username = ?', current_user.nickname ])
-      ####@hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'username = ?', current_user.login ])
+      @myvalue = Record.sum('value', :conditions => [ 'user_id = ?', current_user.id ])
+      @hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'user_id = ?', current_user.id ])
       if params[:artist]
         @records = Record.search(params[:artist], params[:page], current_user)
       else
