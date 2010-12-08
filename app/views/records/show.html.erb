@@ -32,7 +32,11 @@
 
 <p>
   <b>Date:</b>
-  <%= @record.price.date_range %>
+  <% unless @record.price.date_range == 0 %>
+	<%= @record.price.date_range %>
+  <% else %>
+	Unknown
+  <% end %>
 </p>
 
 <p>

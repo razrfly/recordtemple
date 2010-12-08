@@ -40,7 +40,8 @@
 	
 	<% @record.songs.each do |song| %>
 		<% unless song.nil? %>
-			<%= render :partial => 'jplayer' %>
+			<%#= render :partial => 'jplayer' %>
+			<%= song.mp3_file_name %>
 			<%= link_to 'Destroy', song, :confirm => 'Are you sure?', :method => :delete %><br>
 			<br />
 		<% end %>

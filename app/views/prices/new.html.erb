@@ -7,7 +7,7 @@
 
   <p>
     <%= f.label :artist %><br />
-    <%= text_field_with_auto_complete :price, :artist, { :autocomplete => "off", :size => "30" }, :method => :post %>
+    <%= f.text_field :artist %>
   </p>
   <p>
     <%= f.label :format %><br />
@@ -15,7 +15,7 @@
   </p>
   <p>
     <%= f.label :label %><br />
-    <%= text_field_with_auto_complete :price, :label, { :autocomplete => "off", :size => "30" }, :method => :post %>
+    <%= f.text_field :label %>
   </p>
   <p>
     <%= f.label :detail %><br />
@@ -36,7 +36,7 @@
 
 
 
-<%= f.hidden_field :created_by, :value => current_user.login %>
+<%#= f.hidden_field :created_by, :value => current_user.login %>
 <%= f.submit "Create" %>
 
 
