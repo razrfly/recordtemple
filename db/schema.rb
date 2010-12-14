@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101204200022) do
+ActiveRecord::Schema.define(:version => 20101212204430) do
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 20101204200022) do
     t.string   "mp3_content_type"
     t.integer  "mp3_file_size"
     t.datetime "mp3_updated_at"
+    t.string   "title"
   end
 
   create_table "users", :force => true do |t|
