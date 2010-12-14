@@ -1,7 +1,7 @@
 class Song < ActiveRecord::Base
   belongs_to :record
   
-  attr_accessor :wow
+  #after_save :create_metadata
   
   Paperclip.interpolates :record_id  do |attachment, style|
     attachment.instance.record_id
@@ -20,10 +20,6 @@ class Song < ActiveRecord::Base
   validates_attachment_size :mp3, :less_than => 10.megabytes
     
   validate :must_have_valid_artist_tag
-  
-  def wow
-    "sdfsdf"
-  end
 
     protected
 
@@ -34,4 +30,17 @@ class Song < ActiveRecord::Base
     rescue Mp3InfoError => e
       errors.add(:mp3, "unable to process file (#{e.message})")
     end
+    
+    def create_metadata
+      Mp3Info.open(mp3.to_file.path) do |mp3info|
+        title = mp3info.tag.title
+        #open s3
+        track = AWS::S3::S3Object.find(mp3.path(:original), mp3.bucket_name)
+        mp3info.tag do |k,v|
+          track.metadata["#{k}"] = "#{v}"
+          track.store
+        end
+      end
+    end
+
 end
