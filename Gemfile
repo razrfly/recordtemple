@@ -16,6 +16,7 @@ gem 'acts_as_tree'
 gem 'jammit'
 gem 'simple_form'
 gem 'ruby-mp3info'
+gem 'ken'
 #gem 'id3lib-ruby'
 #gem 'ruby-taglib2'
 

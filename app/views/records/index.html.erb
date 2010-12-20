@@ -33,7 +33,7 @@
 
 <% for record in @records %>
   <tr>
-	<th scope="row" abbr="Arist" class="<%= cycle("spec", "specalt") -%>"><%= link_to record.price.artist, records_path + '?artist='+ record.price.artist %></td>
+	<th scope="row" abbr="Arist" class="<%= cycle("spec", "specalt") -%>"><%= link_to record.artist.name, records_path + '?artist='+ record.artist.name %></td>
 	<td class="<%=current_cycle%>"><%=h record.price.label %></td>
     <td class="<%=current_cycle%>"><%=h record.price.format %></td>
     <td class="<%=current_cycle%>"><%=h record.price.detail %> <%=h record.price.footnote %></td>
