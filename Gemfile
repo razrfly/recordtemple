@@ -27,3 +27,4 @@ group :development do
   gem 'nifty-generators'
   gem 'jquery-rails'
 end
+gem "mocha", :group => :test
