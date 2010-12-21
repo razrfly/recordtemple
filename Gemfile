@@ -17,7 +17,6 @@ gem 'jammit'
 gem 'simple_form'
 gem 'ruby-mp3info'
 gem 'ken'
-gem 'htmlentities'
 #gem 'id3lib-ruby'
 #gem 'ruby-taglib2'
 

@@ -28,7 +28,7 @@
 	<% if @record.artist.freebase_id.blank? %>
 		(<%= link_to "Add me", edit_artist_path(@record.artist) %>)
 	<% else %>
-		Stuff
+		(<%= link_to "Edit me", edit_artist_path(@record.artist) %>)
 	<% end %>
 </p>
 
