@@ -1,4 +1,6 @@
 Recordapp::Application.routes.draw do
+  resources :artists
+
   #get "statistics/index"
   match 'stats' => 'statistics#index'
 
