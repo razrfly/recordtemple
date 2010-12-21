@@ -1,4 +1,5 @@
 namespace :fix do
+
     
   desc "Populate new artists table"
   task :artists => :environment do
@@ -52,6 +53,47 @@ namespace :fix do
     end
   end
   
+  desc "Populate new artists table"
+  task :freebase => :environment do
+    Artist.where("freebase_tried IS NULL").order("id DESC").each do |record|
+      coded = record.uncomma.gsub('&','and').gsub('#8211;','').gsub('#258;','').gsub('#','').gsub(';','')
+      puts coded
+      find = Artist.find_freebase(coded)
+      #puts find
+      if find and find.first
+        puts find.first["id"]
+        record.freebase_id = find.first["id"]
+        
+      end
+      record.freebase_tried = TRUE
+      record.save(:validate => FALSE)
+      #record.artist.freebase_id = 
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :freebase2 => :environment do
+    Record.select("DISTINCT artist_id").order("artist_id ASC").each do |record|
+      if record.artist.freebase_id.blank? and record.artist.freebase_tried != TRUE
+        coded = record.artist.uncomma.gsub('&','and').gsub('#8211;','')
+        puts coded
+        find = Artist.find_freebase(coded)
+        
+        theartist = Artist.find(record.artist)
+        if find and find.first
+          puts find.first["id"]
+          
+          theartist.freebase_id = find.first["id"]
+          
+          
+        end
+        theartist.freebase_tried = TRUE
+        theartist.save
+      end
+      
+      #record.artist.freebase_id = 
+    end
+  end  
   
     
 end
