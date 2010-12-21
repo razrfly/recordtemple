@@ -22,8 +22,8 @@
 </p>
 <p>
   <b>Condition & Genre:</b><br>
-	<%=f.select(:condition, @record.get_condition) %>
-    <%=f.select(:genre, @record.get_genre) %>
+	<%= f.select(:condition, @record.get_condition) %>
+    <%= f.select(:genre_id, Genre.all.collect {|p| [ p.name, p.id ] }, { :prompt => true }) %>
 </p>
 
 <p><br><br>
