@@ -40,7 +40,7 @@
 <%= button_to "Make it mine!", :controller => 'records', :action => 'new', :id => @price.id %><br>
 <%= link_to "Edit", edit_price_path(@price) %> | 
 
-<% if current_user.login == "holden" or @price.created_by == current_user.login %><%= link_to 'Destroy', :price, :confirm => 'Are you sure?', :method => :delete %> | <% end %>
+<%# if @price.created_by == current_user.login %><%#= link_to 'Destroy', :price, :confirm => 'Are you sure?', :method => :delete %> | <%# end %>
 </p>
 
 <%= link_to 'Back', prices_path %>
