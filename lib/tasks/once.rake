@@ -22,6 +22,15 @@ namespace :fix do
       puts record.price.artist
     end
   end
+  
+  desc "Populate new artists table"
+  task :genre => :environment do
+    ["Rock 'n' Roll", "Surf", "Rockabilly", "Doo Wop", "Instrumental", "R&B", "Rock", "Country", "Easy Listening", "Jazz", "Northern Soul", "Pop", "Psychedelic/Garage", "Soul", "Soundtrack", "X-mas"].each do |genre|
+      c = Genre.create(:name => genre)
+    end
+  end
+  
+  
     
 end
 
