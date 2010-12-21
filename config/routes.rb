@@ -1,4 +1,7 @@
 Recordapp::Application.routes.draw do
+  #get "statistics/index"
+  match 'stats' => 'statistics#index'
+
   devise_for :users
 
   # The priority is based upon order of creation:

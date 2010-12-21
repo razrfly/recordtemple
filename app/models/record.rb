@@ -2,6 +2,7 @@ class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
   belongs_to :artist
+  belongs_to :genre
   validates_presence_of :price_id, :genre, :condition, :user, :artist
 
   has_many :photos, :dependent => :destroy
