@@ -14,4 +14,13 @@ class Artist < ActiveRecord::Base
     }])
     
   end
+  
+  def uncomma
+    if name.match(',')
+      new_name = name.split(',')
+      "#{new_name.last.lstrip} #{new_name.first}" 
+    else
+      name
+    end
+  end
 end
