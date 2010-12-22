@@ -16,11 +16,10 @@ $(function() {
 
 <%= form_for @artist do |f| %>
   <%= f.error_messages %>
+
   <p>
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </p>
-  <p>
+	
+	<h2><%= @artist.name %></h2>
 	
     <%= f.label :freebase_id %><br />
 	<%= text_field_tag :freebase %>
