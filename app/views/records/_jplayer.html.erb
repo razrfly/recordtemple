@@ -19,11 +19,11 @@ $(document).ready(function(){
 
 	$("#jquery_jplayer").jPlayer({
 		ready: function() {
-			//swfPath: "/flash/";
 			displayPlayList();
 			playListInit(false); // Parameter is a boolean for autoplay.
 		},
-		oggSupport: false
+		oggSupport: false,
+		swfPath: "/flash"
 	})
 	.jPlayer("onProgressChange", function(loadPercent, playedPercentRelative, playedPercentAbsolute, playedTime, totalTime) {
 		jpPlayTime.text($.jPlayer.convertTime(playedTime));
