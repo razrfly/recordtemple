@@ -19,7 +19,7 @@ $(document).ready(function() {
       },
       tooltip: {
          formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.y;
+            return '<b>'+ this.point.name +'</b>: '+ this.point.number + '<b>Value</b>: '+ this.point.sum;
          }
       },
       plotOptions: {
@@ -31,7 +31,7 @@ $(document).ready(function() {
 				color: '#000000',
 				connectorColor: '#000000',
 				formatter: function() {
-						return '<b>'+ this.point.name +'</b>: $'+ this.y;
+						return '<b>'+ this.point.name +'</b>: '+ this.y;
 				}
             },
 			point: {
@@ -54,7 +54,12 @@ $(document).ready(function() {
 				id : <%= item.genre_id %>,
 				name: '<%= escape_javascript(item.genre.name.html_safe) %>',
 				sum: <%= item.sum.to_f %>,
-				y: <%= item.count.to_f %>
+				number: <%= item.count.to_f %>,
+				y: <% if params[:order] == "size" %>
+					<%= item.count.to_f %>
+				  <% else %>
+					<%= item.sum.to_f %>
+				  <% end %>
 			}<% unless item.genre_id == @stats.last.genre_id %>, <% end %>
 		 <% end %>
   		]
