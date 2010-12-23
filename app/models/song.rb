@@ -31,16 +31,16 @@ class Song < ActiveRecord::Base
       errors.add(:mp3, "unable to process file (#{e.message})")
     end
     
-    def create_metadata
-      Mp3Info.open(mp3.to_file.path) do |mp3info|
-        title = mp3info.tag.title
-        #open s3
-        track = AWS::S3::S3Object.find(mp3.path(:original), mp3.bucket_name)
-        mp3info.tag do |k,v|
-          track.metadata["#{k}"] = "#{v}"
-          track.store
-        end
-      end
-    end
+    #def create_metadata
+    #  Mp3Info.open(mp3.to_file.path) do |mp3info|
+    #    title = mp3info.tag.title
+    #    #open s3
+    #    track = AWS::S3::S3Object.find(mp3.path(:original), mp3.bucket_name)
+    #    mp3info.tag do |k,v|
+    #      track.metadata["#{k}"] = "#{v}"
+    #      track.store
+    #    end
+    #  end
+    #end
 
 end
