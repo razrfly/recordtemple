@@ -22,17 +22,17 @@ class Song < ActiveRecord::Base
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
   validates_attachment_size :mp3, :less_than => 10.megabytes
     
-  validate :must_have_valid_artist_tag
+  #validate :must_have_valid_artist_tag
 
-    protected
-
-    def must_have_valid_artist_tag
-      Mp3Info.open(mp3.to_file.path) do |mp3info|
-        errors.add(:mp3, 'must not be a Michael Bolton song (what are you thinking?!)') if mp3info.tag.artist == 'Michael Bolton'
-      end if mp3?
-    rescue Mp3InfoError => e
-      errors.add(:mp3, "unable to process file (#{e.message})")
-    end
+    #protected
+    #
+    #def must_have_valid_artist_tag
+    #  Mp3Info.open(mp3.to_file.path) do |mp3info|
+    #    errors.add(:mp3, 'must not be a Michael Bolton song (what are you thinking?!)') if mp3info.tag.artist == 'Michael Bolton'
+    #  end if mp3?
+    #rescue Mp3InfoError => e
+    #  errors.add(:mp3, "unable to process file (#{e.message})")
+    #end
     
     #def create_metadata
     #  Mp3Info.open(mp3.to_file.path) do |mp3info|
