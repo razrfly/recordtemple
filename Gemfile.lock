@@ -69,6 +69,10 @@ GEM
     mocha (0.9.10)
       rake
     nifty-generators (0.4.2)
+    panda (1.2.2)
+      json (>= 1.2)
+      rest-client (>= 1.4)
+      ruby-hmac (>= 0.3.2)
     paperclip (2.3.6)
       activerecord
       activesupport
@@ -93,6 +97,9 @@ GEM
       rake (>= 0.8.4)
       thor (~> 0.14.0)
     rake (0.8.7)
+    rest-client (1.6.1)
+      mime-types (>= 1.16)
+    ruby-hmac (0.4.0)
     ruby-mp3info (0.6.13)
     simple_form (1.2.2)
     thin (1.2.7)
@@ -122,6 +129,7 @@ DEPENDENCIES
   ken
   mocha
   nifty-generators
+  panda
   paperclip
   pg
   rails (= 3.0.1)
