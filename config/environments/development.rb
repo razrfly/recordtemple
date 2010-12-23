@@ -32,6 +32,8 @@ Recordapp::Application.configure do
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
   
+  ENV['PANDASTREAM_URL'] = 'http://a6b1c888-0ec5-11e0-a310-12313b01e082:VYkZil+4ln2nTEPe13dv8brGN1UeqE64lhKEZSv3@api.pandastream.com:80/82e61aeb35b1db340243c40dab8ab998'
+  
   require 'hirb'
   Hirb::View.enable
   
