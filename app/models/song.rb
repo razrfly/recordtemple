@@ -39,9 +39,8 @@ class Song < ActiveRecord::Base
     def create_metadata
       Mp3Info.open(mp3.to_file.path) do |mp3info|
         if self.title.blank?
-          record = Song.find(self.id)
-          record.title = mp3info.tag.title
-          record.save
+          self.title = mp3info.tag.title
+          self.save
         end
         #open s3
         #track = AWS::S3::S3Object.find(mp3.path(:original), mp3.bucket_name)
