@@ -33,7 +33,7 @@ class Song < ActiveRecord::Base
     end
     
     def create_panda
-      video = Panda::Video.create(:source_url => mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{record.id}/snippet/#{mp3_file_name.gsub('.mp3','')}")
+      #video = Panda::Video.create(:source_url => mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{record.id}/snippet/#{mp3_file_name.gsub('.mp3','')}")
     end
     
     def create_metadata
