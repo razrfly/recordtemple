@@ -22,11 +22,7 @@
   </p>
   <p>
     <%= f.label :genre %><br />
-    <% if params[:genre] %>
-      <%=f.select(:genre, @record.get_genre.sort, { :include_blank => true }, { :selected => params[:genre] } ) %>
-	<% else %>
-	  <%=f.select(:genre, @record.get_genre.sort, { :include_blank => true } ) %>
-	<% end %>
+	<%= f.select(:genre_id, Genre.all.collect {|p| [ p.name, p.id ] }, { :prompt => true }) %>
   </p>
   <p>
     <%= f.label :condition %><br />
