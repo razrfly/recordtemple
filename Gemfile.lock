@@ -73,7 +73,7 @@ GEM
       json (>= 1.2)
       rest-client (>= 1.4)
       ruby-hmac (>= 0.3.2)
-    paperclip (2.3.6)
+    paperclip (2.3.8)
       activerecord
       activesupport
     pg (0.10.0)
@@ -130,7 +130,7 @@ DEPENDENCIES
   mocha
   nifty-generators
   panda
-  paperclip
+  paperclip (= 2.3.8)
   pg
   rails (= 3.0.1)
   ruby-mp3info

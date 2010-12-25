@@ -95,6 +95,32 @@ namespace :fix do
     end
   end  
   
+  desc "Populate new artists table"
+  task :snippets => :environment do
+    Song.where("record_id > 7635").order("record_id").each do |rec|
+      Mp3Info.open(rec.mp3.to_file.path) do |mp3info|
+        puts mp3info.tag.title
+        rec.title = mp3info.tag.title
+        rec.save
+        
+        #do snippet
+        video = Panda::Video.create(:source_url => rec.mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}")
+        puts rec.mp3.url.gsub(/[?]\d*/,'')
+        puts "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}"
+      end
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :snippets_specific => :environment do
+    Song.where("record_id = 7735").order("record_id").each do |rec|       
+      #do snippet
+      video = Panda::Video.create(:source_url => rec.mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}")
+      puts rec.mp3.url.gsub(/[?]\d*/,'')
+      puts "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}"
+    end
+  end
+  
     
 end
 

@@ -1,4 +1,4 @@
-<h1>Editing record</h1>
+<% title "Editing record" %>
 
 <% form_for(@record, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
@@ -67,10 +67,8 @@
     <%= f.text_area :comment %>
   </p>
 
-  <p>
-    <%= f.label :user_id, "User ID" %><br />
-    <%= f.text_field :user_id %>
-  </p>
+
+    <%= f.hidden_field :user_id %>
 
   <p>
     <%= f.submit "Update" %>
