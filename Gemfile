@@ -7,7 +7,7 @@ gem 'rails', '3.0.1'
 
 gem 'pg'
 gem 'aws-s3', :require => 'aws/s3'
-gem 'paperclip'
+gem 'paperclip', '2.3.8'
 gem 'will_paginate', '~> 3.0.pre2'
 gem 'ruby-mp3info', :require => 'mp3info'
 #gem 'id3lib'
