@@ -6,7 +6,7 @@ $(document).ready(function(){
 
 	var myPlayList = [
 	<% for song in @record.songs %>
-		{name:"<%= song.title %>",mp3:"<%= song.mp3.url(:snippet) %>"}<%= "," unless song.id == @record.songs.last.id %>
+		{name:"<%= song.title %>",mp3:"<%= song.mp3.url %>"}<%= "," unless song.id == @record.songs.last.id %>
 	<% end %>
 	];
 	
