@@ -113,11 +113,12 @@ namespace :fix do
   
   desc "Populate new artists table"
   task :snippets_specific => :environment do
-    Song.where("record_id = 7735").order("record_id").each do |rec|       
+    Song.where("record_id = 12851").order("record_id").each do |rec|       
       #do snippet
-      video = Panda::Video.create(:source_url => rec.mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}")
-      puts rec.mp3.url.gsub(/[?]\d*/,'')
-      puts "music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}"
+      video = Panda::Video.create(:source_url => URI::escape(rec.mp3.url.gsub(/[?]\d*/,'')), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => URI::escape("music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}"))
+      puts URI::escape(rec.mp3.url.gsub(/[?]\d*/,''))
+      puts URI::escape("music/#{rec.record.id}/snippet/#{rec.mp3_file_name.gsub('.mp3','')}")
+      puts video.id
     end
   end
   
