@@ -145,7 +145,7 @@ namespace :fix do
       
       if record.price.label_id
         record.label_id = record.price.label_id
-        #record.save!
+        record.save!
       else
         puts record.id
       end
