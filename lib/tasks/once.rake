@@ -124,14 +124,15 @@ namespace :fix do
   
   desc "Populate new labels table"
   task :labels => :environment do
-    labels = Price.select('DISTINCT label')
+    #labels = Price.select('DISTINCT label')
+    labels = Price.where("LENGTH(label) > 0").select("DISTINCT(label)")
     labels.each do |label|
       c = Label.create(:name => label.label)
       puts c.name
       d = Price.find_all_by_label(c.name)
       d.each do |r|
         r.label_id = c.id
-        r.save
+        r.save!
       end
     end
   end
@@ -139,9 +140,38 @@ namespace :fix do
   desc "Populate new artists table"
   task :labels2 => :environment do
     Record.all.each do |record|
+      
+      #puts record.price.label
+      
+      if record.price.label_id
+        record.label_id = record.price.label_id
+        #record.save!
+      else
+        puts record.id
+      end
+      
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :labels3 => :environment do
+    Price.where("label_id IS NULL").each do |record|
+      label = Label.find_by_name(record.label)
+      record.label_id = label.id
+      record.save(:validate => false)
+      puts label.name
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :labels4 => :environment do
+    Record.where("label_id IS NULL").each do |record|
+      #artist = Artist.find_by_name(record.artist)
       record.label_id = record.price.label_id
-      record.save
-      puts record.price.label
+      record.save!
+      #record.artist_id = artist.id
+      #record.save(:validate => false)
+      #puts artist2#.name
     end
   end
   

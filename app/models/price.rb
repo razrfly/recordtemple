@@ -1,7 +1,7 @@
 class Price < ActiveRecord::Base
   has_many :records, :dependent => :destroy
   has_many :bubbles, :dependent => :destroy
-  validates_presence_of :artist, :label, :format
+  validates_presence_of :artist, :label, :format, :label_id
   #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]
 
   cattr_reader :per_page
