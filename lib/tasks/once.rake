@@ -122,6 +122,29 @@ namespace :fix do
     end
   end
   
+  desc "Populate new labels table"
+  task :labels => :environment do
+    labels = Price.select('DISTINCT label')
+    labels.each do |label|
+      c = Label.create(:name => label.label)
+      puts c.name
+      d = Price.find_all_by_label(c.name)
+      d.each do |r|
+        r.label_id = c.id
+        r.save
+      end
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :labels2 => :environment do
+    Record.all.each do |record|
+      record.label_id = record.price.label_id
+      record.save
+      puts record.price.label
+    end
+  end
+  
     
 end
 

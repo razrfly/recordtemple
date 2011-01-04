@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101220213138) do
+ActiveRecord::Schema.define(:version => 20110104142742) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20101220213138) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "artists", ["name"], :name => "index_artists_on_name", :unique => true
 
   create_table "bubbles", :force => true do |t|
     t.integer  "low"
@@ -32,6 +34,15 @@ ActiveRecord::Schema.define(:version => 20101220213138) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "labels", :force => true do |t|
+    t.string   "name"
+    t.string   "freebase_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "labels", ["name"], :name => "index_labels_on_name", :unique => true
 
   create_table "photos", :force => true do |t|
     t.integer  "record_id"
@@ -57,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20101220213138) do
     t.string   "footnote"
     t.string   "created_by"
     t.integer  "artist_id"
+    t.integer  "label_id"
   end
 
   create_table "recommendations", :force => true do |t|
@@ -81,6 +93,7 @@ ActiveRecord::Schema.define(:version => 20101220213138) do
     t.string   "username"
     t.integer  "user_id"
     t.integer  "artist_id"
+    t.integer  "label_id"
   end
 
   create_table "searches", :force => true do |t|
