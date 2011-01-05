@@ -77,11 +77,13 @@ $(document).ready(function(){
 		$("#jplayer_playlist_item_"+index).addClass("jplayer_playlist_current").parent().addClass("jplayer_playlist_current");
 		playItem = index;
 		$("#jquery_jplayer").jPlayer("setFile", myPlayList[playItem].mp3);
+		
 	}
 
 	function playListChange( index ) {
 		playListConfig( index );
-		$("#jquery_jplayer").jPlayer("play");
+		//$("#jquery_jplayer").jPlayer("play");
+		$("#jquery_jplayer").jPlayer("playHead", 30);
 	}
 
 	function playListNext() {

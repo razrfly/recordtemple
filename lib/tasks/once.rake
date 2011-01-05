@@ -175,6 +175,29 @@ namespace :fix do
     end
   end
   
+  desc "Populate new artists table"
+  task :freebase_labels => :environment do
+    Label.where("freebase_tried IS NULL").order("id ASC").each do |label|
+      begin
+        find = Label.find_freebase(label.name.downcase)
+      rescue
+        puts "NO WAY"
+      end
+      puts label.name
+      unless find.blank? # and find.first["id"]
+        if find.first
+          begin
+            puts find.first["id"]
+            label.freebase_id = find.first["id"]
+          rescue
+            puts "What the fuck?"
+          end
+        end
+      end
+      label.freebase_tried = TRUE
+      label.save!
+    end
+  end
     
 end
 
