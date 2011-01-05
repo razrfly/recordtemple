@@ -21,6 +21,12 @@ class CreateSearches < ActiveRecord::Migration
           SELECT  records.id AS searchable_id, records.comment AS term, 
                   CAST ('Record' AS varchar) AS searchable_type 
           FROM records
+          UNION 
+          SELECT  prices.id AS searchable_id, prices.detail||prices.footnote AS term, 
+                  CAST ('Price' AS varchar) AS searchable_type 
+          FROM prices
+          INNER JOIN records
+          ON prices.id=records.price_id
     SQL
   end
 
