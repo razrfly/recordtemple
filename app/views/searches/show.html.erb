@@ -1,24 +1,23 @@
-<table id="mytable" cellspacing="0" summary="My Ultimate Collection of Records">
-<caption>Current View:  My Entire Collection</caption>
-  <tr>
-	<th scope="col" abbr="Artist" class="nobg">Artist</th>
-    <th scope="col" abbr="Label">Label</th>
-    <th scope="col" abbr="Format">Format</th>
-    <th scope="col" abbr="Details">Details</th>
-    <th scope="col" abbr="My Value">My Value</th>
-    <th scope="col" abbr="Cyberguide Value">Guide</th>
-	<th scope="col" abbr="Image?">IMG</th>
-    <th colspan="3">Actions</th>
-  </tr>
+<% title "Search Results" %>
 
-<%= render :partial => @records %>
+	<table>
+	  <tr>
+	    <th>Result</th>
+		<th>Type</th>
+		<th></th>
+		<th></th>
+		<th></th>
+	  </tr>
+	  <% for result in @search %>
+	    <tr>
+	      <td><%= result.term %></td>
+	      <td><%= result.searchable_type %></td>
+		  <td><%= result.rank %></td>
+	      <td><%= link_to "Show Artist", :controller => result.searchable_type.pluralize.downcase, :action => :show, :id => result.searchable_id %></td>
+		  <td><%= link_to "Records", records_path((result.searchable_type.downcase + "_id").to_sym => result.searchable_id) %></td>
+	    </tr>
+	  <% end %>
 
+	</table>
 
-</table>
-
-<p>
-	<%= will_paginate @records, :params => { :method => :post } %>
-</p>
-
-
-<%= link_to 'Back', new_search_path %>
+<%#= link_to 'Back', new_search_path %>

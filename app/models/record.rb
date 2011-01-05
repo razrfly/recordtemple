@@ -5,6 +5,10 @@ class Record < ActiveRecord::Base
   belongs_to :label
   belongs_to :genre
   
+  index do
+    comment
+  end
+  
   validates_presence_of :price_id, :genre, :condition, :user, :artist, :label
 
   has_many :photos, :dependent => :destroy
@@ -15,37 +19,37 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :photos, :songs
   
   
-  def self.search(search, page, user)
-    unless search.nil? then search = search.downcase end
-    paginate :per_page => 20, :page => page,
-                              :joins => :price,
-                              :conditions => [ 'LOWER(artist) like ? and user_id = ?', "%#{search}%", user.id ],
-                              :order => 'updated_at DESC'
-  end
+  #def self.search(search, page, user)
+  #  unless search.nil? then search = search.downcase end
+  #  paginate :per_page => 20, :page => page,
+  #                            :joins => :price,
+  #                            :conditions => [ 'LOWER(artist) like ? and user_id = ?', "%#{search}%", user.id ],
+  #                            :order => 'updated_at DESC'
+  #end
   
-  def self.values(search, user)
-    Record.sum(:value, :joins => "left outer join prices on prices.id = records.price_id",
-                            :conditions => ['artist like ? and username = ?', "%#{search}%", user])
-  end
+  #def self.values(search, user)
+  #  Record.sum(:value, :joins => "left outer join prices on prices.id = records.price_id",
+  #                          :conditions => ['artist like ? and username = ?', "%#{search}%", user])
+  #end
   
-  def self.osbourne(search, user)
-    Record.sum(:pricehigh, :joins => "left outer join prices on prices.id = records.price_id",
-               :conditions => ['artist like ? and username = ?', "%#{search}%", user])
-  end
+  #def self.osbourne(search, user)
+  #  Record.sum(:pricehigh, :joins => "left outer join prices on prices.id = records.price_id",
+  #             :conditions => ['artist like ? and username = ?', "%#{search}%", user])
+  #end
   
   def cyberguide
     if condition <= 2
-      [price.bubbles.last.high]
+      price.bubbles.last.high
     elsif condition == 3
-      [price.bubbles.last.high * 0.9]
+      price.bubbles.last.high * 0.9
     elsif condition == 4
-      [price.bubbles.last.high * 0.5]
+      price.bubbles.last.high * 0.5
     elsif condition == 5
-      [price.bubbles.last.high * 0.25]
+      price.bubbles.last.high * 0.25
     elsif condition == 6
-      [price.bubbles.last.high * 0.2]
+      price.bubbles.last.high * 0.2
     else
-      [price.bubbles.last.high * 0.15]
+      price.bubbles.last.high * 0.15
     end
   end
   
