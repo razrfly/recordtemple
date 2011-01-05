@@ -1,6 +1,12 @@
 class Price < ActiveRecord::Base
   has_many :records, :dependent => :destroy
   has_many :bubbles, :dependent => :destroy
+
+  index do
+    detail
+    footnote
+  end
+
   validates_presence_of :artist, :label, :format, :label_id
   #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]
 
