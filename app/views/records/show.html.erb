@@ -34,7 +34,12 @@
 
 <p>
   <b>Label:</b>
-  <%= @record.label.name %>
+  <%= @record.label.name %> 
+	<% if @record.label.freebase_id.blank? %>
+		(<%= link_to "Add me", edit_label_path(@record.label) %>)
+	<% else %>
+		(<%= link_to "Edit me", edit_label_path(@record.label) %>)
+	<% end %>
 </p>
 
 <p>
@@ -60,15 +65,19 @@
 
 <% end %>
 
+<% unless @record.price.detail.blank? %>
 <p>
   <b>Detail:</b>
   <%= @record.price.detail %>
 </p>
+<% end %>
 
+<% unless @record.price.footnote.blank? %>
 <p>
   <b>Footnote:</b>
   <%= @record.price.footnote %>
 </p>
+<% end %>
 
 <p>
   <b>Genre:</b>

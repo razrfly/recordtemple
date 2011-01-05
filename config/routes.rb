@@ -21,7 +21,11 @@ Recordapp::Application.routes.draw do
   resources :songs
   resources :home
   resources :labels
-  resources :searches
+  resources :searches do
+    collection do
+      get :autocomplete
+    end
+  end
   resources :recommendations
 
   # Sample resource route with options:

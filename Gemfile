@@ -10,16 +10,13 @@ gem 'aws-s3', :require => 'aws/s3'
 gem 'paperclip', '2.3.8'
 gem 'will_paginate', '~> 3.0.pre2'
 gem 'ruby-mp3info', :require => 'mp3info'
-#gem 'id3lib'
 gem 'devise'
 gem 'acts_as_tree'
 gem 'jammit'
 gem 'simple_form'
-gem 'ruby-mp3info'
 gem 'ken'
 gem 'panda'
-#gem 'id3lib-ruby'
-#gem 'ruby-taglib2'
+gem 'texticle', '~> 1.0.4'
 
 
 group :development do

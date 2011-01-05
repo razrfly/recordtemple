@@ -3,30 +3,24 @@ class RecordsController < ApplicationController
 before_filter :authenticate_user!
 
   def index
-      #@records = Record.all
-      #@records = Record.search(params[:artist], params[:page], current_user)
-      @myvalue = Record.sum('value', :conditions => [ 'user_id = ?', current_user.id ])
-      @hisvalue = Record.sum('pricehigh', :joins => :price, :conditions => [ 'user_id = ?', current_user.id ])
-      if params[:artist]
-        @records = Record.search(params[:artist], params[:page], current_user)
-      else
-        @records = Record.search(params[:artist], params[:page], current_user)
-      end
+
+    @search = Search.new
+    
+    @records = Record.scoped
+    @records = @records.where(:user_id => current_user.id)
+    @records = @records.where(:artist_id => params[:artist_id]) if params[:artist_id]
+    @records = @records.where(:label_id => params[:label_id]) if params[:label_id]
+    @records = @records.joins(:songs) if params[:mp3]
       
-      respond_to do |format|
-        format.html # index.html.erb
-        format.xml  { render :xml => @records }
-      end
+    @myvalue = @records.sum(:value)
+    @records = @records.order("updated_at DESC").paginate :per_page => params[:per_page], :page => params[:page]
+      
 
   end
 
   def show
     @record = Record.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.xml  { render :xml => @record }
-    end
+    
   end
 
   def new

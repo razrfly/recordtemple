@@ -1,0 +1,44 @@
+<style>
+	.ui-autocomplete-loading { background: white url('/images/jquery-ui/ui-anim_basic_16x16.gif') right center no-repeat; }
+	.ui-autocomplete { font-size: 11px; }
+</style>
+<script>
+$(function() {
+	$( "#search_term" ).autocomplete({
+		source: "/searches/autocomplete.js",
+		minLength: 2,
+		focus: function( event, ui ) {
+			//set hidden field nil
+			$( ".searchable_id" ).val("");
+			return false;
+		},
+		select: function( event, ui ) {
+			//set hidden fields
+			$( ".searchable_type" ).val( ui.item.desc );
+			$( ".searchable_id" ).val( ui.item.value );
+			return false;
+		}
+	})
+	.data( "autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li></li>" )
+			.data( "item.autocomplete", item )
+			//.append( "<a><img src='/images/flags/" + item.icon + "'/>" + item.label + "</a>" )
+			.append( "<a>" + item.label + "<br>" + item.desc + "</a>" )
+			.appendTo( ul );
+	};
+
+});
+</script>
+
+<% form_for(@search) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.text_field :term %>
+	<%= f.hidden_field :searchable_id, :class => "searchable_id" %>
+	<%= f.hidden_field :searchable_type, :class => "searchable_type" %>
+	<%= f.submit "Search" %>
+	<%= link_to 'Advanced Search', new_search_path %>
+  </p>
+
+<% end %>

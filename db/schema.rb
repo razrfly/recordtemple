@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110104231905) do
+ActiveRecord::Schema.define(:version => 20110105133212) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -93,21 +93,6 @@ ActiveRecord::Schema.define(:version => 20110104231905) do
     t.integer  "user_id"
     t.integer  "artist_id"
     t.integer  "label_id"
-  end
-
-  create_table "searches", :force => true do |t|
-    t.string   "artist"
-    t.string   "label"
-    t.string   "title"
-    t.string   "format"
-    t.integer  "genre"
-    t.float    "minimum_value"
-    t.float    "maximum_value"
-    t.integer  "condition"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "page"
   end
 
   create_table "songs", :force => true do |t|

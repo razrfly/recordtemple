@@ -198,6 +198,14 @@ namespace :fix do
       label.save!
     end
   end
+  
+  desc "Populate new artists table"
+  task :panda_del => :environment do
+    Panda::Video.all.each do |video|
+      puts video.original_filename
+      video.delete
+    end
+  end
     
 end
 
