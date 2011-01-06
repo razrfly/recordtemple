@@ -6,7 +6,7 @@
 $(function() {
 	$( "#search_term" ).autocomplete({
 		source: "/searches/autocomplete.js",
-		minLength: 2,
+		minLength: 3,
 		focus: function( event, ui ) {
 			//set hidden field nil
 			$( ".searchable_id" ).val("");
@@ -38,7 +38,7 @@ $(function() {
 	<%= f.hidden_field :searchable_id, :class => "searchable_id" %>
 	<%= f.hidden_field :searchable_type, :class => "searchable_type" %>
 	<%= f.submit "Search" %>
-	<%= link_to 'Advanced Search', new_search_path %>
+	<%= link_to 'Advanced Search', new_search_path, :class => "advanced_search" %>
   </p>
 
 <% end %>

@@ -23,7 +23,7 @@ class SearchesController < ApplicationController
   end
   
   def autocomplete
-    @search = Search.search(params[:term]).where("searchable_type = 'Artist' OR searchable_type = 'Label' OR searchable_type = 'Song'").limit(8)
+    @search = Search.search(params[:term]).where("searchable_type IN ('Artist','Label','Song')").limit(8)
   end
 end
 

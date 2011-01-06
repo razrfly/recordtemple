@@ -8,6 +8,7 @@ class LabelsController < ApplicationController
 
   def show
     @label = Label.find(params[:id])
+    @freebase = Ken::Topic.get(@label.freebase_id) unless @label.freebase_id.blank?
   end
 
   def edit

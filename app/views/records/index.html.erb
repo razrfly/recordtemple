@@ -1,9 +1,31 @@
+<script type="text/javascript" charset="utf-8">
+	function toggleSearch() {
+		$( "#simple_form" ).toggle();
+		$( "#advanced_form" ).toggle();
+	}
+	
+
+	
+	$(document).ready(function() {
+	  	$('.advanced_search').click(function() {
+			toggleSearch();
+			return false;
+		});
+	});
+</script>
+
 <% title "Records", false %>
 
 <h1><%=h current_user.nickname.capitalize %>'s Current Records</h1>
 <h4>This is the overview of your current collection</h4>
 
-<%= render :partial => 'searches/form' %>
+<div id="simple_form">
+	<%= render :partial => 'searches/form' %>
+</div>
+
+<div id="advanced_form" style="display:none;">
+	<%= render :partial => 'filter' %>
+</div>
 
 <table id="mytable" cellspacing="0" summary="My Ultimate Collection of Records">
 <caption>

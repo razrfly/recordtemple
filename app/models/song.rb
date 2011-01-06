@@ -6,7 +6,7 @@ class Song < ActiveRecord::Base
   end
   
   has_attached_file :mp3,
-    :style => { :snippet => 'k128' },
+    #:style => { :snippet => 'k128' },
     :storage => 's3',
     :s3_credentials => "#{RAILS_ROOT}/config/s3_credentials.yml",
     :bucket => 'recordtemple.com',
