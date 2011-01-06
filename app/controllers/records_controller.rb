@@ -8,9 +8,10 @@ before_filter :authenticate_user!
     
     @records = Record.scoped
     @records = @records.where(:user_id => current_user.id)
-    @records = @records.where(:artist_id => params[:artist_id]) if params[:artist_id]
-    @records = @records.where(:label_id => params[:label_id]) if params[:label_id]
+    
+    #@records = @records.where(:label_id => params[:label_id]) unless params[:label_id].blank?
     @records = @records.joins(:songs) if params[:mp3]
+    @records = @records.where((params[:searchable_type].downcase+"_id").to_sym => params[:searchable_id]) unless params[:searchable_id].blank?
       
     @myvalue = @records.sum(:value)
     @records = @records.order("updated_at DESC").paginate :per_page => params[:per_page], :page => params[:page]

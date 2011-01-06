@@ -9,6 +9,11 @@
   <%= @label.freebase_id %>
 </p>
 
+<% if @freebase %>
+  <%= image_tag @freebase.thumbnail %>
+  <%= @freebase.description %>
+<% end %>
+
 <p>
   <%= link_to "Edit", edit_label_path(@label) %> |
   <%= link_to "Destroy", @label, :confirm => 'Are you sure?', :method => :delete %> |

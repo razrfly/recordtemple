@@ -206,6 +206,19 @@ namespace :fix do
       video.delete
     end
   end
+  
+  desc "Populate new artists table"
+  task :photo_dups => :environment do
+    Photo.select('DISTINCT data_file_size record_id, record_id, COUNT(*)').group('data_file_size, record_id').order('COUNT DESC').each do |stuff|
+      if stuff.count.to_i > 1
+        #puts "Record #{stuff.record_id}"
+        stuff.record.photos.select('DISTINCT data_file_name, MIN(id) AS photo_id').group('data_file_name').each do |photo|
+          puts "#{photo.photo_id},"
+          #Photo.find(photo.min).delete
+        end
+      end
+    end
+  end
     
 end
 

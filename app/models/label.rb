@@ -1,6 +1,7 @@
 class Label < ActiveRecord::Base
   has_many :records
   has_many :prices
+  has_many :artists, :through => :records, :uniq => true
   
   index do
     name
@@ -19,4 +20,14 @@ class Label < ActiveRecord::Base
     }])
     
   end
+  
+  #def self.freebase(id)
+  #  
+  #  search = Ken.session.mqlread([{
+  #    :id => id,
+  #    :name => nil,
+  #    :"/common/topic/image" : [{ "id" : null, "optional" : true, "limit" : 3 }]
+  #  }])
+  #  
+  #end
 end
