@@ -2,6 +2,7 @@ class Artist < ActiveRecord::Base
   has_many :records
   has_many :prices
   has_many :labels, :through => :records, :uniq => true
+  has_many :songs, :through => :records
   
   index do
     name
