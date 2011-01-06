@@ -12,7 +12,9 @@ class Song < ActiveRecord::Base
     :bucket => 'recordtemple.com',
     :s3_host_alias => 'recordtemple.com.s3.amazonaws.com',
     :url => ':s3_alias_url',
-    :path => "music/:record_id/:style/:basename.:extension"
+    :path => "music/:record_id/:style/:basename.:extension",
+    :s3_permissions => 'authenticated-read',
+    :s3_protocol => 'http'
     
   after_save :create_panda, :create_metadata
     
@@ -21,6 +23,10 @@ class Song < ActiveRecord::Base
   validates_attachment_size :mp3, :less_than => 10.megabytes
     
   validate :must_have_valid_artist_tag
+  
+  def authenticated_url(style = nil, expires_in = 5.minutes)
+    AWS::S3::S3Object.url_for(mp3.path(style || mp3.default_style), mp3.bucket_name, :expires_in => expires_in, :use_ssl => mp3.s3_protocol == 'https').html_safe
+  end
 
     protected
     
