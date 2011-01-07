@@ -239,6 +239,40 @@ namespace :fix do
       c.delete
     end
   end
+  
+  desc "Add record identifier"
+  task :identify => :environment do
+    Record.all.each do |r|
+      #[\d]{2,}
+      numbers = r.comment.scan(/[\d]{3,}[\s.]/)
+      #puts numbers.size
+      
+      unless numbers.blank?
+        if numbers.size == 1
+          puts "record - #{r.id} - #{numbers[0].gsub(/[\D]/,'')} - #{r.comment}"
+          r.identifier_id = numbers[0].gsub(/[\D]/,'')
+          r.save!
+        end
+      end
+    end
+  end
+  
+  desc "Add record identifier"
+  task :identify2 => :environment do
+    Record.where("identifier_id IS NULL").each do |r|
+      #[\d]{2,}
+      numbers = r.price.detail.scan(/[\d]{1,}/)
+      #puts numbers.size
+      
+      unless numbers.blank?
+        if numbers.size == 1
+          puts "record - #{r.id} - #{numbers[0].gsub(/[\D]/,'')} - #{r.price.detail}"
+          r.identifier_id = numbers[0].gsub(/[\D]/,'')
+          r.save!
+        end
+      end
+    end
+  end
     
 end
 
