@@ -9,10 +9,14 @@ helper_method :sort_column, :sort_direction
     @records = Record.scoped
     @records = @records.where(:user_id => current_user.id)
     @records = @records.joins(:songs) if params[:mp3]
-    @records = @records.where((params[:searchable_type].downcase+"_id").to_sym => params[:searchable_id]) unless params[:searchable_id].blank?
+    @records = @records.where(:artist_id => params[:artist_id])
       
     @myvalue = @records.sum(:value)
     @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
+    
+    if params[:searchable_type]
+      @filter = Artist.find(params[:artist_id])
+    end
   end
 
   def show

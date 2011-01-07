@@ -9,12 +9,12 @@ $(function() {
 		minLength: 3,
 		focus: function( event, ui ) {
 			//set hidden field nil
-			$( "#searchable_id" ).val("");
+			$( "#artist_id" ).val("");
 			return false;
 		},
 		select: function( event, ui ) {
 			//set hidden fields
-			$( "#searchable_id" ).val( ui.item.value );
+			$( "#artist_id" ).val( ui.item.value );
 			$( "#searchable_type" ).val( ui.item.desc );
 			$( "#search" ).val( ui.item.label );
 			return false;
@@ -36,7 +36,7 @@ $(function() {
 	<p>
 		<%= text_field_tag :search, params[:search] %>
 		<%= select_tag :searchable_type, options_for_select(%w{ Full-text Artist Label Song }, params[:searchable_type])%>
-		<%= hidden_field_tag :searchable_id, params[:searchable_id] %>
+		<%= hidden_field_tag :artist_id, params[:artist_id] %>
 		
 		<%# if params[:searchable_type] == "Artist" %>
 			<%#= select_tag :label, options_for_select(Artist.find(params[:searchable_id]).labels.map{|u| u.name})%>
@@ -44,5 +44,15 @@ $(function() {
 		
 		<%= submit_tag "Search" %>
 		<%= link_to 'Simple Search', new_search_path, :class => 'advanced_search' %>
+		
+		<% if params[:searchable_type] %>
+			<div id="filters">
+				<%= label_tag :filters %>
+				<%#= collection_select(:label, :id, @filter.labels, :id, :name, options ={:prompt => "All Labels"}) %>
+				<%#= select_tag :label, options_for_select(@filter.labels.map{|u| u.name})%>
+				<%= select_tag :label_id, options_from_collection_for_select(@filter.labels, :id, :name), { :include_blank => true }%>
+				<%= select_tag :format, options_from_collection_for_select(@filter.labels, :id, :name), { :include_blank => true }%>
+			</div>
+		<% end %>
 	</p>
 <% end %>
