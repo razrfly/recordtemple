@@ -16,7 +16,7 @@ class Song < ActiveRecord::Base
     :s3_permissions => 'authenticated-read',
     :s3_protocol => 'http'
     
-  after_save :create_panda, :create_metadata
+  after_create :create_panda, :create_metadata
     
   validates_attachment_presence :mp3
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
@@ -24,7 +24,7 @@ class Song < ActiveRecord::Base
     
   validate :must_have_valid_artist_tag
   
-  def authenticated_url(style = nil, expires_in = 5.minutes)
+  def authenticated_url(style = nil, expires_in = 30.minutes)
     AWS::S3::S3Object.url_for(mp3.path(style || mp3.default_style), mp3.bucket_name, :expires_in => expires_in, :use_ssl => mp3.s3_protocol == 'https').html_safe
   end
 

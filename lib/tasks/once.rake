@@ -274,18 +274,66 @@ namespace :fix do
   
   desc "Populate new artists table"
   task :songs_g => :environment do
-    Song.where("panda_id IS NULL").each do |mp3|
+    Song.where("panda_id IS NULL").order("id DESC").limit(70).each do |mp3|
       puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
-      #panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
-      #mp3.panda_id = panda.id
-      #puts panda.id
-      #mp3.save!
+      panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+      mp3.panda_id = panda.id
+      puts panda.id
+      mp3.save!
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :songs_g2 => :environment do
+    Song.where("panda_id IS NULL").order("id DESC").limit(100).offset(650).each do |mp3|
+      puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+      panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+      mp3.panda_id = panda.id
+      puts panda.id
+      mp3.save!
     end
   end
   
   desc "Populate new artists table"
   task :songs_del => :environment do
     Song.where("panda_id IS NOT NULL").each do |mp3|
+      #puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+      #c = Panda::Video.find(mp3.panda_id)
+      #c.delete
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :songs_fail => :environment do
+    Song.where("panda_id IS NOT NULL").each do |mp3|
+      begin
+        panda = Panda::Video.find(mp3.panda_id)
+        if panda.fail?
+          panda.delete
+          puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+          panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+          mp3.panda_id = panda.id
+          puts panda.id
+          mp3.save!
+        end
+      rescue
+        puts "Failed!"
+        puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+        panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+        mp3.panda_id = panda.id
+        puts panda.id
+        mp3.save!
+      end
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :songs_fail2 => :environment do
+    Song.where("panda_id IS NOT NULL").each do |mp3|
+      panda = Panda::Video.find(mp3.panda_id)
+      if panda.fail?
+        puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+      end
       #puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
       #c = Panda::Video.find(mp3.panda_id)
       #c.delete
