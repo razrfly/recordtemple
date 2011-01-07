@@ -1,6 +1,6 @@
 <% title @artist.name %>
 
-<%= image_tag(@artist.thumbnail) unless blank? %>
+<%= image_tag(@artist.thumbnail) unless @artist.thumbnail.blank? %>
 
 <p>
 	<%= @artist.description %>
