@@ -69,6 +69,7 @@ GEM
     mocha (0.9.10)
       rake
     nifty-generators (0.4.2)
+    open-meta-tags (0.4.0)
     panda (1.2.2)
       json (>= 1.2)
       rest-client (>= 1.4)
@@ -130,6 +131,7 @@ DEPENDENCIES
   ken
   mocha
   nifty-generators
+  open-meta-tags
   panda
   paperclip (= 2.3.8)
   pg
