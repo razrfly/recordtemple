@@ -339,6 +339,14 @@ namespace :fix do
       #c.delete
     end
   end
+  
+  desc "Populate new artists table"
+  task :cache_col => :environment do
+    Record.all.each do |r|
+      r.update_attribute :cached_artist, r.artist.name
+      r.update_attribute :cached_label, r.label.name
+    end
+  end
     
 end
 
