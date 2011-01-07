@@ -219,26 +219,7 @@ namespace :fix do
       end
     end
   end
-  
-  desc "Populate new artists table"
-  task :songs_g => :environment do
-    Song.where("panda_id IS NULL").each do |mp3|
-      puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
-      #panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
-      #mp3.panda_id = panda.id
-      #puts panda.id
-      #mp3.save!
-    end
-  end
-  
-  desc "Populate new artists table"
-  task :songs_del => :environment do
-    Song.where("panda_id IS NOT NULL").each do |mp3|
-      puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
-      c = Panda::Video.find(mp3.panda_id)
-      c.delete
-    end
-  end
+
   
   desc "Add record identifier"
   task :identify => :environment do
@@ -271,6 +252,43 @@ namespace :fix do
           r.save!
         end
       end
+    end
+  end
+  
+  desc "Add record identifier"
+  task :identify3 => :environment do
+    Record.where("identifier_id IS NULL").each do |r|
+      #[\d]{2,}
+      numbers = r.comment.scan(/[\d.]{3,}/)
+      #puts numbers.size
+      
+      unless numbers.blank?
+        if numbers.size == 1
+          puts "record - #{r.id} - #{numbers[0].gsub(/[\D]/,'')} - #{r.comment}"
+          r.identifier_id = numbers[0].gsub(/[\D]/,'')
+          r.save!
+        end
+      end
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :songs_g => :environment do
+    Song.where("panda_id IS NULL").each do |mp3|
+      puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+      #panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+      #mp3.panda_id = panda.id
+      #puts panda.id
+      #mp3.save!
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :songs_del => :environment do
+    Song.where("panda_id IS NOT NULL").each do |mp3|
+      #puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
+      #c = Panda::Video.find(mp3.panda_id)
+      #c.delete
     end
   end
     
