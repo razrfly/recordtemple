@@ -17,11 +17,11 @@
 <h1><%= current_user.nickname.capitalize %>'s Current Records</h1>
 <h4>This is the overview of your current collection</h4>
 
-<div id="simple_form">
+<div id="simple_form" style="display:none;">
 	<%= render :partial => 'searches/form' %>
 </div>
 
-<div id="advanced_form" style="display:none;">
+<div id="advanced_form">
 	<%= render :partial => 'filter' %>
 </div>
 

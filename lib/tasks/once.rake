@@ -347,6 +347,31 @@ namespace :fix do
       r.update_attribute :cached_label, r.label.name
     end
   end
+  
+  desc "Populate new artists table"
+  task :formats => :environment do
+    Price.select('DISTINCT(format), COUNT(*)').group('format').order('COUNT DESC').each do |r|
+      puts r.format
+      RecordFormat.create(:name => r.format)
+
+      #Price.find_by_format(r.format).each do |h|
+      #  h.update_attribute :name, r.format
+      #end
+    end
+  end
+  
+  desc "Populate new artists table"
+  task :formats2 => :environment do
+
+    RecordFormat.all.each do |r|
+
+      Price.where('format = ?', r.name).each do |h|
+        h.update_attribute :record_format_id, r.id
+      end
+    end
+  end
+  
+
     
 end
 

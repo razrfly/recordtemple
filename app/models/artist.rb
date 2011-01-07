@@ -14,6 +14,8 @@ class Artist < ActiveRecord::Base
     name
   end
   
+  after_update :update_cache_children
+  
   validates_presence_of :name
   
   def description
@@ -23,7 +25,7 @@ class Artist < ActiveRecord::Base
   def thumbnail
       Freebase.find(freebase_id).thumbnail unless freebase_id.blank?
   end
-  
+    
   def self.find_freebase(artist)
     search = Ken.session.mqlread([{
       :type => "/music/artist",
@@ -31,6 +33,16 @@ class Artist < ActiveRecord::Base
       :limit => 1,
       :name => artist
     }])
+  end
+  
+  private
+  
+  def update_cache_children
+    if self.name_changed?
+      self.records.each do |r|
+        r.update_attribute :cached_artist, self.name
+      end
+    end
   end
   
 end

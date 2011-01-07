@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110107151741) do
+ActiveRecord::Schema.define(:version => 20110107204332) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20110107151741) do
     t.string   "created_by"
     t.integer  "artist_id"
     t.integer  "label_id"
+    t.integer  "record_format_id"
   end
 
   create_table "recommendations", :force => true do |t|
@@ -81,6 +82,12 @@ ActiveRecord::Schema.define(:version => 20110107151741) do
     t.string   "token"
     t.date     "expiration"
     t.integer  "record_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "record_formats", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

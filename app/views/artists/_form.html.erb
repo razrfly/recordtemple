@@ -20,11 +20,11 @@ $(function() {
 	<h2><%= @artist.name %></h2>
 	
   <p>
-    <%= f.label :name %><br />
+    <%= f.label :name %> (*use wisely)<br />
     <%= f.text_field :name %>
   </p>
 	
-    <%= f.label :freebase_id %><br />
+    <%= f.label :freebase_id %> <%= @artist.freebase_id %><br />
 	<%= text_field_tag :freebase %>
     <%= f.hidden_field :freebase_id %>
   </p>
