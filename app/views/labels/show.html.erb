@@ -1,21 +1,11 @@
-<% title "Label" %>
+<% title @label.name %>
+
+<%= image_tag(@label.thumbnail) unless @label.thumbnail.blank? %>
 
 <p>
-  <strong>Name:</strong>
-  <%= @label.name %>
-</p>
-<p>
-  <strong>Freebase:</strong>
-  <%= @label.freebase_id %>
+	<%= @label.description %>
 </p>
 
-<% if @freebase %>
-  <%= image_tag @freebase.thumbnail %>
-  <%= @freebase.description %>
-<% end %>
-
 <p>
-  <%= link_to "Edit", edit_label_path(@label) %> |
-  <%= link_to "Destroy", @label, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", labels_path %>
+   <%= link_to "Back", :back %> | <%= link_to "Edit", edit_label_path(@label) %>
 </p>
