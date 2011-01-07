@@ -14,7 +14,7 @@
 
 <% title "Records", false %>
 
-<h1><%=h current_user.nickname.capitalize %>'s Current Records</h1>
+<h1><%= current_user.nickname.capitalize %>'s Current Records</h1>
 <h4>This is the overview of your current collection</h4>
 
 <div id="simple_form">
@@ -38,6 +38,7 @@
 	<th scope="col" abbr="Artist" class="nobg">Artist</th>
     <th scope="col" abbr="Label">Label</th>
     <th scope="col" abbr="Format">Format</th>
+	<th scope="col" abbr="Identifier">I.D.</th>
     <th scope="col" abbr="Details">Details</th>
     <th scope="col" abbr="My Value">My Value</th>
     <th scope="col" abbr="Cyberguide Value">Guide</th>
@@ -50,7 +51,8 @@
 	<th scope="row" abbr="Arist" class="<%= cycle("spec", "specalt") -%>"><%= link_to record.artist.name, records_path + '?artist='+ record.artist.name %></td>
 	<td class="<%=current_cycle%>"><%= record.price.label %></td>
     <td class="<%=current_cycle%>"><%= record.price.format %></td>
-    <td class="<%=current_cycle%>"><%= record.price.detail %> <%=h record.price.footnote %></td>
+	<td class="<%=current_cycle%>"><%= record.identifier_id %></td>
+    <td class="<%=current_cycle%>"><%= record.price.detail %> <%= record.price.footnote %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.value) %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.cyberguide) %></td>
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
