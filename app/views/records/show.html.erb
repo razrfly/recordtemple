@@ -62,6 +62,11 @@
   <%= @record.price.format %>
 </p>
 
+<p>
+  <b>Unique ID:</b>
+  <%= @record.identifier_id %>
+</p>
+
 <% unless @record.songs.blank? %>
 
 		<%#= mp3_player song.mp3.url %><%#= link_to 'Download', song.mp3.url %><br />

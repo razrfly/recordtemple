@@ -14,11 +14,11 @@
 
 <p>
   <b>Format:</b>
-  <%=h @record.price.format %>
+  <%= @record.price.format %>
 </p>
 <p>
   <b>Detail:</b>
-  <%=h @record.price.detail %>
+  <%= @record.price.detail %>
 </p>
 <p>
   <b>Condition & Genre:</b><br>
@@ -61,6 +61,10 @@
   <p>
     <%= f.label :value, "My Value" %><br />
     <%= f.text_field :value %>
+  </p>
+  <p>
+    <%= f.label :identifier_id %><br />
+    <%= f.text_field :identifier_id %>
   </p>
   <p>
     <%= f.label :comment %><br />
