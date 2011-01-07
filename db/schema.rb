@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110107120920) do
+ActiveRecord::Schema.define(:version => 20110107151741) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -98,6 +98,8 @@ ActiveRecord::Schema.define(:version => 20110107120920) do
     t.integer  "artist_id"
     t.integer  "label_id"
     t.integer  "identifier_id"
+    t.string   "cached_artist"
+    t.string   "cached_label"
   end
 
   create_table "slugs", :force => true do |t|
