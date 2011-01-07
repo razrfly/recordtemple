@@ -25,7 +25,7 @@
 	<%= render :partial => 'filter' %>
 </div>
 
-<table id="mytable" cellspacing="0" summary="My Ultimate Collection of Records">
+<table id="mytable" cellspacing="0" class="pretty" summary="My Ultimate Collection of Records">
 <caption>
 
 <% if params[:artist] %>
@@ -35,12 +35,12 @@
 <% end %>
 </caption>
   <tr>
-	<th scope="col" abbr="Artist" class="nobg">Artist</th>
-    <th scope="col" abbr="Label">Label</th>
+	<th scope="col" abbr="Artist" class="nobg"><%= sortable "cached_artist", "Artist" %></th>
+    <th scope="col" abbr="Label"><%= sortable "cached_label", "Label" %></th>
     <th scope="col" abbr="Format">Format</th>
-	<th scope="col" abbr="Identifier">I.D.</th>
+	<th scope="col" abbr="Identifier"><%= sortable "identifier_id", "UID" %></th>
     <th scope="col" abbr="Details">Details</th>
-    <th scope="col" abbr="My Value">My Value</th>
+    <th scope="col" abbr="My Value"><%= sortable "value" %></th>
     <th scope="col" abbr="Cyberguide Value">Guide</th>
 	<th scope="col" abbr="Image?">XTRA</th>
     <th colspan="3">Actions</th>
