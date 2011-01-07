@@ -25,7 +25,7 @@ class Song < ActiveRecord::Base
     
   validate :must_have_valid_artist_tag
   
-  def authenticated_url(style = nil, expires_in = 30.minutes)
+  def authenticated_url(style = nil, expires_in = 10.minutes)
     AWS::S3::S3Object.url_for(mp3.path(style || mp3.default_style), mp3.bucket_name, :expires_in => expires_in, :use_ssl => mp3.s3_protocol == 'https').html_safe
   end
   

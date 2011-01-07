@@ -7,24 +7,16 @@
 <% title "#{@record.artist.name}" %>
 
 <div class="container">
-	<div class="spacer">
-  		&nbsp;
-	</div>
 
-
-	<% @record.photos.each do |photo| %>
-	
-	<div class="float">
-		<% if photo %>
-			<%= link_to image_tag(photo.data.url(:small)), photo.data.url(:large) %><br />
-		<% end %>
-	</div>
-
+	<% @record.photos.each do |photo| %>	
+		<div class="float">
+			<% if photo %>
+				<%= link_to image_tag(photo.data.url(:small)), photo.data.url(:large) %><br />
+			<% end %>
+		</div>
 	<% end %>
 	
-	<div class="spacer">
-	  &nbsp;
-	</div>
+	<div class="spacer"></div>
 
 </div>
 
@@ -38,6 +30,11 @@
 	<% end %>
 </p>
 
+<small>
+	<%= image_tag @record.artist.thumbnail if @record.artist.thumbnail %>
+	<%= truncate(@record.artist.description, :length => 350) if @record.artist.description %>
+</small>
+
 <p>
   <b>Label:</b>
   <%= @record.label.name %> 
@@ -47,6 +44,11 @@
 		(<%= link_to "Edit me", edit_label_path(@record.label) %>)
 	<% end %>
 </p>
+
+<small>
+	<%= image_tag @record.label.thumbnail if @record.label.thumbnail %>
+	<%= truncate(@record.label.description, :length => 350) if @record.label.description %>
+</small>
 
 <p>
   <b>Date:</b>
