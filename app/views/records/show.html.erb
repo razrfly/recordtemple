@@ -33,6 +33,7 @@
 <small>
 	<%= image_tag @record.artist.thumbnail if @record.artist.thumbnail %>
 	<%= truncate(@record.artist.description, :length => 350) if @record.artist.description %>
+	<%= link_to "More", artist_path(@record.artist) %>
 </small>
 
 <p>
@@ -48,6 +49,7 @@
 <small>
 	<%= image_tag @record.label.thumbnail if @record.label.thumbnail %>
 	<%= truncate(@record.label.description, :length => 350) if @record.label.description %>
+	<%= link_to "More", label_path(@record.label) %>
 </small>
 
 <p>

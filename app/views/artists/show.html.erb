@@ -1,16 +1,11 @@
-<% title "Artist" %>
+<% title @artist.name %>
+
+<%= image_tag(@artist.thumbnail) unless blank? %>
 
 <p>
-  <strong>Name:</strong>
-  <%= @artist.name %>
-</p>
-<p>
-  <strong>Freebase:</strong>
-  <%= @artist.freebase_id %>
+	<%= @artist.description %>
 </p>
 
 <p>
-  <%= link_to "Edit", edit_artist_path(@artist) %> |
-  <%= link_to "Destroy", @artist, :confirm => 'Are you sure?', :method => :delete %> |
-  <%= link_to "View All", artists_path %>
+   <%= link_to "Back", :back %> | <%= link_to "Edit", edit_artist_path(@artist) %>
 </p>
