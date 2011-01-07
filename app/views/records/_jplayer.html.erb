@@ -3,12 +3,24 @@
 $(document).ready(function(){
 
 	var playItem = 0;
+	
+	<% if user_signed_in? %>
 
-	var myPlayList = [
-	<% for song in @record.songs %>
-		{name:"<%= song.title %>",mp3:"<%= song.authenticated_url %>"}<%= "," unless song.id == @record.songs.last.id %>
+		var myPlayList = [
+		<% for song in @record.songs %>
+			{name:"<%= song.title %>",mp3:"<%= song.authenticated_url %>"}<%= "," unless song.id == @record.songs.last.id %>
+		<% end %>
+		];
+	
+	<% else %>
+	
+		var myPlayList = [
+		<% for song in @record.songs %>
+			{name:"<%= song.title %>",mp3:"<%= song.panda_url %>"}<%= "," unless song.id == @record.songs.last.id %>
+		<% end %>
+		];
+	
 	<% end %>
-	];
 	
 
 

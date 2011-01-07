@@ -17,6 +17,7 @@ class Song < ActiveRecord::Base
     :s3_protocol => 'http'
     
   after_create :create_panda, :create_metadata
+  before_destroy :remove_panda
     
   validates_attachment_presence :mp3
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
@@ -26,6 +27,16 @@ class Song < ActiveRecord::Base
   
   def authenticated_url(style = nil, expires_in = 30.minutes)
     AWS::S3::S3Object.url_for(mp3.path(style || mp3.default_style), mp3.bucket_name, :expires_in => expires_in, :use_ssl => mp3.s3_protocol == 'https').html_safe
+  end
+  
+  def panda_url
+    panda = Panda::Video.find(panda_id)
+    unless panda.fail?
+      panda.encodings.first.url
+    else
+      #panda.delete
+      #recreate_panda
+    end
   end
 
     protected
@@ -40,6 +51,20 @@ class Song < ActiveRecord::Base
     
     def create_panda
       #video = Panda::Video.create(:source_url => mp3.url.gsub(/[?]\d*/,''), :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "music/#{record.id}/snippet/#{mp3_file_name.gsub('.mp3','')}")
+      panda = Panda::Video.create(:source_url => authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{record.artist.id}/#{record.user_id}-#{record_id}-#{id}")
+      self.panda_id = panda.id
+      self.save
+    end
+    
+    def recreate_panda
+      panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+      self.panda_id = panda.id
+      self.save
+    end
+    
+    def remove_panda
+      panda = Panda::Video.find(panda_id)
+      panda.delete
     end
     
     def create_metadata
