@@ -10,15 +10,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110107115339) do
+ActiveRecord::Schema.define(:version => 20110107120920) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
     t.string   "freebase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cached_slug"
   end
 
+  add_index "artists", ["cached_slug"], :name => "index_artists_on_cached_slug", :unique => true
   add_index "artists", ["name"], :name => "index_artists_on_name", :unique => true
 
   create_table "bubbles", :force => true do |t|
@@ -40,8 +42,10 @@ ActiveRecord::Schema.define(:version => 20110107115339) do
     t.string   "freebase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "cached_slug"
   end
 
+  add_index "labels", ["cached_slug"], :name => "index_labels_on_cached_slug", :unique => true
   add_index "labels", ["name"], :name => "index_labels_on_name", :unique => true
 
   create_table "photos", :force => true do |t|
