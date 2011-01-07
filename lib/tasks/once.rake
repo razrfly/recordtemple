@@ -224,10 +224,10 @@ namespace :fix do
   task :songs_g => :environment do
     Song.where("panda_id IS NULL").each do |mp3|
       puts "#{mp3.title} - with ID #{mp3.id} - Record #{mp3.record_id}"
-      panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
-      mp3.panda_id = panda.id
-      puts panda.id
-      mp3.save!
+      #panda = Panda::Video.create(:source_url => mp3.authenticated_url, :profiles => "f4475446032025d7216226ad8987f8e9", :path_format => "#{mp3.record.artist.id}/#{mp3.record.user_id}-#{mp3.record_id}-#{mp3.id}")
+      #mp3.panda_id = panda.id
+      #puts panda.id
+      #mp3.save!
     end
   end
   

@@ -34,6 +34,14 @@ class Record < ActiveRecord::Base
     end
   end
   
+  def cover_photo
+    unless photos.blank?
+      photos.first.data(:thumb)
+    else
+      " "
+    end
+  end
+  
   def cando
     5
   end
