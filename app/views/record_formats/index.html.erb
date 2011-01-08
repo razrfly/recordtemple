@@ -11,7 +11,7 @@
   <% for record_format in @record_formats %>
     <tr>
       <td><%= record_format.name %></td>
-	  <td><%= record_format.prices.size %></td>
+	  <td><%#= record_format.prices.size %></td>
 	  <td><%= record_format.records.size %></td>
       <td><%= link_to "Show", record_format %></td>
       <td><%= link_to "Edit", edit_record_format_path(record_format) %></td>
