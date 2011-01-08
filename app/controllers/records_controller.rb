@@ -2,21 +2,31 @@ class RecordsController < ApplicationController
 
 before_filter :authenticate_user!
 helper_method :sort_column, :sort_direction
-
+  
   def index
     @search = Search.new
     
+    if params[:searchable_type]
+      if params[:searchable_type] == "Artist"
+        @filter = Artist.find(params[:searchable_id])
+      end
+      
+    end
+    
     @records = Record.scoped
     @records = @records.where(:user_id => current_user.id)
+    
+    @records = @records.where(:artist_id => params[:artist_id]) if params[:artist_id]
+    @records = @records.where(:label_id => params[:label_id]) if params[:label_id]
+    
+    @records = @records.where((params[:searchable_type]+"_id").downcase.to_sym => params[:searchable_id]) if params[:searchable_id]
     @records = @records.joins(:songs) if params[:mp3]
-    @records = @records.where(:artist_id => params[:artist_id])
+    
       
     @myvalue = @records.sum(:value)
     @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
     
-    if params[:searchable_type]
-      @filter = Artist.find(params[:artist_id])
-    end
+
   end
 
   def show
