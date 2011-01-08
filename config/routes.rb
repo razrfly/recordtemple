@@ -1,5 +1,7 @@
 Recordapp::Application.routes.draw do
 
+  resources :record_formats
+
   resources :artists
   resources :genres
 

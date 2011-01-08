@@ -1,0 +1,2 @@
+module RecordFormatsHelper
+end
