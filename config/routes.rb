@@ -2,7 +2,12 @@ Recordapp::Application.routes.draw do
 
   resources :record_formats
 
-  resources :artists
+  resources :artists do
+    resources :records
+  end
+  #match ':id' => 'artists#show', :as => :artist, :method => :get
+  #match ':artist_id/:id' => 'records#show', :as => :root_record
+  
   resources :genres
 
   #get "statistics/index"

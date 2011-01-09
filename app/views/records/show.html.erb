@@ -104,34 +104,37 @@
   <%= @record.get_condition[@record.condition.to_i-1][0] %>
 </p>
 
-<p>
-  <b>Price Guide List Price:</b>
-  <%= real_currency(@record.price.bubbles.last.low) %>-<%= real_currency(@record.price.bubbles.last.high) %>
-</p>
-
-<p>
-  <b>My Value:</b>
-  <%= real_currency(@record.value) %>
-</p>
-
-<p>
-  <b>His Value:</b>
-  <%= real_currency(@record.cyberguide) %>
-</p>
+<% if can? :manage, @record %>
+	<p>
+	  <b>Price Guide List Price:</b>
+	  <%= real_currency(@record.price.bubbles.last.low) %>-<%= real_currency(@record.price.bubbles.last.high) %>
+	</p>
+	<p>
+	  <b>My Value:</b>
+	  <%= real_currency(@record.value) %>
+	</p>
+	<p>
+	  <b>His Value:</b>
+	  <%= real_currency(@record.cyberguide) %>
+	</p>
+	<p>
+	  <b>PriceGuide ID:</b>
+	  <%=link_to @record.price_id, price_path(@record.price_id) %>
+	</p>
+<% end %>
 
 <p>
   <b>Comment:</b>
   <%= @record.comment %>
 </p>
 
+<div>
+	<iframe src="http://www.facebook.com/plugins/like.php?href=<%=request.url%>&amp;layout=box_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font=segoe+ui&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
+</div>
 
-<p>
-  <b>PriceGuide ID:</b>
-  <%=link_to @record.price_id, price_path(@record.price_id) %>
-</p>
-
-
-<%= link_to 'Edit', edit_record_path(@record) %> |
-<%= link_to 'Delete', record_path(@record), :method => :delete, :confirm => "Are you sure?" %> |
+<% if can? :manage, @record %>
+	<%= link_to 'Edit', edit_record_path(@record) %> |
+	<%= link_to 'Delete', record_path(@record), :method => :delete, :confirm => "Are you sure?" %> |
+<% end %>
 <%= link_to 'Share this record', new_recommendation_path(:record_id => @record) %> |
 <%= link_to 'Back', records_path %>

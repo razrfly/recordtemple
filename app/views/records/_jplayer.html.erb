@@ -4,26 +4,20 @@ $(document).ready(function(){
 
 	var playItem = 0;
 	
-	<% if user_signed_in? %>
-
+	<% if can? :manage, @record %>
 		var myPlayList = [
 		<% for song in @record.songs %>
 			{name:"<%= song.title %>",mp3:"<%= song.authenticated_url %>"}<%= "," unless song.id == @record.songs.last.id %>
 		<% end %>
 		];
-	
 	<% else %>
-	
 		var myPlayList = [
 		<% for song in @record.songs %>
-			{name:"<%= song.title %>",mp3:"<%= song.panda_url %>"}<%= "," unless song.id == @record.songs.last.id %>
+			{name:"<%= song.title %> (25 second preview)",mp3:"<%= song.panda_url %>"}<%= "," unless song.id == @record.songs.last.id %>
 		<% end %>
 		];
-	
 	<% end %>
 	
-
-
 	// Local copy of jQuery selectors, for performance.
 	var jpPlayTime = $("#jplayer_play_time");
 	var jpTotalTime = $("#jplayer_total_time");

@@ -39,6 +39,7 @@ GEM
     babosa (0.2.0)
     bcrypt-ruby (2.1.2)
     builder (2.1.2)
+    cancan (1.4.1)
     closure-compiler (0.3.3)
     daemons (1.1.0)
     devise (1.1.5)
@@ -127,6 +128,7 @@ PLATFORMS
 DEPENDENCIES
   acts_as_tree
   aws-s3
+  cancan
   devise
   friendly_id (~> 3.1)
   hirb
