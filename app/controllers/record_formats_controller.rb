@@ -1,6 +1,6 @@
 class RecordFormatsController < ApplicationController
   def index
-    @record_formats = RecordFormat.limit(5)
+    @record_formats = RecordFormat.all
   end
   
   def show

@@ -9,6 +9,8 @@ helper_method :sort_column, :sort_direction
     if params[:searchable_type]
       if params[:searchable_type] == "Artist"
         @filter = Artist.find(params[:searchable_id])
+      elsif params[:searchable_type] == "Label"
+        @filter = Label.find(params[:searchable_id])
       end
       
     end
@@ -16,8 +18,8 @@ helper_method :sort_column, :sort_direction
     @records = Record.scoped
     @records = @records.where(:user_id => current_user.id)
     
-    @records = @records.where(:artist_id => params[:artist_id]) if params[:artist_id]
-    @records = @records.where(:label_id => params[:label_id]) if params[:label_id]
+    @records = @records.where(:artist_id => params[:artist_id]) unless params[:artist_id].blank?
+    @records = @records.where(:label_id => params[:label_id]) unless params[:label_id].blank?
     
     @records = @records.where((params[:searchable_type]+"_id").downcase.to_sym => params[:searchable_id]) if params[:searchable_id]
     @records = @records.joins(:songs) if params[:mp3]
@@ -81,7 +83,7 @@ helper_method :sort_column, :sort_direction
   private
   
   def sort_column
-    params[:sort] || "updated_at"
+    params[:sort] ||= "updated_at"
   end
   
   def sort_direction
