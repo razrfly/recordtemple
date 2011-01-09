@@ -26,14 +26,7 @@
 </div>
 
 <table id="mytable" cellspacing="0" class="pretty" summary="My Ultimate Collection of Records">
-<caption>
-
-<% if params[:artist] %>
-	Current View: Search Results for "<%= params[:artist] %>"
-<% else %>
-	Current View:  My Entire Collection
-<% end %>
-</caption>
+<caption><%= page_entries_info @records %></caption>
   <tr>
 	<th scope="col" abbr="Artist" class="nobg"><%= sortable "cached_artist", "Artist" %></th>
     <th scope="col" abbr="Label"><%= sortable "cached_label", "Label" %></th>
@@ -52,7 +45,7 @@
 	<td class="<%=current_cycle%>"><%= record.price.label %></td>
     <td class="<%=current_cycle%>"><%= record.price.format %></td>
 	<td class="<%=current_cycle%>"><%= record.identifier_id %></td>
-    <td class="<%=current_cycle%>"><%= record.price.detail %> <%= record.price.footnote %></td>
+    <td class="<%=current_cycle%>"><%= truncate(record.desc, :length => 50) %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.value) %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.cyberguide) %></td>
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>

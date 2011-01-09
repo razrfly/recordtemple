@@ -106,17 +106,17 @@
 
 <p>
   <b>Price Guide List Price:</b>
-  $<%= @record.price.bubbles.last.low %>-<%= @record.price.bubbles.last.high %>
+  <%= real_currency(@record.price.bubbles.last.low) %>-<%= real_currency(@record.price.bubbles.last.high) %>
 </p>
 
 <p>
   <b>My Value:</b>
-  $<%= @record.value %>
+  $<%= real_currency(@record.value) %>
 </p>
 
 <p>
   <b>His Value:</b>
-  $<%= @record.cyberguide %>
+  <%= real_currency(@record.cyberguide) %>
 </p>
 
 <p>
