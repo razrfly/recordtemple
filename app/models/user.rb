@@ -9,4 +9,16 @@ class User < ActiveRecord::Base
   
   has_many :records
   
+  def admin?
+    false
+  end
+  
+  def role?(role)
+    if email.blank?
+      false
+    else
+      true
+    end
+  end
+  
 end

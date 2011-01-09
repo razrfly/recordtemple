@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
 
-before_filter :authenticate_user!
+#before_filter :authenticate_user!
 helper_method :sort_column, :sort_direction
   
   def index
@@ -20,7 +20,7 @@ helper_method :sort_column, :sort_direction
     else
     
       @records = Record.scoped
-      @records = @records.where(:user_id => current_user.id)
+      @records = @records.where(:user_id => 1) #current_user.id)
 
       @records = @records.where(:artist_id => params[:artist_id]) unless params[:artist_id].blank?
       @records = @records.where(:label_id => params[:label_id]) unless params[:label_id].blank?
