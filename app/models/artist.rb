@@ -11,7 +11,7 @@ class Artist < ActiveRecord::Base
       :max_length => 50
   
   def name_unless_bad
-    reserved_words = [ "index", "show", "create", "destroy", "delete", "new", "update" ]
+    reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
     unless reserved_words.include?(name.downcase)
       name
     else
