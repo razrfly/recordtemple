@@ -49,6 +49,10 @@ class Record < ActiveRecord::Base
     self.cached_label = label.name
   end
   
+  def desc
+    "#{price.detail} #{comment}"
+  end
+  
   #def cando
   #  5
   #end

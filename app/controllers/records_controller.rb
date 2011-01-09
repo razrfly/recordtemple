@@ -83,7 +83,7 @@ helper_method :sort_column, :sort_direction
   private
   
   def sort_column
-    params[:sort] ||= "updated_at"
+    params[:sort] ||= "created_at"
   end
   
   def sort_direction
