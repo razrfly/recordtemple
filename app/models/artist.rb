@@ -4,11 +4,20 @@ class Artist < ActiveRecord::Base
   has_many :labels, :through => :records, :uniq => true
   has_many :songs, :through => :records
   
-  has_friendly_id :name, :use_slug => true,
+  has_friendly_id :name_unless_bad, :use_slug => true,
       # remove accents and other diacritics from Latin characters
       :approximate_ascii => true,
       # don't use slugs larger than 50 bytes
       :max_length => 50
+  
+  def name_unless_bad
+    reserved_words = [ "index", "show", "create", "destroy", "delete", "new", "update" ]
+    unless reserved_words.include?(name.downcase)
+      name
+    else
+      "#{name}-the-artist"
+    end
+  end
   
   index do
     name
