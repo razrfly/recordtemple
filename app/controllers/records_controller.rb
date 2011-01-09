@@ -6,7 +6,7 @@ helper_method :sort_column, :sort_direction
   def index
     @search = Search.new
     
-    if params[:searchable_type]
+    if params[:searchable_type] && params[:searchable_type] != "Full-text"
       if params[:searchable_type] == "Artist"
         @filter = Artist.find(params[:searchable_id])
       elsif params[:searchable_type] == "Label"
@@ -15,20 +15,25 @@ helper_method :sort_column, :sort_direction
       
     end
     
-    @records = Record.scoped
-    @records = @records.where(:user_id => current_user.id)
+    if params[:searchable_type] == "Full-text"
+      redirect_to searches_path(:q => params[:search])
+    else
     
-    @records = @records.where(:artist_id => params[:artist_id]) unless params[:artist_id].blank?
-    @records = @records.where(:label_id => params[:label_id]) unless params[:label_id].blank?
-    
-    @records = @records.where((params[:searchable_type]+"_id").downcase.to_sym => params[:searchable_id]) if params[:searchable_id]
-    @records = @records.joins(:songs) if params[:mp3]
-    
-      
-    @myvalue = @records.sum(:value)
-    @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
-    
+      @records = Record.scoped
+      @records = @records.where(:user_id => current_user.id)
 
+      @records = @records.where(:artist_id => params[:artist_id]) unless params[:artist_id].blank?
+      @records = @records.where(:label_id => params[:label_id]) unless params[:label_id].blank?
+      @records = @records.where(:genre_id => params[:genre_id]) unless params[:genre_id].blank?
+
+      @records = @records.where((params[:searchable_type]+"_id").downcase.to_sym => params[:searchable_id]) if params[:searchable_id]
+      @records = @records.joins(:songs) if params[:mp3]
+
+
+      @myvalue = @records.sum(:value)
+      @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
+    end
+    
   end
 
   def show

@@ -35,6 +35,7 @@
     <th scope="col" abbr="Details">Details</th>
     <th scope="col" abbr="My Value"><%= sortable "value" %></th>
     <th scope="col" abbr="Cyberguide Value">Guide</th>
+	<th scope="col" abbr="Genre"><%= sortable "genre_id" %></th>
 	<th scope="col" abbr="Image?">XTRA</th>
     <th colspan="3">Actions</th>
   </tr>
@@ -48,6 +49,7 @@
     <td class="<%=current_cycle%>"><%= truncate(record.desc, :length => 50) %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.value) %></td>
     <td class="<%=current_cycle%>"><%= real_currency(record.cyberguide) %></td>
+	<td class="<%=current_cycle%>"><%= record.genre.name %></td>
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', record %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %></td>

@@ -1,5 +1,9 @@
 class SearchesController < ApplicationController
 
+  def index
+    @search = Search.search(params[:q])
+  end
+
   def show
     @search = Search.search(params[:search][:term])
   end
@@ -23,7 +27,7 @@ class SearchesController < ApplicationController
   end
   
   def autocomplete
-    @search = Search.search(params[:term]).where("searchable_type IN ('Artist','Label','Song')").limit(8)
+    @search = Search.search(params[:term]).where("searchable_type IN ('Artist','Label','Song','Genre')").limit(8)
   end
 end
 
