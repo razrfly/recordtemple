@@ -96,7 +96,7 @@
 
 <p>
   <b>Genre:</b>
-  <%= @record.genre.name %>
+  <%= link_to @record.genre.name, genre_path(@record.genre) %>
 </p>
 
 <p>
@@ -111,7 +111,7 @@
 
 <p>
   <b>My Value:</b>
-  $<%= real_currency(@record.value) %>
+  <%= real_currency(@record.value) %>
 </p>
 
 <p>

@@ -38,7 +38,7 @@ $(function() {
 		<%= hidden_field_tag :sort, params[:sort] %>
 		
 		<%= text_field_tag :search, params[:search] %>
-		<%= select_tag :searchable_type, options_for_select(%w{ Full-text Artist Label Song }, params[:searchable_type])%>
+		<%= select_tag :searchable_type, options_for_select(%w{ Full-text Artist Label Song Genre }, params[:searchable_type])%>
 		<%= hidden_field_tag :searchable_id, params[:searchable_id] %>
 		
 		<%# if params[:searchable_type] == "Artist" %>
@@ -46,7 +46,7 @@ $(function() {
 		<%# end %>
 		
 		<%= submit_tag "Search" %>
-		<%= link_to 'Simple Search', new_search_path, :class => 'advanced_search' %>
+		<%= link_to 'Advanced Search', new_search_path, :class => 'advanced_search' %>
 		
 		<% if params[:searchable_type] == "Artist" %>
 			<div id="filters">

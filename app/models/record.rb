@@ -50,7 +50,7 @@ class Record < ActiveRecord::Base
   end
   
   def desc
-    "#{price.detail} #{comment}"
+    "#{price.detail} #{comment} #{price.footnote}"
   end
   
   #def cando
