@@ -51,12 +51,12 @@ $(function() {
 		<% if params[:searchable_type] == "Artist" %>
 			<div id="filters">
 				<%= label_tag :filters %>
-				<%= select_tag :label_id, options_from_collection_for_select(@filter.labels, :id, :name, :selected => params[:label_id]), { :include_blank => true }%>
+				<%= select_tag :label_id, options_from_collection_for_select(@filter.labels.order(:name), :id, :name, :selected => params[:label_id]), { :include_blank => true }%>
 			</div>
 		<% elsif params[:searchable_type] == "Label" %>	
 			<div id="filters">
 				<%= label_tag :filters %>
-				<%= select_tag :artist_id, options_from_collection_for_select(@filter.artists, :id, :name, :selected => params[:record_id]), { :include_blank => true }%>
+				<%= select_tag :artist_id, options_from_collection_for_select(@filter.artists.order(:name), :id, :name, :selected => params[:artist_id]), { :include_blank => true }%>
 			</div>		
 		<% end %>
 		
