@@ -2,6 +2,7 @@ class Label < ActiveRecord::Base
   has_many :records
   has_many :prices
   has_many :artists, :through => :records, :uniq => true
+  has_many :genres, :through => :records, :uniq => true
   
   has_friendly_id :name_unless_bad, :use_slug => true,
       # remove accents and other diacritics from Latin characters

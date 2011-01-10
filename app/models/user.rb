@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :remember_me, :nickname, :fname, :lname
   
   has_many :records
+  has_many :user_accounts
   
   def admin?
     if email == "greg2man@gmail.com"

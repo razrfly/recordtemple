@@ -13,7 +13,6 @@ load_and_authorize_resource
       elsif params[:searchable_type] == "Label"
         @filter = Label.find(params[:searchable_id])
       end
-      
     end
     
     if params[:searchable_type] == "Full-text"
@@ -29,7 +28,6 @@ load_and_authorize_resource
 
       @records = @records.where((params[:searchable_type]+"_id").downcase.to_sym => params[:searchable_id]) if params[:searchable_id]
       @records = @records.joins(:songs) if params[:mp3]
-
 
       @myvalue = @records.sum(:value)
       @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]

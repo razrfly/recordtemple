@@ -24,6 +24,10 @@ gem "cancan"
 #gem "matenia-tumblr-api", :require => 'tumblr'
 gem 'to_xls'
 gem 'tumblr-rb'
+gem 'xml-mapping', '0.8.1'
+#gem 'ebayapi'
+
+#gem 'ebayapi', :git => 'git://github.com/rubiety/ebay'
 
 group :development do
   gem 'thin'
