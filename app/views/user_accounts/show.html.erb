@@ -1,0 +1,28 @@
+<% title "User Account" %>
+
+<p>
+  <strong>Provider:</strong>
+  <%= @user_account.provider %>
+</p>
+<p>
+  <strong>Auth Type:</strong>
+  <%= @user_account.auth_type %>
+</p>
+<p>
+  <strong>Key:</strong>
+  <%= @user_account.key %>
+</p>
+<p>
+  <strong>Secret:</strong>
+  <%= @user_account.secret %>
+</p>
+<p>
+  <strong>User:</strong>
+  <%= @user_account.user_id %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_user_account_path(@user_account) %> |
+  <%= link_to "Destroy", @user_account, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", user_accounts_path %>
+</p>
