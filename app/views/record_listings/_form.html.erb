@@ -1,12 +1,12 @@
-<%= form_for [@record,@record_listing] do |f| %>
+<%= simple_form_for [@record,@record_listing] do |f| %>
   <%= f.error_messages %>
 
-  <p>
-    <%#= f.select(:listing_type, @record_listing.listing_type, {}, { :index => nil }) %>
-	<%#= f.select(:listing_type, RecordListing::TYPES) %>
-	<%= f.hidden_field :record_id, :value => params[:record_id] %>
-	<%= f.hidden_field :listing_type, :value => "Tumblr" %>
-  </p>
+	<%= f.input :tumblr_type, :collection => RecordListing::TUMBLR_TYPES, :prompt => "Select Post Type" %>
+	<%= f.input :title, :as => :string, :input_html => { :value => @record.artist.name } %>
+	<%= f.input :body, :as => :text, :input_html => { :value => @record.desc } %>
+	<%= f.input :tags, :as => :string, :input_html => { :value => "records, vinyl, 45s, recordtemple, LPs, vintage" } %>
+	<%= f.input :record_id, :as => :hidden, :input_html => { :value => params[:record_id] } %>
+	<%= f.input :listing_type, :as => :hidden, :input_html => { :value => "Tumblr" } %>
 
-  <p><%= f.submit %></p>
+  	<%= f.button :submit %>
 <% end %>

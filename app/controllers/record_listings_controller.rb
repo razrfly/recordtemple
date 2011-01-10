@@ -16,15 +16,31 @@ class RecordListingsController < ApplicationController
     @record = Record.find(params[:record_id])
     @record_listing = RecordListing.new(params[:record_listing])
     if @record_listing.listing_type = "Tumblr"
-      #check for tumblr credentials
-      #redirect_to @record_listing
       tumblr = current_user.user_accounts.find_by_provider("Tumblr")
       if tumblr
-        doc = {:type => "regular", :state => "published", :title => "Works!", :tags => "stuff,records"}
+        if params[:record_listing][:tumblr_type] == "photo"
+          doc = { :type => "photo", 
+                  :source => @record.photos.first.data.url,
+                  :"click-through-url" => url_for(record_url(@record)), 
+                  :caption => params[:record_listing][:body],
+                  :title => params[:record_listing][:title] }
+        elsif params[:record_listing][:tumblr_type] == "audio"
+          doc = { :type => "audio", 
+                  :description => params[:record_listing][:body],
+                  :"externally-hosted-url" => @record.songs.first.panda_url }
+        else
+          doc = { :type => "regular", 
+                  :title => params[:record_listing][:title],
+                  :description => params[:record_listing][:body] }
+        end
+        doc = { :state => "published", :tags => params[:record_listing][:tags] }.merge(doc)
+        
         request = Tumblr.new(tumblr.key,tumblr.secret).post(doc)
         request.perform do |response|
           if response.success?
             @record_listing.external_id = response.body
+          else
+            flash[:warning] = "Something went wrong: #{response.code} #{response.message}"
           end
         end
       end
