@@ -20,7 +20,9 @@ gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
 gem "friendly_id", "~> 3.1"
 gem "cancan"
-
+#gem 'tumblr-api', :require => 'tumblr'
+#gem "matenia-tumblr-api", :require => 'tumblr'
+gem 'tumblr-rb'
 
 group :development do
   gem 'thin'
