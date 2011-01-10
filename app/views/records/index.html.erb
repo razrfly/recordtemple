@@ -88,5 +88,5 @@
 
 <% if can? :create, @record %>
 	<%= link_to 'New record', prices_path %> | 
-	<%= link_to "Download to Excel", "#{request.fullpath}" %>
+	<%= link_to "Download to Excel", params.merge(:format => :xls) %>
 <% end %>
