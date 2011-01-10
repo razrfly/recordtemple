@@ -63,7 +63,7 @@
 
 <p>
   <b>Format:</b>
-  <%= @record.price.format %>
+  <%= @record.price.media_type %>
 </p>
 
 <p>
@@ -136,5 +136,6 @@
 	<%= link_to 'Edit', edit_record_path(@record) %> |
 	<%= link_to 'Delete', record_path(@record), :method => :delete, :confirm => "Are you sure?" %> |
 <% end %>
+
 <%= link_to 'Share this record', new_recommendation_path(:record_id => @record) %> |
 <%= link_to 'Back', records_path %>

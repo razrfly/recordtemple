@@ -10,7 +10,11 @@ class User < ActiveRecord::Base
   has_many :records
   
   def admin?
-    false
+    if email == "greg2man@gmail.com"
+      true
+    else
+      false
+    end
   end
   
   def role?(role)
