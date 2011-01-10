@@ -1,0 +1,12 @@
+<%= form_for [@record,@record_listing] do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%#= f.select(:listing_type, @record_listing.listing_type, {}, { :index => nil }) %>
+	<%#= f.select(:listing_type, RecordListing::TYPES) %>
+	<%= f.hidden_field :record_id, :value => params[:record_id] %>
+	<%= f.hidden_field :listing_type, :value => "Tumblr" %>
+  </p>
+
+  <p><%= f.submit %></p>
+<% end %>

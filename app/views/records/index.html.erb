@@ -60,7 +60,10 @@
 	<td class="<%=current_cycle%>"><% if record.photos.last != nil %><%=image_tag("image-icon.png")%><% end %><% if record.songs.last != nil %><%=image_tag("Play-Pressed-icon.png")%><% end %></td>
     <td class="<%=current_cycle%>"><%= link_to 'Show', artist_record_path(record.artist,record) %></td>
     <% if can? :manage, @record %>
-		<td class="<%=current_cycle%>"><%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %></td>
+		<td class="<%=current_cycle%>">
+			<%= link_to 'Duplicate', :controller => :records, :action => :new, :id => record.price.id %>
+			<%= link_to 'Add Listing', new_record_record_listing_path(record) %>
+		</td>
   	<% end %>
   </tr>
 <% end %>

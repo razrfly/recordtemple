@@ -1,8 +1,7 @@
 require 'test_helper'
 
 class UserAccountTest < ActiveSupport::TestCase
-  # Replace this with your real tests.
-  test "the truth" do
-    assert true
+  def test_should_be_valid
+    assert UserAccount.new.valid?
   end
 end

@@ -1,0 +1,25 @@
+<% title "User Accounts" %>
+
+<table>
+  <tr>
+    <th>Provider</th>
+    <th>Auth Type</th>
+    <th>Key</th>
+    <th>Secret</th>
+    <th>User</th>
+  </tr>
+  <% for user_account in @user_accounts %>
+    <tr>
+      <td><%= user_account.provider %></td>
+      <td><%= user_account.auth_type %></td>
+      <td><%= user_account.key %></td>
+      <td><%= user_account.secret %></td>
+      <td><%= user_account.user_id %></td>
+      <td><%= link_to "Show", user_account %></td>
+      <td><%= link_to "Edit", edit_user_account_path(user_account) %></td>
+      <td><%= link_to "Destroy", user_account, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New User Account", new_user_account_path %></p>
