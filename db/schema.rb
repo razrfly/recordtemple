@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110109164226) do
+ActiveRecord::Schema.define(:version => 20110109200710) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(:version => 20110109164226) do
 
   add_index "labels", ["cached_slug"], :name => "index_labels_on_cached_slug", :unique => true
   add_index "labels", ["name"], :name => "index_labels_on_name", :unique => true
+
+  create_table "listings", :force => true do |t|
+    t.integer  "record_id"
+    t.integer  "external_id"
+    t.string   "listing_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "photos", :force => true do |t|
     t.integer  "record_id"
