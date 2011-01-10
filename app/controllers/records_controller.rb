@@ -37,7 +37,7 @@ load_and_authorize_resource
     
     respond_to do |format|
       format.html
-      format.xls { send_data @records.to_xls_data(:columns => [:id, {:artist => :name}, {:label => :name}, {:price => :media_type}, :identifier_id, :desc, {:genre => :name}], :headers => [:id, :artist, :label, :format, :uid, :description, :genre]), :filename => 'records.xls' }
+      format.xls { send_data @records.to_xls_data(:columns => [:id, {:artist => :name}, {:label => :name}, {:price => :media_type}, :identifier_id, :desc, {:genre => :name}, :the_condition], :headers => [:id, :artist, :label, :format, :uid, :description, :genre, :condition]), :filename => 'records.xls' }
     end
     
   end

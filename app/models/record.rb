@@ -61,8 +61,16 @@ class Record < ActiveRecord::Base
   #  [["Rock 'n' Roll", 1], ["Surf", 2], ["Rockabilly", 3], ["Doo Wop", 4], ["Instrumental", 5], ["R&B", 6], ["Rock", 7], ["Country", 8], ["Easy Listening", 9], ["Jazz", 10], ["Northern Soul", 11], ["Pop", 12], ["Psychedelic/Garage", 13], ["Soul", 14], ["Soundtrack", 15], ["X-mas", 16]]
   #end
   
+  def the_condition
+    conditions[condition-1]
+  end
+  
   def get_condition
     [["Mint", 1], ["Near Mint", 2], ["Very Good ++", 3], ["Very Good +", 4], ["Very Good", 5], ["Good", 6], ["Poor", 7]]
+  end
+  
+  def conditions
+    ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
   end
     
 end
