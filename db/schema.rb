@@ -103,8 +103,6 @@ ActiveRecord::Schema.define(:version => 20110110160649) do
     t.datetime "updated_at"
   end
 
-  add_index "record_listings", ["record_id", "listing_type"], :name => "index_record_listings_on_record_id_and_listing_type", :unique => true
-
   create_table "records", :force => true do |t|
     t.integer  "genre_id"
     t.integer  "value"
