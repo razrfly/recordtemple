@@ -314,12 +314,12 @@ div.heading.group a.button, div.heading.group input.submit {
 .digg_pagination {
   background: white;
   /* self-clearing method: */ }
-  .digg_pagination a, .digg_pagination span {
+  .digg_pagination a, .digg_pagination span, .digg_pagination em {
     padding: .2em .5em;
     display: block;
     float: left;
     margin-right: 1px; }
-  .digg_pagination span.disabled {
+  .digg_pagination span.disabled, .digg_pagination em {
     color: #999;
     border: 1px solid #DDD; }
   .digg_pagination span.current {
@@ -345,6 +345,7 @@ div.heading.group a.button, div.heading.group input.submit {
       color: #003;
       background: #6aa6ed;
       padding: .1em .25em; }
+
   .digg_pagination:after {
     content: ".";
     display: block;
