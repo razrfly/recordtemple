@@ -2,7 +2,7 @@ class RecordsController < ApplicationController
 
 #before_filter :authenticate_user!
 helper_method :sort_column, :sort_direction
-load_and_authorize_resource
+#load_and_authorize_resource
   
   def index
     @search = Search.new
@@ -33,6 +33,11 @@ load_and_authorize_resource
 
       @myvalue = @records.sum(:value)
       @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
+    end
+    
+    respond_to do |format|
+      format.html
+      format.xls { send_data @records.to_xls_data(:columns => [:id, {:artist => :name}, {:label => :name}, {:price => :media_type}, :identifier_id, :desc, {:genre => :name}], :headers => [:id, :artist, :label, :format, :uid, :description, :genre]), :filename => 'records.xls' }
     end
     
   end

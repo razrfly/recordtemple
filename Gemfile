@@ -22,6 +22,7 @@ gem "friendly_id", "~> 3.1"
 gem "cancan"
 #gem 'tumblr-api', :require => 'tumblr'
 #gem "matenia-tumblr-api", :require => 'tumblr'
+gem 'to_xls'
 gem 'tumblr-rb'
 
 group :development do
