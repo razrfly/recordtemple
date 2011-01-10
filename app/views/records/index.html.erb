@@ -87,7 +87,6 @@
 </div><br>
 
 <% if can? :create, @record %>
-	<%= link_to 'New record', prices_path %><br />
-	
-	<%= link_to "Download to Excel", "#{request.fullpath}.xls" %>
+	<%= link_to 'New record', prices_path %> | 
+	<%= link_to "Download to Excel", "#{request.fullpath}" %>
 <% end %>
