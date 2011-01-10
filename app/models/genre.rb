@@ -1,5 +1,7 @@
 class Genre < ActiveRecord::Base
   has_many :records
+  has_many :artists, :through => :records, :uniq => true
+  has_many :labels, :through => :records, :uniq => true
   
   has_friendly_id :name, :use_slug => true,
       # remove accents and other diacritics from Latin characters
