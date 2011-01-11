@@ -2,6 +2,7 @@ class Price < ActiveRecord::Base
   has_many :records, :dependent => :destroy
   has_many :bubbles, :dependent => :destroy
   belongs_to :record_format
+  belongs_to :artist
 
   index do
     detail
