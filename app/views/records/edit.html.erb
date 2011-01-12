@@ -26,11 +26,11 @@
     <%= f.select(:genre_id, Genre.all.collect {|p| [ p.name, p.id ] }, { :prompt => true }) %>
 </p>
 <b>Photos:</b><br>
-<div id="sortable_photos">
 	<% unless @record.photos.blank? %>
-		<%= render :partial => 'photos' %>
+		<div id="sortable_photos">
+			<%= render :partial => 'photos' %>
+		</div>
 	<% end %>
-</div>
 
 <%= f.fields_for :photos, @record.photos.build do |photo_form| %>
 	<%= photo_form.file_field :data, :class => 'uploadifiable_photos' %>
@@ -39,11 +39,12 @@
 <%= render :partial => 'uploadify_photos' %>
 
 <br /><b>Songs:</b><br>
-<div id="sortable_songs">
 	<% unless @record.songs.blank? %>
-		<%= render :partial => 'songs' %>
+		<div id="sortable_songs">
+			<%= render :partial => 'songs' %>
+		</div>
 	<% end %>
-</div>
+
 
 <%= f.fields_for :songs, @record.songs.build do |song_form| %>
 	<%= song_form.file_field :data, :class => 'uploadifiable_songs' %>
