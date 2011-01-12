@@ -26,7 +26,7 @@ $(function() {
 	
     <%= f.label :freebase_id %> <%= @artist.freebase_id %><br />
 	<%= text_field_tag :freebase %>
-    <%= f.hidden_field :freebase_id %>
+    <%= f.text_field :freebase_id %>
   </p>
   <p><%= f.submit %></p>
 <% end %>

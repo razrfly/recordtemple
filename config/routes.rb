@@ -10,6 +10,8 @@ Recordapp::Application.routes.draw do
   end
   #match ':id' => 'artists#show', :as => :artist, :method => :get
   #match ':artist_id/:id' => 'records#show', :as => :root_record
+  #match ':id' => 'artists#show'
+  #match ':artist_id/:id' => 'records#show'
   
   resources :genres
 
