@@ -97,7 +97,7 @@ load_and_authorize_resource
   private
   
   def sort_column
-    params[:sort] ||= "created_at"
+    params[:sort] ||= "updated_at"
   end
   
   def sort_direction
