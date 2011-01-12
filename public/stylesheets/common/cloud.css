@@ -476,3 +476,34 @@ ul.thumb li img.hover {
 	background:url(/images/thumb_bg.png) no-repeat center center;
 	border: none; /* Get rid of border on hover */
 }
+
+/* PHOTO SORTING */
+
+div#sortable_photos {
+	min-height: 158px;
+}
+
+div#sortable_songs {
+	min-height: 50px;
+	margin-top: 10px;
+}
+
+ul.photo_arrange {
+    list-style: none outside none;
+    width: 50em;
+}
+
+ul.photo_arrange li {
+    float: left;
+    width: 8em;
+}
+
+ul.photo_arrange li .handle {
+    color: #777777;
+    cursor: move;
+    font-size: 12px;
+}
+
+ul.photo_arrange img {
+	border: none;
+}
