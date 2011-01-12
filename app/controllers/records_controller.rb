@@ -53,6 +53,11 @@ load_and_authorize_resource
 
   def edit
     @record = Record.find(params[:id])
+    
+    respond_to do |format|
+      format.html
+      format.js { render :nothing => true }
+    end
   end
 
   def create

@@ -1,0 +1,21 @@
+<script type="text/javascript">
+  $(function() { 
+
+    $('.uploadifiable_photos').uploadify ({
+	  buttonText      : 'Upload Photos!',
+      script          : '<%= record_photos_path(@record) %>',
+      uploader        : '/flash/uploadify.swf',
+	  onAllComplete   : function(event,data) {
+	      					$.getScript('<%= record_photos_path(@record, :format => "js") %>');
+	  					},
+      multi           : true,
+      auto            : true,
+      scriptData      : {
+					        '_http_accept': 'application/javascript',
+							'format' : 'json',
+					        '_method': 'post'
+	      				},
+      cancelImg       : '/images/cancel.png'  //take care that the image is accessible
+    });
+  });
+</script>

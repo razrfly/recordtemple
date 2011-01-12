@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110110160649) do
+ActiveRecord::Schema.define(:version => 20110111231700) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(:version => 20110110160649) do
     t.string   "data_content_type"
     t.integer  "data_file_size"
     t.datetime "data_updated_at"
+    t.integer  "position"
+    t.string   "title"
   end
 
   create_table "prices", :force => true do |t|

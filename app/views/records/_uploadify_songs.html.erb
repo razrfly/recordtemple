@@ -1,0 +1,21 @@
+<script type="text/javascript">
+  $(function() { 
+
+    $('.uploadifiable_songs').uploadify ({
+	  buttonText      : 'Upload Songs!',
+      script          : '<%= record_songs_path(@record) %>',
+      uploader        : '/flash/uploadify.swf',
+	  onAllComplete   : function(event,data) {
+	      					$.getScript('<%= record_songs_path(@record, :format => "js") %>');
+	  					},
+      multi           : true,
+      auto            : true,
+      scriptData      : {
+					        '_http_accept': 'application/javascript',
+							'format' : 'json',
+					        '_method': 'post'
+	      				},
+      cancelImg       : '/images/cancel.png'  //take care that the image is accessible
+    });
+  });
+</script>

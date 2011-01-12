@@ -1,15 +1,15 @@
 <% title "Editing record" %>
 
-<% form_for(@record, :html => { :multipart => true }) do |f| %>
+<%= form_for(@record, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %>
 <p>
   <b>Artist:</b>
-  <%=h @record.price.name %>
+  <%= @record.price.name %>
 </p>
 
 <p>
   <b>Label:</b>
-  <%=h @record.label.name %>
+  <%= @record.label.name %>
 </p>
 
 <p>
@@ -25,39 +25,33 @@
 	<%= f.select(:condition, @record.get_condition) %>
     <%= f.select(:genre_id, Genre.all.collect {|p| [ p.name, p.id ] }, { :prompt => true }) %>
 </p>
-
-<p><br><br>
-
-
-<b>Attachments:</b><br>
-	<% @record.photos.each do |photo| %>
-		<% unless photo.nil? %>
-			<%= link_to image_tag(photo.data.url(:thumb)), photo.data.url(:medium) %>
-			<%= link_to 'Destroy', photo, :confirm => 'Are you sure?', :method => :delete %><br>
-			<br />
-		<% end %>
+<b>Photos:</b><br>
+<div id="sortable_photos">
+	<% unless @record.photos.blank? %>
+		<%= render :partial => 'photos' %>
 	<% end %>
-	
-	<% @record.songs.each do |song| %>
-		<% unless song.nil? %>
-			<%#= render :partial => 'jplayer' %>
-			<%= song.mp3_file_name %>
-			<%= link_to 'Destroy', song, :confirm => 'Are you sure?', :method => :delete %><br>
-			<br />
-		<% end %>
+</div>
+
+<%= f.fields_for :photos, @record.photos.build do |photo_form| %>
+	<%= photo_form.file_field :data, :class => 'uploadifiable_photos' %>
+<% end %>
+
+<%= render :partial => 'uploadify_photos' %>
+
+<br /><b>Songs:</b><br>
+<div id="sortable_songs">
+	<% unless @record.songs.blank? %>
+		<%= render :partial => 'songs' %>
 	<% end %>
-	
-  <div id="photos">
+</div>
 
-  </div>
-  <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
+<%= f.fields_for :songs, @record.songs.build do |song_form| %>
+	<%= song_form.file_field :data, :class => 'uploadifiable_songs' %>
+<% end %>
 
-  <div id="songs">
-	
-  </div>
-  <%= add_object_link("New Song", f, @record.songs.build, "song", "#songs") %>
+<%= render :partial => 'uploadify_songs' %>
 
-</p>
+
   <p>
     <%= f.label :value, "My Value" %><br />
     <%= f.text_field :value %>

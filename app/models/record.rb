@@ -11,7 +11,7 @@ class Record < ActiveRecord::Base
   
   validates_presence_of :price_id, :genre, :condition, :user, :artist, :label
 
-  has_many :photos, :dependent => :destroy
+  has_many :photos, :order => :position, :dependent => :destroy
   has_many :songs, :dependent => :destroy
   has_many :record_listings, :dependent => :destroy
   has_many :recommendations
