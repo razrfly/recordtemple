@@ -5,28 +5,18 @@ class Photo < ActiveRecord::Base
     attachment.instance.record_id
   end
   
-  #Paperclip.interpolates :name  do |attachment, style|
-  #  attachment.instance.hostel.name
-  #end
-  
   has_attached_file :data,
     :storage => 's3',
     :s3_credentials => "#{RAILS_ROOT}/config/s3_credentials.yml",
     :bucket => 'recordtemple.com',
     :s3_host_alias => 'recordtemple.com.s3.amazonaws.com',
     :url => ':s3_alias_url',
-    #:path => "images/:class/:id_:timestamp.:style.:extension",
-    :path => "images/records/:record_id/:style/:basename.:extension",
-    
-    :styles => { :thumb => "60x60#", :small => "200x200#", :medium => "400x400#", :large => "800x800#" },
-    
+    :path => "images/records/:record_id/:style/:basename.:extension",  
+    :styles => { :thumb => "60x60#", :small => "200x200#", :medium => "400x400#", :large => "800x800#" },   
     :default_style => :original,
     :default_url => 'http://recordtemple.com.s3.amazonaws.com/images/records/m1.png',
     :s3_headers => { 'Expires' => 2.months.from_now.httpdate },
     :convert_options => { :all => '-strip -trim' }
-    
-    #:url => "/assets/images/:hostel_id/:id/:style/:basename.:extension",
-
     
     validates_attachment_presence :data
     validates_attachment_size :data, :less_than => 5.megabytes
