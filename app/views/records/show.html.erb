@@ -72,12 +72,7 @@
 </p>
 
 <% unless @record.songs.blank? %>
-
-		<%#= mp3_player song.mp3.url %><%#= link_to 'Download', song.mp3.url %><br />
-	
 	<%= render :partial => 'jplayer' %>
-
-
 <% end %>
 
 <% unless @record.price.detail.blank? %>

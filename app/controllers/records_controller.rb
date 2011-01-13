@@ -15,7 +15,7 @@ load_and_authorize_resource
       end
     end
     
-    if params[:searchable_type] == "Full-text"
+    if params[:searchable_type] == "Full-text"# || params[:searchable_id] == ""
       redirect_to searches_path(:q => params[:search])
     else
     
@@ -33,10 +33,10 @@ load_and_authorize_resource
       @records = @records.order(sort_column + " " + sort_direction).paginate :per_page => params[:per_page], :page => params[:page]
     end
     
-    respond_to do |format|
-      format.html
-      format.xls { send_data @records.to_xls_data(:columns => [:id, {:artist => :name}, {:label => :name}, {:price => :media_type}, :identifier_id, :desc, {:genre => :name}, :the_condition], :headers => [:id, :artist, :label, :format, :uid, :description, :genre, :condition]), :filename => 'records.xls' }
-    end
+    #respond_to do |format|
+    #  format.html
+    #  format.xls { send_data @records.to_xls_data(:columns => [:id, {:artist => :name}, {:label => :name}, {:price => :media_type}, :identifier_id, :desc, {:genre => :name}, :the_condition], :headers => [:id, :artist, :label, :format, :uid, :description, :genre, :condition]), :filename => 'records.xls' }
+    #end
     
   end
 
