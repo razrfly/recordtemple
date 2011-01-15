@@ -48,5 +48,7 @@ Recordapp::Application.routes.draw do
   resources :recommendations
 
   root :to => "home#index"
+  match ':id' => 'artists#show', :as => :artist, :method => :get
+  match ':artist_id/:id' => 'records#show', :as => :artist_record, :method => :get
 
 end
