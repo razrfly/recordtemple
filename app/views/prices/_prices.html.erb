@@ -1,9 +1,9 @@
 <% for price in @prices %>
 	<div id="price">
 		<ul>
-			<li class="inline"><%= price.artist %></li>
+			<li class="inline"><%= price.name %></li>
 			<li class="inline"><%= price.label %></li>
-			<li class="inline"><%= price.format %></li>
+			<li class="inline"><%= price.media_type %></li>
 		    <li class="inline"><%= price.detail %></li>
 		    <li class="inline"><%= price.footnote %></li>
 		    <li class="inline">$<%= price.price_range %></li>

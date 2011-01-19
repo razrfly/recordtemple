@@ -22,8 +22,8 @@ class PricesController < ApplicationController
   #end
 
   def index
-    if params[:artist]
-      @prices = Price.where("LOWER(artist) LIKE ? AND LOWER(label) LIKE ? AND LOWER(format) LIKE ?", "#{params[:artist].downcase}%", "#{params[:label].downcase}%", "%#{params[:media_type].downcase}%").paginate :page => params[:page], :per_page => params[:per_page]
+    if params[:name]
+      @prices = Price.where("LOWER(name) LIKE ? AND LOWER(label) LIKE ? AND LOWER(media_type) LIKE ?", "#{params[:name].downcase}%", "#{params[:label].downcase}%", "%#{params[:media_type].downcase}%").paginate :page => params[:page], :per_page => params[:per_page]
       #@prices = Price.where("LOWER(artist) LIKE ? AND LOWER(label) LIKE ?", "#{params[:artist].downcase}%", "#{params[:label].downcase}%")
     end
   end
