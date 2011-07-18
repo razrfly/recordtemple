@@ -17,7 +17,7 @@ class Record < ActiveRecord::Base
   has_many :recommendations
   
   acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos, :songs
+  accepts_nested_attributes_for :photos, :songs, :artist
   
   before_save :cache_columns
   

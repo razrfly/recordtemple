@@ -63,29 +63,21 @@ load_and_authorize_resource
   def create
     @record = Record.new(params[:record])
 
-    respond_to do |format|
-      if @record.save
-        flash[:notice] = 'Record was successfully created.'
-        format.html { redirect_to(@record) }
-        format.xml  { render :xml => @record, :status => :created, :location => @record }
-      else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
-      end
+    if @record.save
+      flash[:notice] = 'Please verify all the details and music or photos!'
+      redirect_to edit_record_path(@record)
+    else
+      render :action => "new"
     end
   end
 
   def update
     @record = Record.find(params[:id])
-    respond_to do |format|
-      if @record.update_attributes(params[:record])
-        flash[:notice] = 'Record was successfully updated.'
-        format.html { redirect_to(@record) }
-        format.xml  { head :ok }
-      else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @record.errors, :status => :unprocessable_entity }
-      end
+    if @record.update_attributes(params[:record])
+      flash[:notice] = 'Record was successfully updated.'
+      redirect_to @record
+    else
+      render :action => "edit"
     end
   end
 

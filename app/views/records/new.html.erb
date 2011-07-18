@@ -1,4 +1,4 @@
-<h1>New record</h1>
+<% title "New record" %>
 
 <% form_for(@record, :html => { :multipart => true }) do |f| %>
   <%= f.error_messages %> 
@@ -17,7 +17,41 @@
 	<%= f.hidden_field :label_id, :value => @price.label_id %>
 	<%= f.hidden_field :price_id, :value => params[:id] %>
 
-<% end %>  
+	<% unless @price.artist.freebase_id.blank? %>	
+		<small>
+			<%= image_tag @price.artist.thumbnail if @price.artist.thumbnail %>
+			<%= truncate(@price.artist.description, :length => 350) if @price.artist.description %>
+			<%= link_to "More", artist_path(@price.artist) %>
+		</small>
+
+		<% content_for :head do %>
+			<link type="text/css" rel="stylesheet" href="http://freebaselibs.com/static/suggest/1.3/suggest.min.css" />
+			<script type="text/javascript" src="http://freebaselibs.com/static/suggest/1.3/suggest.min.js"></script>
+			<script type="text/javascript">
+				$(function() {
+				  $("#freebase_album")
+					.suggest({
+						type: "/music/album",
+						mql_filter: [{"/music/album/artist": [{"id": "<%= @price.artist.freebase_id %>"}] }]
+					})
+					.bind("fb-select", function(e, data) {
+					    $("#freebase_album_id").val(data.id);
+					  });
+				});
+			</script>
+		<% end %>
+	
+		<p>
+		  <%= label_tag "Album Name" %><br />
+		  <%= text_field_tag :freebase_album %>
+		  <%= hidden_field_tag :freebase_album_id %>
+		</p>
+	
+	<% else %>
+		Warning: The artist you're attempting to add has no Freebase ID (ie you are in the vacuum of digital space)
+		Please add it first, if possible <%= link_to "Add me", edit_artist_path(@price.artist) %>
+	<% end %>
+<% end %>
 
   <p>
     <%= f.label :genre %><br />
@@ -28,17 +62,6 @@
     <%=f.select(:condition, @record.get_condition, {:include_blank => true}) %>
   </p>
   <p>
-  <div id="photos">
-
-  </div>
-  <%= add_object_link("New Photo", f, @record.photos.build, "photo", "#photos") %>
-
-  <div id="songs">
-	
-  </div>
-  <%= add_object_link("New Song", f, @record.songs.build, "song", "#songs") %>
-
-  </p><br><br>
     <%= f.label :value %><br />
 	<% if params[:id] %>
 		<%= f.text_field :value, :value => "#{@price.pricehigh}" %>
