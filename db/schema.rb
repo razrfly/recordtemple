@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110111231700) do
+ActiveRecord::Schema.define(:version => 20110718130741) do
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20110111231700) do
     t.integer  "artist_id"
     t.integer  "label_id"
     t.integer  "record_format_id"
+    t.string   "freebase_id"
   end
 
   create_table "recommendations", :force => true do |t|
