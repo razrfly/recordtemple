@@ -21,7 +21,7 @@
   <%= @record.price.detail %>
 </p>
 <p>
-  <b>Condition & Genre:</b><br>
+  <b>Condition &amp; Genre:</b><br>
 	<%= f.select(:condition, @record.get_condition) %>
     <%= f.select(:genre_id, Genre.all.collect {|p| [ p.name, p.id ] }, { :prompt => true }) %>
 </p>
@@ -33,10 +33,10 @@
 	<% end %>
 
 <%= f.fields_for :photos, @record.photos.build do |photo_form| %>
-	<%= photo_form.file_field :data, :class => 'uploadifiable_photos' %>
+	<%= photo_form.file_field :data %>
 <% end %>
 
-<%= render :partial => 'uploadify_photos' %>
+<%#= render :partial => 'uploadify_photos' %>
 
 <br /><b>Songs:</b><br>
 	<% unless @record.songs.blank? %>
@@ -47,10 +47,10 @@
 
 
 <%= f.fields_for :songs, @record.songs.build do |song_form| %>
-	<%= song_form.file_field :data, :class => 'uploadifiable_songs' %>
+	<%= song_form.file_field :data %>
 <% end %>
 
-<%= render :partial => 'uploadify_songs' %>
+<%#= render :partial => 'uploadify_songs' %>
 
 
   <p>
