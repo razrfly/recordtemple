@@ -33,10 +33,10 @@
 	<% end %>
 
 <%= f.fields_for :photos, @record.photos.build do |photo_form| %>
-	<%= photo_form.file_field :data %>
+	<%= photo_form.file_field :data, :class => 'uploadifiable_photos' %>
 <% end %>
 
-<%#= render :partial => 'uploadify_photos' %>
+<%= render :partial => 'uploadify_photos' %>
 
 <br /><b>Songs:</b><br>
 	<% unless @record.songs.blank? %>
@@ -47,10 +47,10 @@
 
 
 <%= f.fields_for :songs, @record.songs.build do |song_form| %>
-	<%= song_form.file_field :data %>
+	<%= song_form.file_field :data, :class => 'uploadifiable_songs' %>
 <% end %>
 
-<%#= render :partial => 'uploadify_songs' %>
+<%= render :partial => 'uploadify_songs' %>
 
 
   <p>
