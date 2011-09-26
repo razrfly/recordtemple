@@ -40,6 +40,7 @@ GEM
     builder (2.1.2)
     cancan (1.4.1)
     closure-compiler (0.3.3)
+    cocaine (0.2.0)
     crack (0.1.8)
     daemons (1.1.0)
     devise (1.1.5)
@@ -80,9 +81,11 @@ GEM
       json (>= 1.2)
       rest-client (>= 1.4)
       ruby-hmac (>= 0.3.2)
-    paperclip (2.3.8)
-      activerecord
-      activesupport
+    paperclip (2.4.2)
+      activerecord (>= 2.3.0)
+      activesupport (>= 2.3.2)
+      cocaine (>= 0.0.2)
+      mime-types
     pg (0.10.1)
     polyglot (0.3.2)
     rack (1.2.4)
@@ -156,7 +159,7 @@ DEPENDENCIES
   nifty-generators
   open-meta-tags
   panda
-  paperclip (= 2.3.8)
+  paperclip (= 2.4.2)
   pg (= 0.10.1)
   rails (= 3.0.10)
   ruby-mp3info
