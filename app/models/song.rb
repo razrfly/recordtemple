@@ -17,7 +17,7 @@ class Song < ActiveRecord::Base
     :s3_protocol => 'http'
     
   after_create :create_panda, :create_metadata
-  before_destroy :remove_panda
+  after_destroy :remove_panda
     
   validates_attachment_presence :mp3
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
@@ -25,8 +25,10 @@ class Song < ActiveRecord::Base
     
   validate :must_have_valid_artist_tag
   
-  def authenticated_url(style = nil, expires_in = 10.minutes)
-    AWS::S3::S3Object.url_for(mp3.path(style || mp3.default_style), mp3.bucket_name, :expires_in => expires_in, :use_ssl => mp3.s3_protocol == 'https').html_safe
+  def authenticated_url(options={})
+    #AWS::S3::S3Object.url_for(mp3.path(mp3.default_style), mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => mp3.s3_protocol == 'https').html_safe
+    options.reverse_merge! :expires_in => 10.minutes, :use_ssl => true
+    AWS::S3::S3Object.url_for mp3.path, mp3.options[:bucket], options
   end
   
   def panda_url
@@ -63,8 +65,10 @@ class Song < ActiveRecord::Base
     end
     
     def remove_panda
-      panda = Panda::Video.find(panda_id)
-      panda.delete
+      unless panda_id.blank?
+        panda = Panda::Video.find(panda_id)
+        panda.delete
+      end
     end
     
     def create_metadata

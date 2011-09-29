@@ -6,13 +6,13 @@ gem 'rails', '3.0.10'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'pg', '0.10.1'
-gem 'aws-s3', :require => 'aws/s3'
-gem 'paperclip', '2.4.2'
+gem 'paperclip', '~> 2.3.16'
+#gem 'aws-s3', :require => 'aws/s3'
+gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
 gem 'will_paginate', '~> 3.0.pre2'
 gem 'ruby-mp3info', :require => 'mp3info'
 gem 'devise'
 gem 'acts_as_tree'
-#gem 'acts_as_list'
 gem 'jammit'
 gem 'simple_form'
 gem 'ken'
@@ -24,6 +24,7 @@ gem "cancan"
 gem 'to_xls'
 gem 'tumblr-rb', :require => 'tumblr'
 gem 'xml-mapping', '0.8.1'
+gem "mime-types", "~> 1.16", :require => 'mime/types'
 #gem 'ebayapi'
 #gem 'ebayapi', :git => 'git://github.com/rubiety/ebay'
 
@@ -33,4 +34,3 @@ group :development do
   gem 'nifty-generators'
   gem 'jquery-rails'
 end
-gem "mocha", :group => :test

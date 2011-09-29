@@ -72,8 +72,6 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.16)
-    mocha (0.9.10)
-      rake
     nifty-generators (0.4.2)
     oauth (0.4.4)
     open-meta-tags (0.4.0)
@@ -81,7 +79,7 @@ GEM
       json (>= 1.2)
       rest-client (>= 1.4)
       ruby-hmac (>= 0.3.2)
-    paperclip (2.4.2)
+    paperclip (2.3.16)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
@@ -147,7 +145,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_tree
-  aws-s3
+  aws-s3 (~> 0.6.2)
   cancan
   devise
   friendly_id (~> 3.2.1)
@@ -155,11 +153,11 @@ DEPENDENCIES
   jammit
   jquery-rails
   ken
-  mocha
+  mime-types (~> 1.16)
   nifty-generators
   open-meta-tags
   panda
-  paperclip (= 2.4.2)
+  paperclip (~> 2.3.16)
   pg (= 0.10.1)
   rails (= 3.0.10)
   ruby-mp3info

@@ -20,5 +20,5 @@ class Photo < ActiveRecord::Base
     
     validates_attachment_presence :data
     validates_attachment_size :data, :less_than => 5.megabytes
-    validates_attachment_content_type :data, :content_type => ['image/jpeg','image/gif','image/png']
+    #validates_attachment_content_type :data, :content_type => ['image/jpeg','image/gif','image/png']
 end

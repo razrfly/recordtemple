@@ -1,3 +1,5 @@
+<% session_key_name = Rails.application.config.session_options[:key] %>
+
 <script type="text/javascript">
   $(function() { 
 
@@ -10,12 +12,17 @@
 	  					},
       multi           : true,
       auto            : true,
+	  fileExt         : '*.png;*.jpg;',
+	  cancelImg       : '/images/cancel.png',  //take care that the image is accessible
       scriptData      : {
 					        '_http_accept': 'application/javascript',
 							'format' : 'json',
-					        '_method': 'post'
-	      				},
-      cancelImg       : '/images/cancel.png'  //take care that the image is accessible
+					        '_method': 'post',
+							'<%= session_key_name %>' : encodeURIComponent('<%= u cookies[session_key_name] %>'),
+					        'authenticity_token': encodeURIComponent('<%= u form_authenticity_token %>')
+	      				}
+      
+
     });
   });
 </script>

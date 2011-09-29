@@ -1,6 +1,6 @@
 class PhotosController < ApplicationController
   
-  skip_before_filter :verify_authenticity_token, :only => [ :create ]
+  #skip_before_filter :verify_authenticity_token, :only => [ :create ]
   
   def index
     @record = Record.find(params[:record_id])
