@@ -6,3 +6,9 @@ Recordapp::Application.config.session_store :cookie_store, :key => '_recordapp_s
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rake db:sessions:create")
 # Recordapp::Application.config.session_store :active_record_store
+
+Rails.application.config.middleware.insert_before(
+  ActionDispatch::Session::CookieStore,
+  FlashSessionCookieMiddleware,
+  Rails.application.config.session_options[:key]
+)

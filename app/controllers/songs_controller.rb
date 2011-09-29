@@ -1,6 +1,6 @@
 class SongsController < ApplicationController
   
-  skip_before_filter :verify_authenticity_token, :only => [ :create ]
+  #skip_before_filter :verify_authenticity_token, :only => [ :create ]
   
   def index
     @record = Record.find(params[:record_id])
@@ -9,7 +9,7 @@ class SongsController < ApplicationController
   
   def create
     @record = Record.find(params[:record_id]) 
-    params[:Filedata].content_type = MIME::Types.type_for(params[:Filedata].original_filename).to_s    
+    params[:Filedata].content_type = MIME::Types.type_for(params[:Filedata].original_filename).to_s
     @song = Song.new(:record_id => @record.id, :mp3 => params[:Filedata])
 
     if @song.save
