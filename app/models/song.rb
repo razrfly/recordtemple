@@ -16,8 +16,8 @@ class Song < ActiveRecord::Base
     :s3_permissions => 'authenticated-read',
     :s3_protocol => 'http'
     
-  after_create :create_panda, :create_metadata
-  after_destroy :remove_panda
+  after_save :create_metadata#, :create_panda
+  #after_destroy :remove_panda
     
   validates_attachment_presence :mp3
     #validates_attachment_content_type :mp3, :content_type => [ 'application/mp3', 'application/x-mp3', 'audio/mpeg', 'audio/mp3' ], :message => "requires a valid mp3 type"
