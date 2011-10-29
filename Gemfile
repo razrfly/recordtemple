@@ -27,6 +27,8 @@ gem 'xml-mapping', '0.8.1'
 gem "mime-types", "~> 1.16", :require => 'mime/types'
 #gem 'ebayapi'
 #gem 'ebayapi', :git => 'git://github.com/rubiety/ebay'
+gem 'activeadmin', :git => 'git://github.com/gregbell/active_admin.git'
+gem 'rails3-jquery-autocomplete', '~> 1.0.4'
 
 group :development do
   gem 'thin'

@@ -1,5 +1,9 @@
 Recordapp::Application.routes.draw do
 
+  ActiveAdmin.routes(self)
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
   resources :user_accounts
   #resources :record_listings
 
@@ -28,6 +32,7 @@ Recordapp::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   resources :records do
+    get :autocomplete_artist_name, :on => :collection
     resources :record_listings
     resources :songs
     resources :photos do
@@ -46,6 +51,7 @@ Recordapp::Application.routes.draw do
     end
   end
   resources :recommendations
+
 
   root :to => "home#index"
   #match ':id' => 'artists#show', :as => :artist, :method => :get
