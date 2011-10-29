@@ -21,6 +21,9 @@ class Record < ActiveRecord::Base
   
   before_save :cache_columns
   
+  scope :has_music, joins(:songs)
+  scope :has_image, joins(:photos)
+  
   def cyberguide
     if condition <= 2
       price.bubbles.last.high
@@ -73,5 +76,7 @@ class Record < ActiveRecord::Base
   def conditions
     ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
   end
+  
+  CONDITIONS = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
     
 end
