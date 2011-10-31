@@ -23,7 +23,7 @@ class PricesController < ApplicationController
 
   def index
     if params[:name]
-      @prices = Price.where("LOWER(name) LIKE ? AND LOWER(label) LIKE ? AND LOWER(media_type) LIKE ?", "#{params[:name].downcase}%", "#{params[:label].downcase}%", "%#{params[:media_type].downcase}%").paginate :page => params[:page], :per_page => params[:per_page]
+      @prices = Price.where("LOWER(cache_artist) LIKE ? AND LOWER(cache_label) LIKE ? AND LOWER(media_type) LIKE ?", "#{params[:name].downcase}%", "#{params[:label].downcase}%", "%#{params[:media_type].downcase}%").paginate :page => params[:page], :per_page => params[:per_page]
       #@prices = Price.where("LOWER(artist) LIKE ? AND LOWER(label) LIKE ?", "#{params[:artist].downcase}%", "#{params[:label].downcase}%")
     end
   end

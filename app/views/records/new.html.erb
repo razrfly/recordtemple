@@ -6,7 +6,7 @@
 <% if params[:id] %>
 <ul>
 	<li class="inline"><%=h @price.artist.name %></li>
-	<li class="inline"><%=h @price.label %></li>
+	<li class="inline"><%=h @price.cache_label %></li>
 	<li class="inline"><%=h @price.media_type %></li>
 	<li class="inline"><%=h @price.detail %></li>
     <li class="inline">$<%=h @price.price_range %></li>
