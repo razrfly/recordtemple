@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,7 +11,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110718130741) do
+ActiveRecord::Schema.define(:version => 20111031104205) do
+
+  create_table "active_admin_comments", :force => true do |t|
+    t.integer  "resource_id",   :null => false
+    t.string   "resource_type", :null => false
+    t.integer  "author_id"
+    t.string   "author_type"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "namespace"
+  end
+
+  add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
+  add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
+  add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
 
   create_table "artists", :force => true do |t|
     t.string   "name"
@@ -64,9 +80,9 @@ ActiveRecord::Schema.define(:version => 20110718130741) do
   end
 
   create_table "prices", :force => true do |t|
-    t.string   "name"
+    t.string   "cache_artist"
     t.string   "media_type"
-    t.string   "label"
+    t.string   "cache_label"
     t.string   "detail"
     t.integer  "pricelow"
     t.integer  "pricehigh"

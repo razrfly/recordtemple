@@ -21,8 +21,8 @@ class Record < ActiveRecord::Base
   
   before_save :cache_columns
   
-  scope :has_music, joins(:songs)
-  scope :has_image, joins(:photos)
+  scope :with_music, joins(:songs)
+  scope :with_photo, joins(:photos)
   
   def cyberguide
     if condition <= 2

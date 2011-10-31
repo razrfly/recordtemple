@@ -1,5 +1,6 @@
 ActiveAdmin.register Record do
   scope_to :current_user #unless proc{ current_user.admin? }
+  menu :priority => 1
   
   controller do
     autocomplete :artist, :name#, :full => true
@@ -8,13 +9,16 @@ ActiveAdmin.register Record do
   scope :all, :default => true do |records|
     records.includes [:artist, :label, :genre]
   end
-  scope :has_music
-  scope :has_image
+  scope :with_music
+  scope :with_photo
   
   #filter :artist, :as => :string
+  filter :cached_artist, :label => 'Artist'
+  filter :cached_label, :label => 'Label'
   filter :comment
   filter :value, :label => 'My Value'
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
+
   #filter :artist_id, :as => :number
   #filter :artist_name, :as => :autocomplete, :url => autocomplete_artist_name_records_path
   #filter :artist_name do
@@ -29,7 +33,6 @@ ActiveAdmin.register Record do
     column :genre, :sortable => 'genres.name'
     column :comment, :sortable => false
     column :updated_at
-    column() { link_to "Blah", autocomplete_artist_name_records_path }
     default_actions
   end
   
