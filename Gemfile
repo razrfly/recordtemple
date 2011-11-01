@@ -17,7 +17,7 @@ gem 'jammit'
 gem 'simple_form'
 gem 'ken'
 gem 'panda'
-gem 'texticle', '~> 1.0.4'
+#gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
 gem "friendly_id", "~> 3.2.1"
 gem "cancan"
@@ -29,6 +29,9 @@ gem "mime-types", "~> 1.16", :require => 'mime/types'
 #gem 'ebayapi', :git => 'git://github.com/rubiety/ebay'
 gem 'activeadmin', :git => 'git://github.com/gregbell/active_admin.git'
 gem 'rails3-jquery-autocomplete', '~> 1.0.4'
+#gem "rails_indexes", :git => "https://github.com/warpc/rails_indexes"
+#gem 'rails-indexes', :git => 'git://github.com/eMxyzptlk/rails_indexes.git'
+gem "meta_search"  # Last officially released gem
 
 group :development do
   gem 'thin'

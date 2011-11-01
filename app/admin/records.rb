@@ -7,16 +7,21 @@ ActiveAdmin.register Record do
   end
   
   scope :all, :default => true do |records|
-    records.includes [:artist, :label, :genre]
+    records.includes [:artist, :label, :genre, :price]
   end
+  #scope :LPs do |records|
+  #  records.includes(:price).where(media_type.contains => 'LPs')
+  #end
   scope :with_music
   scope :with_photo
   
-  #filter :artist, :as => :string
   filter :cached_artist, :label => 'Artist'
   filter :cached_label, :label => 'Label'
   filter :comment
   filter :value, :label => 'My Value'
+  filter :record_price_detail, :label => 'Detail'
+  filter :price_detail_or_price_footnote, :as => :string, :label => 'Price Guide Detail'
+  filter :price_media_type, :as => :select, :collection => RecordFormat.all.collect { |s| [s.name] }, :label => 'Format'
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
 
   #filter :artist_id, :as => :number
@@ -31,7 +36,10 @@ ActiveAdmin.register Record do
     column :artist, :sortable => 'artists.name'
     column :label, :sortable => 'labels.name'
     column :genre, :sortable => 'genres.name'
-    column :comment, :sortable => false
+    #column("Media"){ |record| record.price.media_type }
+    column 'Format', :record_format
+    column :notes, :sortable => false
+    #column :comment, :sortable => false
     column :updated_at
     default_actions
   end

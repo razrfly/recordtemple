@@ -1,8 +1,15 @@
 ActiveAdmin.register Price do
   menu :label => "Price Guide"
+  #has_many :records
   
   #scope :all, :default => true do |records|
   #  records.includes [:artist, :label]
+  #end
+  
+  #"","Singles","LPs","EPs","Picture Sleeves"
+  scope :all
+  #scope :lps do |media|
+  #  media.where(:media_type.contains => 'LPs')
   #end
   
   filter :cache_artist, :label => 'Artist'

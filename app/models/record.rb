@@ -5,9 +5,9 @@ class Record < ActiveRecord::Base
   belongs_to :label
   belongs_to :genre
   
-  index do
-    comment
-  end
+  #index do
+  #  comment
+  #end
   
   validates_presence_of :price_id, :genre, :condition, :user, :artist, :label
 
@@ -15,6 +15,15 @@ class Record < ActiveRecord::Base
   has_many :songs, :dependent => :destroy
   has_many :record_listings, :dependent => :destroy
   has_many :recommendations
+  
+  delegate :bubbles, :to => :price
+  delegate :record_format, :to => :price
+  delegate :detail, :to => :price
+  
+  def notes
+    notes = price.detail
+    price.footnote ? notes += ' '+ price.footnote : notes
+  end
   
   acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
@@ -47,6 +56,10 @@ class Record < ActiveRecord::Base
       " "
     end
   end
+  
+  #def prices
+  #  price.bubbles
+  #end
   
   def cache_columns
     self.cached_artist = artist.name

@@ -19,9 +19,9 @@ class Label < ActiveRecord::Base
     end
   end
   
-  index do
-    name
-  end
+  #index do
+  #  name
+  #end
   
   validates_presence_of :name
   

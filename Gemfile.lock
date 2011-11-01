@@ -147,7 +147,6 @@ GEM
     simple_form (1.2.2)
     spreadsheet (0.6.5.0)
       ruby-ole
-    texticle (1.0.4.20101004123327)
     thin (1.2.7)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
@@ -186,6 +185,7 @@ DEPENDENCIES
   jammit
   jquery-rails
   ken
+  meta_search
   mime-types (~> 1.16)
   nifty-generators
   open-meta-tags
@@ -196,7 +196,6 @@ DEPENDENCIES
   rails3-jquery-autocomplete (~> 1.0.4)
   ruby-mp3info
   simple_form
-  texticle (~> 1.0.4)
   thin
   to_xls
   tumblr-rb

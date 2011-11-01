@@ -4,10 +4,10 @@ class Price < ActiveRecord::Base
   belongs_to :record_format
   belongs_to :artist
 
-  index do
-    detail
-    footnote
-  end
+  #index do
+  #  detail
+  #  footnote
+  #end
 
   validates_presence_of :artist, :label, :format, :label_id
   #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]

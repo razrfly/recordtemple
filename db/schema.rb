@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111031104205) do
+ActiveRecord::Schema.define(:version => 20111031154908) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -47,6 +47,8 @@ ActiveRecord::Schema.define(:version => 20111031104205) do
     t.datetime "updated_at"
   end
 
+  add_index "bubbles", ["price_id"], :name => "index_bubbles_on_price_id"
+
   create_table "genres", :force => true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -78,6 +80,8 @@ ActiveRecord::Schema.define(:version => 20111031104205) do
     t.integer  "position"
     t.string   "title"
   end
+
+  add_index "photos", ["record_id"], :name => "index_photos_on_record_id"
 
   create_table "prices", :force => true do |t|
     t.string   "cache_artist"
@@ -139,6 +143,12 @@ ActiveRecord::Schema.define(:version => 20111031104205) do
     t.string   "cached_label"
   end
 
+  add_index "records", ["artist_id"], :name => "index_records_on_artist_id"
+  add_index "records", ["genre_id"], :name => "index_records_on_genre_id"
+  add_index "records", ["label_id"], :name => "index_records_on_label_id"
+  add_index "records", ["price_id"], :name => "index_records_on_price_id"
+  add_index "records", ["user_id"], :name => "index_records_on_user_id"
+
   create_table "slugs", :force => true do |t|
     t.string   "name"
     t.integer  "sluggable_id"
@@ -162,6 +172,8 @@ ActiveRecord::Schema.define(:version => 20111031104205) do
     t.string   "title"
     t.string   "panda_id"
   end
+
+  add_index "songs", ["record_id"], :name => "index_songs_on_record_id"
 
   create_table "user_accounts", :force => true do |t|
     t.string   "provider"

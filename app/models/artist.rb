@@ -20,9 +20,9 @@ class Artist < ActiveRecord::Base
     end
   end
   
-  index do
-    name
-  end
+  #index do
+  #  name
+  #end
   
   after_update :update_cache_children
   
