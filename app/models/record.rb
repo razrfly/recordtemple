@@ -1,8 +1,6 @@
 class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
-  #belongs_to :artist
-  #belongs_to :label
   belongs_to :genre
   
   attr_accessor :freebase_id
@@ -31,7 +29,7 @@ class Record < ActiveRecord::Base
     price.footnote ? notes += ' '+ price.footnote : notes
   end
   
-  acts_as_tree :foreign_key => "price_id"
+  #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
   
   before_save :cache_columns
