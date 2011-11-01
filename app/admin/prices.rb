@@ -33,6 +33,7 @@ ActiveAdmin.register Price do
     #default_actions
     column() do |price|
       a 'Show', :href => admin_price_path(price)
+      a 'Edit', :href => edit_admin_price_path(price)
       a 'Create', :href => new_admin_record_path(:price_id => price)
     end
   end
