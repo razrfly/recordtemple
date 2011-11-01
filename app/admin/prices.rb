@@ -1,5 +1,5 @@
 ActiveAdmin.register Price do
-  menu :label => "Price Guide"
+  menu :label => "Price Guide", :priority => 2
   #has_many :records
   
   #scope :all, :default => true do |records|
@@ -29,10 +29,11 @@ ActiveAdmin.register Price do
     column 'Label', :cache_label#, :sortable => false#, :sortable => 'cache_label'
     column :detail, :sortable => false
     column :media_type
+    column('Price'){ |record| record.price_range }
     #default_actions
     column() do |price|
       a 'Show', :href => admin_price_path(price)
-      a 'Create', :href => new_admin_record_path
+      a 'Create', :href => new_admin_record_path(:price_id => price)
     end
   end
 end

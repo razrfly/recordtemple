@@ -3,6 +3,9 @@ class Price < ActiveRecord::Base
   has_many :bubbles, :dependent => :destroy
   belongs_to :record_format
   belongs_to :artist
+  belongs_to :label
+  
+  accepts_nested_attributes_for :records
 
   #index do
   #  detail

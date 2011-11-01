@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111031154908) do
+ActiveRecord::Schema.define(:version => 20111101142938) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -130,22 +130,17 @@ ActiveRecord::Schema.define(:version => 20111031154908) do
     t.integer  "genre_id"
     t.integer  "value"
     t.text     "comment"
-    t.integer  "quantity"
     t.integer  "price_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "condition"
     t.integer  "user_id"
-    t.integer  "artist_id"
-    t.integer  "label_id"
     t.integer  "identifier_id"
     t.string   "cached_artist"
     t.string   "cached_label"
   end
 
-  add_index "records", ["artist_id"], :name => "index_records_on_artist_id"
   add_index "records", ["genre_id"], :name => "index_records_on_genre_id"
-  add_index "records", ["label_id"], :name => "index_records_on_label_id"
   add_index "records", ["price_id"], :name => "index_records_on_price_id"
   add_index "records", ["user_id"], :name => "index_records_on_user_id"
 
