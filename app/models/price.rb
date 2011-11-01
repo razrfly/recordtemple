@@ -13,7 +13,11 @@ class Price < ActiveRecord::Base
   #end
 
   validates_presence_of :artist, :label, :record_format, :label_id
-  #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]
+  before_save :cache_columns
+  
+  def cache_columns
+    self.media_type = record_format.name
+  end
 
   cattr_reader :per_page
   @@per_page = 50
