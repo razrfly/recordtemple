@@ -13,8 +13,8 @@
     <li class="inline"><%=h @price.date_range %></li>
 </ul>
 
-	<%= f.hidden_field :artist_id, :value => @price.artist_id %>
-	<%= f.hidden_field :label_id, :value => @price.label_id %>
+	<%#= f.hidden_field :artist_id, :value => @price.artist_id %>
+	<%#= f.hidden_field :label_id, :value => @price.label_id %>
 	<%= f.hidden_field :price_id, :value => params[:id] %>
 
 	<% unless @price.artist.freebase_id.blank? %>	
@@ -74,7 +74,7 @@
     <%= f.text_area :comment %>
   </p>
   <p>
-	<%= f.hidden_field :quantity, :value => 1 %>
+	<%#= f.hidden_field :quantity, :value => 1 %>
 	<%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.submit "Create" %>
 

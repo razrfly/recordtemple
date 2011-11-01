@@ -1,15 +1,17 @@
 class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
-  belongs_to :artist
-  belongs_to :label
+  #belongs_to :artist
+  #belongs_to :label
   belongs_to :genre
+  
+  attr_accessor :freebase_id
   
   #index do
   #  comment
   #end
   
-  validates_presence_of :price_id, :genre, :condition, :user, :artist, :label
+  validates_presence_of :price, :genre, :condition, :value, :user#, :artist, :label
 
   has_many :photos, :order => :position, :dependent => :destroy
   has_many :songs, :dependent => :destroy
@@ -19,6 +21,10 @@ class Record < ActiveRecord::Base
   delegate :bubbles, :to => :price
   delegate :record_format, :to => :price
   delegate :detail, :to => :price
+  #maybes
+  delegate :artist, :to => :price
+  delegate :label, :to => :price
+  #delegate :freebase_id, :to => :price
   
   def notes
     notes = price.detail
@@ -29,6 +35,7 @@ class Record < ActiveRecord::Base
   accepts_nested_attributes_for :photos, :songs
   
   before_save :cache_columns
+  after_save :add_freebase_to_parent
   
   scope :with_music, joins(:songs)
   scope :with_photo, joins(:photos)
@@ -62,8 +69,8 @@ class Record < ActiveRecord::Base
   #end
   
   def cache_columns
-    self.cached_artist = artist.name
-    self.cached_label = label.name
+    self.cached_artist = price.artist.name
+    self.cached_label = price.label.name
   end
   
   def desc
@@ -91,5 +98,12 @@ class Record < ActiveRecord::Base
   end
   
   CONDITIONS = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
+  
+  def add_freebase_to_parent
+    unless freebase_id.blank?
+      #self.price.freebase_id = self.freebase_id
+      self.price.update_attribute(:freebase_id, self.freebase_id)
+    end
+  end
     
 end

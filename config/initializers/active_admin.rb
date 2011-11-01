@@ -100,5 +100,8 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
+  config.register_stylesheet 'http://freebaselibs.com/static/suggest/1.3/suggest.min.css'
+  config.register_javascript 'http://freebaselibs.com/static/suggest/1.3/suggest.min.js'
+  config.register_javascript 'active_admin_custom.js'
   config.register_javascript 'autocomplete-rails.js'
 end
