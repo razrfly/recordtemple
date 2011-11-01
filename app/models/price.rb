@@ -5,14 +5,14 @@ class Price < ActiveRecord::Base
   belongs_to :artist
   belongs_to :label
   
-  accepts_nested_attributes_for :records
+  #accepts_nested_attributes_for :records
 
   #index do
   #  detail
   #  footnote
   #end
 
-  validates_presence_of :artist, :label, :format, :label_id
+  validates_presence_of :artist, :label, :record_format, :label_id
   #named_scope :find_artist, :conditions => ["artist like ?", "%beatles"]
 
   cattr_reader :per_page
