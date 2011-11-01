@@ -9,7 +9,7 @@ class Genre < ActiveRecord::Base
       # don't use slugs larger than 50 bytes
       :max_length => 50
   
-  index do
-    name
-  end
+  #index do
+  #  name
+  #end
 end
