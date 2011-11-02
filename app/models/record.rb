@@ -75,14 +75,6 @@ class Record < ActiveRecord::Base
     "#{price.detail} #{comment} #{price.footnote}"
   end
   
-  #def cando
-  #  5
-  #end
-
-  #def get_genre
-  #  [["Rock 'n' Roll", 1], ["Surf", 2], ["Rockabilly", 3], ["Doo Wop", 4], ["Instrumental", 5], ["R&B", 6], ["Rock", 7], ["Country", 8], ["Easy Listening", 9], ["Jazz", 10], ["Northern Soul", 11], ["Pop", 12], ["Psychedelic/Garage", 13], ["Soul", 14], ["Soundtrack", 15], ["X-mas", 16]]
-  #end
-  
   def the_condition
     conditions[condition-1]
   end
