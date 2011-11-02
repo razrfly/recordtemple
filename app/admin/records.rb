@@ -48,6 +48,7 @@ ActiveAdmin.register Record do
     #column :notes, :sortable => false
     column :comment, :sortable => false
     column :updated_at
+    column('Price', :sortable => 'value'){|record| number_to_currency record.value }
     default_actions
   end
   
