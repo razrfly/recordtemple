@@ -49,7 +49,7 @@ ActiveAdmin.register Record do
     #column :notes, :sortable => false
     column('Description'){ |record| truncate(record.desc, :length => 75) }
     column :updated_at
-    column('Music'){ |record| status_tag (record.songs.blank? ? 'None' : 'Music'), (record.songs.blank? ? :blank : :ok) }
+    column('Music'){ |record| status_tag (record.songs.blank? ? 'None' : pluralize(record.songs.size, 'song')), (record.songs.blank? ? :blank : :ok) }
     column('Price', :sortable => 'value'){|record| number_to_currency record.value }
     default_actions
   end

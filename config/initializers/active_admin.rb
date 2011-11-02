@@ -106,5 +106,6 @@ ActiveAdmin.setup do |config|
   config.register_javascript 'helpers/jquery.uploadify.min.js'
   config.register_javascript 'helpers/swfobject.js'
   config.register_javascript 'active_admin_custom.js'
+  config.register_stylesheet 'active_admin_custom.css'
   config.register_javascript 'autocomplete-rails.js'
 end
