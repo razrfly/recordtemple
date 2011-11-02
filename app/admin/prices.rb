@@ -14,8 +14,8 @@ ActiveAdmin.register Price do
   
   filter :cache_artist, :label => 'Artist'
   filter :cache_label, :label => 'Label'
+  filter :detail_or_footnote, :as => :string, :label => 'Comments'
   filter :record_format
-  filter :detail
   filter :pricelow
   filter :pricehigh
 
