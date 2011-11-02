@@ -12,4 +12,14 @@ if Rails.env.production?
 
   Sass::Plugin::remove_template_location template_path_two
   Sass::Plugin::add_template_location template_path_two, new_compile_path
+else
+  activeadmin_reloader = ActiveSupport::FileUpdateChecker.new(Dir["app/admin/**/*"], true) do
+
+    ActiveAdmin.application.unload!
+    Rails.application.reload_routes!
+  end
+
+  ActionDispatch::Callbacks.to_prepare do
+    activeadmin_reloader.execute_if_updated
+  end
 end

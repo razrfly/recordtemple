@@ -27,7 +27,7 @@ gem 'xml-mapping', '0.8.1'
 gem "mime-types", "~> 1.16", :require => 'mime/types'
 #gem 'ebayapi'
 #gem 'ebayapi', :git => 'git://github.com/rubiety/ebay'
-gem 'activeadmin', :git => 'git://github.com/gregbell/active_admin.git'
+gem 'activeadmin', '0.3.3'#, :git => 'git://github.com/gregbell/active_admin.git'
 gem 'rails3-jquery-autocomplete', '~> 1.0.4'
 #gem "rails_indexes", :git => "https://github.com/warpc/rails_indexes"
 #gem 'rails-indexes', :git => 'git://github.com/eMxyzptlk/rails_indexes.git'
