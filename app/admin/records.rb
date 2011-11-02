@@ -47,8 +47,9 @@ ActiveAdmin.register Record do
     #column("Media"){ |record| record.price.media_type }
     column 'Format', :record_format
     #column :notes, :sortable => false
-    column('Desc'){ |record| truncate(record.desc, :length => 75) }
+    column('Description'){ |record| truncate(record.desc, :length => 75) }
     column :updated_at
+    column('Music'){ |record| status_tag (record.songs.blank? ? 'None' : 'Music'), (record.songs.blank? ? :blank : :ok) }
     column('Price', :sortable => 'value'){|record| number_to_currency record.value }
     default_actions
   end
