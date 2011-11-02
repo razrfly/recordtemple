@@ -26,6 +26,7 @@ ActiveAdmin.register Record do
   filter :cached_artist, :label => 'Artist'
   filter :cached_label, :label => 'Label'
   filter :comment
+  filter :identifier_id
   filter :value, :label => 'My Value'
   filter :price_pricehigh, :as => :numeric, :label => 'Price Guide Value (Highest)'
   filter :record_price_detail, :label => 'Detail'
