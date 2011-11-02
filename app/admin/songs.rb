@@ -8,5 +8,5 @@ ActiveAdmin.register Song do
     end    
     f.buttons
   end
-  #form :partial => 'form'
+
 end

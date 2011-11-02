@@ -8,4 +8,10 @@ ActiveAdmin.register Photo do
     end    
     f.buttons
   end
+  
+  sidebar :thumb, :only => [:edit, :show] do
+    attributes_table_for photo do
+      image_tag photo.data.url(:medium), :width => '250'
+    end
+  end
 end
