@@ -96,6 +96,7 @@ class Record < ActiveRecord::Base
   end
   
   CONDITIONS = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
+  #FORMAT = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
   
   def add_freebase_to_parent
     unless freebase_id.blank?

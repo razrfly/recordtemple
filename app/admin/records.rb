@@ -67,13 +67,43 @@ ActiveAdmin.register Record do
       end
     end
     
-    unless record.songs.blank?
-      panel "Music" do
-        #image_table_for(space.photos, "data")
-        #attachment_table_for(space.photos)
+    unless record.photos.blank?
+      panel "Photos" do
+        table_for record.photos do
+          column :id
+          column(){ |photo| link_to image_tag(photo.data.url(:thumb)), admin_record_photo_path(record,photo) }
+          column :title
+          column :data_file_name
+          column :data_content_type
+          column :data_file_size
+          column :position
+          column :created_at
+          column() do |photo|
+            a 'Show', :href => admin_record_photo_path(record,photo)
+            a 'Edit', :href => edit_admin_record_photo_path(record,photo)
+          end
+          #default_actions
+        end
       end
     end
     
+    unless record.songs.blank?
+      panel "Songs" do
+        table_for record.songs do
+          column :id
+          column :title
+          column :mp3_file_name
+          column :mp3_content_type
+          column :mp3_file_size
+          column :created_at
+          column() do |song|
+            a 'Show', :href => admin_record_song_path(record,song)
+            a 'Edit', :href => edit_admin_record_song_path(record,song)
+          end
+          #default_actions
+        end
+      end
+    end
 
   end
   
@@ -116,18 +146,27 @@ ActiveAdmin.register Record do
     end
   end
   
-  sidebar :photos, :only => :show do
-    
-    table_for record.photos do# |photo|
-      column("Photos"){ |photo| image_tag(photo.data.url(:thumb)) }
-      #image_tag(photo.data.url)
-    end
-    #image_table_for(space.photos, "data")
-    #attachment_table_for(space.photos)
-
-  end
+  #sidebar :photos, :only => :show do
+  #  table_for record.photos do# |photo|
+  #    column("Photos"){ |photo| image_tag(photo.data.url(:thumb)) }
+  #    #image_tag(photo.data.url)
+  #  end
+  #end
+  
+  sidebar :add_media, :only => [:show, :edit], :partial => 'media'
   
   #action_item :only => [:index, :show, :edit] do
   #  link_to "New Record", admin_prices_path
   #end
+  
+  #action_item :only => [:show, :edit] do
+  #  link_to "Add Photos", new_admin_record_photo_path(record)
+  #end
+  #action_item :only => [:show, :edit] do
+  #  link_to "Add Music", new_admin_record_song_path(record)
+  #end
+  action_item :only => [:show, :edit] do
+    link_to "View Listing", artist_record_path(record.artist,record)
+  end
+
 end
