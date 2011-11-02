@@ -7,7 +7,7 @@ ActiveAdmin.register Price do
   #end
   
   #"","Singles","LPs","EPs","Picture Sleeves"
-  scope :all
+  scope :all, :default => true
   #scope :lps do |media|
   #  media.where(:media_type.contains => 'LPs')
   #end

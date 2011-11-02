@@ -34,6 +34,7 @@ ActiveAdmin.register Record do
   filter :price_media_type, :as => :select, :collection => RecordFormat.all.collect { |s| [s.name] }, :label => 'Format'
   filter :genre
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
+  
 
   
   index do
@@ -46,10 +47,23 @@ ActiveAdmin.register Record do
     #column("Media"){ |record| record.price.media_type }
     column 'Format', :record_format
     #column :notes, :sortable => false
-    column :comment, :sortable => false
+    column('Desc'){ |record| truncate(record.desc, :length => 75) }
     column :updated_at
     column('Price', :sortable => 'value'){|record| number_to_currency record.value }
     default_actions
+  end
+  
+  csv do
+    column :id
+    column('Artist'){ |record| record.cached_artist }
+    column('Label'){ |record| record.cached_label }
+    column :identifier_id
+    column('genre'){ |record| record.genre.name }
+    column('Format'){ |record| record.record_format.name }
+    column('Details'){ |record| record.desc }
+    column('Price'){|record| number_to_currency record.value }
+    column :updated_at
+    
   end
   
   show do
