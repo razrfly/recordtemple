@@ -40,6 +40,7 @@ ActiveAdmin.register Record do
     #column(:name){|space| link_to space.name, manage_space_path(space) }
     column 'Artist', :cached_artist
     column 'Label', :cached_label
+    column :identifier_id
     column :genre, :sortable => 'genres.name'
     #column("Media"){ |record| record.price.media_type }
     column 'Format', :record_format
