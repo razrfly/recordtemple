@@ -49,6 +49,7 @@
 
 
 <%= semantic_form_for [:admin, @record], :html => { :multipart => true } do |f| %>
+  <ul>
 	<%= f.semantic_fields_for :songs, @record.songs.build do |song_form| %>
 		<%= song_form.input :mp3, :label => 'mp3s', :input_html => { :class => 'uploadifiable_songs' } %>
 	<% end %>
@@ -56,4 +57,5 @@
 		<%= photo_form.input :data, :label => 'photos', :input_html => { :class => 'uploadifiable_photos' } %>
 	<% end %>
 	<%#= f.buttons :commit %>
+  </ul>
 <% end %>
