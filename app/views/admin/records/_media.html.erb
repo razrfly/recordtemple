@@ -8,7 +8,8 @@
       script          : '<%= record_songs_path(@record) %>',
       uploader        : '/flash/uploadify.swf',
 	  onAllComplete   : function(event,data) {
-	      					$.getScript('<%= record_songs_path(@record, :format => "js") %>');
+	      					//$.getScript('<%= record_songs_path(@record, :format => "js") %>');
+							location.reload();
 	  					},
       multi           : true,
       auto            : true,
@@ -28,7 +29,8 @@
       script          : '<%= record_photos_path(@record) %>',
       uploader        : '/flash/uploadify.swf',
 	  onAllComplete   : function(event,data) {
-	      					$.getScript('<%= record_photos_path(@record, :format => "js") %>');
+	      					//$.getScript('<%= record_photos_path(@record, :format => "js") %>');
+							location.reload();
 	  					},
       multi           : true,
       auto            : true,
