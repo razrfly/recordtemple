@@ -27,10 +27,11 @@ ActiveAdmin.register Record do
   filter :cached_label, :label => 'Label'
   filter :comment
   filter :value, :label => 'My Value'
-  #filter :price_pricelow, :as => :string, :label => 'Price Guide Value'
+  filter :price_pricehigh, :as => :numeric, :label => 'Price Guide Value (Highest)'
   filter :record_price_detail, :label => 'Detail'
   filter :price_detail_or_price_footnote, :as => :string, :label => 'Price Guide Detail'
   filter :price_media_type, :as => :select, :collection => RecordFormat.all.collect { |s| [s.name] }, :label => 'Format'
+  filter :genre
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
 
   
@@ -124,7 +125,7 @@ ActiveAdmin.register Record do
     end
     
     f.inputs "Additional" do
-      f.input :value, :as => :string
+      f.input :value, :as => :numeric
       f.input :comment
     end
     f.buttons
