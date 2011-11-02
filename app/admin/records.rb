@@ -79,10 +79,11 @@ ActiveAdmin.register Record do
           column :position
           column :created_at
           column() do |photo|
-            a 'Show', :href => admin_record_photo_path(record,photo)
-            a 'Edit', :href => edit_admin_record_photo_path(record,photo)
+            links = link_to icon(:arrow_right_alt1) + "View", admin_record_photo_path(record,photo), :class => "view_link"
+            links += link_to icon(:pen) + "Edit", edit_admin_record_photo_path(record,photo), :class => "edit_link"
+            links += link_to icon(:trash_stroke) + "Delete", admin_record_photo_path(record,photo), :method => :delete, :confirm => "Are you sure you want to delete this?", :class => "delete_link"
+            links
           end
-          #default_actions
         end
       end
     end
@@ -97,10 +98,11 @@ ActiveAdmin.register Record do
           column :mp3_file_size
           column :created_at
           column() do |song|
-            a 'Show', :href => admin_record_song_path(record,song)
-            a 'Edit', :href => edit_admin_record_song_path(record,song)
+            links = link_to icon(:arrow_right_alt1) + "View", admin_record_song_path(record,song), :class => "view_link"
+            links += link_to icon(:pen) + "Edit", edit_admin_record_song_path(record,song), :class => "edit_link"
+            links += link_to icon(:trash_stroke) + "Delete", admin_record_song_path(record,song), :method => :delete, :confirm => "Are you sure you want to delete this?", :class => "delete_link"
+            links
           end
-          #default_actions
         end
       end
     end
