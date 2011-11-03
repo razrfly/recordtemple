@@ -81,6 +81,7 @@ ActiveAdmin.register Record do
         row :comment
         row('Condition'){ record.the_condition }
         row :identifier_id
+        row :price
         row :created_at
         row :updated_at
         #row("Location"){ space.location.pretty_name }
