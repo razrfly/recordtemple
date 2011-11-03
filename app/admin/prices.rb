@@ -25,6 +25,7 @@ ActiveAdmin.register Price do
   index do
     #column("Image"){|record| image_tag record.cover_photo unless record.cover_photo.blank? }
     #column(:name){|space| link_to space.name, manage_space_path(space) }
+    id_column
     column 'Artist', :cache_artist#, :sortable => 'cache_artist'
     column 'Label', :cache_label#, :sortable => false#, :sortable => 'cache_label'
     column :detail, :sortable => false
