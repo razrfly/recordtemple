@@ -42,6 +42,7 @@ ActiveAdmin.register Record do
   
   index do
     column("Image"){|record| image_tag record.cover_photo unless record.cover_photo.blank? }
+    id_column
     column 'Price id', :price_id
     #column(:name){|space| link_to space.name, manage_space_path(space) }
     column 'Artist', :cached_artist
