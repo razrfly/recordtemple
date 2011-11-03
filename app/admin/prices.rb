@@ -29,7 +29,8 @@ ActiveAdmin.register Price do
     column 'Label', :cache_label#, :sortable => false#, :sortable => 'cache_label'
     column :detail, :sortable => false
     column :media_type
-    column('Price'){ |record| record.price_range }
+    column :pricehigh
+    column('Monkeys', :sortable => 'pricehigh'){|price| price.pricehigh}
     #default_actions
     column() do |price|
       a 'Show', :href => admin_price_path(price)
