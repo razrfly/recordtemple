@@ -69,12 +69,6 @@ ActiveRecord::Schema.define(:version => 20111102235812) do
   add_index "labels", ["cached_slug"], :name => "index_labels_on_cached_slug", :unique => true
   add_index "labels", ["name"], :name => "index_labels_on_name", :unique => true
 
-  create_table "media", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "photos", :force => true do |t|
     t.integer  "record_id"
     t.datetime "created_at"
@@ -122,13 +116,19 @@ ActiveRecord::Schema.define(:version => 20111102235812) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "media_id"
+    t.integer  "record_type_id"
   end
 
   create_table "record_listings", :force => true do |t|
     t.integer  "record_id"
     t.string   "external_id"
     t.string   "listing_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "record_types", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
