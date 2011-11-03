@@ -1,3 +1,3 @@
-class Media < ActiveRecord::Base
-  has_many :record_formats
-end
+#class Media < ActiveRecord::Base
+#  has_many :record_formats
+#end
