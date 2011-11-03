@@ -37,7 +37,6 @@ GEM
       activemodel (= 3.0.10)
       activesupport (= 3.0.10)
     activesupport (3.0.10)
-    acts_as_tree (0.1.1)
     addressable (2.2.2)
     arel (2.0.10)
     aws-s3 (0.6.2)
@@ -174,7 +173,6 @@ PLATFORMS
 
 DEPENDENCIES
   activeadmin (= 0.3.3)
-  acts_as_tree
   aws-s3 (~> 0.6.2)
   cancan
   devise
