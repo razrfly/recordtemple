@@ -31,7 +31,7 @@ ActiveAdmin.register Record do
   filter :value, :label => 'My Value'
   filter :price_pricehigh, :as => :numeric, :label => 'Price Guide Value (Highest)'
   filter :record_price_detail, :label => 'Detail'
-  #filter :price_record_format_media_id, :as => :select, :collection => Media.all, :label => 'Media Format'
+  filter :price_record_format_record_type_id, :as => :select, :collection => RecordType.all, :label => 'Media Format'
   #filter :price_record_format_id, :as => :select, :collection => RecordFormat.where(:media_id => proc{ params[:q] }), :label => 'Sub Type'
   filter :genre
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
