@@ -137,7 +137,7 @@ ActiveAdmin.register Record do
     f.inputs "Details" do
       f.input :genre, :prompt => 'Please select'
       f.input :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }, :prompt => 'Please select'
-      f.input :price_id, :as => :hidden
+      f.input :price_id, :hint => 'Dangerous do not edit unless you know what you are doing!?!'
       f.input :user_id, :as => :hidden
       f.input :identifier_id, :as => :string
     end
