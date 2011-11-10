@@ -1,0 +1,5 @@
+<%= semantic_form_for [:admin, @price] do |f| %>
+	<%= f.input :artist_name, :as => :autocomplete, :url => autocomplete_artist_name_prices_path %>
+    <%= f.inputs :detail %>
+    <%= f.buttons :commit %>
+<% end %>

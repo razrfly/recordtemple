@@ -2,6 +2,8 @@ class PricesController < ApplicationController
   
   before_filter :authenticate_user!
   
+  autocomplete :artist, :name, :full => true
+  
   #protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]
   
   #def auto_complete_for_price_artist

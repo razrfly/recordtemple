@@ -13,6 +13,7 @@ class Price < ActiveRecord::Base
   #  footnote
   #end
 
+
   validates_presence_of :artist, :label, :record_format, :label_id
   before_save :cache_columns
   

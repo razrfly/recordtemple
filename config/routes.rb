@@ -32,7 +32,6 @@ Recordapp::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   resources :records do
-    get :autocomplete_artist_name, :on => :collection
     resources :record_listings
     resources :songs
     resources :photos do
@@ -42,7 +41,9 @@ Recordapp::Application.routes.draw do
     end
   end
   
-  resources :prices
+  resources :prices do
+    get :autocomplete_artist_name, :on => :collection
+  end
   resources :home
   resources :labels
   resources :searches do
