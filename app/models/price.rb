@@ -4,6 +4,7 @@ class Price < ActiveRecord::Base
   belongs_to :record_format
   belongs_to :artist
   belongs_to :label
+  belongs_to :user
   
   #accepts_nested_attributes_for :records
 
@@ -17,6 +18,8 @@ class Price < ActiveRecord::Base
   
   def cache_columns
     self.media_type = record_format.name
+    self.cached_artist = artist.name
+    self.cached_label = label.name
   end
 
   cattr_reader :per_page

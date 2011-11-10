@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   
   has_many :records
   has_many :user_accounts
+  has_many :prices
   
   def admin?
     if email == "greg2man@gmail.com"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111110150021) do
+ActiveRecord::Schema.define(:version => 20111110153712) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -84,9 +84,9 @@ ActiveRecord::Schema.define(:version => 20111110150021) do
   add_index "photos", ["record_id"], :name => "index_photos_on_record_id"
 
   create_table "prices", :force => true do |t|
-    t.string   "cache_artist"
+    t.string   "cached_artist"
     t.string   "media_type"
-    t.string   "cache_label"
+    t.string   "cached_label"
     t.string   "detail"
     t.integer  "pricelow"
     t.integer  "pricehigh"
@@ -95,7 +95,6 @@ ActiveRecord::Schema.define(:version => 20111110150021) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "footnote"
-    t.string   "created_by"
     t.integer  "artist_id"
     t.integer  "label_id"
     t.integer  "record_format_id"

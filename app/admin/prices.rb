@@ -1,19 +1,12 @@
 ActiveAdmin.register Price do
   menu :label => "Price Guide", :priority => 2
-  #has_many :records
+
   
-  #scope :all, :default => true do |records|
-  #  records.includes [:artist, :label]
-  #end
-  
-  #"","Singles","LPs","EPs","Picture Sleeves"
   scope :all, :default => true
-  #scope :lps do |media|
-  #  media.where(:media_type.contains => 'LPs')
-  #end
+
   
-  filter :cache_artist, :label => 'Artist'
-  filter :cache_label, :label => 'Label'
+  filter :cached_artist, :label => 'Artist'
+  filter :cached_label, :label => 'Label'
   filter :detail_or_footnote, :as => :string, :label => 'Comments'
   filter :record_format
   filter :pricelow
@@ -24,12 +17,12 @@ ActiveAdmin.register Price do
   
   index do
     id_column
-    column 'Artist', :cache_artist#, :sortable => 'cache_artist'
-    column 'Label', :cache_label#, :sortable => false#, :sortable => 'cache_label'
+    column 'Artist', :cached_artist#, :sortable => 'cached_artist'
+    column 'Label', :cached_label#, :sortable => false#, :sortable => 'cached_label'
     column :detail, :sortable => false
     column :media_type
     column :pricehigh
-    column('Monkeys', :sortable => 'pricehigh'){|price| price.pricehigh}
+
     #default_actions
     column() do |price|
       a 'Show', :href => admin_price_path(price)
