@@ -161,7 +161,7 @@ ActiveAdmin.register Record do
       #row(:artist){ link_to record.artist.name, artist_path(record.artist), :class => 'artist' }
       #row(:artist){ auto_link(record.artist, :class => 'artist') }
       row :artist
-      row("Artist Freebase ID"){ link_to record.artist.freebase_id, '#', :class => 'artist_freebase_id' }
+      row("Artist Freebase ID"){ link_to record.artist.freebase_id, edit_admin_artist_path(record.artist), :class => 'artist_freebase_id' }
       row :label
       row :record_format
       row :detail

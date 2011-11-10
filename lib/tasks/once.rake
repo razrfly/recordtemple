@@ -371,6 +371,14 @@ namespace :fix do
     end
   end
   
+  desc "Populate new artists table"
+  task :price_users => :environment do
+
+    Price.where("created_by = 'greggie'").each do |h|
+        h.update_attribute :user_id, 1
+    end
+  end
+  
 
     
 end
