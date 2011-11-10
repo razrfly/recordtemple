@@ -1,4 +1,6 @@
 ActiveAdmin.register RecordFormat do
+  menu false
+  
   index do
     id_column
     column :name

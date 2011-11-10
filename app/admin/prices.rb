@@ -23,8 +23,6 @@ ActiveAdmin.register Price do
   #filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
   
   index do
-    #column("Image"){|record| image_tag record.cover_photo unless record.cover_photo.blank? }
-    #column(:name){|space| link_to space.name, manage_space_path(space) }
     id_column
     column 'Artist', :cache_artist#, :sortable => 'cache_artist'
     column 'Label', :cache_label#, :sortable => false#, :sortable => 'cache_label'
