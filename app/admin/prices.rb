@@ -1,6 +1,5 @@
 ActiveAdmin.register Price do
   menu :label => "Price Guide", :priority => 2
-
   
   scope :all, :default => true
 
@@ -30,4 +29,7 @@ ActiveAdmin.register Price do
       a 'Create', :href => new_admin_record_path(:price_id => price)
     end
   end
+  
+  form :partial => "form"
+  
 end
