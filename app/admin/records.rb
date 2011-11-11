@@ -100,7 +100,7 @@ ActiveAdmin.register Record do
           column :title
           column :data_file_name
           column :data_content_type
-          column :data_file_size
+          column('data_file_size'){ |photo| number_to_human_size(photo.data_file_size) }
           column :position
           column :created_at
           column() do |photo|
@@ -120,7 +120,7 @@ ActiveAdmin.register Record do
           column :title
           column :mp3_file_name
           column :mp3_content_type
-          column :mp3_file_size
+          column('mp3_file_size'){ |song| number_to_human_size(song.mp3_file_size) }
           column :created_at
           column() do |song|
             links = link_to icon(:arrow_right_alt1) + "View", admin_record_song_path(record,song), :class => "view_link"
