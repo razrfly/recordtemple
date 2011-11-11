@@ -6,6 +6,7 @@
 		<%= f.input :label_id, :as => :hidden %>
 		<%= f.input :record_format %>
 		<%= f.input :detail, :as => :text %>
+		<%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
 	<% end %>
 	<%= f.inputs "Price Info" do %>
 		<%= f.input :pricehigh, :as => :string %>
