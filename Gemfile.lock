@@ -1,11 +1,4 @@
 GIT
-  remote: git://github.com/crowdint/rails3-jquery-autocomplete.git
-  revision: 2464cc576ced47e7dd8239650c7e20ebd1a6d993
-  specs:
-    rails3-jquery-autocomplete (1.0.4)
-      rails (~> 3.0)
-
-GIT
   remote: git://github.com/gregbell/active_admin.git
   revision: 223ead4294955f9efdc43aceb63f804ac5c63c48
   specs:
@@ -135,6 +128,8 @@ GEM
       activesupport (= 3.0.10)
       bundler (~> 1.0)
       railties (= 3.0.10)
+    rails3-jquery-autocomplete (1.0.4)
+      rails (~> 3.0)
     railties (3.0.10)
       actionpack (= 3.0.10)
       activesupport (= 3.0.10)
@@ -200,7 +195,7 @@ DEPENDENCIES
   paperclip-meta
   pg (= 0.10.1)
   rails (= 3.0.10)
-  rails3-jquery-autocomplete!
+  rails3-jquery-autocomplete (= 1.0.4)
   ruby-mp3info
   simple_form
   texticle (~> 1.0.4)
