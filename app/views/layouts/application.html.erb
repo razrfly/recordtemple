@@ -14,8 +14,10 @@
 	  xmlns:fb="http://www.facebook.com/2008/fbml">
   <head>
     <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+	
   	<%= include_stylesheets :common, :helpers %>
   	<%= include_javascripts :common, :helpers %>
+	<%= javascript_include_tag "autocomplete-rails.js" %>
     <%= csrf_meta_tag %>
     <%= yield(:head) %>
   </head>

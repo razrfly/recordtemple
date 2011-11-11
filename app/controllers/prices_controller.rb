@@ -2,26 +2,10 @@ class PricesController < ApplicationController
   
   before_filter :authenticate_user!
   
-  autocomplete :artist, :name, :full => true
+  autocomplete :artist, :name
+  autocomplete :label, :name
   
-  #protect_from_forgery :except => [:auto_complete_for_price_artist,:auto_complete_for_price_label]
-  
-  #def auto_complete_for_price_artist
-  #  @prices = Price.find(:all,
-  #      :select => 'DISTINCT(artist)',
-  #      :conditions => [ 'LOWER(artist) LIKE ?', "%#{params[:price][:artist].downcase}%" ],
-  #      :order => 'artist ASC',
-  #      :limit => 8)
-  #    render :partial => 'artists'  
-  #end
-  #def auto_complete_for_price_label
-  #  @prices = Price.find(:all,
-  #      :select => 'DISTINCT(label)',
-  #      :conditions => [ 'LOWER(label) LIKE ?', "#{params[:price][:label].downcase}%" ],
-  #      :order => 'label ASC',
-  #      :limit => 8)
-  #    render :partial => 'labels'
-  #end
+  #protect_from_forgery :except => [:autocomplete_artist_name, :autocomplete_label_name]
 
   def index
     if params[:name]

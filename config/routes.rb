@@ -43,6 +43,7 @@ Recordapp::Application.routes.draw do
   
   resources :prices do
     get :autocomplete_artist_name, :on => :collection
+    get :autocomplete_label_name, :on => :collection
   end
   resources :home
   resources :labels
@@ -53,7 +54,7 @@ Recordapp::Application.routes.draw do
   end
   resources :recommendations
 
-
+  #get 'prices/autocomplete_artist_name'
   root :to => "home#index"
   #match ':id' => 'artists#show', :as => :artist, :method => :get
   #match ':artist_id/:id' => 'records#show', :as => :artist_record, :method => :get
