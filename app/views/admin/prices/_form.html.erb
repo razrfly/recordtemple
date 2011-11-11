@@ -14,7 +14,7 @@
 		<%= f.input :user_id, :as => :hidden, :input_html => { :value => current_user.id } %>
 	<% end %>
 	<%= f.inputs "Price Info" do %>
-		<%= f.semantic_fields_for :bubbles do |p| %>
+		<%= f.semantic_fields_for :bubbles, @price.bubbles.build do |p| %>
 			<%= p.input :high, :as => :string %>
 			<%= p.input :low, :as => :string %>
 		<% end %>
