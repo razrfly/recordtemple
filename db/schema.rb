@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111110153712) do
+ActiveRecord::Schema.define(:version => 20111111083910) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(:version => 20111110153712) do
     t.datetime "data_updated_at"
     t.integer  "position"
     t.string   "title"
+    t.text     "data_meta"
   end
 
   add_index "photos", ["record_id"], :name => "index_photos_on_record_id"

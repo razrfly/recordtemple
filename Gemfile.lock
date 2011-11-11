@@ -106,11 +106,13 @@ GEM
       json (>= 1.2)
       rest-client (>= 1.4)
       ruby-hmac (>= 0.3.2)
-    paperclip (2.3.16)
+    paperclip (2.4.5)
       activerecord (>= 2.3.0)
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
       mime-types
+    paperclip-meta (0.2)
+      paperclip
     pg (0.10.1)
     polyglot (0.3.2)
     rack (1.2.4)
@@ -189,7 +191,8 @@ DEPENDENCIES
   nifty-generators
   open-meta-tags
   panda
-  paperclip (~> 2.3.16)
+  paperclip (~> 2.4)
+  paperclip-meta
   pg (= 0.10.1)
   rails (= 3.0.10)
   rails3-jquery-autocomplete (~> 1.0.4)
