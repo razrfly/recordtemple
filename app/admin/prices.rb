@@ -1,7 +1,11 @@
 ActiveAdmin.register Price do
   menu :label => "Price Guide", :priority => 2
   
-  scope :all, :default => true
+  #scope :all, :default => true
+  
+  scope :all, :default => true do |prices|
+    prices.includes [:bubbles]
+  end
 
   
   filter :cached_artist, :label => 'Artist'
@@ -20,7 +24,7 @@ ActiveAdmin.register Price do
     column 'Label', :cached_label#, :sortable => false#, :sortable => 'cached_label'
     column :detail, :sortable => false
     column :media_type
-    column :pricehigh
+    column :top_price
 
     #default_actions
     column() do |price|

@@ -7,16 +7,12 @@ class Price < ActiveRecord::Base
   belongs_to :user
   
   #accepts_nested_attributes_for :records
-
-  #index do
-  #  detail
-  #  footnote
-  #end
+  accepts_nested_attributes_for :bubbles
 
   attr_accessor :artist_name
   attr_accessor :label_name
   
-  validates_presence_of :artist, :label, :record_format, :label_id
+  validates_presence_of :artist_id, :label_id, :record_format_id
   before_save :cache_columns
   
   def cache_columns
@@ -28,6 +24,10 @@ class Price < ActiveRecord::Base
   def price_range
     [bubbles.last.low, bubbles.last.high].join('-')
     #[pricelow, pricehigh].join('-')
+  end
+  
+  def top_price
+    bubbles.last.high unless bubbles.last.blank?
   end
   
   def date_range
