@@ -1,5 +1,19 @@
 <%= semantic_form_for [:admin, @price] do |f| %>
-	<%= f.input :artist_name, :as => :autocomplete, :url => autocomplete_artist_name_prices_path %>
-    <%= f.inputs :detail %>
+	<%= f.inputs "Details" do %>
+		<%= f.input :artist_name, :as => :autocomplete, :url => autocomplete_artist_name_prices_path, :input_html => { :"data-id-element" => '#price_artist_id' } %>
+		<%= f.input :artist_id, :as => :hidden %>
+		<%= f.input :label_name, :as => :autocomplete, :url => autocomplete_label_name_prices_path, :input_html => { :"data-id-element" => '#price_label_id' } %>
+		<%= f.input :label_id, :as => :hidden %>
+		<%= f.input :record_format %>
+		<%= f.input :detail, :as => :text %>
+	<% end %>
+	<%= f.inputs "Price Info" do %>
+		<%= f.input :pricehigh, :as => :string %>
+		<%= f.input :pricelow, :as => :string %>
+	<% end %>
+	<%= f.inputs "Date Info" do %>
+		<%= f.input :yearbegin, :as => :string %>
+		<%= f.input :yearend, :as => :string %>
+	<% end %>
     <%= f.buttons :commit %>
 <% end %>

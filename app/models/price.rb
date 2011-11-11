@@ -13,7 +13,9 @@ class Price < ActiveRecord::Base
   #  footnote
   #end
 
-
+  attr_accessor :artist_name
+  attr_accessor :label_name
+  
   validates_presence_of :artist, :label, :record_format, :label_id
   before_save :cache_columns
   
@@ -22,9 +24,6 @@ class Price < ActiveRecord::Base
     self.cached_artist = artist.name
     self.cached_label = label.name
   end
-
-  cattr_reader :per_page
-  @@per_page = 50
 
   def price_range
     [bubbles.last.low, bubbles.last.high].join('-')

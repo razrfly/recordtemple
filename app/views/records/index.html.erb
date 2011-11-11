@@ -48,7 +48,7 @@
 <% for record in @records %>
   <tr>
 	<th scope="row" abbr="Artist" class="<%= cycle("spec", "specalt") -%>"><%= link_to record.artist.name, records_path(:artist_id => record.artist.id) %><br /><%= thumbnail_tag(record.cover_photo) %></td>
-	<td class="<%=current_cycle%>"><%= link_to record.price.cache_label, records_path(:label_id => record.label.id) %></td>
+	<td class="<%=current_cycle%>"><%= link_to record.price.cached_label, records_path(:label_id => record.label.id) %></td>
     <td class="<%=current_cycle%>"><%= record.price.media_type %></td>
 	<td class="<%=current_cycle%>"><%= record.identifier_id %></td>
     <td class="<%=current_cycle%>"><%= truncate(record.desc, :length => 50) %></td>
