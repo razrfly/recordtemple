@@ -35,6 +35,8 @@ gem 'rails3-jquery-autocomplete', '1.0.4'
 #gem "rails_indexes", :git => "https://github.com/warpc/rails_indexes"
 #gem 'rails-indexes', :git => 'git://github.com/eMxyzptlk/rails_indexes.git'
 gem "meta_search"  # Last officially released gem
+gem 'heroku_backup_task'
+gem 'heroku_cloud_backup'
 
 group :development do
   gem 'thin'
