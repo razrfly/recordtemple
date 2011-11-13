@@ -25,10 +25,11 @@ class Song < ActiveRecord::Base
     
   validate :must_have_valid_artist_tag
   
-  def authenticated_url(options={})
+  def authenticated_url
     #AWS::S3::S3Object.url_for(mp3.path(mp3.default_style), mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => mp3.s3_protocol == 'https').html_safe
-    options.reverse_merge! :expires_in => 10.minutes, :use_ssl => true
-    AWS::S3::S3Object.url_for(mp3.path, mp3.options[:bucket], options).html_safe
+    #options.reverse_merge! :expires_in => 10.minutes, :use_ssl => true
+    #AWS::S3::S3Object.url_for(mp3.path, mp3.options[:bucket], options).html_safe
+    AWS::S3::S3Object.url_for(mp3.path, mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => true).html_safe
   end
   
   def panda_url
