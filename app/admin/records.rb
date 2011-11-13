@@ -101,8 +101,8 @@ ActiveAdmin.register Record do
           column :data_file_name
           column :data_content_type
           column('data_file_size'){ |photo| number_to_human_size(photo.data_file_size) }
-          column('image_size'){ |photo| photo.data.image_size }
-          column('mega_pixels'){ |photo| number_to_human(photo.data.width*photo.data.width, :precision => 2) unless photo.data.width.blank? }
+          #column('image_size'){ |photo| photo.data.image_size }
+          #column('mega_pixels'){ |photo| number_to_human(photo.data.width*photo.data.width, :precision => 2) unless photo.data.width.blank? }
           column :position
           column :created_at
           column() do |photo|
