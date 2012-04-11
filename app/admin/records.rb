@@ -175,6 +175,14 @@ ActiveAdmin.register Record do
     end
   end
   
+  #sidebar "Account Balance", :only => :index do
+  #  attributes_table_for records do
+  #    row("Invoice Total") { number_to_currency records.sum(:value).to_s }
+  #    #row("Amount Paid") {number_to_currency invoice.amount_paid}
+  #    #row("Open Balance") {number_to_currency invoice.open_balance}
+  #  end
+  #end
+  
   #sidebar :photos, :only => :show do
   #  table_for record.photos do# |photo|
   #    column("Photos"){ |photo| image_tag(photo.data.url(:thumb)) }
