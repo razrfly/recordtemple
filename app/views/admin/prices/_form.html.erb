@@ -23,5 +23,7 @@
 		<%= f.input :yearbegin, :as => :string %>
 		<%= f.input :yearend, :as => :string %>
 	<% end %>
-    <%= f.buttons :commit %>
+    <%= f.actions :commit do %>
+		<%= f.action :submit, :as => :button %>
+	<% end %>
 <% end %>

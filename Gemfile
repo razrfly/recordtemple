@@ -1,15 +1,15 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
+gem 'rails', '3.2.1'
 gem 'pg', '0.11'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 group :assets do
-  gem 'sass-rails', "  ~> 3.1.0"
-  gem 'coffee-rails', "~> 3.1.0"
-  gem 'uglifier'
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
 end
 
 gem 'jquery-rails'
@@ -18,7 +18,7 @@ gem 'devise', '1.5'
 
 gem 'paperclip', '~> 2.4'
 gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
-gem 'will_paginate', '~> 3.0.pre2'
+#gem 'will_paginate', '~> 3.0.pre2'
 gem 'ruby-mp3info', :require => 'mp3info'
 
 gem 'simple_form'
