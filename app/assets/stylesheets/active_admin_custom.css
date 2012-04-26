@@ -1,0 +1,11 @@
+.status { white-space: nowrap;}
+
+/* Component containers
+----------------------------------*/
+.ui-autocomplete { width: 50%;}
+.ui-autocomplete li { list-style: none; }
+.ui-widget .ui-widget { font-size: 1em; }
+.ui-widget-content { border: 1px solid #dddddd; background: #eeeeee 50% top repeat-x; color: #333333; }
+.ui-widget-content a { color: #333333; }
+.ui-widget-header { border: 1px solid #e78f08; background: #f6a828 50% 50% repeat-x; color: #ffffff; font-weight: bold; }
+.ui-widget-header a { color: #ffffff; }

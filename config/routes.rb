@@ -1,8 +1,9 @@
 Recordapp::Application.routes.draw do
 
-  ActiveAdmin.routes(self)
+  devise_for :users
+  #ActiveAdmin.routes(self)
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
+  #devise_for :admin_users, ActiveAdmin::Devise.config
 
   resources :user_accounts
   #resources :record_listings
@@ -21,8 +22,6 @@ Recordapp::Application.routes.draw do
 
   #get "statistics/index"
   match 'stats' => 'statistics#index'
-
-  devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -54,9 +53,7 @@ Recordapp::Application.routes.draw do
   end
   resources :recommendations
 
-  #get 'prices/autocomplete_artist_name'
   root :to => "home#index"
-  #match ':id' => 'artists#show', :as => :artist, :method => :get
-  #match ':artist_id/:id' => 'records#show', :as => :artist_record, :method => :get
+
 
 end
