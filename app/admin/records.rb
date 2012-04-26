@@ -1,12 +1,10 @@
 ActiveAdmin.register Record do
-  scope_to :current_user #unless proc{ current_user.admin? }
+  scope_to :current_user
   #actions :index, :show#, :edit, :update
   menu :priority => 1
   
   
   controller do
-    #autocomplete :artist, :name#, :full => true
-    
     def new
       @record = Record.new(:price_id => params[:price_id], :user_id => current_user.id)
       # call `new!` to ensure that the rest of the action continues as normal
@@ -17,23 +15,17 @@ ActiveAdmin.register Record do
   scope :all, :default => true do |records|
     records.includes [:genre, :price]
   end
-  #scope :LPs do |records|
-  #  records.includes(:price).where(media_type.contains => 'LPs')
-  #end
+
   scope :with_music
   scope :with_photo
   
   filter :cached_artist, :label => 'Artist'
   filter :cached_label, :label => 'Label'
-  #filter :comment
   filter :comment_or_price_detail_or_price_footnote, :as => :string, :label => 'Comments'
   filter :identifier_id
   filter :value, :label => 'My Value'
   filter :price_pricehigh, :as => :numeric, :label => 'Price Guide Value (Highest)'
   filter :record_price_detail, :label => 'Detail'
-  #filter :price_record_format_record_type_id, :as => :numeric, :label => 'sdfsdf'#, :as => :select, :collection => RecordType.all, :label => 'Media Format'
-  #filter :price_record_format_id, :as => :select, :collection => RecordFormat.all, :label => 'Media Format Sub'
-  #filter :price_record_format_id, :as => :select, :collection => RecordFormat.where(:media_id => proc{ params[:q] }), :label => 'Sub Type'
   filter :genre
   filter :condition, :as => :select, :collection => Record::CONDITIONS.each_with_index.collect { |s, i| [s.titleize, i+1] }
   filter :photos_data_file_size, :as => :numeric, :label => 'Photo File Size'
@@ -44,14 +36,11 @@ ActiveAdmin.register Record do
     column("Image"){|record| image_tag record.cover_photo unless record.cover_photo.blank? }
     id_column
     column 'Price id', :price_id
-    #column(:name){|space| link_to space.name, manage_space_path(space) }
     column 'Artist', :cached_artist
     column 'Label', :cached_label
     column :identifier_id
     column :genre, :sortable => 'genres.name'
-    #column("Media"){ |record| record.price.media_type }
     column 'Format', :record_format
-    #column :notes, :sortable => false
     column('Description'){ |record| truncate(record.desc, :length => 75) }
     column :updated_at
     column('Music'){ |record| status_tag (record.songs.blank? ? 'None' : pluralize(record.songs.size, 'song')), (record.songs.blank? ? :blank : :ok) }
@@ -84,11 +73,6 @@ ActiveAdmin.register Record do
         row :price
         row :created_at
         row :updated_at
-        #row("Location"){ space.location.pretty_name }
-        #row :email
-        #row :phone
-        #row :description
-        #row("Blurb"){ markdown(space.blurb) }
       end
     end
     
@@ -101,11 +85,10 @@ ActiveAdmin.register Record do
           column :data_file_name
           column :data_content_type
           column('data_file_size'){ |photo| number_to_human_size(photo.data_file_size) }
-          #column('image_size'){ |photo| photo.data.image_size }
-          #column('mega_pixels'){ |photo| number_to_human(photo.data.width*photo.data.width, :precision => 2) unless photo.data.width.blank? }
           column :position
           column :created_at
           column() do |photo|
+            #link_to "View", admin_post_path(post)
             links = link_to icon(:arrow_right_alt1) + "View", admin_record_photo_path(record,photo), :class => "view_link"
             links += link_to icon(:pen) + "Edit", edit_admin_record_photo_path(record,photo), :class => "edit_link"
             links += link_to icon(:trash_stroke) + "Delete", admin_record_photo_path(record,photo), :method => :delete, :confirm => "Are you sure you want to delete this?", :class => "delete_link"
@@ -151,17 +134,15 @@ ActiveAdmin.register Record do
     end
     
     f.inputs "Additional" do
-      f.input :value, :as => :numeric
+      f.input :value, :as => :number
       f.input :comment
     end
-    f.buttons
+    f.actions
 
   end
   
   sidebar :price_guide, :only => [:new, :edit, :show] do
     attributes_table_for record.price do
-      #row(:artist){ link_to record.artist.name, artist_path(record.artist), :class => 'artist' }
-      #row(:artist){ auto_link(record.artist, :class => 'artist') }
       row :artist
       row("Artist Freebase ID"){ link_to record.artist.freebase_id, edit_admin_artist_path(record.artist), :class => 'artist_freebase_id' }
       row :label
@@ -175,33 +156,8 @@ ActiveAdmin.register Record do
     end
   end
   
-  #sidebar "Account Balance", :only => :index do
-  #  attributes_table_for records do
-  #    row("Invoice Total") { number_to_currency records.sum(:value).to_s }
-  #    #row("Amount Paid") {number_to_currency invoice.amount_paid}
-  #    #row("Open Balance") {number_to_currency invoice.open_balance}
-  #  end
-  #end
-  
-  #sidebar :photos, :only => :show do
-  #  table_for record.photos do# |photo|
-  #    column("Photos"){ |photo| image_tag(photo.data.url(:thumb)) }
-  #    #image_tag(photo.data.url)
-  #  end
-  #end
-  
   sidebar :add_media, :only => [:show, :edit], :partial => 'media'
-  
-  #action_item :only => [:index, :show, :edit] do
-  #  link_to "New Record", admin_prices_path
-  #end
-  
-  #action_item :only => [:show, :edit] do
-  #  link_to "Add Photos", new_admin_record_photo_path(record)
-  #end
-  #action_item :only => [:show, :edit] do
-  #  link_to "Add Music", new_admin_record_song_path(record)
-  #end
+
   action_item :only => [:show, :edit] do
     link_to "View Listing", artist_record_path(record.artist,record)
   end
