@@ -1,1 +1,1 @@
-Panda.configure(ENV['PANDASTREAM_URL'])
+#Panda.configure(ENV['PANDASTREAM_URL'])
