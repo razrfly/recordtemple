@@ -7,7 +7,7 @@ class Photo < ActiveRecord::Base
   
   has_attached_file :data,
     :storage => 's3',
-    :s3_credentials => "#{RAILS_ROOT}/config/s3_credentials.yml",
+    :s3_credentials => "#{Rails.root}/config/s3_credentials.yml",
     :bucket => 'recordtemple.com',
     :s3_host_alias => 'recordtemple.com.s3.amazonaws.com',
     :url => ':s3_alias_url',
