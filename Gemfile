@@ -38,9 +38,3 @@ gem 'activeadmin', :github => 'gregbell/active_admin.git'
 gem 'meta_search', '1.1.3'
 
 #gem 'tumblr-rb', :require => 'tumblr'
-
-group :development do
-  gem 'thin'
-  gem 'hirb'
-  gem 'nifty-generators'
-end
