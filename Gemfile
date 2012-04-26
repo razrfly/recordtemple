@@ -32,7 +32,9 @@ gem 'to_xls'
 
 gem 'xml-mapping', '0.8.1'
 gem "mime-types", "~> 1.16", :require => 'mime/types'
-gem 'activeadmin', '0.4.3'
+
+gem 'activeadmin', :github => 'gregbell/active_admin.git'
+#gem 'activeadmin', '0.4.3'
 gem 'meta_search', '1.1.3'
 
 #gem 'tumblr-rb', :require => 'tumblr'
