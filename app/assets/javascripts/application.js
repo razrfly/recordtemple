@@ -18,5 +18,3 @@
 //= require jquery.ui.widget
 //= require jquery.ui.position
 //= require jquery.ui.autocomplete
-
-//= require_tree .
