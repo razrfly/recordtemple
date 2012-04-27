@@ -1,19 +1,48 @@
 <% title "Home menu", false %>
 
-<% if user_signed_in? %>
-<h1><%= current_user.nickname.capitalize %>'s Record Command Center</h1>
-<h3>Where do you want to go today?</h3>
+<!--************************** CONTENT -->
+<div class="span8 content">
 
-<ul>
-	<li><%= link_to 'Manage my Collection (Add/Edit some new records)', records_path %></li>
-	<li><%= link_to 'Search the Cyberguides Price list', prices_path %></li>
-	<li><%= link_to 'Add a new Price to the Cyberguides Price list', new_price_path %></li>
-	<li>Sell my records on the Ebay (coming soon)</li>
-	<li>Add records to my online store (coming soon)</li>
-</ul>
-<% else %>
+<!-- InstanceBeginEditable name="ContentWithSidebar" -->
 
-<h1>You are not currently logged in... please do so.</h1>
+    
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1><b>WELCOME</b><small>to probably the largest private online record collection...</small></h1>
+    </div>
+    <!-- PAGE HEADER -->
 
-<% end %>
+	<% if user_signed_in? %>
+	<h1><%= current_user.nickname.capitalize %>'s Record Command Center</h1>
+	<h3>Where do you want to go today?</h3>
 
+	<ul>
+		<li><%= link_to 'Manage my Collection (Add/Edit some new records)', records_path %></li>
+		<li><%= link_to 'Search the Cyberguides Price list', prices_path %></li>
+		<li><%= link_to 'Add a new Price to the Cyberguides Price list', new_price_path %></li>
+		<li>Sell my records on the Ebay (coming soon)</li>
+		<li>Add records to my online store (coming soon)</li>
+	</ul>
+	<% else %>
+
+	<h1>You are not currently logged in... please do so.</h1>
+
+	<% end %>
+
+</div>
+
+<!--************************** SIDEBAR -->
+<aside class="span4 content sidebar">
+
+<!-- InstanceBeginEditable name="SidebarContent" -->
+	
+    <!-- SEARCH - WIDGET -->
+    <div class="search-widget clearfix">
+        <form>
+            <div class="input-append">
+                <input placeholder="Enter keyword..." class="span3" id="appendedPrependedInput" size="16" type="text"><input class="send" type="submit" value="Go">
+              </div>
+        </form>
+    </div>
+    <!-- SEARCH - WIDGET -->
+</aside>
