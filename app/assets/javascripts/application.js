@@ -14,8 +14,3 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree ./responsive
-
-//= require jquery.ui.core
-//= require jquery.ui.widget
-//= require jquery.ui.position
-//= require jquery.ui.autocomplete
