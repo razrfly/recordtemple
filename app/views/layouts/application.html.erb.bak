@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+	                               _____________                        ______     
+	_____________________________________  /_  /____________ ______________  /____ 
+	__  ___/  _ \  ___/  __ \_  ___/  __  /_  __/  _ \_  __ `__ \__  __ \_  /_  _ \
+	_  /   /  __/ /__ / /_/ /  /   / /_/ / / /_ /  __/  / / / / /_  /_/ /  / /  __/
+	/_/    \___/\___/ \____//_/    \__,_/  \__/ \___//_/ /_/ /_/_  .___//_/  \___/ 
+	                                                            /_/                
+          
+-->
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:og="http://opengraphprotocol.org/schema/" 
+	  xmlns:fb="http://www.facebook.com/2008/fbml">
+  <head>
+    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+	
+  	<%#= include_stylesheets :common, :helpers %>
+  	<%#= include_javascripts :common, :helpers %>
+	<%#= javascript_include_tag "autocomplete-rails.js" %>
+    <%= csrf_meta_tag %>
+    <%= yield(:head) %>
+  </head>
+  <body>
+    <div id="container">
+	
+		<div id="header" class="group">	
+			<%= link_to image_tag("recordtemple.png"), root_path, :id => "logo", :class => "logo" %>
+			<% if user_signed_in? %>
+			<div id="menu">
+
+			You are logged in as <%= current_user.email %>
+			<em><%= link_to 'Logout', destroy_user_session_path %></em>
+
+			</div><br>
+
+			<% else %>
+			<div id="menu" class="group"> 
+			  You are currently not logged in.
+
+			    <em><%= link_to 'Login', new_user_session_path %></em>
+
+			</div><br>
+
+			<% end %>
+
+		</div>
+
+		<div id="nav">
+			<ul class="group">
+			  <li><%= link_to 'Main Menu', root_path %></li>
+			  <li><%= link_to 'My Records', records_path %></li> 
+			  <li><%= link_to "Price Guide", prices_path %></li> 
+			  <li><%= link_to "Labels", labels_path %></li>
+			</ul>
+		</div>
+		
+		<div id="content">
+		
+	      <% flash.each do |name, msg| %>
+	        <%= content_tag :div, msg, :id => "flash_#{name}" %>
+	      <% end %>
+	      <%= content_tag :h1, yield(:title) if show_title? %>
+	      <%= yield %>
+		</div>
+    </div>
+
+	<script type="text/javascript">
+
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-270357-18']);
+	  _gaq.push(['_setDomainName', '.recordtemple.com']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+
+	</script>
+	
+  </body>
+</html>
