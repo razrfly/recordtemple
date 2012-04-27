@@ -1,84 +1,75 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--
-	                               _____________                        ______     
-	_____________________________________  /_  /____________ ______________  /____ 
-	__  ___/  _ \  ___/  __ \_  ___/  __  /_  __/  _ \_  __ `__ \__  __ \_  /_  _ \
-	_  /   /  __/ /__ / /_/ /  /   / /_/ / / /_ /  __/  / / / / /_  /_/ /  / /  __/
-	/_/    \___/\___/ \____//_/    \__,_/  \__/ \___//_/ /_/ /_/_  .___//_/  \___/ 
-	                                                            /_/                
-          
--->
-<html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:og="http://opengraphprotocol.org/schema/" 
-	  xmlns:fb="http://www.facebook.com/2008/fbml">
+<!DOCTYPE html>
+<html lang="en">
   <head>
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
-	
-  	<%#= include_stylesheets :common, :helpers %>
-  	<%#= include_javascripts :common, :helpers %>
-	<%#= javascript_include_tag "autocomplete-rails.js" %>
-    <%= csrf_meta_tag %>
-    <%= yield(:head) %>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= content_for?(:title) ? yield(:title) : "Recordapp" %></title>
+    <%= csrf_meta_tags %>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
+    <![endif]-->
+
+    <%= stylesheet_link_tag "application", :media => "all" %>
+
+    <link href="images/favicon.ico" rel="shortcut icon">
+    <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="images/apple-touch-icon-72x72.png" rel="apple-touch-icon" sizes="72x72">
+    <link href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114">
   </head>
   <body>
-    <div id="container">
-	
-		<div id="header" class="group">	
-			<%= link_to image_tag("recordtemple.png"), root_path, :id => "logo", :class => "logo" %>
-			<% if user_signed_in? %>
-			<div id="menu">
 
-			You are logged in as <%= current_user.email %>
-			<em><%= link_to 'Logout', destroy_user_session_path %></em>
-
-			</div><br>
-
-			<% else %>
-			<div id="menu" class="group"> 
-			  You are currently not logged in.
-
-			    <em><%= link_to 'Login', new_user_session_path %></em>
-
-			</div><br>
-
-			<% end %>
-
-		</div>
-
-		<div id="nav">
-			<ul class="group">
-			  <li><%= link_to 'Main Menu', root_path %></li>
-			  <li><%= link_to 'My Records', records_path %></li> 
-			  <li><%= link_to "Price Guide", prices_path %></li> 
-			  <li><%= link_to "Labels", labels_path %></li>
-			</ul>
-		</div>
-		
-		<div id="content">
-		
-	      <% flash.each do |name, msg| %>
-	        <%= content_tag :div, msg, :id => "flash_#{name}" %>
-	      <% end %>
-	      <%= content_tag :h1, yield(:title) if show_title? %>
-	      <%= yield %>
-		</div>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Recordapp</a>
+          <div class="container nav-collapse">
+            <ul class="nav">
+              <li><%= link_to "Link1", "/path1"  %></li>
+              <li><%= link_to "Link2", "/path2"  %></li>
+              <li><%= link_to "Link3", "/path3"  %></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
     </div>
 
-	<script type="text/javascript">
+    <div class="container">
+      <div class="content">
+        <div class="row">
+           <div class="span9">
+              <%= yield %>
+            </div>
+            <div class="span3">
+              <div class="well sidebar-nav">
+                <h3>Sidebar</h3>
+                <ul class="nav nav-list">
+                  <li class="nav-header">Sidebar</li>
+                  <li><%= link_to "Link1", "/path1"  %></li>
+                  <li><%= link_to "Link2", "/path2"  %></li>
+                  <li><%= link_to "Link3", "/path3"  %></li>
+                </ul>
+              </div><!--/.well -->
+            </div><!--/span-->
+        </div><!--/row-->
+      </div><!--/content-->
 
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-270357-18']);
-	  _gaq.push(['_setDomainName', '.recordtemple.com']);
-	  _gaq.push(['_trackPageview']);
+      <footer>
+        <p>&copy; Company 2012</p>
+      </footer>
 
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
+    </div> <!-- /container -->
 
-	</script>
-	
+    <!-- Javascripts
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <%= javascript_include_tag "application" %>
+
   </body>
 </html>
