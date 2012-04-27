@@ -24,9 +24,10 @@ module RecordsHelper
     link_to title, params.merge(:sort => column, :direction => direction, :page => nil), {:class => css_class}
   end
   
-  def thumbnail_tag(url)
-    unless url.blank?
-      image_tag(url)
+  def thumb_tag(record)
+    unless record.photos.blank?
+      image_tag(record.photos.first.data(:small))
+      #return "asdfasdfds"
     end
   end
 end

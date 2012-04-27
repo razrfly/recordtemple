@@ -16,8 +16,12 @@ end
 gem 'twitter-bootstrap-rails', :git => 'http://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'rails3-jquery-autocomplete', '1.0.4'
 gem 'devise', '1.5'
+gem 'kaminari', '0.13.0'
 
 gem 'paperclip', '~> 2.4'
+gem 'carrierwave', '0.6.2'
+gem 'fog'
+
 gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
 gem 'ruby-mp3info', :require => 'mp3info'
 

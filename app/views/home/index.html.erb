@@ -1,17 +1,29 @@
 <% title "Home menu", false %>
 
 <!--************************** CONTENT -->
-<div class="span8 content">
+<!-- TAGLINE -->
+<div class="tagline span8">
+      <h3>Hi, we are responsy, a highly creative agency.</h3>
+</div>
+<!-- TAGLINE -->
 
-<!-- InstanceBeginEditable name="ContentWithSidebar" -->
 
-    
-    <!-- PAGE HEADER -->
-    <div class="page-header">
-        <h1><b>WELCOME</b><small>to probably the largest private online record collection...</small></h1>
-    </div>
-    <!-- PAGE HEADER -->
+<!-- SLIDER -->
+<div class="flex-container main-slider main-slider-narrow span12">
+   <div class="flexslider">
+     <ul class="slides">
+		<% Photo.last(5).each do |photo| %>
+         <li>
+			<%= image_tag photo.data(:medium), :size => '1170x430', :alt => 'slide' %>
+			<h2 class="flex-caption">We have <b>creative</b> ideas!</h2>
+         </li>
+		<% end %>
+     </ul>
+   </div>
+ </div>
+ <!-- SLIDER -->
 
+<div class="span12">
 	<% if user_signed_in? %>
 	<h1><%= current_user.nickname.capitalize %>'s Record Command Center</h1>
 	<h3>Where do you want to go today?</h3>
@@ -30,19 +42,3 @@
 	<% end %>
 
 </div>
-
-<!--************************** SIDEBAR -->
-<aside class="span4 content sidebar">
-
-<!-- InstanceBeginEditable name="SidebarContent" -->
-	
-    <!-- SEARCH - WIDGET -->
-    <div class="search-widget clearfix">
-        <form>
-            <div class="input-append">
-                <input placeholder="Enter keyword..." class="span3" id="appendedPrependedInput" size="16" type="text"><input class="send" type="submit" value="Go">
-              </div>
-        </form>
-    </div>
-    <!-- SEARCH - WIDGET -->
-</aside>
