@@ -10,4 +10,9 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
+ *= require responsive/main
 */
+
+#logo img {
+    max-height: 122px !important;
+}
