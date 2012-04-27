@@ -10,7 +10,7 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
- *= require responsive/main
+ *= require_tree ./responsive
 */
 
 #logo img {
