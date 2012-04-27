@@ -300,7 +300,7 @@ div.pp_default .pp_description { margin-top:8px !important; font-size:14px !impo
 /* CONTACT PAGE 
 ----------------------------------------------------------*/
 .map { margin:30px 0; }
-.contact-form { margin-top:30px; margin:-bottom:30px; }
+.contact-form { margin-top:30px; margin-bottom:30px; }
 .contact-form label { display:block; }
 .contact-form .text { width:94%; padding:10px; margin-bottom:20px; }
 .contact-form textarea.text { min-height:100px; }
