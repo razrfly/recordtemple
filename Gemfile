@@ -8,11 +8,12 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
   gem 'therubyracer'
-  gem 'twitter-bootstrap-rails', :git => 'http://github.com/seyhunak/twitter-bootstrap-rails.git'
+  
   gem 'jquery-rails'
   gem 'jquery-ui-rails'
 end
 
+gem 'twitter-bootstrap-rails', :git => 'http://github.com/seyhunak/twitter-bootstrap-rails.git'
 gem 'rails3-jquery-autocomplete', '1.0.4'
 gem 'devise', '1.5'
 
