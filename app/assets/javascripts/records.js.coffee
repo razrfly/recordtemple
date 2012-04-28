@@ -1,0 +1,2 @@
+jQuery ->
+	$("genre").collapse('toggle')

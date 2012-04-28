@@ -10,9 +10,15 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
+ *= require formtastic-bootstrap
  *= require_tree ./responsive
+
+ *= require records
 */
 
 #logo img {
     max-height: 122px !important;
+}
+#logo {
+    padding: 5px 0 20px !important;
 }

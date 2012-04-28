@@ -1,12 +1,13 @@
 class RecordsController < ApplicationController
 
 #before_filter :authenticate_user!
-helper_method :sort_column, :sort_direction
-load_and_authorize_resource
+#helper_method :sort_column, :sort_direction
+#load_and_authorize_resource
   
   def index
     @search = Record.search(params[:search])
-    @records = @search.relation
+    @virgin = @records = @search.relation
+    #@records_virgin = @search.relation
     @records = @search.page params[:page]
   end
 
