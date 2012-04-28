@@ -1,0 +1,10 @@
+#search-widget .radio, .checkbox {
+    padding-left: 10px;
+}
+#search-widget .accordion-body .accordion-inner {
+    padding: 5px;
+}
+
+#search-widget input[type="radio"] {
+	border-radius: 1px;
+}

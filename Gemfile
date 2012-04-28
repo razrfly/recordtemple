@@ -25,7 +25,10 @@ gem 'fog'
 gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
 gem 'ruby-mp3info', :require => 'mp3info'
 
-gem 'simple_form'
+#gem 'simple_form'
+gem 'formtastic', '2.1.1'
+gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap2-rails3-2-formtastic-2-1'
+
 gem 'ken'
 gem 'panda'
 gem 'texticle', '~> 1.0.4'
