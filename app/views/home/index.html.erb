@@ -3,24 +3,27 @@
 <!--************************** CONTENT -->
 <!-- TAGLINE -->
 <div class="tagline span8">
-      <h3>Hi, we are responsy, a highly creative agency.</h3>
+      <h3>Arrrrgh... see all me shiny records.</h3>
 </div>
 <!-- TAGLINE -->
 
 
 <!-- SLIDER -->
-<div class="flex-container main-slider main-slider-narrow span12">
-   <div class="flexslider">
-     <ul class="slides">
-		<% Photo.last(5).each do |photo| %>
-         <li>
-			<%= image_tag photo.data(:medium), :size => '1170x430', :alt => 'slide' %>
-			<h2 class="flex-caption">We have <b>creative</b> ideas!</h2>
-         </li>
-		<% end %>
-     </ul>
-   </div>
- </div>
+<div id="slider" class="span12">
+	<div id="carousel-gallery" class="touchcarousel  black-and-white">      
+		<ul class="touchcarousel-container">
+			<% Photo.random(50).each do |photo| %>
+				<li class="touchcarousel-item">
+					<a class="item-block" href="#">
+						<%= image_tag photo.data(:medium), :size => '400x400' %>
+					    <h4>Lorem Ipsum</h4>    
+						<p>Dolor sit amet</p>
+					</a>
+				</li>
+			<% end %>			
+		</ul> 
+	</div>
+</div>
  <!-- SLIDER -->
 
 <div class="span12">

@@ -30,6 +30,7 @@ gem 'formtastic', '2.1.1'
 gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap2-rails3-2-formtastic-2-1'
 
 gem 'ken'
+gem 'randumb'
 gem 'panda'
 gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
