@@ -36,13 +36,13 @@ gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
 gem "friendly_id", "~> 3.2.1"
 gem "cancan"
-gem 'to_xls'
+#gem 'to_xls'
 
-gem 'xml-mapping', '0.8.1'
-gem "mime-types", "~> 1.16", :require => 'mime/types'
+#gem 'xml-mapping', '0.8.1'
+#gem "mime-types", "~> 1.16", :require => 'mime/types'
 
-gem 'activeadmin', :github => 'gregbell/active_admin.git'
+gem 'activeadmin'
 #gem 'activeadmin', '0.4.3'
-gem 'meta_search', '1.1.3'
+#gem 'meta_search', '1.1.3'
 
 #gem 'tumblr-rb', :require => 'tumblr'
