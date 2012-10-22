@@ -11,7 +11,7 @@
  *= require_self
  *= require bootstrap_and_overrides
  *= require formtastic-bootstrap
- *= require_tree ./responsive
+
  *= require_tree ./helpers
 
  *= require records

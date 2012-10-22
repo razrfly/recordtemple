@@ -1,6 +1,9 @@
 Recordapp::Application.routes.draw do
 
   devise_for :users
+  devise_scope :user do
+    get "login", :to => "devise/sessions#new"
+  end
   ActiveAdmin.routes(self)
 
   resources :user_accounts
@@ -49,7 +52,6 @@ Recordapp::Application.routes.draw do
       get :autocomplete
     end
   end
-  resources :recommendations
 
   root :to => "home#index"
 
