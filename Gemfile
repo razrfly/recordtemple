@@ -32,7 +32,7 @@ gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap
 gem 'ken'
 gem 'randumb'
 gem 'panda'
-gem 'texticle', '~> 1.0.4'
+#gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
 gem "friendly_id", "~> 3.2.1"
 gem "cancan"
