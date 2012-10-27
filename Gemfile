@@ -7,13 +7,12 @@ group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
-  gem 'therubyracer'
   
   gem 'jquery-rails'
   gem 'jquery-ui-rails'
 end
 
-gem 'twitter-bootstrap-rails', :git => 'http://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'twitter-bootstrap-rails', '~> 2.1.4'
 gem 'rails3-jquery-autocomplete', '1.0.4'
 gem 'devise', '1.5'
 gem 'kaminari', '0.13.0'
