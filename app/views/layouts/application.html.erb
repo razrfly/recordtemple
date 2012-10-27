@@ -5,7 +5,7 @@
     <title><%= content_for?(:title) ? yield(:title) : "Istealmusic" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Istealmusic" %>">
     <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
+
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
   </head>
@@ -33,5 +33,6 @@
         </div>
       </div> <!--! end of .container -->
     </div> <!--! end of #main -->
+    <%= javascript_include_tag "application" %>
   </body>
 </html>

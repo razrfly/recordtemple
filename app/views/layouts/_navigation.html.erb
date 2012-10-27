@@ -1,15 +1,29 @@
 <%= link_to "RecordTemple", root_path, :class => 'brand' %>
 <ul class="nav">
+  <form action="" class="navbar-search pull-left">
+    <input type="text" placeholder="Search" class="search-query span2">
+  </form>
+  <li><%= link_to 'Browse', '#' %></li>
+  <li><%= link_to 'Filter', '#' %></li>
+  <li><%= link_to 'Learn More', '#' %></li>
+</ul>
+
+<ul class="nav pull-right">
   <% if user_signed_in? %>
-    <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
-    <li><%= link_to 'Edit account', edit_user_registration_path %></li>
-    <% if current_user.admin? %>
-      <li><%= link_to 'Admin', admin_root_path %></li>
-    <% end %>
-
-
+    <% if user_signed_in? %>
+      <% if current_user.admin? %>
+        <li><%= link_to 'Admin', admin_root_path %></li>
+      <% end %>
+  <% end %>
+    <li class="dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= current_user.nickname %> <b class="caret"></b></a>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+        <li><%= link_to('Edit Profile', edit_user_registration_path) %></li>
+        <li><%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %></li>
+      </ul>
+    </li>
   <% else %>
-    <li><%= link_to 'Login', new_user_session_path %>  </li>
-    <li><%= link_to 'Sign up', new_user_registration_path %></li>
+      <li><%= link_to "Login", login_path %></li>
+      <li><%= link_to "Sign up", new_user_registration_path %></li>
   <% end %>
 </ul>
