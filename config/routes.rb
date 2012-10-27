@@ -47,11 +47,6 @@ Recordapp::Application.routes.draw do
   end
   resources :home
   resources :labels
-  resources :searches do
-    collection do
-      get :autocomplete
-    end
-  end
 
   root :to => "home#index"
 
