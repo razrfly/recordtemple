@@ -5,10 +5,10 @@ class RecordsController < ApplicationController
 #load_and_authorize_resource
   
   def index
-    @search = Record.search(params[:search])
-    @virgin = @records = @search.relation
+    #@search = Record.search(params[:search])
+    #@virgin = @records = @search.relation
     #@records_virgin = @search.relation
-    @records = @search.page params[:page]
+    #@records = @search.page params[:page]
   end
 
   def show
