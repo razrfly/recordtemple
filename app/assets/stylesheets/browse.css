@@ -1,0 +1,9 @@
+#browse_hd {
+    height: 0;
+    padding: 0;
+    position: fixed;
+    transition-duration: 0.5s;
+    transition-property: padding, height;
+    width: 100%;
+    z-index: 5;
+}

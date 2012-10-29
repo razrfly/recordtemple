@@ -15,7 +15,7 @@ end
 gem 'twitter-bootstrap-rails', '~> 2.1.4'
 gem 'rails3-jquery-autocomplete', '1.0.4'
 gem 'devise', '1.5'
-gem 'kaminari', '0.13.0'
+gem 'kaminari', '0.14.1'
 
 gem 'paperclip', '~> 2.4'
 gem 'carrierwave', '0.6.2'
@@ -23,13 +23,13 @@ gem 'fog'
 
 #searching
 gem 'ransack'
-gem 'texticle', '~> 2.0', :require => 'texticle/rails'
+#gem 'texticle', '~> 2.0', :require => 'texticle/rails'
 #gem 'texticle', :git => "git://github.com/texticle/texticle.git", :require => 'texticle/rails'
 
 gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
 gem 'ruby-mp3info', :require => 'mp3info'
 
-#gem 'simple_form'
+gem 'simple_form'
 #gem 'formtastic', '2.1.1'
 #gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap2-rails3-2-formtastic-2-1'
 
@@ -38,7 +38,7 @@ gem 'randumb'
 gem 'panda'
 #gem 'texticle', '~> 1.0.4'
 gem 'open-meta-tags', :require => 'open_meta_tags'
-gem "friendly_id", "~> 3.2.1"
+gem 'friendly_id', '~> 3.2.1'
 gem "cancan"
 #gem 'to_xls'
 
