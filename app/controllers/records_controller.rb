@@ -5,10 +5,11 @@ class RecordsController < ApplicationController
 #load_and_authorize_resource
   
   def index
-    #@search = Record.search(params[:search])
-    #@virgin = @records = @search.relation
-    #@records_virgin = @search.relation
-    #@records = @search.page params[:page]
+    @search = Record.ransack(params[:q])
+    @records = @search.result.page(params[:page])
+
+    #@artists = Artist.where('name IN (?)', @search.result.map(&:cached_artist).uniq!)
+    #@labels = Label.where('name IN (?)', @search.result.map(&:cached_label).uniq!)
   end
 
   def show

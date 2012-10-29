@@ -2,12 +2,12 @@ class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
   belongs_to :genre
+  #belonds_to :label
   
   attr_accessor :freebase_id
   
-  #index do
-  #  comment
-  #end
+ #scope :genres, Genre.where('id IN ?', map(&:genre_id).uniq!)
+  #scope :artists, Artist.where('name IN (?)', @search.result.map(&:cached_artist).uniq!).limit(10)
   
   validates_presence_of :price, :genre, :condition, :value, :user#, :artist, :label
 
@@ -15,6 +15,14 @@ class Record < ActiveRecord::Base
   has_many :songs, :dependent => :destroy
   has_many :record_listings, :dependent => :destroy
   has_many :recommendations
+
+  #has_many :genres do
+  #  def narrow_genres
+  #    #return map(&:turnaround).inject(:+) / count
+  #    return map(&:genre_id)
+  #    #return Genre.where('id IN ?', map(&:genre_id).uniq!)
+  #  end    
+  #end
   
   delegate :bubbles, :to => :price
   delegate :record_format, :to => :price
