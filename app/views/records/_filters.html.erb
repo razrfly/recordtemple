@@ -1,0 +1,59 @@
+			
+<%= search_form_for @search, :builder => SimpleForm::FormBuilder do |f| %>
+	<div id="accordion2" class="accordion">
+	  <div class="accordion-group">
+	    <div class="accordion-heading">
+	      <a href="#collapseOne" data-parent="#accordion2" data-toggle="collapse" class="accordion-toggle">
+	        Genre
+	      </a>
+	    </div>
+	    <div class="accordion-body collapse in" id="collapseOne">
+	      <div class="accordion-inner">
+	        <%= f.input :genre_name_eq, :as => :radio, :label => false, :collection => Genre.all, :value_method => :name, :label_method => :name_with_count %>
+	      </div>
+	    </div>
+	  </div>
+	  <div class="accordion-group">
+	    <div class="accordion-heading">
+	      <a href="#collapseTwo" data-parent="#accordion3" data-toggle="collapse" class="accordion-toggle">
+	        Vinyl Format
+	      </a>
+	    </div>
+	    <div class="accordion-body collapse" id="collapseTwo">
+	      <div class="accordion-inner">
+	        <%= f.input :price_record_format_id_eq, :as => :radio, :label => false, :collection => RecordFormat.limit(10), :label_method => :name_with_count %>
+	      </div>
+	    </div>
+	  </div>
+	  <% if !@artists.nil? && @artists.size < 50 %>
+		  <div class="accordion-group">
+		    <div class="accordion-heading">
+		      <a href="#collapseThree" data-parent="#accordion4" data-toggle="collapse" class="accordion-toggle">
+		        Artists
+		      </a>
+		    </div>
+		    <div class="accordion-body collapse" id="collapseThree">
+		      <div class="accordion-inner">
+						<%= f.input :cached_artist_eq, :as => :radio, :label => false, :collection => @artists.limit(10), :value_method => :name %>	
+		      </div>
+		    </div>
+		  </div>
+	  <% end %>
+	  <% if !@labels.nil? && @labels.size < 50 %>
+		  <div class="accordion-group">
+		    <div class="accordion-heading">
+		      <a href="#collapseFour" data-parent="#accordion5" data-toggle="collapse" class="accordion-toggle">
+		        Labels
+		      </a>
+		    </div>
+		    <div class="accordion-body collapse" id="collapseFour">
+		      <div class="accordion-inner">
+						<%= f.input :cached_label_eq, :as => :radio, :label => false, :collection => @labels.limit(10), :value_method => :name %>
+		      </div>
+		    </div>
+		  </div>
+	  <% end %>
+	</div>
+
+	<%= f.button :submit %>
+<% end %>	
