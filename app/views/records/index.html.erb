@@ -6,13 +6,34 @@
 
 	<p><%= page_entries_info @records %></p>
 
-	<% @records.each do |record| %>
-		<% unless record.cover_photo.blank? %>
-			<%= image_tag record.cover_photo %>
+	<% unless @records.blank? %>
+		<table class="stacked">
+			<thead>
+				<tr>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Age</th>
+				</tr>
+			</thead>
+			<tbody>
+		<% @records.each do |record| %>
+			<tr>
+				<td>
+					<% unless record.cover_photo.blank? %>
+						<%= image_tag record.cover_photo %>
+					<% end %>
+				</td>
+				<td><%= record.artist.name %></td>
+				<td><%= record.label.name %></td>
+			</tr>
+
+
+			
+			
+			<%#= record.desc %>
 		<% end %>
-		<%= record.artist.name %>
-		<%= record.label.name %>
-		<%#= record.desc %>
+			</tbody>
+		</table>
 	<% end %>
 
 	<%= paginate @records %>
