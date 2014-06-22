@@ -4,7 +4,6 @@ Recordapp::Application.routes.draw do
   devise_scope :user do
     get "login", :to => "devise/sessions#new"
   end
-  ActiveAdmin.routes(self)
 
   resources :user_accounts
   #resources :record_listings
