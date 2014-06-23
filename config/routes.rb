@@ -21,7 +21,7 @@ Recordapp::Application.routes.draw do
   resources :genres
 
   #get "statistics/index"
-  match 'stats' => 'statistics#index'
+  get 'stats' => 'statistics#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
