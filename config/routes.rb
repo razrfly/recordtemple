@@ -49,5 +49,7 @@ Recordapp::Application.routes.draw do
 
   root :to => "home#index"
 
-
+  namespace :admin do
+    root :to => 'home#index'
+  end
 end
