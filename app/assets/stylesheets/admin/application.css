@@ -3,7 +3,10 @@
  *= require ./webarch/plugins/jquery.sidr.light
  *= require ./webarch/plugins/bootstrap.min
  *= require ./webarch/plugins/bootstrap-theme.min
- *= require ./webarch/plugins/font-awesome
+
+ * require ./webarch/plugins/font-awesome
+ *= require font-awesome
+
  *= require ./webarch/animate.min
  *= require ./webarch/style
  *= require ./webarch/responsive
