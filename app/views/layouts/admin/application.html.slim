@@ -78,8 +78,8 @@ html
               a#my-task-list.dropdown-toggle data-content="" data-original-title="Notifications" data-placement="bottom" data-toggle="dropdown" href="#" 
                 .user-details
                   .username
-                    span.badge.badge-important 3
-                    | John
+                    span.badge.badge-important> 3
+                    ' John
                     span.bold Smith
                 .iconset.top-down-arrow
               #notification-list style="display:none" 
@@ -165,7 +165,7 @@ html
             .user-info
               .greeting Welcome
               .username
-                | John
+                ' John
                 span.semi-bold Smith
               .status
                 | Status
@@ -182,22 +182,22 @@ html
           ul
             li.start.active
               a href="index.html" 
-                i.icon-custom-home
+                i.icon-custom-home>
                 span.title Dashboard
                 span.selected
                 span.badge.badge-important.pull-right 5
             li
               a href="email.html" 
-                i.fa.fa-envelope
+                i.fa.fa-envelope>
                 span.title Email
                 span.badge.badge-disable.pull-right 203
             li
               a href="../frontend/index.html" 
-                i.fa.fa-flag
+                i.fa.fa-flag>
                 span.title Frontend
             li.active.open
               a href="javascript:;" 
-                i.fa.fa.fa-adjust
+                i.fa.fa.fa-adjust>
                 span.title Themes
                 span.arrow.open
               ul.sub-menu
@@ -209,7 +209,7 @@ html
                   a href="theme_elegant.html"  Elegant
             li
               a href="javascript:;" 
-                i.fa.fa-file-text
+                i.fa.fa-file-text>
                 span.title Layouts
                 span.arrow
               ul.sub-menu
@@ -225,7 +225,7 @@ html
                   a href="RTL.html"  RTL Layout
             li
               a href="javascript:;" 
-                i.icon-custom-ui
+                i.icon-custom-ui>
                 span.title UI Elements
                 span.arrow
               ul.sub-menu
@@ -245,7 +245,7 @@ html
                   a href="group_list.html"  Group list
             li
               a href="javascript:;" 
-                i.icon-custom-form
+                i.icon-custom-form>
                 span.title Forms
                 span.arrow
               ul.sub-menu
@@ -255,7 +255,7 @@ html
                   a href="form_validations.html"  Form Validations
             li
               a href="javascript:;" 
-                i.icon-custom-portlets
+                i.icon-custom-portlets>
                 span.title Grids
                 span.arrow
               ul.sub-menu
@@ -265,7 +265,7 @@ html
                   a href="grids_draggable.html"  Draggable Grids
             li
               a href="javascript:;" 
-                i.icon-custom-thumb
+                i.icon-custom-thumb>
                 span.title Tables
                 span.arrow
               ul.sub-menu
@@ -275,7 +275,7 @@ html
                   a href="datatables.html"  Data Tables
             li
               a href="javascript:;" 
-                i.icon-custom-map
+                i.icon-custom-map>
                 span.title Maps
                 span.arrow
               ul.sub-menu
@@ -285,11 +285,11 @@ html
                   a href="vector_map.html"  Vector Maps
             li
               a href="charts.html" 
-                i.icon-custom-chart
+                i.icon-custom-chart>
                 span.title Charts
             li
               a href="javascript:;" 
-                i.icon-custom-extra
+                i.icon-custom-extra>
                 span.title Extra
                 span.arrow
               ul.sub-menu
@@ -321,7 +321,7 @@ html
                   a href="lockscreen.html"  Lockscreen
             li
               a href="javascript:;" 
-                i.fa.fa-folder-open
+                i.fa.fa-folder-open>
                 span.title Menu Levels
                 span.arrow
               ul.sub-menu
@@ -349,15 +349,15 @@ html
                   ul.folders
                     li
                       a href="#" 
-                        .status-icon.green
+                        .status-icon.green>
                         | My quick tasks
                     li
                       a href="#" 
-                        .status-icon.red
+                        .status-icon.red>
                         | To do list
                     li
                       a href="#" 
-                        .status-icon.blue
+                        .status-icon.blue>
                         | Projects
                     li.folder-input style="display:none" 
                       input#folder-name.no-boarder.folder-name name="" placeholder=("Name of folder") type="text" /
@@ -385,15 +385,15 @@ html
             ul.folders
               li
                 a href="#" 
-                  .status-icon.green
+                  .status-icon.green>
                   | My quick tasks
               li
                 a href="#" 
-                  .status-icon.red
+                  .status-icon.red>
                   | To do list
               li
                 a href="#" 
-                  .status-icon.blue
+                  .status-icon.blue>
                   | Projects
               li.folder-input style="display:none" 
                 input.no-boarder.folder-name name="" placeholder=("Name of folder") type="text" /
@@ -421,7 +421,7 @@ html
         .pull-right
           .details-status
             span.animate-number data-animation-duration="560" data-value="86" 
-            | \%
+            | %
           a href="lockscreen.html" 
             i.fa.fa-power-off
       /! END SIDEBAR
