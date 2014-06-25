@@ -18,6 +18,7 @@ gem 'cancan', '~> 1.6.10'
 gem 'slim-rails', '~> 2.0.2'
 gem 'bootstrap-sass', '~> 3.1.1.1'
 gem 'simple_form', '~> 3.0.2'
+gem 'font-awesome-rails', '~> 4.1.0.0'
 
 gem 'friendly_id', '~> 5.0.4'
 
