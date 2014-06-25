@@ -967,7 +967,7 @@ body.bottom-header .page-content .content {
   line-height: 16px;
 }
 .scrollup {
-  background: url('../../../img/pullup.png') no-repeat;
+  background: url('/assets/webarch/pullup.png') no-repeat;
   background-position: 0px 0px;
   width: 27px;
   height: 27px;
@@ -1481,7 +1481,7 @@ body.bottom-header .page-content .content {
   text-decoration: none;
 }
 .status-icon {
-  background: url('../../../img/icon/status.png') no-repeat;
+  background: url('/assets/webarch/icon/status.png') no-repeat;
   position: relative;
   display: inline-block;
   margin-right: 10px;
@@ -1546,7 +1546,7 @@ body.bottom-header .page-content .content {
 .notification-alert {
   width: 29px;
   height: 29px;
-  background-image: url("../img/notification-alert.png");
+  background-image: url("/assets/webarch/notification-alert.png");
   position: absolute;
   float: right;
   right: -15px;
@@ -1917,7 +1917,7 @@ span.iconset {
   display: block;
 }
 .iconset {
-  background: url('../../../img/icon/top-tray-b.png') no-repeat;
+  background: url('/assets/webarch/icon/top-tray-b.png') no-repeat;
   position: relative;
   top: 1px;
 }
@@ -4281,7 +4281,7 @@ form legend,
   margin-top: 3px;
 }
 .grid.box .grid-title .tools a {
-  background: url(@{base-img-url}/icon/portlet-tray.png) no-repeat;
+  background: url(/assets/webarch/icon/portlet-tray.png) no-repeat;
   width: 23px;
   height: 23px;
 }
@@ -4639,7 +4639,7 @@ form legend,
 .grid.simple .grid-title .tools a,
 .grid.solid .grid-title .tools a {
   position: relative;
-  background: url('../../../img/icon/portlet-tray.png') no-repeat;
+  background: url('/assets/webarch/icon/portlet-tray.png') no-repeat;
   transition: all 0.1s linear 0s;
 }
 .grid.simple .grid-title .tools > a.remove,
@@ -4706,7 +4706,7 @@ form legend,
   top: 8px;
 }
 .alert .close {
-  background: url("../../../img/icon/noti-cross.png") no-repeat scroll 0 0 transparent;
+  background: url("/assets/webarch/icon/noti-cross.png") no-repeat scroll 0 0 transparent;
   background-position: -9px -10px;
   width: 10px;
   height: 9px;
@@ -5130,7 +5130,7 @@ form legend,
 }
 .tiles .controller a {
   position: relative;
-  background: url('../img/icon/portlet-tray.png') no-repeat;
+  background: url('/assets/webarch/icon/portlet-tray.png') no-repeat;
   transition: all 0.1s linear 0s;
   display: inline-block;
 }
@@ -5463,7 +5463,7 @@ form legend,
 }
 .widget-item .controller a {
   position: relative;
-  background: url('../img/icon/portlet-tray.png') no-repeat;
+  background: url('/assets/webarch/icon/portlet-tray.png') no-repeat;
   transition: all 0.1s linear 0s;
   display: inline-block;
 }
@@ -5587,7 +5587,7 @@ form legend,
 }
 .widget .controller a {
   position: relative;
-  background: url('../img/icon/portlet-tray.png') no-repeat;
+  background: url('/assets/webarch/icon/portlet-tray.png') no-repeat;
   transition: all 0.1s linear 0s;
   display: inline-block;
 }
@@ -6193,7 +6193,7 @@ code:hover {
 }
 .nav .tools a {
   position: relative;
-  background: url('../img/icon/portlet-tray.png') no-repeat;
+  background: url('/assets/webarch/icon/portlet-tray.png') no-repeat;
   transition: all 0.1s linear 0s;
 }
 .nav > .disabled > a:hover,
