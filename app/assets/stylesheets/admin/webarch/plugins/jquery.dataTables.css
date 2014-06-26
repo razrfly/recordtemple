@@ -48,8 +48,8 @@ table.table thead .sorting_desc_disabled {
 }
 
 table.table thead .sorting { }
-table.table thead .sorting_asc { background: url('../images/sort_asc.png') no-repeat center right; color:#22262E; }
-table.table thead .sorting_desc { background: url('../images/sort_desc.png') no-repeat center right;color:#22262E;  }
+table.table thead .sorting_asc { background: url('/assets/webarch/datatables/sort_asc.png') no-repeat center right; color:#22262E; }
+table.table thead .sorting_desc { background: url('/assets/webarch/datatables/sort_desc.png') no-repeat center right;color:#22262E;  }
 
 table.table thead .sorting_asc_disabled {}
 table.table thead .sorting_desc_disabled { }
