@@ -1,6 +1,9 @@
 /*
  *= require ./webarch/plugins/pace-theme-flash
+ *= require ./webarch/plugins/select2
  *= require ./webarch/plugins/jquery.sidr.light
+ *= require ./webarch/plugins/jquery.dataTables
+ *= require ./webarch/plugins/datatables.responsive
 
  * require ./webarch/plugins/bootstrap.min
  * require ./webarch/plugins/bootstrap-theme.min
