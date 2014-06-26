@@ -68,17 +68,16 @@ html
           p.menu-title
             | MENU
           ul
-            li.start.active
-              a href="index.html"
-                i.icon-custom-home>
-                span.title Dashboard
-                span.selected
-                span.badge.badge-important.pull-right 5
-            li
-              a href="email.html"
-                i.fa.fa-envelope>
-                span.title Email
-                span.badge.badge-disable.pull-right 203
+            = active_link_to admin_root_path, :wrap_tag => :li, :active => :exclusive
+              i.icon-custom-home>
+              span.title Dashboard
+              span.selected
+              span.badge.badge-important.pull-right
+            = active_link_to admin_artists_path, :wrap_tag => :li
+              i.fa.fa-envelope>
+              span.title Artists
+              span.badge.badge-disable.pull-right
+                = Artist.count
           .clearfix
       a.scrollup href="#" Scroll
       .footer-widget
