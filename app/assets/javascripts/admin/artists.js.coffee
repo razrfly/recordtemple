@@ -5,6 +5,7 @@ jQuery ->
     oLanguage:
       sLengthMenu: "_MENU_ "
       sInfo: "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
+    iDisplayLength: 50
 
   $('#artists_wrapper .dataTables_filter input').addClass("input-medium");
   $('#artists_wrapper .dataTables_length select').addClass("select2-wrapper span12");

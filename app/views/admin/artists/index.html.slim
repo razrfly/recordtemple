@@ -14,7 +14,7 @@
           th Name
           th Freebase ID
       tbody
-        - @artists.limit(30).each do |artist|
+        - @artists.each do |artist|
           tr
             td = artist.name
             td = artist.freebase_id
