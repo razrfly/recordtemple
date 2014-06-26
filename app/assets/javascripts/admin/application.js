@@ -11,7 +11,17 @@
 //= require ./webarch/plugins/jquery.sidr.min
 //= require ./webarch/plugins/jquery.slimscroll.min
 //= require ./webarch/plugins/jquery.animateNumbers
+//= require ./webarch/plugins/select2.min
+//= require ./webarch/plugins/jquery.dataTables.min
+//= require ./webarch/plugins/dataTables.tableTools.min
+//= require ./webarch/plugins/datatables.responsive
+//= require ./webarch/plugins/lodash.min
+//
 //= require ./webarch/core
 //= require ./webarch/chat
 //= require ./webarch/demo
+//
+//= require ./webarch/datatable_magic
+//
+//= require ./artists.js.coffee
 //

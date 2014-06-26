@@ -1,1 +1,20 @@
-| Artists
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold Artists
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Artists
+  .grid-body.no-border
+    table.table.table-condensed#artists
+      thead
+        tr
+          th Name
+          th Freebase ID
+      tbody
+        - @artists.limit(30).each do |artist|
+          tr
+            td = artist.name
+            td = artist.freebase_id
