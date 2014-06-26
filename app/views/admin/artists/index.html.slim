@@ -13,8 +13,16 @@
         tr
           th Name
           th Freebase ID
+          th.buttons
       tbody
         - @artists.each do |artist|
           tr
             td = artist.name
             td = artist.freebase_id
+            td.buttons
+              = link_to admin_artist_path(artist), :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "SHOW"
+                i.fa.fa-eye.fa-lg
+              = link_to edit_admin_artist_path(artist), :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "EDIT"
+                i.fa.fa-pencil.fa-lg
+              = link_to admin_artist_path(artist), :method => :delete, :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "DELETE", :confirm => "Are you sure?"
+                i.fa.fa-times.fa-lg
