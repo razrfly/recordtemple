@@ -1,15 +1,13 @@
 class Artist < ActiveRecord::Base
+  extend FriendlyId
+
   has_many :records
   has_many :prices
   has_many :labels, :through => :records, :uniq => true
   has_many :genres, :through => :records, :uniq => true
   has_many :songs, :through => :records
   
-  has_friendly_id :name_unless_bad, :use_slug => true,
-      # remove accents and other diacritics from Latin characters
-      :approximate_ascii => true,
-      # don't use slugs larger than 50 bytes
-      :max_length => 50
+  friendly_id :name_unless_bad, :use => [:slugged, :finders]
   
   def name_unless_bad
     reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
