@@ -1,7 +1,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
+// require turbolinks
 
 // require ./webarch/plugins/jquery-1.8.3.min
 //= require ./webarch/plugins/jquery-ui-1.10.1.custom.min
