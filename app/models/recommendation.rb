@@ -1,5 +1,5 @@
 class Recommendation < ActiveRecord::Base
-  attr_accessible :email, :message, :token, :expiration, :record_id
+  # attr_accessible :email, :message, :token, :expiration, :record_id
   belongs_to :record
   
   validates_format_of :email,

@@ -1,6 +1,6 @@
 class RecordListing < ActiveRecord::Base
   belongs_to :record
-  attr_accessible :record_id, :external_id, :listing_type
+  # attr_accessible :record_id, :external_id, :listing_type
   attr_accessor :tumblr_type, :body
   
   validates_presence_of :record_id, :external_id, :listing_type
