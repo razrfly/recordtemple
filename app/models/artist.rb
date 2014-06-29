@@ -7,22 +7,22 @@ class Artist < ActiveRecord::Base
   has_many :genres, :through => :records, :uniq => true
   has_many :songs, :through => :records
   
-  friendly_id :name_unless_bad, :use => [:slugged, :finders]
-  
-  def name_unless_bad
-    reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
-    unless reserved_words.include?(name.downcase)
-      name
-    else
-      "#{name}-the-artist"
-    end
-  end
+  friendly_id :name, :use => [:slugged, :finders]
+
+  # def name_unless_bad
+  #   reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
+  #   unless reserved_words.include?(name.downcase)
+  #     name
+  #   else
+  #     "#{name}-the-artist"
+  #   end
+  # end
   
   #index do
   #  name
   #end
   
-  after_update :update_cache_children
+  # after_update :update_cache_children
   
   validates_presence_of :name
   
@@ -45,12 +45,12 @@ class Artist < ActiveRecord::Base
   
   private
   
-  def update_cache_children
-    if self.name_changed?
-      self.records.each do |r|
-        r.update_attribute :cached_artist, self.name
-      end
-    end
-  end
+  # def update_cache_children
+  #   if self.name_changed?
+  #     self.records.each do |r|
+  #       r.update_attribute :cached_artist, self.name
+  #     end
+  #   end
+  # end
   
 end
