@@ -34,4 +34,4 @@ gem 'randumb', '~> 0.5.0'
 gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
 
-gem 'protected_attributes' # remove this
+# gem 'protected_attributes' # remove this
