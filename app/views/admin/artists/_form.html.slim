@@ -1,0 +1,11 @@
+= simple_form_for [:admin, @artist] do |f|
+  .grid.simple
+    .grid-title.no-border
+      h4
+        span.semi-bold> Artist
+        | Form
+    .grid-body.no-border
+      = f.input :name
+      = f.input :freebase_id
+      .form-actions
+        = f.button :submit, :class => 'btn-primary'
