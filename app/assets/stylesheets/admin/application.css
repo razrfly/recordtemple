@@ -1,22 +1,18 @@
 /*
- *= require ./webarch/plugins/pace-theme-flash
- *= require ./webarch/plugins/select2
- *= require ./webarch/plugins/jquery.sidr.light
+ *= require select2
+ *= require sidr
+
  *= require ./webarch/plugins/jquery.dataTables
  *= require ./webarch/plugins/datatables.responsive
- *
- * require ./webarch/plugins/bootstrap.min
- * require ./webarch/plugins/bootstrap-theme.min
+
  *= require ./bootstrap_and_overrides
- *
- * require ./webarch/plugins/font-awesome
+
  *= require font-awesome
- *
  *= require ./webarch/animate.min
+
  *= require ./webarch/style
  *= require ./webarch/responsive
- *= require ./webarch/responsive
  *= require ./webarch/custom-icon-set
- *
+
  *= require ./shared
  */

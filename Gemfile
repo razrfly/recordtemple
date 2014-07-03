@@ -1,4 +1,5 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 gem 'rails', '4.0.5'
 
@@ -34,4 +35,9 @@ gem 'randumb', '~> 0.5.0'
 gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
 
-# gem 'protected_attributes' # remove this
+gem 'rails-assets-unveil', '~> 1.3.0'
+gem 'rails-assets-sidr', '~> 1.2.1'
+gem 'rails-assets-jquery.slimscroll', '~> 1.3.1'
+gem 'rails-assets-select2', '~> 3.5.0'
+gem 'lodash-rails', '~> 2.4.1'
+gem 'jquery-datatables-rails', '~> 2.1.10.0.2'
