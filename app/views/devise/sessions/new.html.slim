@@ -17,8 +17,9 @@
             = f.input :password, :required => false
         .row
           .control-group.col-md-10
-            .checkbox.checkbox.check-success
-              = f.input :remember_me, :as => :boolean if devise_mapping.rememberable?
+            .checkbox.check-success
+              = f.input_field :remember_me, :as => :boolean, :boolean_style => :inline if devise_mapping.rememberable?
+              = f.label :remember_me
         .row
           .col-md-10
             = f.button :submit, "Sign in", :class => 'btn btn-primary btn-cons pull-right'
