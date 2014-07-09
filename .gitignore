@@ -8,3 +8,6 @@ log/**/*
 config/database.yml
 .sass-cache/
 public/assets/
+
+# Ignore the secret token
+.secret
