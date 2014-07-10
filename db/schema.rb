@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140707162328) do
+ActiveRecord::Schema.define(version: 20140710110008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,11 +66,11 @@ ActiveRecord::Schema.define(version: 20140707162328) do
     t.string   "freebase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "cached_slug"
+    t.string   "slug"
   end
 
-  add_index "labels", ["cached_slug"], name: "index_labels_on_cached_slug", unique: true, using: :btree
   add_index "labels", ["name"], name: "index_labels_on_name", unique: true, using: :btree
+  add_index "labels", ["slug"], name: "index_labels_on_slug", unique: true, using: :btree
 
   create_table "photos", force: true do |t|
     t.integer  "record_id"
