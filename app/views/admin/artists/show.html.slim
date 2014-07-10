@@ -6,6 +6,19 @@
 .grid.simple
   .grid-title.no-border
     h4
+      span.semi-bold> Artist
+      | Info
+  .grid-body.no-border
+    .row
+      .col-md-6
+        p Name:
+        blockquote = @artist.name
+      .col-md-6
+        p Freebase ID:
+        blockquote = @artist.freebase_id
+.grid.simple
+  .grid-title.no-border
+    h4
       span.semi-bold Records
   .grid-body.no-border
     table.table.table-condensed#records
