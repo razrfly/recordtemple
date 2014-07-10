@@ -3,6 +3,7 @@ class Record < ActiveRecord::Base
   belongs_to :user
   belongs_to :genre
   #belonds_to :label
+  has_one :photo
   
   attr_accessor :freebase_id
   
