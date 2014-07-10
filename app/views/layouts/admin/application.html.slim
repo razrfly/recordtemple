@@ -71,6 +71,11 @@ html
               span.title Artists
               span.badge.badge-disable.pull-right
                 = Artist.count
+            = active_link_to admin_labels_path, :wrap_tag => :li
+              i.fa.fa-play-circle>
+              span.title Labels
+              span.badge.badge-disable.pull-right
+                = Label.count
           .clearfix
       a.scrollup href="#" Scroll
       .page-content
