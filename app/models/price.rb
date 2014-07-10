@@ -5,6 +5,7 @@ class Price < ActiveRecord::Base
   belongs_to :artist
   belongs_to :label
   belongs_to :user
+  has_one :record
   
   #accepts_nested_attributes_for :records
   accepts_nested_attributes_for :bubbles
