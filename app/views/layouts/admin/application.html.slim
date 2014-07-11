@@ -76,6 +76,11 @@ html
               span.title Labels
               span.badge.badge-disable.pull-right
                 = Label.count
+            = active_link_to admin_genres_path, :wrap_tag => :li
+              i.fa.fa-inbox>
+              span.title Genres
+              span.badge.badge-disable.pull-right
+                = Genre.count
           .clearfix
       a.scrollup href="#" Scroll
       .page-content

@@ -1,0 +1,27 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold Genres
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Genres
+    = link_to "New Genre", new_admin_genre_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    table.table.table-condensed#genres
+      thead
+        tr
+          th Name
+          th.buttons
+      tbody
+        - @genres.each do |genre|
+          tr
+            td = genre.name
+            td.buttons
+              = link_to admin_genre_path(genre), :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "SHOW"
+                i.fa.fa-eye.fa-lg
+              = link_to edit_admin_genre_path(genre), :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "EDIT"
+                i.fa.fa-pencil.fa-lg
+              = link_to admin_genre_path(genre), :method => :delete, :class => 'info-tooltip', :'data-toggle' => 'tooltip', :title => "DELETE", :confirm => "Are you sure?"
+                i.fa.fa-times.fa-lg
