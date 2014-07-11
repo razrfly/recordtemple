@@ -23,5 +23,6 @@
 //= require ./webarch/datatable_magic
 //= require ./bootstrap_tools
 
-//= require ./artists.js.coffee
-//= require ./labels.js.coffee
+//= require ./artists
+//= require ./labels
+//= require ./genres

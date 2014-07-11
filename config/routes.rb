@@ -53,5 +53,6 @@ Recordapp::Application.routes.draw do
     root :to => 'home#index'
     resources :artists
     resources :labels
+    resources :genres
   end
 end
