@@ -6,6 +6,9 @@ jQuery ->
       sLengthMenu: "_MENU_ "
       sInfo: "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
     iDisplayLength: 50
+    bJQueryUI: true
+    bServerSide: true
+    sAjaxSource: $('table#artists').data('source')
 
   $('#artists_wrapper .dataTables_filter input').addClass("input-medium");
   $('#artists_wrapper .dataTables_length select').addClass("select2-wrapper span12");

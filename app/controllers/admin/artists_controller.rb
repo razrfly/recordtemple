@@ -2,7 +2,10 @@ class Admin::ArtistsController < Admin::AdminController
   before_action :set_artist, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @artists = Artist.all.last(1000)
+    respond_to do |format|
+      format.html
+      format.json { render json: ArtistsDatatable.new(view_context) }
+    end
   end
 
   def show

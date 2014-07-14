@@ -35,6 +35,8 @@ gem 'randumb', '~> 0.5.0'
 gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
 
+gem 'will_paginate', '~> 3.0.7'
+
 gem 'rails-assets-unveil', '~> 1.3.0'
 gem 'rails-assets-sidr', '~> 1.2.1'
 gem 'rails-assets-jquery.slimscroll', '~> 1.3.1'
