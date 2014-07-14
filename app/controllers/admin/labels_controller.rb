@@ -2,7 +2,10 @@ class Admin::LabelsController < Admin::AdminController
   before_action :set_label, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @labels = Label.all.last(1000)
+    respond_to do |format|
+      format.html
+      format.json { render json: LabelsDatatable.new(view_context) }
+    end
   end
 
   def show
