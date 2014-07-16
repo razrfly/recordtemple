@@ -51,6 +51,7 @@ Recordapp::Application.routes.draw do
 
   namespace :admin do
     root :to => 'home#index'
+    
     resources :artists
     resources :labels
     resources :genres

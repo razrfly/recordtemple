@@ -28,9 +28,9 @@ private
 
   def buttons(label)
     [
-      link_to('<i class="fa fa-eye fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.admin_label_path(label), :class => 'info-tooltip dynamic-button', :'data-toggle' => 'tooltip', :title => "SHOW"),
-      link_to('<i class="fa fa-pencil fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.edit_admin_label_path(label), :class => 'info-tooltip dynamic-button', :'data-toggle' => 'tooltip', :title => "EDIT"),
-      link_to('<i class="fa fa-times fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.admin_label_path(label), :method => :delete, :class => 'info-tooltip dynamic-button', :'data-toggle' => 'tooltip', :title => "DELETE", :confirm => "Are you sure?")
+      link_to('<i class="fa fa-eye fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.admin_label_path(label), :class => 'info-tooltip dynamic-button', :data => {:toggle => 'tooltip'}, :title => "SHOW"),
+      link_to('<i class="fa fa-pencil fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.edit_admin_label_path(label), :class => 'info-tooltip dynamic-button', :data => {:toggle => 'tooltip'}, :title => "EDIT"),
+      link_to('<i class="fa fa-times fa-lg"></i>'.html_safe, Rails.application.routes.url_helpers.admin_label_path(label), :method => :delete, :class => 'info-tooltip dynamic-button', :data => {:toggle => 'tooltip'}, :title => "DELETE", :confirm => "Are you sure?")
     ].join
   end
 
