@@ -2,7 +2,7 @@ class Admin::GenresController < Admin::AdminController
   before_action :set_genre, :only => [:show, :edit, :update, :destroy]
 
   def index
-    @genres = Genre.all.last(1000)
+    @genres = Genre.all
   end
 
   def show
