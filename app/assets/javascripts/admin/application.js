@@ -26,3 +26,4 @@
 //= require ./artists
 //= require ./labels
 //= require ./genres
+//= require ./record_formats

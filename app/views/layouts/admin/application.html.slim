@@ -81,6 +81,11 @@ html
               span.title Genres
               span.badge.badge-disable.pull-right
                 = Genre.count
+            = active_link_to admin_record_formats_path, :wrap_tag => :li
+              i.fa.fa-music>
+              span.title Record Formats
+              span.badge.badge-disable.pull-right
+                = RecordFormat.count
           .clearfix
       a.scrollup href="#" Scroll
       .page-content
