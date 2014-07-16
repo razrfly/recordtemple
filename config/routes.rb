@@ -57,5 +57,6 @@ Recordapp::Application.routes.draw do
     resources :genres
     resources :record_formats
     resources :record_types
+    resources :users
   end
 end
