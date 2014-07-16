@@ -86,6 +86,11 @@ html
               span.title Record Formats
               span.badge.badge-disable.pull-right
                 = RecordFormat.count
+            = active_link_to admin_record_types_path, :wrap_tag => :li
+              i.fa.fa-cogs>
+              span.title Record Types
+              span.badge.badge-disable.pull-right
+                = RecordType.count
           .clearfix
       a.scrollup href="#" Scroll
       .page-content

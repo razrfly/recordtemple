@@ -56,5 +56,6 @@ Recordapp::Application.routes.draw do
     resources :labels
     resources :genres
     resources :record_formats
+    resources :record_types
   end
 end
