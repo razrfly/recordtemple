@@ -25,7 +25,7 @@ gem 'active_link_to', '~> 1.0.2'
 gem 'friendly_id', '~> 5.0.4'
 
 gem 'rails3-jquery-autocomplete', '~> 1.0.14'
-gem 'kaminari', '~> 0.16.1'
+# gem 'kaminari', '~> 0.16.1'
 gem 'paperclip', '~> 4.1.1'
 gem 'aws-sdk', '~> 1.44.0'
 gem 'ransack', '~> 1.2.3'
