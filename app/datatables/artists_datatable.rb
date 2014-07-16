@@ -42,7 +42,7 @@ private
     artists = Artist.order("#{sort_column} #{sort_direction}")
     artists = artists.page(page).per_page(per_page)
     if params[:sSearch].present?
-      artists = artists.where("LOWER(name) LIKE :search", search: "%#{params[:sSearch].downcase}%")
+      artists = artists.where("name ILIKE :search", search: "%#{params[:sSearch]}%")
     end
     artists
   end
