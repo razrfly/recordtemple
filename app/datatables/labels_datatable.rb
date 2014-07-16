@@ -42,7 +42,7 @@ private
     labels = Label.order("#{sort_column} #{sort_direction}")
     labels = labels.page(page).per_page(per_page)
     if params[:sSearch].present?
-      labels = labels.where("LOWER(name) LIKE :search", search: "%#{params[:sSearch].downcase}%")
+      labels = labels.where("name ILIKE :search", search: "%#{params[:sSearch]}%")
     end
     labels
   end
