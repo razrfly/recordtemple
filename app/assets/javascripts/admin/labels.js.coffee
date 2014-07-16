@@ -9,6 +9,9 @@ jQuery ->
     bJQueryUI: true
     bServerSide: true
     sAjaxSource: $('table#labels').data('source')
+    aoColumnDefs: [
+      {bSortable: false, aTargets: [1, 2]}
+    ]
 
   $('#labels_wrapper .dataTables_filter input').addClass("input-medium");
   $('#labels_wrapper .dataTables_length select').addClass("select2-wrapper span12");
