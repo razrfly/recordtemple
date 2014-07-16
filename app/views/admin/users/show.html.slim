@@ -1,0 +1,32 @@
+.page-title
+  i.icon-custom-left
+  h3
+    - if @user.fname.blank? && @user.lname.blank?
+      span.semi-bold = @user.nickname
+    - else
+      => @user.fname
+      span.semi-bold = @user.lname
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold> User
+      | Info
+    = link_to "Edit", edit_admin_user_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    .row
+      .col-md-6
+        p Nickname:
+        blockquote = @user.nickname
+
+        p First Name:
+        blockquote = @user.fname
+
+        p Last Name:
+        blockquote = @user.lname
+      .col-md-6
+        p Email:
+        blockquote = @user.email
+
+        p Sign In Count:
+        blockquote = @user.sign_in_count
