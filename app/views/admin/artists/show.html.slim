@@ -49,9 +49,9 @@
             td = price.record_format.name
             td = price.footnote
             td.buttons
-              = link_to '#', :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
+              = link_to admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
                 i.fa.fa-eye.fa-lg
-              = link_to '#', :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
+              = link_to edit_admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
                 i.fa.fa-pencil.fa-lg
-              = link_to '#', :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+              = link_to admin_artist_price_path(@artist, price), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
                 i.fa.fa-times.fa-lg
