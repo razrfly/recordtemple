@@ -1,0 +1,3 @@
+jQuery ->
+  $('.info-tooltip').tooltip()
+  

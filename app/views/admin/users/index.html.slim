@@ -1,0 +1,35 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold Users
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Users
+    = link_to "New User", new_admin_user_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    table.table.table-condensed#users
+      thead
+        tr
+          th Nickname
+          th First Name
+          th Last Name
+          th Email
+          th Sign In Count
+          th.buttons
+      tbody
+        - @users.each do |user|
+          tr
+            td = user.nickname
+            td = user.fname
+            td = user.lname
+            td = user.email
+            td = user.sign_in_count
+            td.buttons
+              = link_to admin_user_path(user), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
+                i.fa.fa-eye.fa-lg
+              = link_to edit_admin_user_path(user), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
+                i.fa.fa-pencil.fa-lg
+              = link_to admin_user_path(user), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+                i.fa.fa-times.fa-lg

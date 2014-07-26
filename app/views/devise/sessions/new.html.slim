@@ -1,0 +1,25 @@
+.row.login-container.column-seperation
+  .col-md-5.col-md-offset-1
+    h2 Sign in to RecordTemple
+    p
+      | Use your email to sign in.
+      br
+        a> href="#" Sign up Now!
+        | for a RecordTemple account.
+  .col-md-5
+    br
+      = simple_form_for resource, :as => resource_name, :url => session_path(resource_name) do |f|
+        .row
+          .form-group.col-md-10
+            = f.input :email, :required => false, :autofocus => true
+        .row
+          .form-group.col-md-10
+            = f.input :password, :required => false
+        .row
+          .control-group.col-md-10
+            .checkbox.check-success
+              = f.input_field :remember_me, :as => :boolean, :boolean_style => :inline if devise_mapping.rememberable?
+              = f.label :remember_me
+        .row
+          .col-md-10
+            = f.button :submit, "Sign in", :class => 'btn btn-primary btn-cons pull-right'

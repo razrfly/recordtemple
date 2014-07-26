@@ -1,0 +1,57 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold = @artist.name
+
+.row.m-b-30
+  .col-md-3
+    - if price_with_photo = @artist.prices.joins(:record => :photo).take
+      .tiles.green.overflow-hidden.full-height
+        .overlayer.bottom-right.fullwidth
+          .overlayer-wrapper
+            .tiles.gradient-black.p-l-20.p-r-20.p-b-20.p-t-20
+              .pull-right
+                a href="#" class="hashtags transparent"
+                  = price_with_photo.detail
+              .clearfix
+        = image_tag price_with_photo.record.photo.data(:medium), :class => 'lazy hover-effect-img image-responsive-width'
+  .col-md-9
+    .grid.simple
+      .grid-title.no-border
+        h4
+          span.semi-bold> Artist
+          | Info
+        = link_to "Edit", edit_admin_artist_path, :class => 'pull-right btn btn-small btn-success'
+      .grid-body.no-border
+        .row
+          .col-md-6
+            p Name:
+            blockquote = @artist.name
+          .col-md-6
+            p Freebase ID:
+            blockquote = @artist.freebase_id
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Records
+  .grid-body.no-border
+    table.table.table-condensed#artist-records
+      thead
+        tr
+          th Details
+          th Medium
+          th Footnote
+          th.buttons
+      tbody
+        - @artist.prices.each do |price|
+          tr
+            td = price.detail
+            td = price.record_format.name
+            td = price.footnote
+            td.buttons
+              = link_to admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
+                i.fa.fa-eye.fa-lg
+              = link_to edit_admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
+                i.fa.fa-pencil.fa-lg
+              = link_to admin_artist_price_path(@artist, price), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+                i.fa.fa-times.fa-lg
