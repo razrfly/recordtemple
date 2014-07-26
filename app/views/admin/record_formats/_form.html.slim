@@ -1,0 +1,12 @@
+= simple_form_for [:admin, @record_format] do |f|
+  .grid.simple
+    .grid-title.no-border
+      h4
+        ' Record
+        span.semi-bold> Format
+        | Form
+    .grid-body.no-border
+      = f.input :name
+      = f.association :record_type
+      .form-actions
+        = f.button :submit, :class => 'btn-primary'

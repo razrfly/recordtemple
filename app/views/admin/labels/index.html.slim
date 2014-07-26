@@ -1,0 +1,18 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold Labels
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Labels
+    = link_to "New Label", new_admin_label_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    table.table.table-condensed#labels data-source=(admin_labels_url(:format => 'json'))
+      thead
+        tr
+          th Name
+          th Freebase ID
+          th.buttons
+      tbody

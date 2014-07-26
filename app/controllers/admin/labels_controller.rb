@@ -1,0 +1,52 @@
+class Admin::LabelsController < Admin::AdminController
+  before_action :set_label, :only => [:show, :edit, :update, :destroy]
+
+  def index
+    respond_to do |format|
+      format.html
+      format.json { render json: LabelsDatatable.new(view_context) }
+    end
+  end
+
+  def show
+  end
+
+  def new
+    @label = Label.new
+  end
+
+  def edit
+  end
+
+  def create
+    @label = Label.new(artist_params)
+
+    if @label.save
+      redirect_to admin_labels_path, :notice => "Label was successfully created."
+    else
+      render :new
+    end
+  end
+
+  def update
+    if @label.update_attributes(artist_params)
+      redirect_to admin_labels_path, :notice => "Label was successfully updated."
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @label.destroy
+    redirect_to admin_labels_path, :notice => "Label was successfully deleted."
+  end
+
+  private
+    def set_label
+      @label = Label.find(params[:id])
+    end
+
+    def artist_params
+      params.require(:label).permit(:name, :freebase_id)
+    end
+end

@@ -9,13 +9,16 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111083910) do
+ActiveRecord::Schema.define(version: 20140711092027) do
 
-  create_table "active_admin_comments", :force => true do |t|
-    t.integer  "resource_id",   :null => false
-    t.string   "resource_type", :null => false
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: true do |t|
+    t.integer  "resource_id",   null: false
+    t.string   "resource_type", null: false
     t.integer  "author_id"
     t.string   "author_type"
     t.text     "body"
@@ -24,22 +27,22 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.string   "namespace"
   end
 
-  add_index "active_admin_comments", ["author_type", "author_id"], :name => "index_active_admin_comments_on_author_type_and_author_id"
-  add_index "active_admin_comments", ["namespace"], :name => "index_active_admin_comments_on_namespace"
-  add_index "active_admin_comments", ["resource_type", "resource_id"], :name => "index_admin_notes_on_resource_type_and_resource_id"
+  add_index "active_admin_comments", ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id", using: :btree
+  add_index "active_admin_comments", ["namespace"], name: "index_active_admin_comments_on_namespace", using: :btree
+  add_index "active_admin_comments", ["resource_type", "resource_id"], name: "index_admin_notes_on_resource_type_and_resource_id", using: :btree
 
-  create_table "artists", :force => true do |t|
+  create_table "artists", force: true do |t|
     t.string   "name"
     t.string   "freebase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "cached_slug"
+    t.string   "slug"
   end
 
-  add_index "artists", ["cached_slug"], :name => "index_artists_on_cached_slug", :unique => true
-  add_index "artists", ["name"], :name => "index_artists_on_name", :unique => true
+  add_index "artists", ["name"], name: "index_artists_on_name", unique: true, using: :btree
+  add_index "artists", ["slug"], name: "index_artists_on_slug", unique: true, using: :btree
 
-  create_table "bubbles", :force => true do |t|
+  create_table "bubbles", force: true do |t|
     t.integer  "low"
     t.integer  "high"
     t.integer  "price_id"
@@ -47,29 +50,29 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.datetime "updated_at"
   end
 
-  add_index "bubbles", ["price_id"], :name => "index_bubbles_on_price_id"
+  add_index "bubbles", ["price_id"], name: "index_bubbles_on_price_id", using: :btree
 
-  create_table "genres", :force => true do |t|
+  create_table "genres", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "cached_slug"
+    t.string   "slug"
   end
 
-  add_index "genres", ["cached_slug"], :name => "index_genres_on_cached_slug", :unique => true
+  add_index "genres", ["slug"], name: "index_genres_on_slug", unique: true, using: :btree
 
-  create_table "labels", :force => true do |t|
+  create_table "labels", force: true do |t|
     t.string   "name"
     t.string   "freebase_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "cached_slug"
+    t.string   "slug"
   end
 
-  add_index "labels", ["cached_slug"], :name => "index_labels_on_cached_slug", :unique => true
-  add_index "labels", ["name"], :name => "index_labels_on_name", :unique => true
+  add_index "labels", ["name"], name: "index_labels_on_name", unique: true, using: :btree
+  add_index "labels", ["slug"], name: "index_labels_on_slug", unique: true, using: :btree
 
-  create_table "photos", :force => true do |t|
+  create_table "photos", force: true do |t|
     t.integer  "record_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -82,9 +85,9 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.text     "data_meta"
   end
 
-  add_index "photos", ["record_id"], :name => "index_photos_on_record_id"
+  add_index "photos", ["record_id"], name: "index_photos_on_record_id", using: :btree
 
-  create_table "prices", :force => true do |t|
+  create_table "prices", force: true do |t|
     t.string   "cached_artist"
     t.string   "media_type"
     t.string   "cached_label"
@@ -103,7 +106,7 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.integer  "user_id"
   end
 
-  create_table "recommendations", :force => true do |t|
+  create_table "recommendations", force: true do |t|
     t.string   "email"
     t.text     "message"
     t.string   "token"
@@ -113,14 +116,14 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.datetime "updated_at"
   end
 
-  create_table "record_formats", :force => true do |t|
+  create_table "record_formats", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "record_type_id"
   end
 
-  create_table "record_listings", :force => true do |t|
+  create_table "record_listings", force: true do |t|
     t.integer  "record_id"
     t.string   "external_id"
     t.string   "listing_type"
@@ -128,13 +131,13 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.datetime "updated_at"
   end
 
-  create_table "record_types", :force => true do |t|
+  create_table "record_types", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "records", :force => true do |t|
+  create_table "records", force: true do |t|
     t.integer  "genre_id"
     t.integer  "value"
     t.text     "comment"
@@ -148,23 +151,23 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.string   "cached_label"
   end
 
-  add_index "records", ["genre_id"], :name => "index_records_on_genre_id"
-  add_index "records", ["price_id"], :name => "index_records_on_price_id"
-  add_index "records", ["user_id"], :name => "index_records_on_user_id"
+  add_index "records", ["genre_id"], name: "index_records_on_genre_id", using: :btree
+  add_index "records", ["price_id"], name: "index_records_on_price_id", using: :btree
+  add_index "records", ["user_id"], name: "index_records_on_user_id", using: :btree
 
-  create_table "slugs", :force => true do |t|
+  create_table "slugs", force: true do |t|
     t.string   "name"
     t.integer  "sluggable_id"
-    t.integer  "sequence",                     :default => 1, :null => false
-    t.string   "sluggable_type", :limit => 40
+    t.integer  "sequence",                  default: 1, null: false
+    t.string   "sluggable_type", limit: 40
     t.string   "scope"
     t.datetime "created_at"
   end
 
-  add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], :name => "index_slugs_on_n_s_s_and_s", :unique => true
-  add_index "slugs", ["sluggable_id"], :name => "index_slugs_on_sluggable_id"
+  add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], name: "index_slugs_on_n_s_s_and_s", unique: true, using: :btree
+  add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id", using: :btree
 
-  create_table "songs", :force => true do |t|
+  create_table "songs", force: true do |t|
     t.integer  "record_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -176,9 +179,9 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.string   "panda_id"
   end
 
-  add_index "songs", ["record_id"], :name => "index_songs_on_record_id"
+  add_index "songs", ["record_id"], name: "index_songs_on_record_id", using: :btree
 
-  create_table "user_accounts", :force => true do |t|
+  create_table "user_accounts", force: true do |t|
     t.string   "provider"
     t.string   "auth_type"
     t.string   "key"
@@ -188,14 +191,14 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.datetime "updated_at"
   end
 
-  create_table "users", :force => true do |t|
-    t.string   "email",                               :default => "", :null => false
-    t.string   "encrypted_password",   :limit => 128, :default => "", :null => false
-    t.string   "password_salt",                       :default => "", :null => false
+  create_table "users", force: true do |t|
+    t.string   "email",                            default: "", null: false
+    t.string   "encrypted_password",   limit: 128, default: "", null: false
+    t.string   "password_salt",                    default: "", null: false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                       :default => 0
+    t.integer  "sign_in_count",                    default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -208,9 +211,10 @@ ActiveRecord::Schema.define(:version => 20111111083910) do
     t.string   "nickname"
     t.string   "fname"
     t.string   "lname"
+    t.string   "unconfirmed_email"
   end
 
-  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
-  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end
