@@ -1,0 +1,10 @@
+= simple_form_for [:admin, @genre] do |f|
+  .grid.simple
+    .grid-title.no-border
+      h4
+        span.semi-bold> Genre
+        | Form
+    .grid-body.no-border
+      = f.input :name
+      .form-actions
+        = f.button :submit, :class => 'btn-primary'

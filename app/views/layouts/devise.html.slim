@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    meta content="text/html;charset=UTF-8" http-equiv="content-type"
+    meta charset="utf-8"
+    meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"
+    title RecordTemple | Sign In
+    = stylesheet_link_tag 'admin/application'
+    = csrf_meta_tags
+  body.error-body.no-top
+    .container
+      = yield
+    = javascript_include_tag 'admin/application'

@@ -1,0 +1,18 @@
+/*
+ *= require select2
+ *= require sidr
+
+ *= require ./webarch/plugins/jquery.dataTables
+ *= require ./webarch/plugins/datatables.responsive
+
+ *= require ./bootstrap_and_overrides
+
+ *= require font-awesome
+ *= require ./webarch/animate.min
+
+ *= require ./webarch/style
+ *= require ./webarch/responsive
+ *= require ./webarch/custom-icon-set
+
+ *= require ./shared
+ */

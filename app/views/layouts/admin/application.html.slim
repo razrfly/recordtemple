@@ -1,0 +1,110 @@
+doctype html
+html
+  head
+    meta content="text/html;charset=UTF-8" http-equiv="content-type"
+    meta charset="utf-8"
+    meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"
+    title RecordTemple | Admin Dashboard
+    = stylesheet_link_tag 'admin/application'
+    = csrf_meta_tags
+  body
+    .header.navbar.navbar-inverse
+      .navbar-inner
+        .header-seperation
+          ul#main-menu-toggle-wrapper.nav.pull-left.notifcation-center style="display:none"
+            li.dropdown
+              a#main-menu-toggle href="#main-menu"
+                .iconset.top-menu-toggle-dark
+          a href="index.html"
+            img.logo alt="" data-src="/assets/webarch/logo-b.png" data-src-retina="/assets/webarch/logo-b2x.png" height="21" src="/assets/webarch/logo-b.png" width="106"
+          ul.nav.pull-right.notifcation-center
+            li#header_task_bar.dropdown
+              a.dropdown-toggle.active data-toggle="" href="#"
+                .iconset.top-home
+            li#portrait-chat-toggler.dropdown style="display:none"
+              a.chat-menu-toggle href="#sidr"
+                .iconset.top-chat-dark
+        .header-quick-nav
+          .pull-left
+            ul.nav.quick-section
+              li.quicklinks
+                a#layout-condensed-toggle href="#"
+                  .iconset.top-menu-toggle-dark
+          .pull-right
+            .chat-toggler
+              a.dropdown-toggle data-content="" data-original-title="Notifications" data-placement="bottom" data-toggle="dropdown" href="#"
+                .user-details
+                  .username
+                    span.badge.badge-important> style="background-color:#fff" 3
+                    - if current_user.fname.blank? && current_user.lname.blank?
+                      span.bold = current_user.nickname
+                    - else
+                      => current_user.fname
+                      span.bold = current_user.lname
+                .iconset.top-down-arrow
+              ul.dropdown-menu.pull-right role="menu" 
+                li = link_to "Logout", destroy_user_session_path, :method => :delete
+              .profile-pic
+                img alt="" data-src="/assets/logo.png" data-src-retina="/assets/logo.png" src="/assets/logo.png" width="35" height="35"
+            ul.nav.quick-section
+              li.quicklinks
+                a#user-options.dropdown-toggle.pull-right data-toggle="dropdown" href="#"
+                  .iconset.top-settings-dark
+              li.quicklinks
+                span.h-seperate
+              li.quicklinks
+                a#chat-menu-toggle.chat-menu-toggle href="#sidr"
+                  .iconset.top-chat-dark
+    .page-container.row-fluid
+      #main-menu.page-sidebar
+        #main-menu-wrapper.page-sidebar-wrapper
+          p.menu-title
+            | MENU
+          ul
+            = active_link_to admin_root_path, :wrap_tag => :li, :active => :exclusive
+              i.icon-custom-home>
+              span.title Dashboard
+              span.selected
+              span.badge.badge-important.pull-right
+            = active_link_to admin_artists_path, :wrap_tag => :li
+              i.fa.fa-star>
+              span.title Artists
+              span.badge.badge-disable.pull-right
+                = Artist.count
+            = active_link_to admin_labels_path, :wrap_tag => :li
+              i.fa.fa-play-circle>
+              span.title Labels
+              span.badge.badge-disable.pull-right
+                = Label.count
+            = active_link_to admin_genres_path, :wrap_tag => :li
+              i.fa.fa-inbox>
+              span.title Genres
+              span.badge.badge-disable.pull-right
+                = Genre.count
+            = active_link_to admin_record_formats_path, :wrap_tag => :li
+              i.fa.fa-music>
+              span.title Record Formats
+              span.badge.badge-disable.pull-right
+                = RecordFormat.count
+            = active_link_to admin_record_types_path, :wrap_tag => :li
+              i.fa.fa-cogs>
+              span.title Record Types
+              span.badge.badge-disable.pull-right
+                = RecordType.count
+            = active_link_to admin_users_path, :wrap_tag => :li
+              i.fa.fa-users>
+              span.title Users
+              span.badge.badge-disable.pull-right
+                = User.count
+          .clearfix
+      a.scrollup href="#" Scroll
+      .page-content
+        #portlet-config.modal.hide
+          .modal-header
+            button.close data-dismiss="modal" type="button"
+            h3 Widget Settings
+          .modal-body Widget settings form goes here
+        .clearfix
+        .content
+          = yield
+    = javascript_include_tag 'admin/application'

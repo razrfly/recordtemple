@@ -1,0 +1,13 @@
+= simple_form_for [:admin, @artist, @price] do |f|
+  .grid.simple
+    .grid-title.no-border
+      h4
+        span.semi-bold> Price
+        | Form
+    .grid-body.no-border
+      = f.association :label
+      = f.input :detail
+      = f.input :footnote
+      = f.association :record_format
+      .form-actions
+        = f.button :submit, :class => 'btn-primary'

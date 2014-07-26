@@ -1,52 +1,45 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
-gem 'rails', '3.2.1'
-gem 'pg', '0.11'
+gem 'rails', '4.0.5'
 
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  
-  gem 'jquery-rails'
-  gem 'jquery-ui-rails'
-end
+gem 'sass-rails', '~> 4.0.2'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'therubyracer', :platforms => :ruby
+gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jbuilder', '~> 1.2'
 
-gem 'twitter-bootstrap-rails', '~> 2.1.4'
-gem 'rails3-jquery-autocomplete', '1.0.4'
-gem 'devise', '1.5'
-gem 'kaminari', '0.14.1'
+gem 'pg', '~> 0.17.1'
 
-gem 'paperclip', '~> 2.4'
-gem 'carrierwave', '0.6.2'
-gem 'fog'
+gem 'devise', '~> 3.2.4'
+gem 'cancan', '~> 1.6.10'
 
-#searching
-gem 'ransack'
-#gem 'texticle', '~> 2.0', :require => 'texticle/rails'
-#gem 'texticle', :git => "git://github.com/texticle/texticle.git", :require => 'texticle/rails'
+gem 'slim-rails', '~> 2.0.2'
+gem 'bootstrap-sass', '~> 3.1.1.1'
+gem 'simple_form', '~> 3.1.0.rc1'
+gem 'font-awesome-rails', '~> 4.1.0.0'
+gem 'active_link_to', '~> 1.0.2'
 
-gem 'aws-s3', '~> 0.6.2', :require => 'aws/s3'
-gem 'ruby-mp3info', :require => 'mp3info'
+gem 'friendly_id', '~> 5.0.4'
 
-gem 'simple_form'
-#gem 'formtastic', '2.1.1'
-#gem 'formtastic-bootstrap', git: 'git://github.com/cgunther/formtastic-bootstrap.git', branch: 'bootstrap2-rails3-2-formtastic-2-1'
+gem 'rails3-jquery-autocomplete', '~> 1.0.14'
+# gem 'kaminari', '~> 0.16.1'
+gem 'paperclip', '~> 4.1.1'
+gem 'aws-sdk', '~> 1.44.0'
+gem 'ransack', '~> 1.2.3'
+gem 'ruby-mp3info', '~> 0.8.4'
+gem 'ken', '~> 0.2.1'
+gem 'randumb', '~> 0.5.0'
+gem 'panda', '~> 1.6.1'
+gem 'rails-erd', '~> 1.1.0'
 
-gem 'ken'
-gem 'randumb'
-gem 'panda'
-#gem 'texticle', '~> 1.0.4'
-gem 'open-meta-tags', :require => 'open_meta_tags'
-gem 'friendly_id', '~> 3.2.1'
-gem "cancan"
-#gem 'to_xls'
+gem 'will_paginate', '~> 3.0.7'
 
-#gem 'xml-mapping', '0.8.1'
-#gem "mime-types", "~> 1.16", :require => 'mime/types'
-
-gem 'activeadmin'
-#gem 'activeadmin', '0.4.3'
-#gem 'meta_search', '1.1.3'
-
-#gem 'tumblr-rb', :require => 'tumblr'
+gem 'rails-assets-unveil', '~> 1.3.0'
+gem 'rails-assets-sidr', '~> 1.2.1'
+gem 'rails-assets-jquery.slimscroll', '~> 1.3.1'
+gem 'rails-assets-select2', '~> 3.5.0'
+gem 'lodash-rails', '~> 2.4.1'
+gem 'jquery-datatables-rails', '~> 2.1.10.0.2'

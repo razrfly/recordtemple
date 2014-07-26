@@ -1,0 +1,22 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold = @price.detail
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold> Price
+      | Info
+    = link_to "Edit", edit_admin_artist_price_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    .row
+      .col-md-6
+        p Details:
+        blockquote = @price.detail
+
+        p Medium:
+        blockquote = @price.record_format.name
+      .col-md-6
+        p Footnote:
+        blockquote = @price.footnote

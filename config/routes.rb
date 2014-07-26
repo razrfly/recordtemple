@@ -4,7 +4,6 @@ Recordapp::Application.routes.draw do
   devise_scope :user do
     get "login", :to => "devise/sessions#new"
   end
-  ActiveAdmin.routes(self)
 
   resources :user_accounts
   #resources :record_listings
@@ -22,7 +21,7 @@ Recordapp::Application.routes.draw do
   resources :genres
 
   #get "statistics/index"
-  match 'stats' => 'statistics#index'
+  get 'stats' => 'statistics#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
@@ -50,5 +49,17 @@ Recordapp::Application.routes.draw do
 
   root :to => "home#index"
 
-
+  namespace :admin do
+    root :to => 'home#index'
+    
+    resources :artists do
+      resources :prices
+    end
+    
+    resources :labels
+    resources :genres
+    resources :record_formats
+    resources :record_types
+    resources :users
+  end
 end

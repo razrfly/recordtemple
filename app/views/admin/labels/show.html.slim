@@ -1,0 +1,44 @@
+.page-title
+  i.icon-custom-left
+  h3
+    span.semi-bold = @label.name
+
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold> Label
+      | Info
+    = link_to "Edit", edit_admin_label_path, :class => 'pull-right btn btn-small btn-success'
+  .grid-body.no-border
+    .row
+      .col-md-6
+        p Name:
+        blockquote = @label.name
+      .col-md-6
+        p Freebase ID:
+        blockquote = @label.freebase_id
+.grid.simple
+  .grid-title.no-border
+    h4
+      span.semi-bold Records
+  .grid-body.no-border
+    table.table.table-condensed#label-records
+      thead
+        tr
+          th Details
+          th Medium
+          th Footnote
+          th.buttons
+      tbody
+        - @label.prices.each do |price|
+          tr
+            td = price.detail
+            td = price.record_format.name
+            td = price.footnote
+            td.buttons
+              = link_to '#', :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
+                i.fa.fa-eye.fa-lg
+              = link_to '#', :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
+                i.fa.fa-pencil.fa-lg
+              = link_to '#', :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+                i.fa.fa-times.fa-lg
