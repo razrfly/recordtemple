@@ -1,3 +1,4 @@
+ruby '2.0.0'
 source 'https://rubygems.org'
 source 'https://rails-assets.org'
 
@@ -43,3 +44,11 @@ gem 'rails-assets-jquery.slimscroll', '~> 1.3.1'
 gem 'rails-assets-select2', '~> 3.5.0'
 gem 'lodash-rails', '~> 2.4.1'
 gem 'jquery-datatables-rails', '~> 2.1.10.0.2'
+
+group :production do
+  #gem 'unicorn'
+  #gem 'newrelic_rpm'
+  #gem 'yui-compressor', '~> 0.12.0'
+  gem 'rails_12factor' #for heroku
+  #gem 'rollbar', '0.12.18'
+end
