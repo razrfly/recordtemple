@@ -2,9 +2,9 @@ class Recommendation < ActiveRecord::Base
   # attr_accessible :email, :message, :token, :expiration, :record_id
   belongs_to :record
   
-  validates_format_of :email,
-                      :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,
-                      :message => 'email must be valid'
+  #validates_format_of :email,
+  #                    :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i,
+  #                    :message => 'email must be valid'
   
   before_create :generate_token, :set_expiration
   
