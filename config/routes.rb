@@ -6,7 +6,6 @@ Recordapp::Application.routes.draw do
   end
 
   resources :user_accounts
-  #resources :record_listings
 
   resources :record_formats
 
@@ -31,7 +30,6 @@ Recordapp::Application.routes.draw do
   # Keep in mind you can assign values other than :controller and :action
 
   resources :records do
-    resources :record_listings
     resources :songs
     resources :photos do
       collection do
