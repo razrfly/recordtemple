@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140711092027) do
+ActiveRecord::Schema.define(version: 20141229180852) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -155,18 +155,6 @@ ActiveRecord::Schema.define(version: 20140711092027) do
   add_index "records", ["price_id"], name: "index_records_on_price_id", using: :btree
   add_index "records", ["user_id"], name: "index_records_on_user_id", using: :btree
 
-  create_table "slugs", force: true do |t|
-    t.string   "name"
-    t.integer  "sluggable_id"
-    t.integer  "sequence",                  default: 1, null: false
-    t.string   "sluggable_type", limit: 40
-    t.string   "scope"
-    t.datetime "created_at"
-  end
-
-  add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], name: "index_slugs_on_n_s_s_and_s", unique: true, using: :btree
-  add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id", using: :btree
-
   create_table "songs", force: true do |t|
     t.integer  "record_id"
     t.datetime "created_at"
@@ -192,13 +180,13 @@ ActiveRecord::Schema.define(version: 20140711092027) do
   end
 
   create_table "users", force: true do |t|
-    t.string   "email",                            default: "", null: false
-    t.string   "encrypted_password",   limit: 128, default: "", null: false
-    t.string   "password_salt",                    default: "", null: false
+    t.string   "email",                              default: "", null: false
+    t.string   "encrypted_password",     limit: 128, default: "", null: false
+    t.string   "password_salt",                      default: "", null: false
     t.string   "reset_password_token"
     t.string   "remember_token"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                    default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -212,6 +200,7 @@ ActiveRecord::Schema.define(version: 20140711092027) do
     t.string   "fname"
     t.string   "lname"
     t.string   "unconfirmed_email"
+    t.datetime "reset_password_sent_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
