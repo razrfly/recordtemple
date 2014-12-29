@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229201643) do
+ActiveRecord::Schema.define(version: 20141229202804) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -150,16 +150,6 @@ ActiveRecord::Schema.define(version: 20141229201643) do
   end
 
   add_index "songs", ["record_id"], name: "index_songs_on_record_id", using: :btree
-
-  create_table "user_accounts", force: true do |t|
-    t.string   "provider"
-    t.string   "auth_type"
-    t.string   "key"
-    t.string   "secret"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "", null: false
