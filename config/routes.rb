@@ -5,8 +5,6 @@ Recordapp::Application.routes.draw do
     get "login", :to => "devise/sessions#new"
   end
 
-  resources :user_accounts
-
   resources :record_formats
 
   resources :artists do
