@@ -15,7 +15,6 @@ class Record < ActiveRecord::Base
   has_many :photos, :order => :position, :dependent => :destroy
   has_many :songs, :dependent => :destroy
   has_many :record_listings, :dependent => :destroy
-  has_many :recommendations
 
   #has_many :genres do
   #  def narrow_genres

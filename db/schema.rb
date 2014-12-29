@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141229180852) do
+ActiveRecord::Schema.define(version: 20141229185851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,16 +104,6 @@ ActiveRecord::Schema.define(version: 20141229180852) do
     t.integer  "record_format_id"
     t.string   "freebase_id"
     t.integer  "user_id"
-  end
-
-  create_table "recommendations", force: true do |t|
-    t.string   "email"
-    t.text     "message"
-    t.string   "token"
-    t.date     "expiration"
-    t.integer  "record_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "record_formats", force: true do |t|
