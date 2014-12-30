@@ -4,6 +4,7 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   #belonds_to :label
   has_one :photo
+  belongs_to :record_format
   
   attr_accessor :freebase_id
   
@@ -23,7 +24,6 @@ class Record < ActiveRecord::Base
   #  end    
   #end
   
-  delegate :record_format, :to => :price
   delegate :detail, :to => :price
   #maybes
   delegate :artist, :to => :price
