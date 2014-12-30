@@ -23,7 +23,6 @@ class Record < ActiveRecord::Base
   #  end    
   #end
   
-  delegate :bubbles, :to => :price
   delegate :record_format, :to => :price
   delegate :detail, :to => :price
   #maybes

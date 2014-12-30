@@ -29,7 +29,6 @@ class PricesController < ApplicationController
 
   def create
     @price = Price.new(params[:price])
-    @bubble = @price.bubbles.build(params[:bubble])
 
     respond_to do |format|
       if @price.save
