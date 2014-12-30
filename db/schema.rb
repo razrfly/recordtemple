@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141230194054) do
+ActiveRecord::Schema.define(version: 20141230203656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -122,8 +122,10 @@ ActiveRecord::Schema.define(version: 20141230194054) do
     t.string   "cached_artist"
     t.string   "cached_label"
     t.integer  "record_format_id"
+    t.integer  "artist_id"
   end
 
+  add_index "records", ["artist_id"], name: "index_records_on_artist_id", using: :btree
   add_index "records", ["genre_id"], name: "index_records_on_genre_id", using: :btree
   add_index "records", ["price_id"], name: "index_records_on_price_id", using: :btree
   add_index "records", ["record_format_id"], name: "index_records_on_record_format_id", using: :btree
