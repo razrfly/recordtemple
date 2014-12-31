@@ -1,5 +1,6 @@
 namespace :fix do
 
+  require 'csv'
     
   desc "Populate new artists table"
   task :artists => :environment do
@@ -376,6 +377,29 @@ namespace :fix do
 
     Price.where("created_by = 'greggie'").each do |h|
         h.update_attribute :user_id, 1
+    end
+  end
+
+  desc "Generate CSV from DB"
+  task :csv_records => :environment do
+    CSV.open("dump.csv", "wb") do |csv|
+      csv << ["ARTIST", "LABEL", "MEDIA", "GENRE", "COMMENT", "GENERAL INFO", "CONDITION"]
+      Record.includes(:price).order("LOWER(cached_artist) ASC").find_each do |record|
+        puts "#{record.cached_artist}"
+        csv << [record.price.artist.name, record.price.label.name, record.price.media_type, record.genre.name, record.comment, [record.price.detail,record.price.footnote].join(" "), record.the_condition]  
+      end
+    end
+  end
+
+  desc "Generate CSV from DB thru PRICE"
+  task :csv_records2 => :environment do
+    CSV.open("dump.csv", "wb") do |csv|
+      csv << ["ARTIST", "LABEL", "MEDIA", "GENRE", "COMMENT", "GENERAL INFO", "CONDITION"]
+      #Price.joins(:records,:artist).where("records.user_id = 1").order("LOWER(records.cached_artist) ASC, records.genre_id ASC").find_each do |p|
+      Price.joins(:records,:artist).where("records.user_id = 1").order("LOWER(TRIM(artists.name)) ASC").to_a.uniq.each do |p|
+        puts "#{p.artist.name}"
+        csv << [p.artist.name, p.label.name, p.media_type, p.record.genre.name, p.record.comment, [p.detail,p.footnote].join(" "), p.record.the_condition]  
+      end
     end
   end
   
