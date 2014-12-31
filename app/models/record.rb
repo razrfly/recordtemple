@@ -4,6 +4,8 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   #belonds_to :label
   has_one :photo
+  belongs_to :record_format
+  belongs_to :artist
   
   attr_accessor :freebase_id
   
@@ -14,8 +16,6 @@ class Record < ActiveRecord::Base
 
   has_many :photos, :order => :position, :dependent => :destroy
   has_many :songs, :dependent => :destroy
-  has_many :record_listings, :dependent => :destroy
-  has_many :recommendations
 
   #has_many :genres do
   #  def narrow_genres
@@ -25,11 +25,8 @@ class Record < ActiveRecord::Base
   #  end    
   #end
   
-  delegate :bubbles, :to => :price
-  delegate :record_format, :to => :price
   delegate :detail, :to => :price
   #maybes
-  delegate :artist, :to => :price
   delegate :label, :to => :price
   #delegate :freebase_id, :to => :price
   
