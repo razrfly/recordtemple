@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140813151110) do
+ActiveRecord::Schema.define(version: 20141230203656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,16 +41,6 @@ ActiveRecord::Schema.define(version: 20140813151110) do
 
   add_index "artists", ["name"], name: "index_artists_on_name", unique: true, using: :btree
   add_index "artists", ["slug"], name: "index_artists_on_slug", unique: true, using: :btree
-
-  create_table "bubbles", force: true do |t|
-    t.integer  "low"
-    t.integer  "high"
-    t.integer  "price_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "bubbles", ["price_id"], name: "index_bubbles_on_price_id", using: :btree
 
   create_table "genres", force: true do |t|
     t.string   "name"
@@ -92,8 +82,8 @@ ActiveRecord::Schema.define(version: 20140813151110) do
     t.string   "media_type"
     t.string   "cached_label"
     t.string   "detail"
-    t.integer  "pricelow"
-    t.integer  "pricehigh"
+    t.integer  "price_low"
+    t.integer  "price_high"
     t.integer  "yearbegin"
     t.integer  "yearend"
     t.datetime "created_at"
@@ -106,29 +96,11 @@ ActiveRecord::Schema.define(version: 20140813151110) do
     t.integer  "user_id"
   end
 
-  create_table "recommendations", force: true do |t|
-    t.string   "email"
-    t.text     "message"
-    t.string   "token"
-    t.date     "expiration"
-    t.integer  "record_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "record_formats", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "record_type_id"
-  end
-
-  create_table "record_listings", force: true do |t|
-    t.integer  "record_id"
-    t.string   "external_id"
-    t.string   "listing_type"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "record_types", force: true do |t|
@@ -149,23 +121,15 @@ ActiveRecord::Schema.define(version: 20140813151110) do
     t.integer  "identifier_id"
     t.string   "cached_artist"
     t.string   "cached_label"
+    t.integer  "record_format_id"
+    t.integer  "artist_id"
   end
 
+  add_index "records", ["artist_id"], name: "index_records_on_artist_id", using: :btree
   add_index "records", ["genre_id"], name: "index_records_on_genre_id", using: :btree
   add_index "records", ["price_id"], name: "index_records_on_price_id", using: :btree
+  add_index "records", ["record_format_id"], name: "index_records_on_record_format_id", using: :btree
   add_index "records", ["user_id"], name: "index_records_on_user_id", using: :btree
-
-  create_table "slugs", force: true do |t|
-    t.string   "name"
-    t.integer  "sluggable_id"
-    t.integer  "sequence",                  default: 1, null: false
-    t.string   "sluggable_type", limit: 40
-    t.string   "scope"
-    t.datetime "created_at"
-  end
-
-  add_index "slugs", ["name", "sluggable_type", "sequence", "scope"], name: "index_slugs_on_n_s_s_and_s", unique: true, using: :btree
-  add_index "slugs", ["sluggable_id"], name: "index_slugs_on_sluggable_id", using: :btree
 
   create_table "songs", force: true do |t|
     t.integer  "record_id"
@@ -180,16 +144,6 @@ ActiveRecord::Schema.define(version: 20140813151110) do
   end
 
   add_index "songs", ["record_id"], name: "index_songs_on_record_id", using: :btree
-
-  create_table "user_accounts", force: true do |t|
-    t.string   "provider"
-    t.string   "auth_type"
-    t.string   "key"
-    t.string   "secret"
-    t.integer  "user_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "users", force: true do |t|
     t.string   "email",                              default: "", null: false
