@@ -1,8 +1,8 @@
 GIT
   remote: https://9db33598f580fac51dc8a94ea5909ff280f7b43d:x-oauth-basic@github.com/razrfly/pages-rails.git
-  revision: c09d0e577cb7c088fd7eadff42454d00bfe0352e
+  revision: aa4e119b712ad41e54fb6f1ccbe4ad593d70b50c
   specs:
-    pages-rails (0.0.1)
+    pages-rails (0.0.2)
       bootstrap-sass (~> 3.2.0)
       font-awesome-sass (~> 4.2.0)
 
