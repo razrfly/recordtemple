@@ -18,7 +18,7 @@ gem 'devise', '~> 3.2.4'
 gem 'cancan', '~> 1.6.10'
 
 gem 'slim-rails', '~> 2.0.2'
-gem 'bootstrap-sass', '~> 3.1.1.1'
+gem 'bootstrap-sass', '~> 3.2.0'
 gem 'simple_form', '~> 3.1.0.rc1'
 gem 'font-awesome-rails', '~> 4.1.0.0'
 gem 'active_link_to', '~> 1.0.2'
@@ -44,6 +44,8 @@ gem 'rails-assets-jquery.slimscroll', '~> 1.3.1'
 gem 'rails-assets-select2', '~> 3.5.0'
 gem 'lodash-rails', '~> 2.4.1'
 gem 'jquery-datatables-rails', '~> 2.1.10.0.2'
+
+gem 'pages-rails', :git => "https://#{ENV['GITHUB_TOKEN']}:x-oauth-basic@github.com/razrfly/pages-rails.git"
 
 group :production do
   #gem 'unicorn'

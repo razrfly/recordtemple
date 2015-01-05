@@ -1,3 +1,11 @@
+GIT
+  remote: https://9db33598f580fac51dc8a94ea5909ff280f7b43d:x-oauth-basic@github.com/razrfly/pages-rails.git
+  revision: c09d0e577cb7c088fd7eadff42454d00bfe0352e
+  specs:
+    pages-rails (0.0.1)
+      bootstrap-sass (~> 3.2.0)
+      font-awesome-sass (~> 4.2.0)
+
 GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
@@ -34,7 +42,7 @@ GEM
       json (~> 1.4)
       nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
-    bootstrap-sass (3.1.1.1)
+    bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
     builder (3.1.4)
     cancan (1.6.10)
@@ -63,6 +71,8 @@ GEM
       multipart-post (>= 1.2, < 3)
     font-awesome-rails (4.1.0.0)
       railties (>= 3.2, < 5.0)
+    font-awesome-sass (4.2.2)
+      sass (~> 3.2)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
     hike (1.2.3)
@@ -210,7 +220,7 @@ PLATFORMS
 DEPENDENCIES
   active_link_to (~> 1.0.2)
   aws-sdk (~> 1.44.0)
-  bootstrap-sass (~> 3.1.1.1)
+  bootstrap-sass (~> 3.2.0)
   cancan (~> 1.6.10)
   coffee-rails (~> 4.0.0)
   devise (~> 3.2.4)
@@ -221,6 +231,7 @@ DEPENDENCIES
   jquery-rails
   ken (~> 0.2.1)
   lodash-rails (~> 2.4.1)
+  pages-rails!
   panda (~> 1.6.1)
   paperclip (~> 4.1.1)
   pg (~> 0.17.1)
