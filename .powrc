@@ -1,3 +1,5 @@
+export GITHUB_TOKEN=9db33598f580fac51dc8a94ea5909ff280f7b43d
+
 if [ -f "$rvm_path/scripts/rvm" ]; then
   source "$rvm_path/scripts/rvm"
  
