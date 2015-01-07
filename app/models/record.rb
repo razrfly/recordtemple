@@ -2,7 +2,7 @@ class Record < ActiveRecord::Base
   belongs_to :price
   belongs_to :user
   belongs_to :genre
-  #belonds_to :label
+  belongs_to :label
   has_one :photo
   belongs_to :record_format
   belongs_to :artist
@@ -27,7 +27,6 @@ class Record < ActiveRecord::Base
   
   delegate :detail, :to => :price
   #maybes
-  delegate :label, :to => :price
   #delegate :freebase_id, :to => :price
   
   def notes
