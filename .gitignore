@@ -15,5 +15,3 @@ public/assets/
 .powenv
 .powrc
 .ruby-env
-
-Gemfile.lock
