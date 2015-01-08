@@ -12,5 +12,8 @@ public/assets/
 # Ignore the secret token
 .secret
 
+.powenv
 .powrc
 .ruby-env
+
+Gemfile.lock
