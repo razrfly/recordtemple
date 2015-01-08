@@ -12,6 +12,7 @@ gem 'jbuilder', '~> 1.2'
 
 gem 'pg', '~> 0.17.1'
 
+gem 'gretel'
 gem 'devise', '~> 3.2.4'
 gem 'cancan', '~> 1.6.10'
 
