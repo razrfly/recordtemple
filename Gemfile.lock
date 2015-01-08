@@ -1,5 +1,5 @@
 GIT
-  remote: https://9db33598f580fac51dc8a94ea5909ff280f7b43d:x-oauth-basic@github.com/razrfly/pages-rails.git
+  remote: https://f7fc1d10520267ea33da9acf19ebfb96cd8d6395:x-oauth-basic@github.com/razrfly/pages-rails.git
   revision: 00bd44c7a7d0a23bb219dca086c252252da042c5
   specs:
     pages-rails (0.0.3)
