@@ -19,6 +19,7 @@ gem 'rails_12factor', :group => :production
 
 gem 'pages-rails', :git => "https://#{ENV['GITHUB_TOKEN']}:x-oauth-basic@github.com/razrfly/pages-rails.git"
 
+gem 'gretel'
 gem 'devise', '~> 3.2.4'
 gem 'cancan', '~> 1.6.10'
 gem 'slim-rails', '~> 3.0.1'
