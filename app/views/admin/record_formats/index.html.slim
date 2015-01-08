@@ -1,18 +1,15 @@
 - breadcrumb :record_formats
-.page-title
-  i.icon-custom-left
-  h3
-    ' Record
-    span.semi-bold Formats
 
-.grid.simple
-  .grid-title.no-border
-    h4
-      ' Record
-      span.semi-bold Formats
-    = link_to "New Record Format", new_admin_record_format_path, :class => 'pull-right btn btn-small btn-success'
-  .grid-body.no-border
-    table.table.table-condensed#record-formats
+h3.page-title
+  ' Record Formats
+  = link_to new_admin_record_format_path, :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.panel.panel-default
+  .panel-heading
+    .panel-title Record Format Index
+  .panel-body
+    table.table
       thead
         tr
           th Name
@@ -24,9 +21,9 @@
             td = record_format.name
             td = record_format.record_type.name
             td.buttons
-              = link_to admin_record_format_path(record_format), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
-                i.fa.fa-eye.fa-lg
-              = link_to edit_admin_record_format_path(record_format), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
-                i.fa.fa-pencil.fa-lg
-              = link_to admin_record_format_path(record_format), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+              / = link_to admin_record_format_path(record_format)
+              /   i.fa.fa-search.fa-lg
+              = link_to edit_admin_record_format_path(record_format)
+                i.fa.fa-wrench.fa-lg
+              = link_to admin_record_format_path(record_format), :method => :delete, :data => {:confirm => "Are you sure?"}
                 i.fa.fa-times.fa-lg
