@@ -1,15 +1,13 @@
-.page-title
-  i.icon-custom-left
-  h3
-    span.semi-bold Users
-
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold Users
-    = link_to "New User", new_admin_user_path, :class => 'pull-right btn btn-small btn-success'
-  .grid-body.no-border
-    table.table.table-condensed#users
+h3.page-title
+  ' Users
+  = link_to new_admin_user_path, :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.panel.panel-default
+  .panel-heading
+    .panel-title Users Index
+  .panel-body
+    table.table
       thead
         tr
           th Nickname
@@ -27,9 +25,9 @@
             td = user.email
             td = user.sign_in_count
             td.buttons
-              = link_to admin_user_path(user), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
-                i.fa.fa-eye.fa-lg
-              = link_to edit_admin_user_path(user), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
-                i.fa.fa-pencil.fa-lg
-              = link_to admin_user_path(user), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
+              / = link_to admin_user_path(user)
+              /   i.fa.fa-search.fa-lg
+              = link_to edit_admin_user_path(user)
+                i.fa.fa-wrench.fa-lg
+              = link_to admin_user_path(user), :method => :delete, :data => {:confirm => "Are you sure?"}
                 i.fa.fa-times.fa-lg
