@@ -62,7 +62,7 @@ crumb :new_genre do
 end
 
 crumb :show_genre do |genre|
-  link genre.name, admin_genre_path(genre)
+  link genre.name
   parent :genres
 end
 
@@ -84,7 +84,7 @@ crumb :new_record_format do
 end
 
 crumb :show_record_format do |record_format|
-  link record_format.name, admin_record_format_path(record_format)
+  link record_format.name
   parent :record_formats
 end
 
@@ -107,7 +107,7 @@ crumb :new_record_type do
 end
 
 crumb :show_record_type do |record_type|
-  link record_type.name, admin_record_type_path(record_type)
+  link record_type.name
   parent :record_types
 end
 
@@ -130,7 +130,7 @@ crumb :new_user do
 end
 
 crumb :show_user do |user|
-  link user.nickname, admin_user_path(user)
+  link user.nickname
   parent :users
 end
 
