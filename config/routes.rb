@@ -53,9 +53,9 @@ Recordapp::Application.routes.draw do
     end
     
     resources :labels
-    resources :genres
-    resources :record_formats, :except => :show
-    resources :record_types
-    resources :users
+    resources :genres, except: :show
+    resources :record_formats, except: :show
+    resources :record_types, except: :show
+    resources :users, except: :show
   end
 end
