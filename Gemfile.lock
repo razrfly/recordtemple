@@ -74,6 +74,8 @@ GEM
       sass (~> 3.2)
     friendly_id (5.0.4)
       activerecord (>= 4.0.0)
+    gretel (3.0.8)
+      rails (>= 3.2.0)
     hike (1.2.3)
     i18n (0.7.0)
     jbuilder (2.2.6)
@@ -213,6 +215,7 @@ DEPENDENCIES
   devise (~> 3.2.4)
   font-awesome-sass (~> 4.2.0)
   friendly_id (~> 5.0.4)
+  gretel
   jbuilder (~> 2.0)
   jquery-rails
   ken (~> 0.2.1)
