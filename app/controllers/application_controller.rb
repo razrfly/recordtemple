@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
 
   private
     def set_record
-      @record = params[:record_id].nil? params[:id] : params[:record_id]
+      @record = params[:record_id].nil? ? params[:id] : params[:record_id]
     end
 end
