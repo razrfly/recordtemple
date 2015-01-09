@@ -19,8 +19,6 @@ gem 'spring', :group => :development
 gem 'rails_12factor', :group => :production
 
 gem 'pages-rails', '0.0.4'#, :github => 'razrfly/pages-rails'
-# temp key DELETE SOON
-#gem 'pages-rails', :git => 'https://bd002b63aeaef8acd27c92a906991e0ae8a548f2:x-oauth-basic@github.com/razrfly/pages-rails.git'
 
 gem 'gretel'
 gem 'devise', '~> 3.2.4'
