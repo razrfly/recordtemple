@@ -1,5 +1,6 @@
 ruby '2.0.0'
 source 'https://rubygems.org'
+source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
 gem 'rails', '4.1.9'
 
@@ -17,7 +18,7 @@ gem 'spring', :group => :development
 
 gem 'rails_12factor', :group => :production
 
-gem 'pages-rails', :github => 'razrfly/pages-rails'
+gem 'pages-rails'#, :github => 'razrfly/pages-rails'
 
 gem 'gretel'
 gem 'devise', '~> 3.2.4'
