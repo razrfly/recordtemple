@@ -1,6 +1,6 @@
 ruby '2.0.0'
 source 'https://rubygems.org'
-#source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
+source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
 gem 'rails', '4.1.9'
 
@@ -18,8 +18,8 @@ gem 'spring', :group => :development
 
 gem 'rails_12factor', :group => :production
 
-#gem 'pages-rails'#, :github => 'razrfly/pages-rails'
-gem 'pages-rails', :git => 'https://bd002b63aeaef8acd27c92a906991e0ae8a548f2:x-oauth-basic@github.com/razrfly/pages-rails.git'
+gem 'pages-rails'#, :github => 'razrfly/pages-rails'
+#gem 'pages-rails', :git => 'https://bd002b63aeaef8acd27c92a906991e0ae8a548f2:x-oauth-basic@github.com/razrfly/pages-rails.git'
 
 gem 'gretel'
 gem 'devise', '~> 3.2.4'
