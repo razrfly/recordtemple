@@ -1,6 +1,13 @@
+GIT
+  remote: https://bd002b63aeaef8acd27c92a906991e0ae8a548f2:x-oauth-basic@github.com/razrfly/pages-rails.git
+  revision: 30308f8fc1ed1699bd0ed9cf712bb97a946c0f96
+  specs:
+    pages-rails (0.0.3)
+      bootstrap-sass (~> 3.2.0)
+      font-awesome-sass (~> 4.2.0)
+
 GEM
   remote: https://rubygems.org/
-  remote: https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/
   specs:
     actionmailer (4.1.9)
       actionpack (= 4.1.9)
@@ -92,9 +99,6 @@ GEM
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
-    pages-rails (0.0.3)
-      bootstrap-sass (~> 3.2.0)
-      font-awesome-sass (~> 4.2.0)
     panda (1.6.1)
       faraday (>= 0.7.0)
       multi_json (>= 1.3.2)
@@ -215,7 +219,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   ken (~> 0.2.1)
-  pages-rails
+  pages-rails!
   panda (~> 1.6.1)
   paperclip (~> 4.1.1)
   pg
