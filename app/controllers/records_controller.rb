@@ -42,10 +42,6 @@ class RecordsController < ApplicationController
   end
 
   private
-    def set_record
-      @record = Record.find(params[:id])
-    end
-
     def sort_column
       params[:sort] ||= "updated_at"
     end

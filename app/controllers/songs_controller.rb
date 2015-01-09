@@ -2,6 +2,7 @@ class SongsController < ApplicationController
   before_action :set_record, only: [:index, :create]
 
   def index
+    @songs = @record.songs
   end
 
   def create
@@ -26,9 +27,4 @@ class SongsController < ApplicationController
     end
   end
 
-  private
-    def set_record
-      @record = Record.find(params[:record_id])
-      @songs = @record.songs if params[:action]=='index'
-    end
 end
