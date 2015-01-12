@@ -1,44 +1,52 @@
 class ArtistsController < ApplicationController
+  before_action :set_artist, :only => [:show, :edit, :update, :destroy]
+
   def index
-    @artists = Artist.paginate :page => params[:page]
+    respond_to do |format|
+      format.html
+      format.json { render json: ArtistsDatatable.new(view_context) }
+    end
   end
-  
+
   def show
-    @artist = Artist.find(params[:id])
   end
-  
+
   def new
     @artist = Artist.new
   end
-  
-  def create
-    @artist = Artist.new(params[:artist])
-    if @artist.save
-      flash[:notice] = "Successfully created artist."
-      redirect_to @artist
-    else
-      render :action => 'new'
-    end
-  end
-  
+
   def edit
-    @artist = Artist.find(params[:id])
   end
-  
-  def update
-    @artist = Artist.find(params[:id])
-    if @artist.update_attributes(params[:artist])
-      flash[:notice] = "Successfully updated artist."
-      redirect_to @artist
+
+  def create
+    @artist = Artist.new(artist_params)
+
+    if @artist.save
+      redirect_to artists_path, :notice => "Artist was successfully created."
     else
-      render :action => 'edit'
+      render :new
     end
   end
-  
-  def destroy
-    @artist = Artist.find(params[:id])
-    @artist.destroy
-    flash[:notice] = "Successfully destroyed artist."
-    redirect_to artists_url
+
+  def update
+    if @artist.update_attributes(artist_params)
+      redirect_to artists_path, :notice => "Artist was successfully updated."
+    else
+      render :edit
+    end
   end
+
+  def destroy
+    @artist.destroy
+    redirect_to artists_path, :notice => "Artist was successfully deleted."
+  end
+
+  private
+    def set_artist
+      @artist = Artist.find(params[:id])
+    end
+
+    def artist_params
+      params.require(:artist).permit(:name, :freebase_id)
+    end
 end

@@ -1,11 +1,8 @@
 class GenresController < ApplicationController
+  before_action :set_genre, :only => [:show, :edit, :update, :destroy]
+
   def index
     @genres = Genre.all
-    if params[:order] == "value"
-      @stats = current_user.records.select("DISTINCT genre_id, COUNT(*), SUM(value)").group("genre_id").order("count DESC")
-    else
-      @stats = current_user.records.select("DISTINCT genre_id, COUNT(*), SUM(value)").group("genre_id").order("sum DESC")
-    end
   end
 
   def show
