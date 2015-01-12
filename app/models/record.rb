@@ -1,4 +1,6 @@
 class Record < ActiveRecord::Base
+  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3, very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
+
   belongs_to :price
   belongs_to :user
   belongs_to :genre
@@ -9,14 +11,10 @@ class Record < ActiveRecord::Base
 
   attr_accessor :freebase_id
 
- #scope :genres, Genre.where('id IN ?', map(&:genre_id).uniq!)
-  #scope :artists, Artist.where('name IN (?)', @search.result.map(&:cached_artist).uniq!).limit(10)
-
   validates_presence_of :price, :genre, :condition, :value, :user#, :artist, :label
 
   has_many :photos, -> { order(:position)}, :dependent => :destroy
   has_many :songs, :dependent => :destroy
-
   #has_many :genres do
   #  def narrow_genres
   #    #return map(&:turnaround).inject(:+) / count
@@ -25,51 +23,49 @@ class Record < ActiveRecord::Base
   #  end
   #end
 
-  delegate :detail, :to => :price
+  #scope :genres, Genre.where('id IN ?', map(&:genre_id).uniq!)
+  #scope :artists, Artist.where('name IN (?)', @search.result.map(&:cached_artist).uniq!).limit(10)
+
   #maybes
   #delegate :freebase_id, :to => :price
 
+  #acts_as_tree :foreign_key => "price_id"
+
+  delegate :detail, :to => :price
+
   def notes
     notes = price.detail
-    price.footnote ? notes += ' '+ price.footnote : notes
+    price.footnote ? "#{notes} #{price.footnote}" : notes
   end
 
-  #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
 
   before_save :cache_columns
   after_save :add_freebase_to_parent
 
-  scope :with_music, joins(:songs)
-  scope :with_photo, joins(:photos)
+  scope :with_music, -> { joins(:songs) }
+  scope :with_photo, -> { joins(:photos) }
 
+  ## FIX ME, I'M UGLY
   def cyberguide
-    if condition <= 2
-      price.bubbles.last.high
-    elsif condition == 3
-      price.bubbles.last.high * 0.9
-    elsif condition == 4
-      price.bubbles.last.high * 0.5
-    elsif condition == 5
-      price.bubbles.last.high * 0.25
-    elsif condition == 6
-      price.bubbles.last.high * 0.2
+    if get_condition == 'mint' or get_condition == 'near mint'
+      price.price_high
+    elsif get_condition == 'very good ++'
+      price.price_high * 0.9
+    elsif get_condition == 'very good +'
+      price.price_high * 0.5
+    elsif get_condition == 'very good'
+      price.price_high * 0.25
+    elsif get_condition == 'good'
+      price.price_high * 0.2
     else
-      price.bubbles.last.high * 0.15
+      price.price_high * 0.15
     end
   end
 
   def cover_photo
-    unless photos.blank?
-      photos.first.data(:thumb)
-    else
-      " "
-    end
+    photos.first.data(:thumb) unless photos.blank?
   end
-
-  #def prices
-  #  price.bubbles
-  #end
 
   def cache_columns
     self.cached_artist = price.artist.name
@@ -80,20 +76,9 @@ class Record < ActiveRecord::Base
     "#{price.detail} #{comment} #{price.footnote}"
   end
 
-  def the_condition
-    conditions[condition-1]
-  end
-
   def get_condition
-    [["Mint", 1], ["Near Mint", 2], ["Very Good ++", 3], ["Very Good +", 4], ["Very Good", 5], ["Good", 6], ["Poor", 7]]
+    self.condition.gsub('_', ' ').gsub('plus', '+')
   end
-
-  def conditions
-    ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
-  end
-
-  CONDITIONS = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
-  #FORMAT = ["Mint", "Near Mint", "Very Good ++", "Very Good +", "Very Good", "Good", "Poor"]
 
   def add_freebase_to_parent
     unless freebase_id.blank?

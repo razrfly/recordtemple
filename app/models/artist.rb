@@ -6,8 +6,10 @@ class Artist < ActiveRecord::Base
   has_many :labels, -> { uniq }, :through => :records
   has_many :genres, -> { uniq }, :through => :records
   has_many :songs, :through => :records
-  
+
   friendly_id :name, :use => [:slugged, :finders]
+
+  validates_presence_of :name
 
   # def name_unless_bad
   #   reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
@@ -17,23 +19,17 @@ class Artist < ActiveRecord::Base
   #     "#{name}-the-artist"
   #   end
   # end
-  
-  #index do
-  #  name
-  #end
-  
+
   # after_update :update_cache_children
-  
-  validates_presence_of :name
-  
+
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?
   end
-  
+
   def thumbnail
       Freebase.find(freebase_id).thumbnail unless freebase_id.blank?
   end
-    
+
   def self.find_freebase(artist)
     search = Ken.session.mqlread([{
       :type => "/music/artist",
@@ -42,9 +38,8 @@ class Artist < ActiveRecord::Base
       :name => artist
     }])
   end
-  
-  private
-  
+
+  #private
   # def update_cache_children
   #   if self.name_changed?
   #     self.records.each do |r|
@@ -52,5 +47,5 @@ class Artist < ActiveRecord::Base
   #     end
   #   end
   # end
-  
+
 end

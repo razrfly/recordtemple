@@ -8,6 +8,8 @@ class Label < ActiveRecord::Base
 
   friendly_id :name, :use => [:slugged, :finders]
 
+  validates_presence_of :name
+
   # def name_unless_bad
   #   reserved_words = [ "index", "show", "create", "destroy", "delete", "new", "update" ]
   #   unless reserved_words.include?(name.downcase)
@@ -17,12 +19,6 @@ class Label < ActiveRecord::Base
   #   end
   # end
 
-  #index do
-  #  name
-  #end
-
-  validates_presence_of :name
-
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?
   end
@@ -31,7 +27,7 @@ class Label < ActiveRecord::Base
       Freebase.find(freebase_id).thumbnail unless freebase_id.blank?
   end
 
-  def self.find_freebase(label)  
+  def self.find_freebase(label)
     search = Ken.session.mqlread([{
       :type => "/music/record_label",
       :id => nil,

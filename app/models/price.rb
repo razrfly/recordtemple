@@ -21,12 +21,7 @@ class Price < ActiveRecord::Base
   end
 
   def price_range
-    [bubbles.last.low, bubbles.last.high].join('-')
-    #[pricelow, pricehigh].join('-')
-  end
-
-  def top_price
-    bubbles.last.high unless bubbles.last.blank?
+    [price_low, price_high].join('-')
   end
 
   def date_range
@@ -35,12 +30,6 @@ class Price < ActiveRecord::Base
     else
       [yearbegin, yearend].join('-')
     end
-  end
-
-  def get_format
-    #Price.find(:all, :group => :format, :order => 'format', :limit => 20)
-    Price.find(:all, :select => 'DISTINCT(format), COUNT(format)', :group => :format, :order => 'COUNT(format) DESC', :limit => 8)
-    #["Singles","LPs","EPs","Picture Sleeves"]
   end
 
 end
