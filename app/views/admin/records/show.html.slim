@@ -1,0 +1,43 @@
+.panel.panel-transparent
+  .panel-heading
+    .panel-title Record ##{@record.id}
+  ul.nav.nav-tabs.nav-tabs-linetriangle
+    li.active
+      a data-toggle="tab" href="#fade1"
+        span Info
+    li
+      a data-toggle="tab" href="#fade2"
+        span Covers
+    - if @record.songs.size>0
+      li
+        a data-toggle="tab" href="#fade3"
+          span Audio (#{@record.songs.size})
+
+  .tab-content
+
+    .tab-pane.active.fade.in#fade1
+      .panel.panel-default
+        .panel-heading
+          .panel-title Info
+        .panel-body
+          .info#genre
+            | Genre
+          .info#format
+            | Format
+          .info#label
+            | Label
+
+    .tab-pane.fade#fade2
+      .panel.panel-default
+        .panel-heading
+          .panel-title Covers
+        .panel-body
+
+    .tab-pane.fade#fade3
+      .panel.panel-default
+        .panel-heading
+          .panel-title Audio
+        .panel-body
+          - @record.songs.each do |song|
+            .song
+              = song.title

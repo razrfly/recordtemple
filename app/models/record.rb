@@ -38,6 +38,7 @@ class Record < ActiveRecord::Base
     price.footnote ? "#{notes} #{price.footnote}" : notes
   end
 
+  #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
 
   before_save :cache_columns
@@ -76,8 +77,13 @@ class Record < ActiveRecord::Base
     "#{price.detail} #{comment} #{price.footnote}"
   end
 
+
   def get_condition
-    self.condition.gsub('_', ' ').gsub('plus', '+')
+    Record.transform_condition condition
+  end
+
+  def self.transform_condition condition
+    condition.gsub('_', ' ').gsub('plus', '+')
   end
 
   def add_freebase_to_parent

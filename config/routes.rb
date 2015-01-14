@@ -14,7 +14,7 @@ Recordapp::Application.routes.draw do
   #match ':artist_id/:id' => 'records#show', :as => :root_record
   #match ':id' => 'artists#show'
   #match ':artist_id/:id' => 'records#show'
-  
+
   resources :genres
 
   #get "statistics/index"
@@ -27,6 +27,7 @@ Recordapp::Application.routes.draw do
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
 
+  post 'records' => 'records#index'
   resources :records do
     resources :songs
     resources :photos do
@@ -35,7 +36,7 @@ Recordapp::Application.routes.draw do
       end
     end
   end
-  
+
   resources :prices do
     get :autocomplete_artist_name, :on => :collection
     get :autocomplete_label_name, :on => :collection
@@ -47,12 +48,19 @@ Recordapp::Application.routes.draw do
 
   namespace :admin do
     root :to => 'home#index'
-    
+
     resources :artists do
       resources :prices
     end
-    
+    post 'prices' => 'prices#index'
+    resources :prices
+
     resources :labels
+    post 'records' => 'records#index'
+    resources :records do
+      resources :songs
+      resources :photos
+    end
     resources :genres, except: :show
     resources :record_formats, except: :show
     resources :record_types, except: :show

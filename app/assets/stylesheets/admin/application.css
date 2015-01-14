@@ -2,3 +2,6 @@
  *= require pages-rails
  *= require ./shared
  */
+
+.record-row{ height: 101px; }
+#filters #photo, #filters #audio{ margin: 15px; }

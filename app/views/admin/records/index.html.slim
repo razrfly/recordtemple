@@ -1,0 +1,44 @@
+
+//- breadcrumb :records
+h3.page-title
+  ' Records
+  = link_to '#', :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.col-md-9#records
+  .panel.panel-default
+    .panel-heading
+      .panel-title Records Index
+    .panel-body
+      table.table
+        thead
+          tr
+            th Cover
+            th= sort_link [:admin, @search], :artist_name, "Name"
+            th= sort_link [:admin, @search], :label_name, "Label"
+            th= sort_link [:admin, @search], :genre_name, "Genre"
+            th= sort_link [:admin, @search], :price_record_format_name, "Record Format"
+            th= sort_link [:admin, @search], :condition, "Condition"
+            th.buttons
+        tbody
+          - @records.each do |record|
+            tr.record-row
+              td
+                - unless record.cover_photo.blank?
+                  = image_tag record.cover_photo
+              td= record.artist.name
+              td= record.label.name
+              td= record.genre.name
+              td= record.price.record_format.name
+              td= record.get_condition
+              td.buttons
+                = link_to admin_record_path(record)
+                  i.fa.fa-search.fa-lg
+                = link_to '#'
+                  i.fa.fa-wrench.fa-lg
+                = link_to '#', :method => :delete, :data => {:confirm => "Are you sure?"}
+                  i.fa.fa-times.fa-lg
+      = paginate @records
+        
+.col-md-3
+  = render 'filters'
