@@ -1,0 +1,37 @@
+
+//- breadcrumb :prices
+h3.page-title
+  ' Prices
+  = link_to '#', :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.col-md-9#prices
+  .panel.panel-default
+    .panel-heading
+      .panel-title Prices Index
+    .panel-body
+      table.table
+        thead
+          tr
+            th= sort_link [:admin, @search], :artist_name, "Name"
+            th= sort_link [:admin, @search], :record_format_name, "Record Format"
+            th= sort_link [:admin, @search], :price_low, "Price Low"
+            th= sort_link [:admin, @search], :price_high, "Price High"
+            th.buttons
+        tbody
+          - @prices.each do |price|
+            tr.price-row
+              td= price.artist.name
+              td= price.record_format.name
+              td= price.price_low
+              td= price.price_high
+              td.buttons
+                = link_to admin_price_path(price)
+                  i.fa.fa-search.fa-lg
+                = link_to '#'
+                  i.fa.fa-wrench.fa-lg
+                = link_to '#', :method => :delete, :data => {:confirm => "Are you sure?"}
+                  i.fa.fa-times.fa-lg
+      = paginate @prices
+.col-md-3
+  = render 'filters'
