@@ -29,7 +29,8 @@ class Song < ActiveRecord::Base
     #AWS::S3::S3Object.url_for(mp3.path(mp3.default_style), mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => mp3.s3_protocol == 'https').html_safe
     #options.reverse_merge! :expires_in => 10.minutes, :use_ssl => true
     #AWS::S3::S3Object.url_for(mp3.path, mp3.options[:bucket], options).html_safe
-    AWS::S3::S3Object.url_for(mp3.path, mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => true).html_safe
+    #AWS::S3::S3Object.url_for(mp3.path, mp3.bucket_name, :expires_in => 10.minutes, :use_ssl => true).html_safe
+    mp3.s3_object.url_for(:read, :secure => true, :expires => 20.minutes).to_s
   end
 
   def panda_url
