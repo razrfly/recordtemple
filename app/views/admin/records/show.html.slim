@@ -1,43 +1,76 @@
-.panel.panel-transparent
-  .panel-heading
-    .panel-title Record ##{@record.id}
-  ul.nav.nav-tabs.nav-tabs-linetriangle
-    li.active
-      a data-toggle="tab" href="#fade1"
-        span Info
-    li
-      a data-toggle="tab" href="#fade2"
-        span Covers
-    - if @record.songs.size>0
-      li
-        a data-toggle="tab" href="#fade3"
-          span Audio (#{@record.songs.size})
+.panel.panel-default
 
-  .tab-content
+  .panel-heading.record
+    = link_to '#', class: 'btn btn-default btn-sm pull-right edit-link'
+      i.fa.fa-wrench>
+      | Edit record
+    = link_to '#', class: 'btn btn-default btn-sm pull-right edit-link'
+      i.fa.fa-wrench>
+      | Edit audio
+    = link_to '#', class: 'btn btn-default btn-sm pull-right edit-link'
+      i.fa.fa-wrench>
+      | Edit covers
+  .panel-body
 
-    .tab-pane.active.fade.in#fade1
-      .panel.panel-default
-        .panel-heading
-          .panel-title Info
-        .panel-body
-          .info#genre
-            | Genre
-          .info#format
-            | Format
-          .info#label
-            | Label
+    .panel.panel-default.col-md-3.col-lg-5.col-xl-6
+      .panel-heading
+        .panel-title
+          | Record ##{@record.identifier_id} details
+      .panel-body
+        table.table
+          thead
+            tr
+              th
+              th
+          tbody
+            tr.price-row
+              td
+                strong Price
+              td= @record.cyberguide
+            tr.price-row
+              td
+                strong Artist
+              td= @record.artist.name
+            tr.price-row
+              td
+                strong Label
+              td= @record.label.name
+            tr.price-row
+              td
+                strong genreenre
+              td= @record.genre.name
+            tr.price-row
+              td
+                strong Format
+              td= @record.record_format.name
+            tr.price-row
+              td
+                strong Condition
+              td= @record.condition
+            tr.price-row
+              td
+                strong Comment
+              td= @record.comment
 
-    .tab-pane.fade#fade2
-      .panel.panel-default
-        .panel-heading
-          .panel-title Covers
-        .panel-body
-
-    .tab-pane.fade#fade3
-      .panel.panel-default
-        .panel-heading
-          .panel-title Audio
-        .panel-body
-          - @record.songs.each do |song|
-            .song
-              = song.title
+    .col-md-9.col-lg-7.col-xl-6
+      - if @record.photos.count > 0
+        .cover-photo.medium data-img-large="#{@record.photos.first.data.url(:large)}" data-img="#{@record.photos.first.data.url(:medium)}"
+        #covers
+          - @record.photos.each do |photo|
+            - if photo == @record.photos.first
+              .cover-photo.small.active data-img-large="#{photo.data.url(:large)}" data-img-medium="#{photo.data.url(:medium)}" data-img="#{photo.data.url(:small)}"
+            - else
+                .cover-photo.small data-img-large="#{photo.data.url(:large)}" data-img-medium="#{photo.data.url(:medium)}" data-img="#{photo.data.url(:small)}"
+      - if @record.songs.count > 0
+        .panel.panel-default.col-md-12#audio
+          .panel-heading
+            .panel-title Audio
+          .panel-body
+            - @record.songs.each do |song|
+              .audio.row
+                .col-md-5
+                  strong = song.title
+                .col-md-7
+                  audio controls=true
+                    source src="#{song.mp3.url}" type="#{song.mp3.content_type}"
+                    | Your browser does not support the audio tag.

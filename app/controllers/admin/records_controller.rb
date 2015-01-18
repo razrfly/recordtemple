@@ -4,14 +4,19 @@ class Admin::RecordsController < Admin::AdminController
 
   def index
     @search = Record.ransack(params[:q])
-    @records = @search.result.page(params[:page])
-    # @records = @search.result.limit(50)
+    @records = @search.result
+
     @record_formats = RecordFormat.all.map{|rf| rf if rf.records.size>0 }.compact
     @genres = Genre.all.map{|genre| genre if genre.records.size>0 }.compact
     @conditions = Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), v]}]
     # media
     @records = @records.map{|r| r if r.photo}.compact if @photo
     @records = @records.map{|r| r if r.songs.size>0}.compact if @audio
+    unless @records.kind_of?(Array)
+      @records = @records.page(params[:page])
+    else
+      @records = Kaminari.paginate_array(@records).page(params[:page])
+    end
   end
 
   def show

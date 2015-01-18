@@ -1,0 +1,63 @@
+/*
+ *= require ./magnify.css
+ */
+.panel-heading.record{
+  margin-bottom: 50px;
+  .edit-link{ margin-left: 20px; }
+}
+#record-details{ margin-top: 5px; }
+
+#covers{
+  max-width: 200px;
+  display: inline-block;
+}
+.cover-photo {
+  background-size: cover;
+  display: inline-block;
+  cursor: pointer;
+}
+.cover-photo.small{
+  width: 180px;
+  height: 180px;
+  margin-left: 35px;
+}
+.cover-photo.small:first-child{
+  margin-bottom: 35px;
+  margin-top: 5px;
+}
+.cover-photo.small.active{
+  opacity: 0.5;
+  cursor: default;
+}
+.cover-photo.medium{
+  width: 400px;
+  height: 400px;
+}
+.magnify{ display: inline-block; }
+
+
+#audio{ max-width: 620px; }
+
+.record-row{ height: 101px; }
+
+@media (max-width: 676px){
+  .cover-photo.small{
+    width: 40vw;
+    height:40vw;
+    margin-left: 0px;
+  }
+  .cover-photo.small:nth-child(2){
+    margin-left: 10px;
+    margin-top: 5px;
+    float: right;
+  }
+  #covers{
+    max-width: 100%;
+  }
+}
+@media (max-width: 430px){
+  .cover-photo.medium{
+    width: 85vw;
+    height: 85vw;
+  }
+}
