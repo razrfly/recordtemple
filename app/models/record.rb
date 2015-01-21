@@ -33,6 +33,15 @@ class Record < ActiveRecord::Base
 
   delegate :detail, :to => :price
 
+
+  def self.condition_collection
+    Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), k]}]
+  end
+
+  def self.transform_condition condition
+    condition.gsub('_', ' ').gsub('plus', '+')
+  end
+
   def notes
     notes = price.detail
     price.footnote ? "#{notes} #{price.footnote}" : notes
@@ -77,13 +86,8 @@ class Record < ActiveRecord::Base
     "#{price.detail} #{comment} #{price.footnote}"
   end
 
-
   def get_condition
     Record.transform_condition condition
-  end
-
-  def self.transform_condition condition
-    condition.gsub('_', ' ').gsub('plus', '+')
   end
 
   def add_freebase_to_parent

@@ -8,6 +8,11 @@ class Admin::PricesController < Admin::AdminController
   end
 
   def show
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: {artist: @price.artist.name, label: @price.label.name, format: @price.record_format.name }.to_json }
+    end
   end
 
   def new
@@ -42,7 +47,7 @@ class Admin::PricesController < Admin::AdminController
 
   private
     def set_price
-      @artist = Artist.find(params[:artist_id])
+      #@artist = Artist.find(params[:artist_id])
       @price = Price.find(params[:id])
     end
 

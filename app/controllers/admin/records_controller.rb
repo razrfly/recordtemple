@@ -1,14 +1,17 @@
 class Admin::RecordsController < Admin::AdminController
   before_action :set_record, only: [:show, :edit, :update, :destroy]
+  before_action :set_price, only: [:edit, :new, :create, :update]
   before_action :set_media, only: :index
+  before_action :set_collections, only: [:edit, :new, :create, :update]
+  before_action :set_values, only: :edit
 
   def index
     @search = Record.ransack(params[:q])
     @records = @search.result
 
-    @record_formats = RecordFormat.all.map{|rf| rf if rf.records.size>0 }.compact
-    @genres = Genre.all.map{|genre| genre if genre.records.size>0 }.compact
-    @conditions = Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), v]}]
+    @record_formats = RecordFormat.not_empty
+    @genres = Genre.not_empty
+    @conditions = Record.condition_collection
     # media
     @records = @records.map{|r| r if r.photo}.compact if @photo
     @records = @records.map{|r| r if r.songs.size>0}.compact if @audio
@@ -24,24 +27,23 @@ class Admin::RecordsController < Admin::AdminController
 
   def new
     @record = Record.new
-    set_record if params[:id]
   end
 
   def edit
   end
 
   def create
-    @record = Record.new(record_params)
-
+    @record = Record.new record_params.merge( user: current_user, artist: @artist, label: @label, record_format: @record_format)
+    # binding.pry
     if @record.save
-      redirect_to admin_edit_record_path(@record), notice: 'Please verify all the details and music or photos!'
+      redirect_to [:admin, @record], notice: 'Please verify all the details and music or photos!'
     else
       render :action => "new"
     end
   end
 
   def update
-    if @record.update_attributes(record_params)
+    if @record.update_attributes record_params.merge( artist: @artist, label: @label, record_format: @record_format)
       redirect_to [:admin, @record], notice: 'Record was successfully updated.'
     else
       render :action => "edit"
@@ -54,13 +56,21 @@ class Admin::RecordsController < Admin::AdminController
 
   private
 
-    # def sort_column
-    #   params[:sort] ||= "updated_at"
-    # end
+    def set_price
+      @price = Price.find((params[:price_id] or params[:record][:price_id])) rescue nil
+      @artist, @label, @record_format = @price.artist, @price.label, @price.record_format if @price
+      # binding.pry
+    end
 
-    # def sort_direction
-    #   %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
-    # end
+    def set_collections
+      @genres = Genre.all.map{|genre| [genre.name, genre.id]}
+      @conditions = Record.condition_collection
+      @record_formats = RecordFormat.all{map{|rf| [rf.name, rf.id]}}
+    end
+
+    def set_values
+      @artist, @label, @record_format = @record.artist.name, @record.label.name, @record.record_format.name
+    end
 
     def set_media
       @photo = params[:photo]=='present' ? true : false
@@ -72,6 +82,6 @@ class Admin::RecordsController < Admin::AdminController
     end
 
     def record_params
-      params.require(:price).permit()
+      params.require(:record).permit(:identifier_id, :condition, :comment, :value, :genre_id, :price_id)
     end
 end

@@ -48,15 +48,15 @@ Recordapp::Application.routes.draw do
 
   namespace :admin do
     root :to => 'home#index'
-
+    put 'artists' => 'artists#index'
+    put 'prices' => 'prices#index'
+    put 'labels' => 'labels#index'
+    put 'records' => 'records#index'
     resources :artists do
       resources :prices
     end
-    post 'prices' => 'prices#index'
     resources :prices
-
     resources :labels
-    post 'records' => 'records#index'
     resources :records do
       resources :songs
       resources :photos

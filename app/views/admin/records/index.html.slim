@@ -1,8 +1,8 @@
-
 //- breadcrumb :records
+
 h3.page-title
   ' Records
-  = link_to '#', :class => 'btn btn-default btn-sm'
+  = link_to [:new, :admin, :record], :class => 'btn btn-default btn-sm'
     i.fa.fa-plus>
     | Add New
 .col-md-9#records

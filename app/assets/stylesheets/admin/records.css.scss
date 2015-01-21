@@ -55,6 +55,12 @@
     max-width: 100%;
   }
 }
+
+.price-list{
+  padding: 0;
+  list-style-type: none;
+}
+
 @media (max-width: 430px){
   .cover-photo.medium{
     width: 85vw;

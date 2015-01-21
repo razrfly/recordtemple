@@ -1,0 +1,39 @@
+= simple_form_for [:admin, @record] do |f|
+  .col-md-6
+    .panel.panel-default
+      .panel-heading
+        .panel-title Record Form
+      .panel-body
+
+        = f.input :price_id, label: 'Price ID', input_html: {id: 'record-price'}
+
+        = f.input :artist, input_html: {disabled:'disabled', id: 'dis-record-artist', value: @artist}
+
+        = f.input :label, input_html: {disabled:'disabled', id: 'dis-record-label', value: @label}
+
+        = f.input :record_format, input_html: {disabled: 'disabled', id: 'dis-record-format', value: @record_format}
+
+        = f.input :genre_id, collection: @genres, input_html: {id: 'record-genre'}
+
+        = f.input :condition, collection: @conditions, selected: Record.conditions[@record.condition], input_html: {id: 'record-condition'}
+
+        = f.input :identifier_id
+
+        = f.input :comment
+
+
+
+        = f.input :value
+
+        = f.button :submit
+  .col-md-6
+    .panel.panel-default
+      .panel-heading
+        .panel-title Covers Form
+      .panel-body
+        | meh
+    .panel.panel-default
+      .panel-heading
+        .panel-title Audio Form
+      .panel-body
+        | meh

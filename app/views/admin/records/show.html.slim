@@ -1,7 +1,9 @@
+//- breadcrumb :show_record, @record
+
 .panel.panel-default
 
   .panel-heading.record
-    = link_to '#', class: 'btn btn-default btn-sm pull-right edit-link'
+    = link_to [:edit, :admin, @record], class: 'btn btn-default btn-sm pull-right edit-link'
       i.fa.fa-wrench>
       | Edit record
     = link_to '#', class: 'btn btn-default btn-sm pull-right edit-link'
@@ -25,8 +27,16 @@
           tbody
             tr.price-row
               td
-                strong Price
-              td= @record.cyberguide
+                ul.price-list
+                  li
+                    strong Price
+                  li User
+                  li Cyberguide
+              td
+                ul.price-list
+                  li &nbsp;
+                  li = @record.value
+                  li = @record.cyberguide
             tr.price-row
               td
                 strong Artist
@@ -46,7 +56,7 @@
             tr.price-row
               td
                 strong Condition
-              td= @record.condition
+              td= @record.get_condition
             tr.price-row
               td
                 strong Comment

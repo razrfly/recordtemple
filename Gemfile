@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'selectize-rails'
 
 gem 'sdoc', '~> 0.4.0', :group => :doc
 gem 'spring', :group => :development
@@ -39,3 +40,7 @@ gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
 gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
+#
+# gem 'pry-rails', :group => :development
+# gem 'hirb', :group => :development
+#
