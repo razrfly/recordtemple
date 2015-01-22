@@ -1,22 +1,18 @@
 class Admin::ArtistsController < Admin::AdminController
-  before_action :set_artist, :only => [:show, :edit, :update, :destroy]
+  before_action :set_artist, only: [:show, :edit, :update, :destroy]
 
   def index
-    if params[:q].nil?
-      @artists = nil
-    else
-      @search = Artist.ransack(params[:q])
-      @artists = @search.result
-    end
+    @search = Artist.ransack(params[:q])
+    @artists = @search.result.page(params[:page])
 
     respond_to do |format|
       format.html
-      format.json {
-        render json: @artists.to_json(:only => [:name, :id]) }
+      format.json { render json: @artists.to_json(only: [:name, :id]) }
     end
   end
 
   def show
+    @records = @artist.records.page(params[:page])
   end
 
   def new

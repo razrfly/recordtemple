@@ -1,0 +1,18 @@
+#filters
+  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :put do |f|
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+
+        .row
+          .col-md-6
+            = f.input :fname_cont, label: 'first name', required: false
+          .col-md-6
+            = f.input :lname_cont, label: 'last name', required: false
+        = f.input :nickname_cont, label: 'Nicname', required: false
+        = f.input :email_cont, label: 'Email', required: false
+
+        br/
+        = f.button :submit, 'Search'
+        = link_to 'Reset', admin_users_path, class: 'pull-right btn btn-default'

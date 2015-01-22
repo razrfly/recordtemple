@@ -26,7 +26,7 @@ class Admin::PricesController < Admin::AdminController
     @price = Price.new(price_params)
 
     if @price.save
-      redirect_to admin_artist_path(@artist), :notice => "Price was successfully created."
+      redirect_to admin_price_path(@price), :notice => "Price was successfully created."
     else
       render :new
     end
@@ -34,7 +34,7 @@ class Admin::PricesController < Admin::AdminController
 
   def update
     if @price.update_attributes(price_params)
-      redirect_to admin_artist_path(@artist), :notice => "Price was successfully updated."
+      redirect_to admin_price_path(@price), :notice => "Price was successfully updated."
     else
       render :edit
     end
@@ -42,17 +42,16 @@ class Admin::PricesController < Admin::AdminController
 
   def destroy
     @price.destroy
-    redirect_to admin_artist_path(@artist), :notice => "Price was successfully deleted."
+    redirect_to admin_price_path(@price), :notice => "Price was successfully deleted."
   end
 
   private
     def set_price
-      #@artist = Artist.find(params[:artist_id])
       @price = Price.find(params[:id])
     end
 
     def price_params
-      params.require(:price).permit(:label_id, :detail, :record_type_id, :footnote)
+      params.require(:price).permit(:artist_id, :label_id, :detail, :record_format_id, :footnote)
     end
 
     #FIIIIX ME

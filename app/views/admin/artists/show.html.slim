@@ -1,58 +1,92 @@
 - breadcrumb :show_artist, @artist
+
 .page-title
   i.icon-custom-left
   h3
     span.semi-bold = @artist.name
 
-.row.m-b-30
-  .col-md-3
-    - if price_with_photo = @artist.prices.joins(:record => :photo).take
-      .tiles.green.overflow-hidden.full-height
-        .overlayer.bottom-right.fullwidth
-          .overlayer-wrapper
-            .tiles.gradient-black.p-l-20.p-r-20.p-b-20.p-t-20
-              .pull-right
-                a href="#" class="hashtags transparent"
-                  = price_with_photo.detail
-              .clearfix
-        = image_tag price_with_photo.record.photo.data(:medium), :class => 'lazy hover-effect-img image-responsive-width'
-  .col-md-9
-    .grid.simple
-      .grid-title.no-border
-        h4
-          span.semi-bold> Artist
-          | Info
-        = link_to "Edit", edit_admin_artist_path, :class => 'pull-right btn btn-small btn-success'
-      .grid-body.no-border
-        .row
-          .col-md-6
-            p Name:
-            blockquote = @artist.name
-          .col-md-6
-            p Freebase ID:
-            blockquote = @artist.freebase_id
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold Records
-  .grid-body.no-border
-    table.table.table-condensed#artist-records
-      thead
-        tr
-          th Details
-          th Medium
-          th Footnote
-          th.buttons
-      tbody
-        - @artist.prices.each do |price|
+.panel.panel-default.col-md-3
+    .panel-heading
+      .panel-title
+        | Artist details
+    .panel-body
+      - if price_with_photo = @artist.prices.joins(:record => :photo).take
+        = image_tag price_with_photo.record.photo.data(:small), :class => 'lazy hover-effect-img image-responsive-width'
+      table.table
+        thead
           tr
-            td = price.detail
-            td = price.record_format.name
-            td = price.footnote
-            td.buttons
-              = link_to admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
-                i.fa.fa-eye.fa-lg
-              = link_to edit_admin_artist_price_path(@artist, price), :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
-                i.fa.fa-pencil.fa-lg
-              = link_to admin_artist_price_path(@artist, price), :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
-                i.fa.fa-times.fa-lg
+            th
+            th
+        tbody
+          tr.artist-row
+            td
+              strong Name
+            td= @artist.name
+          tr.artist-row
+            td
+              strong Freebase ID
+            td= @artist.freebase_id
+
+.col-md-9
+  #records
+    .panel.panel-default
+      .panel-heading
+        .panel-title Records Index
+      .panel-body
+        table.table
+          thead
+            tr
+              th Cover
+              th Label
+              th Genre
+              th Record Format
+              th Condition
+              th.buttons
+          tbody
+            - @records.each do |record|
+              tr.record-row
+                td
+                  - unless record.cover_photo.blank?
+                    = image_tag record.cover_photo
+                td= record.label.name
+                td= record.genre.name
+                td= record.price.record_format.name
+                td= record.get_condition
+                td.buttons
+                  = link_to admin_record_path(record)
+                    i.fa.fa-search.fa-lg
+                  = link_to '#'
+                    i.fa.fa-wrench.fa-lg
+                  = link_to '#', :method => :delete, :data => {:confirm => "Are you sure?"}
+                    i.fa.fa-times.fa-lg
+        = paginate @records
+
+
+  #prices
+    .panel.panel-default
+      .panel-heading
+        .panel-title Prices Index
+      .panel-body
+        table.table
+          thead
+            tr
+              th Label
+              th Record Format
+              th Price range
+              th Date range
+              th.buttons
+          tbody
+            - @artist.prices.each do |price|
+              tr.price-row
+                td= price.label.name if price.label
+                td= price.record_format.name
+                td= price.price_range
+                td= price.date_range
+                td.buttons
+                  = link_to [:admin, price]
+                    i.fa.fa-search.fa-lg
+                  = link_to [:edit, :admin, price]
+                    i.fa.fa-wrench.fa-lg
+                  = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
+                    i.fa.fa-times.fa-lg
+.col-md-3

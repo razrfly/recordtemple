@@ -1,19 +1,33 @@
 - breadcrumb :labels
-.page-title
-  i.icon-custom-left
-  h3
-    span.semi-bold Labels
 
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold Labels
-    = link_to "New Label", new_admin_label_path, :class => 'pull-right btn btn-small btn-success'
-  .grid-body.no-border
-    table.table.table-condensed#labels data-source=(admin_labels_url(:format => 'json'))
-      thead
-        tr
-          th Name
-          th Freebase ID
-          th.buttons
-      tbody
+h3.page-title
+  ' Label
+  = link_to [:new, :admin, :label], :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.col-md-9#labels
+  .panel.panel-default
+    .panel-heading
+      .panel-title Label Index
+    .panel-body
+      table.table
+        thead
+          tr
+            th Cover
+            th= sort_link [:admin, @search], :name, "Name"
+            th.buttons
+        tbody
+          - @labels.each do |label|
+            tr.label-row
+              td= label.name
+              td.buttons
+                = link_to [:admin, label]
+                  i.fa.fa-search.fa-lg
+                = link_to [:edit, :admin, label]
+                  i.fa.fa-wrench.fa-lg
+                = link_to [:admin, label], :method => :delete, :data => {:confirm => "Are you sure?"}
+                  i.fa.fa-times.fa-lg
+      = paginate @labels
+
+.col-md-3
+  = render 'filters'

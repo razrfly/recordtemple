@@ -1,26 +1,9 @@
 #filters
-  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :post do |f|
+  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :put do |f|
     .panel.panel-default
       .panel-heading
         .panel-title Filters
       .panel-body
-        //filters:
-        //genre, label, record_format, artist, condition, photo(presence)
-
-
-        // TO DO:
-        // ADD SELECTIZE.JS
-        / = f.input :artist_id_eq, label: 'Artist', input_html: {id: 'record-artist'}, required: false
-
-        / = f.input :label_id_eq, input_html: {id: 'record-label'}
-
-        / = f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: :name_with_count, required: false
-
-        / = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false
-
-        / = f.input :condition_eq, label: 'Condition', collection: @conditions, required: false
-
-
 
         - if !@artists.nil? && @artists.size < 50
           = f.input :artist_name_eq, label: 'Artist', collection: @artists.limit(50), value_method: :name, required: false

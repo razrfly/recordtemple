@@ -1,5 +1,5 @@
 #filters
-  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :post do |f|
+  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :put do |f|
     .panel.panel-default
       .panel-heading
         .panel-title Filters

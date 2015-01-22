@@ -52,9 +52,7 @@ Recordapp::Application.routes.draw do
     put 'prices' => 'prices#index'
     put 'labels' => 'labels#index'
     put 'records' => 'records#index'
-    resources :artists do
-      resources :prices
-    end
+    resources :artists
     resources :prices
     resources :labels
     resources :records do

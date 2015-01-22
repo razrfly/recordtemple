@@ -3,7 +3,7 @@ class Admin::LabelsController < Admin::AdminController
 
   def index
     @search = Label.ransack(params[:q])
-    @labels = @search.result
+    @labels = @search.result.page(params[:page])
     respond_to do |format|
       format.html
       format.json {

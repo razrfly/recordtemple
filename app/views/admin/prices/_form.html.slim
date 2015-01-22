@@ -5,7 +5,12 @@
         span.semi-bold> Price
         | Form
     .grid-body.no-border
-      = f.association :label
+
+
+      = f.input :artist_id, input_html: {id: 'record-artist'}, collection: f.object.new_record? ? nil : [[f.object.artist.name, f.object.artist.id]], selected: f.object.new_record? ? nil : [f.object.artist.name, f.object.artist.id]
+      = f.input :label_id, input_html: {id: 'record-label'}, collection: f.object.new_record? ? nil : [[f.object.label.name, f.object.label.id]], selected: f.object.new_record? ? nil : [f.object.label.name, f.object.label.id]
+
+
       = f.input :detail
       = f.input :footnote
       = f.association :record_format
