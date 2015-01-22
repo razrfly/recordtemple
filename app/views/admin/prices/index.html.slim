@@ -13,7 +13,8 @@ h3.page-title
       table.table
         thead
           tr
-            th= sort_link [:admin, @search], :artist_name, "Name"
+            th= sort_link [:admin, @search], :artist_name, "Artist"
+            th= sort_link [:admin, @search], :label_name, "Label"
             th= sort_link [:admin, @search], :record_format_name, "Record Format"
             th= sort_link [:admin, @search], :price_low, "Price Low"
             th= sort_link [:admin, @search], :price_high, "Price High"
@@ -22,15 +23,16 @@ h3.page-title
           - @prices.each do |price|
             tr.price-row
               td= price.artist.name
+              td= price.label.name if price.label
               td= price.record_format.name
               td= price.price_low
               td= price.price_high
               td.buttons
-                = link_to admin_price_path(price)
+                = link_to [:admin, price]
                   i.fa.fa-search.fa-lg
-                = link_to '#'
+                = link_to [:edit, :admin, price]
                   i.fa.fa-wrench.fa-lg
-                = link_to '#', :method => :delete, :data => {:confirm => "Are you sure?"}
+                = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
       = paginate @prices
 .col-md-3

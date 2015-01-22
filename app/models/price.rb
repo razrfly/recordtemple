@@ -21,7 +21,11 @@ class Price < ActiveRecord::Base
   end
 
   def price_range
-    [price_low, price_high].join('-')
+    if price_low == price_high
+      price_low
+    else
+      [price_low, price_high].join('-')
+    end
   end
 
   def date_range
