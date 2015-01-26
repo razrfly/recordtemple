@@ -28,7 +28,6 @@ gem 'ransack', '~> 1.2.3'
 gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
-gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
 
 gem 'rails_12factor', :group => :production
