@@ -13,7 +13,10 @@ gem 'jquery-rails'
 gem 'selectize-rails'
 gem 'pages-rails', '0.0.4'
 gem 'gretel'
+
 gem 'devise', '~> 3.4.1'
+gem 'devise_invitable', '~> 1.3.4'
+
 gem 'cancan', '~> 1.6.10'
 gem 'slim-rails', '~> 3.0.1'
 gem 'bootstrap-sass', '~> 3.2.0'
