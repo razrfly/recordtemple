@@ -1,0 +1,27 @@
+#filters
+  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :put do |f|
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+
+        - if !@artists.nil? && @artists.size < 50
+          = f.input :artist_name_eq, label: 'Artist', collection: @artists.limit(50), value_method: :name, required: false
+        - else
+          = f.input :artist_name_cont, label: 'Artist', required: false
+        = f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: :name_with_count, required: false
+        = f.input :price_record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false
+        - if !@labels.nil? && @labels.size < 50
+          = f.input :has, collection: @labels.limit(10), value_method: :name, required: false
+        - else
+          = f.input :cached_label_eq, label: 'Label', required: false
+        = f.input :condition_eq, label: 'Condition', collection: @conditions, required: false
+        .form-group
+          = label_tag :photo, 'with photo', class: 'control-label'
+          = check_box_tag :photo, :present, @photo
+        .form-group
+          = label_tag :audio, 'with audio', class: 'control-label'
+          = check_box_tag :audio, :present, @audio
+        br/
+        = f.button :submit, 'Search'
+        = link_to 'Reset', admin_records_path, class: 'pull-right btn btn-default'

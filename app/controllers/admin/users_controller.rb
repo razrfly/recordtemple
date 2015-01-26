@@ -1,33 +1,25 @@
 class Admin::UsersController < Admin::AdminController
-  before_action :set_user, :only => [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   def index
-    @users = User.all
+    @search = User.ransack(params[:q])
+    @users = @search.result.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: @users.to_json(only: [:name, :id]) }
+    end
   end
 
   def show
   end
 
-  def new
-    @user = User.new
-  end
-
   def edit
-  end
-
-  def create
-    @user = User.new(user_params)
-
-    if @user.save
-      redirect_to admin_users_path, :notice => "User was successfully created."
-    else
-      render :new
-    end
   end
 
   def update
     if @user.update_attributes(user_params)
-      redirect_to admin_users_path, :notice => "User was successfully updated."
+      redirect_to admin_users_path, notice: "User was successfully updated."
     else
       render :edit
     end
@@ -35,7 +27,7 @@ class Admin::UsersController < Admin::AdminController
 
   def destroy
     @user.destroy
-    redirect_to admin_users_path, :notice => "User was successfully deleted."
+    redirect_to admin_users_path, notice: "User was successfully deleted."
   end
 
   private

@@ -1,0 +1,33 @@
+#filters
+  = search_form_for [:admin, @search], builder: SimpleForm::FormBuilder, method: :put do |f|
+    .panel.panel-default
+      .panel-heading
+        .panel-title Filters
+      .panel-body
+        //filters:
+        //genre, label, record_format, artist, condition, photo(presence)
+        - if !@artists.nil? && @artists.size < 50
+          = f.input :artist_name_eq, label: 'Artist', collection: @artists.limit(10), value_method: :name, required: false
+        - else
+          = f.input :artist_name_cont, label: 'Artist', required: false
+        - if !@labels.nil? && @labels.size < 50
+          = f.input :has, collection: @labels.limit(10), value_method: :name, required: false
+        - else
+          = f.input :cached_label_eq, label: 'Label', required: false
+        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false
+        .form-group#price_high
+          = label_tag :q_price_high_gt, 'Price high', class: 'control-label price_high_label'
+          .row
+            .col-md-6
+              = select_tag "js_select_price_high", options_for_select(['greater than', 'lower than', 'equals'], @price_high_select), class: 'form-control js_select_price'
+            .col-md-6
+              = f.input (@price_high or :price_high_gt), label: false, input_html: {class: 'price_high_input', name: "q[#{@price_high.nil? ? 'price_high_gt' : @price_high.to_s}]", value: @value_high}
+        .form-group#price_low
+          = label_tag :q_price_low_gt, 'Price low', class: 'control-label price_low_label'
+          .row
+            .col-md-6
+              = select_tag "js_select_price_low", options_for_select(['greater than', 'lower than', 'equals'], @price_low_select), class: 'form-control js_select_price'
+            .col-md-6
+              = f.input :price_low_gt, label: false, input_html: { class: 'price_low_input', name: "q[#{@price_low.nil? ? 'price_low_gt' : @price_low.to_s}]", value: @value_low}
+        = f.button :submit, 'Search'
+        = link_to 'Reset', admin_prices_path, class: 'pull-right btn btn-default'

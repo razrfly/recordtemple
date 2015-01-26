@@ -2,6 +2,37 @@ crumb :root do
   link "Home", admin_root_path
 end
 
+# Records
+
+crumb :records do
+  link "Records", admin_records_path
+  parent :root
+end
+
+crumb :new_record do |price|
+  if price
+    link "New", new_admin_price_record_path(price)
+    parent :show_price, price
+  else
+    link "New", new_admin_record_path
+    parent :records
+  end
+end
+
+crumb :show_record do |record, price|
+  if price
+    link 'Record', admin_price_record_path(record, price)
+    parent :show_price, price
+  else
+    link 'Record', admin_record_path(record)
+    parent :records
+  end
+end
+
+crumb :edit_record do |record, price|
+  link "Edit", edit_admin_record_path(record)
+  parent :show_record, record, price
+end
 
 # Artists
 
@@ -142,17 +173,22 @@ end
 
 # Prices
 
-crumb :new_price do |artist|
-  link "New", new_admin_artist_price_path(artist)
-  parent :show_artist, artist
+crumb :prices do
+  link "Prices", admin_prices_path
+  parent :root
+end
+
+crumb :new_price do
+  link "New", new_admin_price_path
+  parent :prices
 end
 
 crumb :show_price do |price|
-  link 'Price', admin_artist_price_path(price.artist, price)
-  parent :show_artist, price.artist
+  link 'Price', admin_price_path(price)
+  parent :prices
 end
 
 crumb :edit_price do |price|
-  link "Edit", edit_admin_artist_price_path(price.artist, price)
+  link "Edit", edit_price_path(price)
   parent :show_price, price
 end

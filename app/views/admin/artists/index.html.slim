@@ -1,19 +1,33 @@
 - breadcrumb :artists
-.page-title
-  i.icon-custom-left
-  h3
-    span.semi-bold Artists
 
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold Artists
-    = link_to "New Artist", new_admin_artist_path, :class => 'pull-right btn btn-small btn-success'
-  .grid-body.no-border
-    table.table.table-condensed#artists data-source=(admin_artists_url(:format => 'json'))
-      thead
-        tr
-          th Name
-          th Freebase ID
-          th.buttons
-      tbody
+h3.page-title
+  ' Artist
+  = link_to [:new, :admin, :artist], :class => 'btn btn-default btn-sm'
+    i.fa.fa-plus>
+    | Add New
+.col-md-9#artists
+  .panel.panel-default
+    .panel-heading
+      .panel-title Artist Index
+    .panel-body
+      table.table
+        thead
+          tr
+            th Cover
+            th= sort_link [:admin, @search], :name, "Name"
+            th.buttons
+        tbody
+          - @artists.each do |artist|
+            tr.artist-row
+              td= artist.name
+              td.buttons
+                = link_to [:admin, artist]
+                  i.fa.fa-search.fa-lg
+                = link_to [:edit, :admin, artist]
+                  i.fa.fa-wrench.fa-lg
+                = link_to [:admin, artist], :method => :delete, :data => {:confirm => "Are you sure?"}
+                  i.fa.fa-times.fa-lg
+      = paginate @artists
+
+.col-md-3
+  = render 'filters'

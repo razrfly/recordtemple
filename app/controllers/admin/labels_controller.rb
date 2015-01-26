@@ -2,9 +2,12 @@ class Admin::LabelsController < Admin::AdminController
   before_action :set_label, :only => [:show, :edit, :update, :destroy]
 
   def index
+    @search = Label.ransack(params[:q])
+    @labels = @search.result.page(params[:page])
     respond_to do |format|
       format.html
-      format.json { render json: LabelsDatatable.new(view_context) }
+      format.json {
+        render json: @labels.to_json(:only => [:name, :id]) }
     end
   end
 

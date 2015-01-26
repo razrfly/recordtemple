@@ -12,6 +12,7 @@ gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
+gem 'selectize-rails'
 
 gem 'sdoc', '~> 0.4.0', :group => :doc
 gem 'spring', :group => :development
@@ -30,7 +31,7 @@ gem 'font-awesome-sass', '~> 4.2.0'
 gem 'active_link_to', '~> 1.0.2'
 gem 'friendly_id', '~> 5.0.4'
 gem 'rails3-jquery-autocomplete', '~> 1.0.14'
-# gem 'kaminari', '~> 0.16.1'
+gem 'kaminari'
 gem 'paperclip', '~> 4.1.1'
 gem 'aws-sdk', '~> 1.44.0'
 gem 'ransack', '~> 1.2.3'
@@ -39,4 +40,7 @@ gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
 gem 'panda', '~> 1.6.1'
 gem 'rails-erd', '~> 1.1.0'
-gem 'will_paginate', '~> 3.0.7'
+#
+# gem 'pry-rails', :group => :development
+# gem 'hirb', :group => :development
+#

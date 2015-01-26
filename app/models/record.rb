@@ -11,7 +11,7 @@ class Record < ActiveRecord::Base
 
   attr_accessor :freebase_id
 
-  validates_presence_of :price, :genre, :condition, :value, :user#, :artist, :label
+  validates_presence_of :genre, :condition, :value, :user#, :artist, :label
 
   has_many :photos, -> { order(:position)}, :dependent => :destroy
   has_many :songs, :dependent => :destroy
@@ -33,33 +33,45 @@ class Record < ActiveRecord::Base
 
   delegate :detail, :to => :price
 
+
+  def self.condition_collection
+    Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), k]}]
+  end
+
+  def self.transform_condition condition
+    condition.gsub('_', ' ').gsub('plus', '+')
+  end
+
   def notes
     notes = price.detail
     price.footnote ? "#{notes} #{price.footnote}" : notes
   end
 
+  #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
 
-  before_save :cache_columns
-  after_save :add_freebase_to_parent
+  # before_save :cache_columns
+  # after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }
 
   ## FIX ME, I'M UGLY
   def cyberguide
-    if get_condition == 'mint' or get_condition == 'near mint'
-      price.price_high
-    elsif get_condition == 'very good ++'
-      price.price_high * 0.9
-    elsif get_condition == 'very good +'
-      price.price_high * 0.5
-    elsif get_condition == 'very good'
-      price.price_high * 0.25
-    elsif get_condition == 'good'
-      price.price_high * 0.2
-    else
-      price.price_high * 0.15
+    if price
+      if get_condition == 'mint' or get_condition == 'near mint'
+        price.price_high
+      elsif get_condition == 'very good ++'
+        price.price_high * 0.9
+      elsif get_condition == 'very good +'
+        price.price_high * 0.5
+      elsif get_condition == 'very good'
+        price.price_high * 0.25
+      elsif get_condition == 'good'
+        price.price_high * 0.2
+      else
+        price.price_high * 0.15
+      end
     end
   end
 
@@ -77,7 +89,7 @@ class Record < ActiveRecord::Base
   end
 
   def get_condition
-    self.condition.gsub('_', ' ').gsub('plus', '+')
+    Record.transform_condition condition
   end
 
   def add_freebase_to_parent
