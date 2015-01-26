@@ -34,7 +34,6 @@ class Admin::RecordsController < Admin::AdminController
 
   def create
     @record = Record.new ({user: current_user, artist: @artist, label: @label, record_format: @record_format, price: @price}).merge record_params
-    binding.pry
     if @record.save
       redirect_to [:admin, @record], notice: 'Please verify all the details and music or photos!'
     else
