@@ -1,79 +1,79 @@
 - breadcrumb :show_price, @price
 
-.panel.panel-default
-
-  .panel-heading.record
-    = link_to [:edit, :admin, @price], class: 'btn btn-default btn-sm pull-right edit-link'
-      i.fa.fa-wrench>
-      | Edit price
+.panel.panel-default.col-md-3
+  .panel-heading
+    .panel-title
+      | Price ##{@price.id} details
   .panel-body
-
-    .panel.panel-default.col-md-3.col-lg-5.col-xl-6
-      .panel-heading
-        .panel-title
-          | Price ##{@price.id} details
-      .panel-body
+    table.table
+      thead
+        tr
+          th
+          th
+      tbody
+        - if @price.price_range
+          tr.price-row
+            td
+              strong Price range
+            td= @price.price_range
+        - if @price.date_range
+          tr.price-row
+            td
+              strong Date range
+            td= @price.date_range
+        tr.price-row
+          td
+            strong Artist
+          td= link_to @price.artist.name, [:admin, @price.artist]
+        - if @price.label
+          tr.price-row
+            td
+              strong Label
+            td= link_to @price.label.name, [:admin, @price.label]
+        tr.price-row
+          td
+            strong Format
+          td= @price.record_format.name
+        - if @price.footnote != "" and @price.footnote
+          tr.price-row
+            td
+              strong Footnote
+            td= @price.footnote
+.col-md-9
+  .panel.panel-default
+    .panel-heading
+      .panel-title
+        | Price's records
+      = link_to new_admin_price_record_path(@price), :class => 'btn btn-default btn-sm pull-right'
+        i.fa.fa-plus>
+        | Add New Record
+    .panel-body
+      - if @price.records.count > 0
         table.table
           thead
             tr
-              th
-              th
+              th Record ID
+              th Condition
+              th Username
+              th.buttons
           tbody
-            - if @price.price_range
-              tr.price-row
-                td
-                  strong Price range
-                td= @price.price_range
-            - if @price.date_range
-              tr.price-row
-                td
-                  strong Date range
-                td= @price.date_range
-            tr.price-row
-              td
-                strong Artist
-              td= @price.artist.name
-            - if @price.label
-              tr.price-row
-                td
-                  strong Label
-                td= @price.label.name
-            tr.price-row
-              td
-                strong Format
-              td= @price.record_format.name
-            - if @price.footnote != "" and @price.footnote
-              tr.price-row
-                td
-                  strong Footnote
-                td= @price.footnote
-
-    .panel.panel-default.col-md-8.col-lg-6.col-lg-offset-1.col-md-offset-1
-      .panel-heading
-        .panel-title
-          | Price's records
-      .panel-body
-        - if @price.records.count > 0
-          table.table
-            thead
+            - @price.records.each do |record|
               tr
-                th Record ID
-                th username
-                th.buttons
-            tbody
-              - @price.records.each do |record|
-                td record.identified_id
-                td record.nickname
+                td= record.identifier_id or '-'
+                td= record.get_condition
+                td= record.user.nickname
                 td.buttons
-                  = link_to [:admin, record]
+                  = link_to [:admin, @price, record]
                     i.fa.fa-search.fa-lg
-                  = link_to [:edit, :admin, record]
+                  = link_to [:edit, :admin, @price, record]
                     i.fa.fa-wrench.fa-lg
                   = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
                     i.fa.fa-times.fa-lg
-        - else
+      - else
+        .info.text-center
           | no records to show
           br/
-          = link_to '#', :class => 'btn btn-default btn-sm'
+          br/
+          = link_to new_admin_price_record_path(@price), :class => 'btn btn-default btn-sm'
             i.fa.fa-plus>
-            | Add New
+            | Add New Record

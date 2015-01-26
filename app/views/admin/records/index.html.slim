@@ -32,11 +32,11 @@ h3.page-title
               td= record.price.record_format.name
               td= record.get_condition
               td.buttons
-                = link_to admin_record_path(record)
+                = link_to [:admin, record]
                   i.fa.fa-search.fa-lg
-                = link_to '#'
+                = link_to [:edit, :admin, record]
                   i.fa.fa-wrench.fa-lg
-                = link_to '#', :method => :delete, :data => {:confirm => "Are you sure?"}
+                = link_to [:admin, records], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
       = paginate @records
 

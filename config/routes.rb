@@ -1,67 +1,36 @@
 Recordapp::Application.routes.draw do
+  root to: "home#index"
 
   devise_for :users
   devise_scope :user do
     get "login", :to => "devise/sessions#new"
   end
 
-  resources :record_formats
-
-  resources :artists do
+  resources :record_formats, :genres, :labels, :artists
+  resources :prices do
     resources :records
   end
-  #match ':id' => 'artists#show', :as => :artist, :method => :get
-  #match ':artist_id/:id' => 'records#show', :as => :root_record
-  #match ':id' => 'artists#show'
-  #match ':artist_id/:id' => 'records#show'
 
-  resources :genres
-
-  #get "statistics/index"
-  get 'stats' => 'statistics#index'
-
-  # The priority is based upon order of creation:
-  # first created -> highest priority.
-
-  # Sample of regular route:
-  #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
-
-  post 'records' => 'records#index'
   resources :records do
-    resources :songs
-    resources :photos do
-      collection do
-        put :sort
-      end
-    end
+    resources :songs, :photos
   end
-
-  resources :prices do
-    get :autocomplete_artist_name, :on => :collection
-    get :autocomplete_label_name, :on => :collection
-  end
-  resources :home
-  resources :labels
-
-  root :to => "home#index"
 
   namespace :admin do
-    root :to => 'home#index'
+    root to: 'home#index'
     put 'artists' => 'artists#index'
-    put 'prices' => 'prices#index'
-    put 'labels' => 'labels#index'
+    put 'prices'  => 'prices#index'
+    put 'labels'  => 'labels#index'
     put 'records' => 'records#index'
-    resources :artists
-    resources :prices
-    resources :labels
+    # delete 'unlink_record' => 'prices#unlink(:id)'
+    resources :genres, :record_formats, :record_types, :users, except: :show
+    resources :artists, :prices, :labels
     resources :records do
-      resources :songs
-      resources :photos
+      resources :songs, :photos
+      delete 'unlink_price', :on => :member
     end
-    resources :genres, except: :show
-    resources :record_formats, except: :show
-    resources :record_types, except: :show
-    resources :users, except: :show
+    resources :prices do
+      resources :records
+    end
+
   end
 end

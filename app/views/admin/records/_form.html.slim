@@ -1,4 +1,4 @@
-= simple_form_for [:admin, @record] do |f|
+= simple_form_for [:admin, @price, @record] do |f|
   .col-md-6
     .panel.panel-default
       .panel-heading
@@ -16,18 +16,58 @@
         / = f.button :submit
 
 
+        - if @price.nil?
+          = f.input :artist_id, input_html: {id: 'record-artist'}, collection: f.object.new_record? ? nil : [[f.object.artist.name, f.object.artist.id]], selected: f.object.new_record? ? nil : [f.object.artist.name, f.object.artist.id]
+          = f.input :label_id, input_html: {id: 'record-label'}, collection: f.object.new_record? ? nil : [[f.object.label.name, f.object.label.id]], selected: f.object.new_record? ? nil : [f.object.label.name, f.object.label.id]
+          = f.input :record_format_id, collection: RecordFormat.all{map{|rf| [rf.name, rf.id]}}, input_html: {id: 'record-format'}
+
+        = f.input :identifier_id, label: 'Identifier ID'
         = f.input :genre_id, collection: Genre.all.map{|g| [g.name, g.id]}, input_html: {id: 'record-genre'}
-        = f.input :artist_id, input_html: {id: 'record-artist'}, collection: f.object.new_record? ? nil : [[f.object.artist.name, f.object.artist.id]], selected: f.object.new_record? ? nil : [f.object.artist.name, f.object.artist.id]
-        = f.input :label_id, input_html: {id: 'record-label'}, collection: f.object.new_record? ? nil : [[f.object.label.name, f.object.label.id]], selected: f.object.new_record? ? nil : [f.object.label.name, f.object.label.id]
         = f.input :condition, collection: Record.conditions.map{|x, y| [Record.transform_condition(x), x]}, selected: Record.conditions[@record.condition], input_html: {id: 'record-condition'}
         = f.input :comment
-        = f.input :value
-        = f.input :record_format_id, collection: RecordFormat.all{map{|rf| [rf.name, rf.id]}}, input_html: {id: 'record-format'}
+        = f.input :value, label: 'your price'
         = f.button :submit
 
-
-
   .col-md-6
+    - unless @price.nil?
+      .panel.panel-default
+        .panel-heading
+          .panel-title Price Info
+          = link_to unlink_price_admin_record_path(@record), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default pull-right'
+            i.fa.fa-chain-broken.fa-lg
+            | &nbsp;Unlink price
+        .panel-body
+
+          table.table
+            thead
+              tr
+                th
+                th
+            tbody
+              tr.price-row
+                td
+                  strong Artist
+                td= link_to @price.artist.name, [:admin, @price.artist]
+              - if @price.label
+                tr.price-row
+                  td
+                    strong Label
+                  td= link_to @price.label.name, [:admin, @price.label]
+              tr.price-row
+                td
+                  strong Format
+                td= @price.record_format.name
+              - if @price.price_range
+                tr.price-row
+                  td
+                    strong Price range
+                  td= @price.price_range
+              - if @price.date_range
+                tr.price-row
+                  td
+                    strong Date range
+                  td= @price.date_range
+
     .panel.panel-default
       .panel-heading
         .panel-title Covers Form
