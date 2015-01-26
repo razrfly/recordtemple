@@ -1,33 +1,37 @@
-// JS for price_low, price_high attr in prices index filter
+function initInputs(){
+  currentHigh = $('.' + $('.js_select_price.high').val(), '#price_high');
+  currentLow = $('.' + $('.js_select_price.low').val(), '#price_low');
+  populateValueWith(currentHigh);
+  populateValueWith(currentLow);
+  disableInputsExcept($('.js_select_price.high'));
+  disableInputsExcept($('.js_select_price.low'));
+}
 
-function getSuffix(value){
-  switch (value) {
-    case 'greater than':
-       suffix = '_gt';
-      break;
-    case 'lower than':
-       suffix = '_lt';
-      break;
-    case 'equals':
-      suffix = '_eq';
-      break;
-    default:
-      suffix = '';
-  }
-  return suffix ;
+function populateValueWith(obj){
+  $('.price', obj.parent().parent()).val(obj.val());
+}
+
+function disableInputsExcept(obj){
+  // console.log('.' + obj.val);
+  selectedInput = $('.' + obj.val(), obj.parent().parent());
+  $('.price', obj.parent().parent()).not(selectedInput)
+    .prop('disabled', true)
+    .hide();
+  selectedInput
+    .prop('disabled', false)
+    .show();
 }
 
 $(document).ready(function(){
 
-  $('#js_select_price_low').change(function(){
-    chosenOption = $(this).val();
-    newID = 'q[price_low' + getSuffix(chosenOption) + ']';
-    $('#price_low input').attr('name', newID);
-  })
+  initInputs();
 
-  $('#js_select_price_high').change(function(){
-    chosenOption = $(this).val();
-    newID = 'q[price_high' + getSuffix(chosenOption) + ']';
-    $('#price_high input').attr('name', newID);
-  })
-})
+  $('.js_select_price').change(function(){
+    disableInputsExcept($(this));
+  });
+
+  $('#price_high .price, #price_low .price').change(function(){
+    populateValueWith($(this));
+  });
+
+});
