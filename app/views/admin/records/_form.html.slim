@@ -5,17 +5,6 @@
         .panel-title Record Form
       .panel-body
 
-        / = f.input :price_id, label: 'Price ID', input_html: {id: 'record-price'}
-        / = f.input :artist, input_html: {disabled:'disabled', id: 'dis-record-artist', value: @artist}
-        / = f.input :label, input_html: {disabled:'disabled', id: 'dis-record-label', value: @label}
-        / = f.input :record_format, input_html: {disabled: 'disabled', id: 'dis-record-format', value: @record_format}
-        / = f.input :genre_id, collection: @genres, input_html: {id: 'record-genre'}
-        / = f.input :condition, collection: @conditions, selected: Record.conditions[@record.condition], input_html: {id: 'record-condition'}
-        / = f.input :identifier_id
-        / = f.input :comment
-        / = f.button :submit
-
-
         - if @price.nil?
           = f.input :artist_id, input_html: {id: 'record-artist'}, collection: f.object.new_record? ? nil : [[f.object.artist.name, f.object.artist.id]], selected: f.object.new_record? ? nil : [f.object.artist.name, f.object.artist.id]
           = f.input :label_id, input_html: {id: 'record-label'}, collection: f.object.new_record? ? nil : [[f.object.label.name, f.object.label.id]], selected: f.object.new_record? ? nil : [f.object.label.name, f.object.label.id]
@@ -33,9 +22,10 @@
       .panel.panel-default
         .panel-heading
           .panel-title Price Info
-          = link_to unlink_price_admin_record_path(@record), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default pull-right'
-            i.fa.fa-chain-broken.fa-lg
-            | &nbsp;Unlink price
+          - unless f.object.new_record?
+            = link_to unlink_price_admin_record_path(@record), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default pull-right'
+              i.fa.fa-chain-broken.fa-lg
+              | &nbsp;Unlink price
         .panel-body
 
           table.table
