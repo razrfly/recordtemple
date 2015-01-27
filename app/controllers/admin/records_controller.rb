@@ -3,7 +3,7 @@ class Admin::RecordsController < Admin::AdminController
   before_action :set_price, only: [:new, :create, :edit, :update, :show]
   before_action :set_media, only: :index
   before_action :set_collections, only: [:edit, :new, :create, :update]
-  before_action :set_values, only: :edit
+  before_action :set_values, only: [:edit, :update]
 
   def index
     @search = Record.ransack(params[:q])
