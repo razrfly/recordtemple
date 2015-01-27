@@ -36,7 +36,7 @@ h3.page-title
                   i.fa.fa-search.fa-lg
                 = link_to [:edit, :admin, record]
                   i.fa.fa-wrench.fa-lg
-                = link_to [:admin, records], :method => :delete, :data => {:confirm => "Are you sure?"}
+                = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
       = paginate @records
 

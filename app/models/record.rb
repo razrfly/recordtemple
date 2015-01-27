@@ -11,20 +11,10 @@ class Record < ActiveRecord::Base
 
   attr_accessor :freebase_id
 
-  validates_presence_of :genre, :condition, :value, :user#, :artist, :label
+  validates_presence_of :genre, :condition, :value, :user
 
   has_many :photos, -> { order(:position)}, :dependent => :destroy
   has_many :songs, :dependent => :destroy
-  #has_many :genres do
-  #  def narrow_genres
-  #    #return map(&:turnaround).inject(:+) / count
-  #    return map(&:genre_id)
-  #    #return Genre.where('id IN ?', map(&:genre_id).uniq!)
-  #  end
-  #end
-
-  #scope :genres, Genre.where('id IN ?', map(&:genre_id).uniq!)
-  #scope :artists, Artist.where('name IN (?)', @search.result.map(&:cached_artist).uniq!).limit(10)
 
   #maybes
   #delegate :freebase_id, :to => :price
@@ -42,6 +32,10 @@ class Record < ActiveRecord::Base
     condition.gsub('_', ' ').gsub('plus', '+')
   end
 
+  def self.pricing
+    {'mint' => 1, 'near mint' => 1, 'very good ++' => 0.9, 'very good +' => 0.5, 'very good' => 0.25, 'good' => 0.2, 'poor' => 0.15}
+  end
+
   def notes
     notes = price.detail
     price.footnote ? "#{notes} #{price.footnote}" : notes
@@ -49,39 +43,17 @@ class Record < ActiveRecord::Base
 
   #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :songs
-
-  # before_save :cache_columns
-  # after_save :add_freebase_to_parent
+# after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }
 
-  ## FIX ME, I'M UGLY
   def cyberguide
-    if price
-      if get_condition == 'mint' or get_condition == 'near mint'
-        price.price_high
-      elsif get_condition == 'very good ++'
-        price.price_high * 0.9
-      elsif get_condition == 'very good +'
-        price.price_high * 0.5
-      elsif get_condition == 'very good'
-        price.price_high * 0.25
-      elsif get_condition == 'good'
-        price.price_high * 0.2
-      else
-        price.price_high * 0.15
-      end
-    end
+    price.price_high * Record.pricing[Record.transform_condition condition] if price and condition
   end
 
   def cover_photo
     photos.first.data(:thumb) unless photos.blank?
-  end
-
-  def cache_columns
-    self.cached_artist = price.artist.name
-    self.cached_label = price.label.name
   end
 
   def desc

@@ -3,7 +3,7 @@ class Admin::RecordsController < Admin::AdminController
   before_action :set_price, only: [:new, :create, :edit, :update, :show]
   before_action :set_media, only: :index
   before_action :set_collections, only: [:edit, :new, :create, :update]
-  before_action :set_values, only: :edit
+  before_action :set_values, only: [:edit, :update]
 
   def index
     @search = Record.ransack(params[:q])
@@ -34,7 +34,6 @@ class Admin::RecordsController < Admin::AdminController
 
   def create
     @record = Record.new ({user: current_user, artist: @artist, label: @label, record_format: @record_format, price: @price}).merge record_params
-    binding.pry
     if @record.save
       redirect_to [:admin, @record], notice: 'Please verify all the details and music or photos!'
     else

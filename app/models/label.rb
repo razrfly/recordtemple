@@ -10,15 +10,6 @@ class Label < ActiveRecord::Base
 
   validates_presence_of :name
 
-  # def name_unless_bad
-  #   reserved_words = [ "index", "show", "create", "destroy", "delete", "new", "update" ]
-  #   unless reserved_words.include?(name.downcase)
-  #     name
-  #   else
-  #     "#{name}-the-artist"
-  #   end
-  # end
-
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?
   end

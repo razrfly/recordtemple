@@ -54,28 +54,8 @@ class Admin::PricesController < Admin::AdminController
       params.require(:price).permit(:artist_id, :label_id, :detail, :record_format_id, :footnote)
     end
 
-    #FIIIIX ME
     def set_price_range
-      @price_high_select = params[:js_select_price_high]
-      @price_low_select = params[:js_select_price_low]
-      if params[:q]
-        @value_high = params[:q][:price_high_lt] || params[:q][:price_high_gt] || params[:q][:price_high_eq]
-        @value_low = params[:q][:price_low_lt] || params[:q][:price_low_gt] || params[:q][:price_low_eq]
-
-        if params[:q][:price_high_lt]
-          @price_high = :price_high_lt
-        elsif params[:q][:price_high_gt]
-          @price_high = :price_high_gt
-        elsif params[:q][:price_high_eq]
-          @price_high = :price_high_eq
-        end
-        if params[:q][:price_low_lt]
-          @price_low = :price_low_lt
-        elsif params[:q][:price_low_gt]
-          @price_low = :price_low_gt
-        elsif params[:q][:price_low_eq]
-          @price_low = :price_low_eq
-        end
-      end
+      @price_collection = {'greater than' => :gt, 'lower than' => :lt, 'equals' => :eq}
+      @price_low_selected, @price_high_selected = params[:js_select_price_low], params[:js_select_price_high]
     end
 end

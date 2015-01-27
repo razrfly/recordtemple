@@ -11,17 +11,6 @@ class Artist < ActiveRecord::Base
 
   validates_presence_of :name
 
-  # def name_unless_bad
-  #   reserved_words = [ "index", "show", "edit", "autocomplete", "create", "destroy", "delete", "new", "update", "records", "record", "search", "searches", "stats", "statistics", "genre", "genres", "artist", "artists", "login", "logins", "home", "song", "songs", "price", "prices", "put", "puts", "post", "posts", "photo", "photos", "format", "formats", "recommendation", "recommendations" ]
-  #   unless reserved_words.include?(name.downcase)
-  #     name
-  #   else
-  #     "#{name}-the-artist"
-  #   end
-  # end
-
-  # after_update :update_cache_children
-
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?
   end
@@ -38,14 +27,5 @@ class Artist < ActiveRecord::Base
       :name => artist
     }])
   end
-
-  #private
-  # def update_cache_children
-  #   if self.name_changed?
-  #     self.records.each do |r|
-  #       r.update_attribute :cached_artist, self.name
-  #     end
-  #   end
-  # end
 
 end
