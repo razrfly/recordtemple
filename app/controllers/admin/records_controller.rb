@@ -66,7 +66,7 @@ class Admin::RecordsController < Admin::AdminController
         @price = Price.find(params[:price_id])
         @artist, @label, @record_format = @price.artist, @price.label, @price.record_format
       else
-        @price = @record.price
+        @price = @record.price if @record
       end
     end
 
