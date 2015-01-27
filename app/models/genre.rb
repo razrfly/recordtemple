@@ -9,6 +9,8 @@ class Genre < ActiveRecord::Base
 
   friendly_id :name, :use => [:slugged, :finders]
 
+  validates_presence_of :name
+
   def name_with_count
     "#{name} (#{records.size.to_s})"
   end
