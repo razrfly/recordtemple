@@ -1,0 +1,15 @@
+table.table
+  thead
+    tr
+      th Thumbnail
+      th File Select
+  tbody
+    = record_form.simple_fields_for :photos do |photo_form|
+      - if photo_form.object.new_record?
+        tr
+          td
+          td= photo_form.attachment_field :image
+      - else
+        tr
+          td= image_tag attachment_url(photo_form.object, :image, :fill, 60, 60)
+          td= photo_form.check_box :_destroy

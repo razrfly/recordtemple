@@ -62,7 +62,7 @@
       .panel-heading
         .panel-title Covers Form
       .panel-body
-        | meh
+        = render :partial => 'cover_form', :locals => {:record_form => f}
     .panel.panel-default
       .panel-heading
         .panel-title Audio Form

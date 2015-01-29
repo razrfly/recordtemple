@@ -30,6 +30,7 @@ class Admin::RecordsController < Admin::AdminController
   end
 
   def edit
+    @record.photos.build
   end
 
   def create
@@ -90,6 +91,7 @@ class Admin::RecordsController < Admin::AdminController
     end
 
     def record_params
-      params.require(:record).permit(:identifier_id, :condition, :comment, :value, :genre_id, :price_id, :artist_id, :label_id, :record_format_id)
+      params.require(:record).permit(:identifier_id, :condition, :comment, :value, :genre_id, :price_id, :artist_id, :label_id, :record_format_id,
+        :photos_attributes => [:id, :image, :_destroy])
     end
 end
