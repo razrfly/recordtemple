@@ -1,4 +1,4 @@
-ruby '2.0.0'
+ruby '2.2.0'
 source 'https://rubygems.org'
 source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
@@ -32,5 +32,7 @@ gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
 gem 'rails-erd', '~> 1.1.0'
+gem 'mini_magick', '~> 4.0.2'
+gem 'refile', '~> 0.5.3', :require => ['refile/rails', 'refile/image_processing']
 
 gem 'rails_12factor', :group => :production

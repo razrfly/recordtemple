@@ -5,7 +5,7 @@ class Record < ActiveRecord::Base
   belongs_to :user
   belongs_to :genre
   belongs_to :label
-  has_one :photo
+  # has_one :photo
   belongs_to :record_format
   belongs_to :artist
 
@@ -42,7 +42,8 @@ class Record < ActiveRecord::Base
   end
 
   #acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos, :songs
+  accepts_nested_attributes_for :photos, :allow_destroy => :true, :reject_if => proc { |attributes| attributes['image'] == "{}" }
+  accepts_nested_attributes_for :songs
 # after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
