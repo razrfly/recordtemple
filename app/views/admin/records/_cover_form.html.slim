@@ -12,4 +12,5 @@ table.table
       - else
         tr
           td= image_tag attachment_url(photo_form.object, :image, :fill, 60, 60)
-          td= photo_form.check_box :_destroy
+          td
+            / = photo_form.check_box :_destroy
