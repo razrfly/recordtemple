@@ -11,6 +11,6 @@ table.table
           td= photo_form.attachment_field :audio
       - else
         tr
-          td= link_to "link", attachment_url(song_form.object, :audio)
+          td= link_to "link", '#'
           td
             / = photo_form.check_box :_destroy
