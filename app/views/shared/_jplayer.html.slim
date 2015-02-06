@@ -1,0 +1,31 @@
+#jquery_jplayer_1.jp-jplayer
+#jp_container_1.jp-audio aria-label="media player" role="application" 
+  .jp-type-playlist
+    .jp-gui.jp-interface
+      .jp-controls
+        button.jp-previous role="button" tabindex="0" previous
+        button.jp-play role="button" tabindex="0" play
+        button.jp-next role="button" tabindex="0" next
+        button.jp-stop role="button" tabindex="0" stop
+      .jp-progress
+        .jp-seek-bar
+          .jp-play-bar
+      .jp-volume-controls
+        button.jp-mute role="button" tabindex="0" mute
+        button.jp-volume-max role="button" tabindex="0" max volume
+        .jp-volume-bar
+          .jp-volume-bar-value
+      .jp-time-holder
+        .jp-current-time aria-label="time" role="timer" &nbsp;
+        .jp-duration aria-label="duration" role="timer" &nbsp;
+      .jp-toggles
+        button.jp-repeat role="button" tabindex="0" repeat
+        button.jp-shuffle role="button" tabindex="0" shuffle
+    = content_tag :div, :class => 'jp-playlist', :data => {:'playlist-items' => playlist_items}
+      ul
+        li &nbsp;
+    .jp-no-solution
+      span Update Required
+      | To play the media you will need to either update your browser to a recent version or update your
+      a href="http://get.adobe.com/flashplayer/" target="_blank" Flash plugin
+      | .
