@@ -7,10 +7,10 @@ class Admin::RecordsController < Admin::AdminController
 
   def index
     @search = Record.ransack(params[:q])
-    @records = @search.result
+    @records = @search.result.includes(:artist, :label, :genre, :price, :photos, :record_format)
 
-    @record_formats = RecordFormat.not_empty
-    @genres = Genre.not_empty
+    @record_formats = RecordFormat.with_records
+    @genres = Genre.with_records
     @conditions = Record.condition_collection
     # media
     @records = @records.map{|r| r if r.photo}.compact if @photo
