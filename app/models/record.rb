@@ -54,7 +54,7 @@ class Record < ActiveRecord::Base
   end
 
   def cover_photo
-    photos.first.data(:thumb) unless photos.blank?
+    Refile.attachment_url(photos.first, :image, :fill, 60, 60)
   end
 
   def desc

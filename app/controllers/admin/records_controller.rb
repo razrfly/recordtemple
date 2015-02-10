@@ -1,20 +1,17 @@
 class Admin::RecordsController < Admin::AdminController
   before_action :set_record, only: [:show, :edit, :update, :destroy, :unlink_price]
   before_action :set_price, only: [:new, :create, :edit, :update, :show]
-  before_action :set_media, only: :index
   before_action :set_collections, only: [:edit, :new, :create, :update]
   before_action :set_values, only: [:edit, :update]
 
   def index
     @search = Record.ransack(params[:q])
-    @records = @search.result
+    @records = @search.result.includes(:artist, :label, :genre, :price, :photos, :record_format)
 
-    @record_formats = RecordFormat.not_empty
-    @genres = Genre.not_empty
+    @record_formats = RecordFormat.with_records
+    @genres = Genre.with_records
     @conditions = Record.condition_collection
-    # media
-    @records = @records.map{|r| r if r.photo}.compact if @photo
-    @records = @records.map{|r| r if r.songs.size>0}.compact if @audio
+
     unless @records.kind_of?(Array)
       @records = @records.page(params[:page])
     else
@@ -82,11 +79,6 @@ class Admin::RecordsController < Admin::AdminController
 
     def set_values
       @artist, @label, @record_format = @record.artist.name, @record.label.name, @record.record_format.name
-    end
-
-    def set_media
-      @photo = params[:photo]=='present' ? true : false
-      @audio = params[:audio]=='present' ? true : false
     end
 
     def set_record
