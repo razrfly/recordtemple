@@ -8,3 +8,5 @@ aws = {
 
 Refile.cache = Refile::Backend::S3.new(prefix: "cache", **aws)
 Refile.store = Refile::Backend::S3.new(prefix: "store", **aws)
+
+Refile.host = "//cdn.recordtemple.com"
