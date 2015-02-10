@@ -16,12 +16,8 @@
         - else
           = f.input :cached_label_eq, label: 'Label', required: false
         = f.input :condition_eq, label: 'Condition', collection: @conditions, required: false
-        .form-group
-          = label_tag :photo, 'with photo', class: 'control-label'
-          = check_box_tag :photo, :present, @photo
-        .form-group
-          = label_tag :audio, 'with audio', class: 'control-label'
-          = check_box_tag :audio, :present, @audio
+        = f.input :photos_id_not_null, :as => :boolean, :label => 'With Photos'
+        = f.input :songs_id_not_null, :as => :boolean, :label => 'With Songs'
         br/
         = f.button :submit, 'Search'
         = link_to 'Reset', admin_records_path, class: 'pull-right btn btn-default'
