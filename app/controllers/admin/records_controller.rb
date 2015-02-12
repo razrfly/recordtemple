@@ -20,9 +20,6 @@ class Admin::RecordsController < Admin::AdminController
   end
 
   def show
-    @playlist_items = @record.songs.map do |song|
-      { :title => song.title, :mp3 => Refile.attachment_url(song, :audio) }
-    end
   end
 
   def new

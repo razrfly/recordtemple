@@ -78,4 +78,4 @@
           .panel-heading
             .panel-title Audio
           .panel-body
-            = render :partial => 'shared/jplayer', :locals => {:playlist_items => @playlist_items}
+            = render :partial => 'player', :locals => {:songs => @record.songs}
