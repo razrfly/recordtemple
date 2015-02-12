@@ -78,4 +78,11 @@
           .panel-heading
             .panel-title Audio
           .panel-body
-            = render :partial => 'shared/jplayer', :locals => {:playlist_items => @playlist_items}
+            - @record.songs.each do |song|
+              .audio.row
+                .col-md-5
+                  strong = song.title
+                .col-md-7
+                  audio controls=true
+                    / source src="#{song.mp3.url}" type="#{song.mp3.content_type}"
+                    | Your browser does not support the audio tag.

@@ -3,8 +3,6 @@
 
 //= require pages-rails
 //= require selectize
-//= require jplayer/jquery.jplayer.min
-//= require jplayer/jplayer.playlist.min
 
 //= require ./jquery.magnify
 //= require ./artists
@@ -14,4 +12,3 @@
 //= require ./prices
 //= require ./records
 //= require ./selectize
-//= require ./jplayer
