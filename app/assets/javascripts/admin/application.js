@@ -3,6 +3,8 @@
 
 //= require pages-rails
 //= require selectize
+//= require soundmanager2
+//= require soundmanager2/bar-ui
 
 //= require ./jquery.magnify
 //= require ./artists
@@ -12,3 +14,4 @@
 //= require ./prices
 //= require ./records
 //= require ./selectize
+//= require ./soundmanager

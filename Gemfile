@@ -37,3 +37,4 @@ gem 'refile', '~> 0.5.3', :require => ['refile/rails', 'refile/image_processing'
 
 gem 'rails_12factor', :group => :production
 gem 'rack-mini-profiler', :group => :development
+gem 'soundmanager2-rails', '~> 2.97.20140901'
