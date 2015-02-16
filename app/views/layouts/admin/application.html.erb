@@ -16,11 +16,11 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta content="" name="description" />
   <meta content="" name="author" />
-  
+
   <%= stylesheet_link_tag 'admin/application', :media => 'all' %>
   <%= csrf_meta_tags %>
   </head>
-  
+
   <body class="fixed-header">
     <!-- BEGIN SIDEBAR -->
     <div class="page-sidebar" data-pages="sidebar">
@@ -306,12 +306,12 @@
             <a href="#" class="search-link" data-toggle="search">
               <i class="pg-search">
               </i>
-              Type anywhere to 
+              Type anywhere to
               <span class="bold">
                 search
               </span>
             </a>
-            
+
           </div>
         </div>
         <div class=" pull-right">
@@ -349,23 +349,23 @@
             <div class="container-fluid container-fixed-lg sm-p-l-20 sm-p-r-20">
               <div class="inner">
                  <!-- START BREADCRUMB -->
-                 <h5><%= breadcrumbs pretext: "You are here: ", separator: " &rsaquo; " %></h5>
+                 <%= breadcrumbs separator: "", style: :ul, class: 'breadcrumb', current_class: 'active' %>
                   <!-- END BREADCRUMB -->
               </div>
             </div>
           </div>
           <!-- END JUMBOTRON -->
-          
+
           <!-- START CONTAINER FLUID -->
           <div class="container-fluid container-fixed-lg">
             <!-- BEGIN PlACE PAGE CONTENT HERE -->
 
             <%= yield %>
-            
+
             <!-- END PLACE PAGE CONTENT HERE -->
           </div>
           <!-- END CONTAINER FLUID -->
-          
+
         </div>
         <!-- END PAGE CONTENT -->
         <!-- START FOOTER -->
@@ -386,7 +386,7 @@
                 <a href="#" class="m-l-10 m-r-10">
                   Terms of use
                 </a>
-                | 
+                |
                 <a href="#" class="m-l-10">
                   Privacy Policy
                 </a>
@@ -396,7 +396,7 @@
               <a href="#">
                 Hand-crafted
               </a>
-              
+
               <span class="hint-text">
                 &amp; Made with Love ®
               </span>
@@ -596,7 +596,7 @@
                         </p>
                         <p class="p-r-10 col-xs-height col-middle fs-12 text-right">
                           <span class="text-warning">
-                            Today 
+                            Today
                             <br>
                           </span>
                           <span class="text-master">
@@ -717,7 +717,7 @@
                     <!-- END Chat User List Item  !-->
                   </ul>
                 </div>
-                
+
               </div>
             </div>
             <!-- BEGIN Conversation View  !-->
