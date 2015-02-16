@@ -5,7 +5,6 @@ class Record < ActiveRecord::Base
   belongs_to :user
   belongs_to :genre
   belongs_to :label
-  # has_one :photo
   belongs_to :record_format
   belongs_to :artist
 

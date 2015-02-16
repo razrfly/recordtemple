@@ -14,11 +14,12 @@ h3.page-title
         thead
           tr
             th Cover
-            th= sort_link [:admin, @search], :artist_name, "Name"
+            th= sort_link [:admin, @search], :artist_name, "Artist"
+            th= sort_link [:admin, @search], :identifier_id, "Record ID"
             th= sort_link [:admin, @search], :label_name, "Label"
             th= sort_link [:admin, @search], :genre_name, "Genre"
             th= sort_link [:admin, @search], :price_record_format_name, "Record Format"
-            th= sort_link [:admin, @search], :condition, "Condition"
+            th Details
             th.buttons
         tbody
           - @records.each do |record|
@@ -27,10 +28,11 @@ h3.page-title
                 - unless record.cover_photo.blank?
                   = image_tag record.cover_photo
               td= record.artist.name
+              td= record.identifier_id
               td= record.label.name
               td= record.genre.name
               td= record.record_format.name
-              td= record.get_condition
+              td= truncate(record.desc, :length => 75)
               td.buttons
                 = link_to [:admin, record]
                   i.fa.fa-search.fa-lg
