@@ -49,6 +49,7 @@ class Admin::RecordsController < Admin::AdminController
 
   def destroy
     @record.destroy
+    redirect_to [:admin, :records]
   end
 
   def unlink_price

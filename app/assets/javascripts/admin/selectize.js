@@ -1,7 +1,6 @@
 $(document).ready(function() {
   $('#record-artist').selectize({
     plugins: ['remove_button'],
-    delimiter: ',',
     persist: false,
     maxItems: 1,
     valueField: 'id',
@@ -25,9 +24,34 @@ $(document).ready(function() {
     }
   });
 
+  $('#filters-artist').selectize({
+    plugins: ['remove_button'],
+    persist: false,
+    delimiter: NaN,
+    maxItems: 1,
+    valueField: 'name',
+    labelField: 'name',
+    searchField: ['name'],
+    sortField: 'name',
+    loadThrottle: 500,
+    load: function(query, callback){
+      $.ajax({
+        data: {q: {name_cont: query}},
+        url: '/admin/artists.json',
+        type: 'PUT',
+        dataType: 'json',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
   $('#record-label').selectize({
     plugins: ['remove_button'],
-    delimiter: ',',
     persist: false,
     maxItems: 1,
     valueField: 'id',
@@ -51,9 +75,60 @@ $(document).ready(function() {
     }
   });
 
+  $('#filters-label').selectize({
+    plugins: ['remove_button'],
+    persist: false,
+    maxItems: 1,
+    delimiter: NaN,
+    valueField: 'name',
+    labelField: 'name',
+    searchField: ['name'],
+    sortField: 'name',
+    loadThrottle: 500,
+    load: function(query, callback){
+      $.ajax({
+        data: {q: {name_cont: query}},
+        url: '/admin/labels.json',
+        type: 'PUT',
+        dataType: 'json',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
+  $('#filters-song').selectize({
+    plugins: ['remove_button'],
+    persist: false,
+    maxItems: 1,
+    delimiter: NaN,
+    valueField: 'title',
+    labelField: 'title',
+    searchField: ['title'],
+    sortField: 'title',
+    loadThrottle: 500,
+    load: function(query, callback){
+      $.ajax({
+        data: {q: {name_cont: query}},
+        url: '/admin/songs.json',
+        type: 'PUT',
+        dataType: 'json',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
   $('#record-condition').selectize({
     plugins: ['remove_button'],
-    delimiter: ',',
     persist: false,
     maxItems: 1,
     loadThrottle: 200,
@@ -61,7 +136,6 @@ $(document).ready(function() {
 
   $('#record-genre').selectize({
     plugins: ['remove_button'],
-    delimiter: ',',
     persist: false,
     maxItems: 1,
     loadThrottle: 200,
@@ -69,7 +143,6 @@ $(document).ready(function() {
 
   $('#record-format').selectize({
     plugins: ['remove_button'],
-    delimiter: ',',
     persist: false,
     maxItems: 1,
     loadThrottle: 200,

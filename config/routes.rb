@@ -21,6 +21,7 @@ Recordapp::Application.routes.draw do
     put 'prices'  => 'prices#index'
     put 'labels'  => 'labels#index'
     put 'records' => 'records#index'
+    put 'songs'   => 'songs#index'
     # delete 'unlink_record' => 'prices#unlink(:id)'
     resources :genres, :record_formats, :record_types, :users, except: :show
     resources :artists, :prices, :labels
