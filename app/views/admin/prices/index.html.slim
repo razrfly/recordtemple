@@ -35,5 +35,7 @@ h3.page-title
                 = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
       = paginate @prices
+      span.pull-right
+        = page_entries_info @prices
 .col-md-3
   = render 'filters'
