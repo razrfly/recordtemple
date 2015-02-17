@@ -101,6 +101,32 @@ $(document).ready(function() {
     }
   });
 
+  $('#filters-song').selectize({
+    plugins: ['remove_button'],
+    persist: false,
+    maxItems: 1,
+    delimiter: NaN,
+    valueField: 'title',
+    labelField: 'title',
+    searchField: ['title'],
+    sortField: 'title',
+    loadThrottle: 500,
+    load: function(query, callback){
+      $.ajax({
+        data: {q: {name_cont: query}},
+        url: '/admin/songs.json',
+        type: 'PUT',
+        dataType: 'json',
+        error: function() {
+          callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
+
   $('#record-condition').selectize({
     plugins: ['remove_button'],
     persist: false,
