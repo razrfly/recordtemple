@@ -10,8 +10,8 @@
       .panel-title
         | Artist details
     .panel-body
-      - if price_with_photo = @artist.prices.joins(:record => :photo).take
-        = image_tag price_with_photo.record.photo.data(:small), :class => 'lazy hover-effect-img image-responsive-width'
+      - if price_with_photo = @artist.prices.joins(:record => :photos).take
+        = image_tag attachment_url(price_with_photo.record.photos.take, :image, :fill, 200, 200, :filename => 'image.jpg')
       table.table
         thead
           tr
