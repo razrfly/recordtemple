@@ -27,8 +27,8 @@ h3.page-title
               td
                 - unless record.cover_photo.blank?
                   = image_tag record.cover_photo
-              td= link_to record.artist.name, [:admin, record.artist]
-              td= link_to record.label.name, [:admin, record.label]
+              td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
+              td= link_to(record.label.name, [:admin, record.label], class: 'table-link') if record.label
               td= record.genre.name
               td= record.record_format.name
               td= record.get_condition

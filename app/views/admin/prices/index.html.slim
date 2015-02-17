@@ -22,8 +22,8 @@ h3.page-title
         tbody
           - @prices.each do |price|
             tr.price-row
-              td= price.artist.name
-              td= price.label.name if price.label
+              td= link_to price.artist.name, [:admin, price.artist], class: 'table-link'
+              td= link_to(price.label.name, [:admin, price.label], class: 'table-link') if price.label
               td= price.record_format.name
               td= price.price_low
               td= price.price_high

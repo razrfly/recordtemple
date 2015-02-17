@@ -4,8 +4,6 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-
-
         = f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'}
         = f.input :songs_title_eq, label: 'Song title', required: false, input_html: {id: 'filters-song'}
         = f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: :name_with_count, required: false
