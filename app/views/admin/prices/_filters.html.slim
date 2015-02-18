@@ -4,14 +4,8 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-        - if !@artists.nil? && @artists.size < 50
-          = f.input :artist_name_eq, label: 'Artist', collection: @artists.limit(10), value_method: :name, required: false
-        - else
-          = f.input :artist_name_cont, label: 'Artist', required: false
-        - if !@labels.nil? && @labels.size < 50
-          = f.input :has, collection: @labels.limit(10), value_method: :name, required: false
-        - else
-          = f.input :cached_label_eq, label: 'Label', required: false
+        = f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'}
+        = f.input :label_name_eq, label: 'Label', required: false, input_html: {id: 'filters-label'}
         = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false
 
         .form-group#price_high
