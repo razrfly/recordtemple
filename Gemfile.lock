@@ -94,7 +94,7 @@ GEM
     nokogiri (1.6.5)
       mini_portile (~> 0.6.0)
     orm_adapter (0.5.0)
-    pages-rails (0.0.4)
+    pages-rails (0.0.5)
       bootstrap-sass (~> 3.2.0)
       font-awesome-sass (~> 4.2.0)
     paperclip (4.1.1)
@@ -218,7 +218,7 @@ DEPENDENCIES
   kaminari
   ken (~> 0.2.1)
   mini_magick (~> 4.0.2)
-  pages-rails (= 0.0.4)
+  pages-rails (= 0.0.5)
   paperclip (~> 4.1.1)
   pg
   rack-mini-profiler
