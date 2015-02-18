@@ -1,46 +1,76 @@
-<h1>Osbourne Price</h1>
+<% breadcrumb :show_price, @price %>
 
-<p>
-  <b>Artist:</b>
-  <%=h @price.artist %>
-</p>
+<div id="price-info">
+  <h2> Price info </h2>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+    <tbody>
+      <% if @price.price_range %>
+        <tr>
+          <td><strong> Price range </strong></td>
+          <td><%= @price.price_range %> </td>
+        </tr>
+      <% end %>
+      <% if @price.date_range %>
+        <tr>
+          <td>
+            <strong> Date range </strong>
+            <td><%= @price.date_range %></td>
+          </td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><strong> Artist </strong></td>
+        <td><%= link_to @price.artist.name, @price.artist %></td>
+      </tr>
+      <% if @price.label %>
+        <tr>
+          <td><strong> Label </strong></td>
+          <td><%= link_to @price.label.name, @price.label %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><strong> Format </strong></td>
+        <td><%= @price.record_format.name %></td>
+      </tr>
+      <% if @price.footnote != "" and @price.footnote %>
+        <tr>
+          <td><strong> Footnote </strong></td>
+          <td><%= @price.footnote %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-<p>
-  <b>Label:</b>
-  <%=h @price.label %>
-</p>
 
-<p>
-  <b>Format:</b>
-  <%=h @price.format %>
-</p>
-
-<p>
-  <b>Detail:</b>
-  <%=h @price.detail %>
-</p>
-
-<p>
-  <b>Footnote:</b>
-  <%=h @price.footnote %>
-</p>
-
-<p>
-  <b>Price Range:</b>
-  $<%=h @price.price_range %>
-</p>
-
-<p>
-  <b>Approx Date:</b>
-	<%=h @price.date_range %>
-</p>
-
-<p>
-
-<%= button_to "Make it mine!", :controller => 'records', :action => 'new', :id => @price.id %><br>
-<%= link_to "Edit", edit_price_path(@price) %> | 
-
-<%# if @price.created_by == current_user.login %><%#= link_to 'Destroy', :price, :confirm => 'Are you sure?', :method => :delete %> | <%# end %>
-</p>
-
-<%= link_to 'Back', prices_path %>
+<div id="price-records">
+  <h3>Price's records</h3>
+  <% if @price.records.count > 0 %>
+    <table>
+      <thead>
+        <tr>
+          <th> Record ID </th>
+          <th> Condition </th>
+          <th> Username </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @price.records.each do |record| %>
+          <tr>
+            <td> <%= record.identifier_id or '-' %> </td>
+            <td> <%= record.get_condition %> </td>
+            <td> <%= record.user.nickname %> </td>
+            <td> <%= link_to 'show', record %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>no records to show</p>
+  <% end %>
+</div>

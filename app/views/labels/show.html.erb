@@ -1,11 +1,32 @@
-<% title @label.name %>
-
-<%= image_tag(@label.thumbnail) unless @label.thumbnail.blank? %>
-
-<p>
-	<%= @label.description %>
-</p>
-
-<p>
-   <%= link_to "Back", :back %> | <%= link_to "Edit", edit_label_path(@label) %>
-</p>
+<% breadcrumb :show_label, @label %>
+<h2 class="page-title"><%= @label.name %></h2>
+<div id="label-info">
+  <h3>Label</h3>
+  <p>Name: <%= @label.name %></p>
+  <p>Freebase ID: <%= @label.freebase_id %></p>
+</div>
+<div id="label-prices">
+  <h3>Prices</h3>
+  <table>
+    <thead>
+      <tr>
+        <th> Details </th>
+        <th> Medium </th>
+        <th> Footnote </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @prices.each do |price| %>
+        <tr>
+          <td> <%= price.detail %> </td>
+          <td> <%= price.record_format.name %> </td>
+          <td> <%= price.footnote %> </td>
+          <td> <%= link_to 'show', price %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @prices %>
+  <%= page_entries_info @prices %>
+</div>

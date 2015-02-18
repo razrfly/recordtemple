@@ -1,16 +1,18 @@
 class LabelsController < ApplicationController
-  before_action :set_label, :only => [:show]
 
   def index
-    @labels = Labels.page(params[:page])
+    @search = Label.ransack(params[:q])
+    @labels = @search.result.page(params[:page])
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: @labels.to_json(:only => [:name, :id]) }
+    end
   end
 
   def show
+    @label = Label.find(params[:id])
+    @prices = @label.prices.page(params[:page])
   end
-
-  private
-    def set_label
-      @label = Label.find(params[:id])
-    end
 
 end

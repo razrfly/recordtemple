@@ -1,4 +1,0 @@
-		<% @record.songs.each do |song| %>
-			<%= song.mp3_file_name %>
-			<%= link_to 'Destroy', record_song_path(@record,song), :confirm => 'Are you sure?', :method => :delete %><br>
-		<% end %>

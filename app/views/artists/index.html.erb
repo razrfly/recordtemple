@@ -1,19 +1,27 @@
-<% title "Artists" %>
+<% breadcrumb :artists %>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Freebase</th>
-  </tr>
-  <% for artist in @artists %>
-    <tr>
-      <td><%= artist.name %></td>
-      <td><%= artist.freebase_id %></td>
-      <td><%= link_to "Show", artist %></td>
-      <td><%= link_to "Edit", edit_artist_path(artist) %></td>
-      <td><%= link_to "Destroy", artist, :confirm => 'Are you sure?', :method => :delete %></td>
-    </tr>
-  <% end %>
-</table>
+<h2 class="page-title">Artist</h2>
 
-<p><%= link_to "New Artist", new_artist_path %></p>
+<div id="artists">
+  <h3>Artist Index</h3>
+  <table>
+    <thead>
+      <tr>
+        <th> <%= sort_link @search, :name, "Name" %> </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artists.each do |artist| %>
+        <tr>
+          <td> <%= artist.name %> </td>
+          <td> <%= link_to 'show', artist %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @artists %>
+  <%= page_entries_info @artists %>
+</div>
+
+<%= render 'filters' %>

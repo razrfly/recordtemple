@@ -1,15 +1,17 @@
 class ArtistsController < ApplicationController
-  before_action :set_artist, :only => [:show]
 
   def index
-    @artists = Artist.page(params[:page])
+    @search = Artist.ransack(params[:q])
+    @artists = @search.result.page(params[:page])
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @artists.to_json(only: [:name, :id]) }
+    end
   end
 
   def show
+    @artist = Artist.find(params[:id])
   end
 
-  private
-    def set_artist
-      @artist = Artist.find(params[:id])
-    end
 end

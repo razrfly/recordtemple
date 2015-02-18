@@ -1,11 +1,86 @@
-<% title @artist.name %>
+<% breadcrumb :show_artist, @artist %>
 
-<%= image_tag(@artist.thumbnail) unless @artist.thumbnail.blank? %>
+<h2 class='page-title'><%= @artist.name %></h3>
 
-<p>
-	<%= @artist.description %>
-</p>
+<h3>Artist details</h3>
+  <% if price_with_photo = @artist.prices.joins(:record => :photos).take %>
+    <%= image_tag attachment_url(price_with_photo.record.photos.take, :image, :fill, 200, 200, :filename => 'image.jpg') %>
+  <% end %>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <strong> Name </strong>
+        </td>
+        <td>
+          <%= @artist.name %>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <strong> Freebase ID </strong>
+        </td>
+        <td>
+          <%= @artist.freebase_id %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<p>
-   <%= link_to "Back", :back %> | <%= link_to "Edit", edit_artist_path(@artist) %>
-</p>
+<div id="artist-records">
+  <table>
+    <thead>
+      <tr>
+        <th> Cover </th>
+        <th> Label </th>
+        <th> Genre </th>
+        <th> Record Format </th>
+        <th> Condition </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artist.records.each do |record| %>
+        <tr>
+          <td> <%= image_tag record.cover_photo unless record.cover_photo.blank? %> </td>
+          <td> <%= record.label.name %> </td>
+          <td> <%= record.genre.name %> </td>
+          <td> <%= record.price.record_format.name %> </td>
+          <td> <%= record.get_condition %> </td>
+          <td> <%= link_to 'show', record %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<div id="artist-prices">
+  <table>
+    <thead>
+      <tr>
+        <th> Label </th>
+        <th> Record Format </th>
+        <th> Price range </th>
+        <th> Date range </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @artist.prices.each do |price| %>
+        <tr>
+          <td> <%= price.label.name if price.label %> </td>
+          <td> <%= price.record_format.name %> </td>
+          <td> <%= price.price_range %> </td>
+          <td> <%= price.date_range %> </td>
+          <td> <%= link_to 'show', price %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
