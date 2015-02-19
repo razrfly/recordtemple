@@ -27,6 +27,8 @@ h3.page-title
                 = link_to [:admin, artist], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
       = paginate @artists
+      span.pull-right
+        = page_entries_info @artists
 
 .col-md-3
   = render 'filters'
