@@ -12,7 +12,8 @@ class Admin::ArtistsController < Admin::AdminController
   end
 
   def show
-    @records = @artist.records.where(user: current_user).page(params[:page])
+    @records = @artist.records.where(user: current_user).page(params[:records_page])
+    @prices = @artist.prices.page(params[:prices_page])
   end
 
   def new
