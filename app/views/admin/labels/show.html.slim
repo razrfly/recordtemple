@@ -1,45 +1,101 @@
 - breadcrumb :show_label, @label
-.page-title
-  i.icon-custom-left
-  h3
-    span.semi-bold = @label.name
 
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold> Label
-      | Info
-    = link_to "Edit", edit_admin_label_path, :class => 'pull-right btn btn-small btn-success'
-  .grid-body.no-border
-    .row
-      .col-md-6
-        p Name:
-        blockquote = @label.name
-      .col-md-6
-        p Freebase ID:
-        blockquote = @label.freebase_id
-.grid.simple
-  .grid-title.no-border
-    h4
-      span.semi-bold Records
-  .grid-body.no-border
-    table.table.table-condensed#label-records
-      thead
-        tr
-          th Details
-          th Medium
-          th Footnote
-          th.buttons
-      tbody
-        - @label.prices.each do |price|
+
+h3.page-title
+  = @label.name
+  span.pull-right
+    = link_to [:edit, :admin, @label], :class => 'btn btn-default btn-sm'
+      i.fa.fa-wrench>
+      | Edit label
+
+
+.panel.panel-default.col-md-3
+    .panel-heading
+      .panel-title
+        | Label details
+    .panel-body
+      table.table
+        thead
           tr
-            td = price.detail
-            td = price.record_format.name
-            td = price.footnote
-            td.buttons
-              = link_to [:admin, price], :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "SHOW"
-                i.fa.fa-eye.fa-lg
-              = link_to [:edit, :admin, price], :class => 'info-tooltip', :data => {:toggle => 'tooltip'}, :title => "EDIT"
-                i.fa.fa-pencil.fa-lg
-              = link_to [:admin, price], :method => :delete, :class => 'info-tooltip', :data => {:toggle => 'tooltip', :confirm => "Are you sure?"}, :title => "DELETE"
-                i.fa.fa-times.fa-lg
+            th
+            th
+        tbody
+          tr.artist-row
+            td
+              strong Name
+            td= @label.name
+          tr.artist-row
+            td
+              strong Freebase ID
+            td= @label.freebase_id
+
+.col-md-9
+
+  .panel.panel-default#label-records
+    .panel-heading
+      .panel-title Your records
+      .panel-body
+        - if @records.size>0
+          table.table
+            thead
+              tr
+                th Cover
+                th Artist
+                th Genre
+                th Record Format
+                th Condition
+                th Details
+                th.buttons
+            tbody
+              - @records.each do |record|
+                tr.record-row
+                  td
+                    - unless record.cover_photo.blank?
+                      = image_tag record.cover_photo
+                  td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
+                  td= record.genre.name
+                  td= record.record_format.name
+                  td= record.get_condition
+                  td= truncate(record.desc, :length => 75)
+                  td.buttons
+                    = link_to [:admin, record]
+                      i.fa.fa-eye.fa-lg
+                    = link_to [:edit, :admin, record]
+                      i.fa.fa-pencil.fa-lg
+                    = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
+                      i.fa.fa-times.fa-lg
+          = paginate @records, param_name: 'records_page'
+          span.pull-right
+            = page_entries_info @records
+        - else
+          p.text-center No records to show
+
+  .panel.panel-default#label-prices
+    .panel-heading
+      .panel-title Prices Index
+      .panel-body
+        table.table
+          thead
+            tr
+              th Artist
+              th Record Format
+              th Price Low
+              th Price High
+              th.buttons
+          tbody
+            - @prices.each do |price|
+              tr
+                td= link_to price.artist.name, [:admin, price.artist], class: 'table-link'
+                td= price.record_format.name
+                td= price.price_low
+                td= price.price_high
+                td.buttons
+                  = link_to [:admin, price]
+                    i.fa.fa-eye.fa-lg
+                  = link_to [:edit, :admin, price]
+                    i.fa.fa-pencil.fa-lg
+                  = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
+                    i.fa.fa-times.fa-lg
+        = paginate @prices, param_name: 'prices_page'
+        span.pull-right
+          = page_entries_info @prices

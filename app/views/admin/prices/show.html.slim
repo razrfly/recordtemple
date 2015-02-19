@@ -3,7 +3,7 @@
 .panel.panel-default.col-md-3
   .panel-heading
     .panel-title
-      | Price ##{@price.id} details
+      | Price details
   .panel-body
     table.table
       thead
@@ -40,28 +40,26 @@
               strong Footnote
             td= @price.footnote
 .col-md-9
-  .panel.panel-default
+  .panel.panel-default#price-records
     .panel-heading
       .panel-title
-        | Price's records
+        | Your records
       = link_to new_admin_price_record_path(@price), :class => 'btn btn-default btn-sm pull-right'
         i.fa.fa-plus>
         | Add New Record
     .panel-body
-      - if @price.records.count > 0
+      - if @records.count > 0
         table.table
           thead
             tr
               th Record ID
               th Condition
-              th Username
               th.buttons
           tbody
-            - @price.records.each do |record|
+            - @records.each do |record|
               tr
                 td= record.identifier_id or '-'
                 td= record.get_condition
-                td= record.user.nickname
                 td.buttons
                   = link_to [:admin, @price, record]
                     i.fa.fa-search.fa-lg
@@ -69,9 +67,12 @@
                     i.fa.fa-wrench.fa-lg
                   = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
                     i.fa.fa-times.fa-lg
+        = paginate @records, param_name: 'records_page'
+        span.pull-right
+          = page_entries_info @records
       - else
         .info.text-center
-          | no records to show
+          | No records to show
           br/
           br/
           = link_to new_admin_price_record_path(@price), :class => 'btn btn-default btn-sm'
