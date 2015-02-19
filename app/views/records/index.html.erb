@@ -1,40 +1,38 @@
-<div class="span3">
-	<%= render 'filters' %>
+<% breadcrumb :records %>
+
+<h2 class="page-title">Records</h2>
+
+<div id="records">
+  <h3>Record Index</h3>
+  <table>
+    <thead>
+      <tr>
+        <th> Cover </th>
+        <th> <%= sort_link @search, :artist_name, "Artist" %></th>
+        <th> <%= sort_link @search, :label_name, "Label" %></th>
+        <th> <%= sort_link @search, :genre_name, "Genre" %></th>
+        <th> <%= sort_link @search, :price_record_format_name, "Record Format" %></th>
+        <th> <%= sort_link @search, :condition, "Condition" %></th>
+        <th> Details </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @records.each do |record| %>
+        <tr>
+          <td> <%= image_tag record.cover_photo unless record.cover_photo.blank? %></td>
+          <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
+          <td> <%= link_to(record.label.name, record.label, class: 'table-link') if record.label %> </td>
+          <td> <%= record.genre.name %> </td>
+          <td> <%= record.record_format.name %> </td>
+          <td> <%= record.get_condition %> </td>
+          <td> <%= truncate(record.desc, :length => 75) %> </td>
+          <td> <%= link_to 'show', record %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @records %>
+  <%= page_entries_info @records %>
 </div>
-
-<div class="span9">
-
-	<p><%= page_entries_info @records %></p>
-
-	<% unless @records.blank? %>
-		<table class="stacked">
-			<thead>
-				<tr>
-					<th>First Name</th>
-					<th>Last Name</th>
-					<th>Age</th>
-				</tr>
-			</thead>
-			<tbody>
-		<% @records.each do |record| %>
-			<tr>
-				<td>
-					<% unless record.cover_photo.blank? %>
-						<%= image_tag record.cover_photo %>
-					<% end %>
-				</td>
-				<td><%= record.artist.name %></td>
-				<td><%= record.label.name %></td>
-			</tr>
-
-
-			
-			
-			<%#= record.desc %>
-		<% end %>
-			</tbody>
-		</table>
-	<% end %>
-
-	<%= paginate @records %>
-</div>
+<%= render 'filters' %>

@@ -1,139 +1,74 @@
-<%= content_for(:head) do %>
+<% breadcrumb :show_record, @record, @price %>
 
-	<%= render :partial => 'meta' %>
-	
-<% end %>
-
-<% title "#{@record.artist.name}" %>
-
-<div class="container">
-
-	<% @record.photos.each do |photo| %>	
-		<div class="float">
-			<% if photo %>
-				<%= link_to image_tag(photo.data.url(:small)), photo.data.url(:large) %><br />
-			<% end %>
-		</div>
-	<% end %>
-	
-	<div class="spacer"></div>
-
+<div class="record-info">
+  <h2>Record #<%= @record.identifier_id %> details</h2>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <ul>
+            <li><strong> Price </strong></li>
+            <li> User price </li>
+            <% unless @record.price.nil? %>
+              <li> Cyberguide </li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li>&nbsp;</li>
+            <li> <%= @record.value %> </li>
+            <% unless @record.price.nil? %>
+              <li> <%= @record.cyberguide %> </li>
+            <% end %>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td> <strong> Artist </strong> </td>
+        <td> <%= link_to @record.artist.name, [:admin, @record.artist] %> </td>
+      </tr>
+      <tr>
+        <td> <strong> Label </strong> </td>
+        <td> <%= link_to @record.label.name, [:admin, @record.label] %> </td>
+      </tr>
+      <tr>
+        <td> <strong> genre </strong> </td>
+        <td> <%= @record.genre.name %> </td>
+      </tr>
+      <tr>
+        <td> <strong> Format </strong> </td>
+        <td> <%= @record.record_format.name %> </td>
+      </tr>
+      <tr>
+        <td> <strong> Condition </strong> </td>
+        <td> <%= @record.get_condition %> </td>
+      </tr>
+      <tr>
+        <td> <strong> Comment </strong> </td>
+        <td> <%= @record.comment %> </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
-<p>
-  <b>Artist:</b>
-  <%= @record.artist.name %>
-  <% if can? :manage, @record %>
-	  <% if @record.artist.freebase_id.blank? %>
-		  (<%= link_to "Add me", edit_artist_path(@record.artist) %>)
-	  <% else %>
-		  (<%= link_to "Edit me", edit_artist_path(@record.artist) %>)
-	  <% end %>
-  <% end %>
-</p>
-
-<small>
-	<%= image_tag @record.artist.thumbnail if @record.artist.thumbnail %>
-	<%= truncate(@record.artist.description, :length => 350) if @record.artist.description %>
-	<%= link_to "More", artist_path(@record.artist) %>
-</small>
-
-<p>
-  <b>Label:</b>
-  <%= @record.label.name %>
-	<% if can? :manage, @record %>
-		<% if @record.label.freebase_id.blank? %>
-			(<%= link_to "Add me", edit_label_path(@record.label) %>)
-		<% else %>
-			(<%= link_to "Edit me", edit_label_path(@record.label) %>)
-		<% end %>
-	<% end %>
-</p>
-
-<small>
-	<%= image_tag @record.label.thumbnail if @record.label.thumbnail %>
-	<%= truncate(@record.label.description, :length => 350) if @record.label.description %>
-	<%= link_to "More", label_path(@record.label) %>
-</small>
-
-<p>
-  <b>Date:</b>
-  <% unless @record.price.date_range == 0 %>
-	<%= @record.price.date_range %>
-  <% else %>
-	Unknown
-  <% end %>
-</p>
-
-<p>
-  <b>Format:</b>
-  <%= @record.price.media_type %>
-</p>
-
-<p>
-  <b>Unique ID:</b>
-  <%= @record.identifier_id %>
-</p>
-
-<% unless @record.songs.blank? %>
-	<%= render :partial => 'jplayer' %>
+<% if @record.photos.count > 0 %>
+  <div id="record-photos">
+    <% @record.photos.each do |photo| %>
+      <%= image_tag attachment_url(photo, :image, :fill, 200, 200, filename: 'image.jpg') %>
+    <% end %>
+  </div>
 <% end %>
 
-<% unless @record.price.detail.blank? %>
-<p>
-  <b>Detail:</b>
-  <%= @record.price.detail %>
-</p>
+<% if @record.songs.count > 0 %>
+  <div id="record-audio">
+    <h3> Audio </h3>
+    <%= render :partial => 'player', :locals => {:songs => @record.songs} %>
+  </div>
 <% end %>
-
-<% unless @record.price.footnote.blank? %>
-<p>
-  <b>Footnote:</b>
-  <%= @record.price.footnote %>
-</p>
-<% end %>
-
-<p>
-  <b>Genre:</b>
-  <%= link_to @record.genre.name, genre_path(@record.genre) %>
-</p>
-
-<p>
-  <b>Condition:</b>
-  <%= @record.get_condition[@record.condition.to_i-1][0] %>
-</p>
-
-<% if can? :manage, @record %>
-	<p>
-	  <b>Price Guide List Price:</b>
-	  <%= real_currency(@record.price.bubbles.last.low) %>-<%= real_currency(@record.price.bubbles.last.high) %>
-	</p>
-	<p>
-	  <b>My Value:</b>
-	  <%= real_currency(@record.value) %>
-	</p>
-	<p>
-	  <b>His Value:</b>
-	  <%= real_currency(@record.cyberguide) %>
-	</p>
-	<p>
-	  <b>PriceGuide ID:</b>
-	  <%=link_to @record.price_id, price_path(@record.price_id) %>
-	</p>
-<% end %>
-
-<p>
-  <b>Comment:</b>
-  <%= @record.comment %>
-</p>
-
-<div>
-	<iframe src="http://www.facebook.com/plugins/like.php?href=<%=request.url%>&amp;layout=box_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font=segoe+ui&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>
-</div>
-
-<% if can? :manage, @record %>
-	<%= link_to 'Edit', edit_record_path(@record) %> |
-	<%= link_to 'Delete', record_path(@record), :method => :delete, :confirm => "Are you sure?" %> |
-<% end %>
-
-<%= link_to 'Back', records_path %>

@@ -1,13 +1,11 @@
 class SongsController < ApplicationController
-  before_action :set_record, only: [:index]
 
+  # PUT /index
   def index
-    @songs = @record.songs
-  end
-
-  private
-    def set_record
-      @record = Record.find(params[:record_id])
+    @search = Song.ransack(params[:q])
+    @songs = @search.result
+    respond_to do |format|
+      format.json { render json: @songs.to_json(:only => [:title, :id]) }
     end
-
+  end
 end

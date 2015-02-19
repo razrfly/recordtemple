@@ -1,13 +1,27 @@
-<% title "Labels", false %>
+<% breadcrumb :labels %>
 
-<h1><%= page_entries_info @labels %></h1>
+<h3 class="page-title">Labels</h2>
 
-<%= will_paginate @records, :container => false %>
+<div id="labels">
+  <h3>Label Index</h3>
+  <table>
+    <thead>
+      <tr>
+        <th> <%= sort_link @search, :name, "Name" %> </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @labels.each do |label| %>
+        <tr>
+          <td> <%= label.name %> </td>
+          <td> <%= link_to 'show', label %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= paginate @labels %>
+  <%= page_entries_info @labels %>
+</div>
 
-<ul class="thumb">
-	<% @labels.each do |label| %>
-	  <li><%= link_to image_tag(label.photos.first.data.url(:medium)), label_path(label) %></li>
-	<% end %>
-</ul>
-
-<%= will_paginate @records, :container => false %>
+<%= render 'filters' %>

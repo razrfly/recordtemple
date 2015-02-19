@@ -1,3 +1,5 @@
+// JS FILE FOR BOTH BACKEND AND FRONTEND
+
 function initInputs(){
   currentHigh = $('.' + $('.js_select_price.high').val(), '#price_high');
   currentLow = $('.' + $('.js_select_price.low').val(), '#price_low');
@@ -12,7 +14,6 @@ function populateValueWith(obj){
 }
 
 function disableInputsExcept(obj){
-  // console.log('.' + obj.val);
   selectedInput = $('.' + obj.val(), obj.parent().parent());
   $('.price', obj.parent().parent()).not(selectedInput)
     .prop('disabled', true)

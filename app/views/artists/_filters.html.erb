@@ -1,0 +1,10 @@
+<div id='filters'>
+  <%= search_form_for @search, builder: SimpleForm::FormBuilder, method: :put do |f| %>
+    <h3>Filters</h3>
+    <%= f.input :name_cont, label: 'Name', required: false, input_html: {id: 'filters-artist'} %>
+    <div class="action">
+      <%= f.button :submit, 'Search' %>
+      <%= link_to 'Reset', artists_path, class: 'pull-right btn btn-default' %>
+    </div>
+  <% end %>
+</div>
