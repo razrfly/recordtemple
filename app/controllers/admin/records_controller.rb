@@ -6,7 +6,7 @@ class Admin::RecordsController < Admin::AdminController
 
   def index
     @search = Record.ransack(params[:q])
-    @records = @search.result.includes(:artist, :label, :genre, :price, :photos, :record_format)
+    @records = @search.result.includes(:artist, :label, :genre, :price, :photos, :record_format).uniq
 
     @record_formats = RecordFormat.with_records
     @genres = Genre.with_records
