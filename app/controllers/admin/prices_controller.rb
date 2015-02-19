@@ -8,6 +8,7 @@ class Admin::PricesController < Admin::AdminController
   end
 
   def show
+    @records = @price.records.where(user: current_user).page(params[:page])
     respond_to do |format|
       format.html
       format.json {

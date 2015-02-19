@@ -48,20 +48,18 @@
         i.fa.fa-plus>
         | Add New Record
     .panel-body
-      - if @price.records.count > 0
+      - if @records.count > 0
         table.table
           thead
             tr
               th Record ID
               th Condition
-              th Username
               th.buttons
           tbody
             - @price.records.each do |record|
               tr
                 td= record.identifier_id or '-'
                 td= record.get_condition
-                td= record.user.nickname
                 td.buttons
                   = link_to [:admin, @price, record]
                     i.fa.fa-search.fa-lg

@@ -12,6 +12,8 @@ class Admin::LabelsController < Admin::AdminController
   end
 
   def show
+    @prices = @label.prices.page(params[:prices_page])
+    @records = @label.records.where(user: current_user).page(params[:records_page])
   end
 
   def new
