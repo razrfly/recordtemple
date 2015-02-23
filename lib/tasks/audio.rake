@@ -15,4 +15,12 @@ namespace :audio do
       puts " Done!"
     end
   end
+
+  desc "fill image_content_type (audio/mpeg)"
+  task :migrate_content_type => :environment do
+    Song.find_each do |song|
+      song.update_column(:audio_content_type, 'audio/mpeg')
+    end
+    puts " Done!"
+  end
 end

@@ -11,4 +11,12 @@ namespace :images do
       puts " Done!"
     end
   end
+
+  desc "fill image_content_type"
+  task :migrate_content_type => :environment do
+    Photo.find_each do |photo|
+      photo.update_column(:image_content_type, 'image/jpeg')
+    end
+    puts " Done!"
+  end
 end
