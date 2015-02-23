@@ -8,8 +8,8 @@ class Admin::RecordsController < Admin::AdminController
     @search = Record.ransack(params[:q])
     @records = @search.result.includes(:artist, :label, :genre, :price, :photos, :record_format).where(user: current_user).uniq
 
-    @record_formats = RecordFormat.with_records
-    @genres = Genre.with_records
+    @record_formats = RecordFormat.with_records current_user
+    @genres = Genre.with_records current_user
     @conditions = Record.condition_collection
 
     unless @records.kind_of?(Array)

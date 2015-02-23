@@ -57,7 +57,7 @@ class Record < ActiveRecord::Base
   end
 
   def desc
-    "#{price.detail} #{comment} #{price.footnote}"
+    price.nil? ? comment : "#{price.detail} #{comment} #{price.footnote}"
   end
 
   def get_condition

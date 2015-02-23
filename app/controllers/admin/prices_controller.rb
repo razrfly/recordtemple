@@ -4,7 +4,7 @@ class Admin::PricesController < Admin::AdminController
   def index
     @search = Price.ransack(params[:q])
     @prices = @search.result.page(params[:page])
-    @record_formats = RecordFormat.all.map{|rf| rf if rf.records.size>0 }.compact
+    @record_formats = RecordFormat.with_prices
   end
 
   def show

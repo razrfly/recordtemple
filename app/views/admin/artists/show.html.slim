@@ -51,7 +51,7 @@
                       = image_tag record.cover_photo
                   td= record.label.name
                   td= record.genre.name
-                  td= record.price.record_format.name
+                  td= record.record_format.name
                   td= record.get_condition
                   td.buttons
                     = link_to admin_record_path(record)
