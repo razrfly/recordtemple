@@ -35,6 +35,6 @@ class Genre < ActiveRecord::Base
   }
 
   def name_with_records_count user=nil
-    "#{name} (#{(user.nil? ? records : user.records.where(genre: self)).size.to_s })"
+    "#{name} (#{(user.nil? ? records : user.records.where(genre: self)).size})"
   end
 end
