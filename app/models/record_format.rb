@@ -35,7 +35,7 @@ class RecordFormat < ActiveRecord::Base
   }
 
   def name_with_records_count user=nil
-    "#{name} (#{(user.nil? ? records : user.records.where(record_format: self)).size.to_s })"
+    "#{name} (#{(user.nil? ? records : user.records.where(record_format: self)).size})"
   end
 
   def name_with_prices_count
