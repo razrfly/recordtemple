@@ -6,7 +6,7 @@
       .panel-body
         = f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'}
         = f.input :label_name_eq, label: 'Label', required: false, input_html: {id: 'filters-label'}
-        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false
+        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_prices_count, required: false
 
         .form-group#price_high
           = label_tag nil, 'Price high', class: 'control-label'
