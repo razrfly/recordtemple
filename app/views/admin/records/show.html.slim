@@ -71,6 +71,5 @@
         .panel.panel-default.col-md-12#audio
           .panel-heading
             .panel-title Audio
-            = attachment_url(@record.songs.take, :audio)
           .panel-body
             = render :partial => 'player', :locals => {:songs => @record.songs}

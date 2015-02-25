@@ -24,6 +24,10 @@ class Admin::RecordsController < Admin::AdminController
 
   def new
     @record = Record.new
+    2.times do
+      @record.photos.build
+      @record.songs.build
+    end
   end
 
   def edit
