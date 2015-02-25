@@ -2,13 +2,15 @@ table.table
   thead
     tr
       th Download Link
+      th Song Title
       th File Select
   tbody
     = record_form.simple_fields_for :songs do |song_form|
       - if song_form.object.new_record?
         tr
           td
-          td= photo_form.attachment_field :audio
+          td= song_form.input :title, label: false, input_html: {placeholder: 'Title'}
+          td= song_form.attachment_field :audio
       - else
         tr
           td= link_to "link", '#'

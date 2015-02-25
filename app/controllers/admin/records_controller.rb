@@ -28,6 +28,7 @@ class Admin::RecordsController < Admin::AdminController
 
   def edit
     @record.photos.build
+    @record.songs.build
   end
 
   def create
@@ -85,6 +86,7 @@ class Admin::RecordsController < Admin::AdminController
 
     def record_params
       params.require(:record).permit(:identifier_id, :condition, :comment, :value, :genre_id, :price_id, :artist_id, :label_id, :record_format_id,
-        :photos_attributes => [:id, :image, :_destroy])
+        :photos_attributes => [:id, :image, :_destroy],
+        :songs_attributes => [:id, :audio, :title, :_destroy])
     end
 end

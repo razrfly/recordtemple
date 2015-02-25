@@ -60,16 +60,17 @@
 
     .col-md-9.col-lg-7.col-xl-6
       - if @record.photos.count > 0
-        .cover-photo.medium data-img-large="#{attachment_url(@record.photos.first, :image, :fill, 800, 800, :filename => 'image.jpg')}" data-img="#{attachment_url(@record.photos.first, :image, :fill, 400, 400, :filename => 'image.jpg')}"
+        .cover-photo.medium data-img-large="#{attachment_url(@record.photos.first, :image, :fill, 800, 800)}" data-img="#{attachment_url(@record.photos.first, :image, :fill, 400, 400)}"
         #covers
           - @record.photos.each do |photo|
             - if photo == @record.photos.first
-              .cover-photo.small.active data-img-large="#{attachment_url(photo, :image, :fill, 800, 800, :filename => 'image.jpg')}" data-img-medium="#{attachment_url(photo, :image, :fill, 400, 400, :filename => 'image.jpg')}" data-img="#{attachment_url(photo, :image, :fill, 200, 200, :filename => 'image.jpg')}"
+              .cover-photo.small.active data-img-large="#{attachment_url(photo, :image, :fill, 800, 800)}" data-img-medium="#{attachment_url(photo, :image, :fill, 400, 400)}" data-img="#{attachment_url(photo, :image, :fill, 200, 200)}"
             - else
-                .cover-photo.small data-img-large="#{attachment_url(photo, :image, :fill, 800, 800, :filename => 'image.jpg')}" data-img-medium="#{attachment_url(photo, :image, :fill, 400, 400, :filename => 'image.jpg')}" data-img="#{attachment_url(photo, :image, :fill, 200, 200, :filename => 'image.jpg')}"
+                .cover-photo.small data-img-large="#{attachment_url(photo, :image, :fill, 800, 800)}" data-img-medium="#{attachment_url(photo, :image, :fill, 400, 400)}" data-img="#{attachment_url(photo, :image, :fill, 200, 200)}"
       - if @record.songs.count > 0
         .panel.panel-default.col-md-12#audio
           .panel-heading
             .panel-title Audio
+            = attachment_url(@record.songs.take, :audio)
           .panel-body
             = render :partial => 'player', :locals => {:songs => @record.songs}

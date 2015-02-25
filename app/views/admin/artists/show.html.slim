@@ -11,7 +11,7 @@
         | Artist details
     .panel-body
       - if price_with_photo = @artist.prices.joins(:record => :photos).take
-        = image_tag attachment_url(price_with_photo.record.photos.take, :image, :fill, 200, 200, :filename => 'image.jpg')
+        = image_tag attachment_url(price_with_photo.record.photos.take, :image, :fill, 200, 200)
       table.table
         thead
           tr
