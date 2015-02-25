@@ -5,6 +5,7 @@
 //= require selectize
 //= require soundmanager2
 //= require soundmanager2/bar-ui
+//= require soundmanager2/nonrestricted
 
 //= require ./jquery.magnify
 //= require ./artists
