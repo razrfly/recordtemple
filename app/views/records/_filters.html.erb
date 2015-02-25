@@ -3,8 +3,8 @@
     <h3> Filters </h3>
     <%= f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'} %>
     <%= f.input :songs_title_eq, label: 'Song title', required: false, input_html: {id: 'filters-song'} %>
-    <%= f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: :name_with_count, required: false %>
-    <%= f.input :price_record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_count, required: false %>
+    <%= f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: :name_with_records_count, required: false %>
+    <%= f.input :price_record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_records_count, required: false %>
     <%= f.input :label_name_eq, label: 'Label', required: false, input_html: {id: 'filters-label'} %>
     <%= f.input :condition_eq, label: 'Condition', collection: @conditions, required: false %>
     <%= f.input :photos_id_not_null, :as => :boolean, label: 'With Photos' %>
