@@ -50,26 +50,26 @@
       </div>
     </div>
   </div>
-  
+
   <div class="bd sm2-playlist-drawer sm2-element">
     <div class="sm2-inline-texture">
       <div class="sm2-box-shadow"></div>
     </div>
-    
+
     <div class="sm2-playlist-wrapper">
       <ul class="sm2-playlist-bd">
         <% songs.each do |song| %>
-          <li><%= link_to song.title, Refile.attachment_url(song, :audio, :filename => 'audio.mp3') %></li>
+          <li><%= link_to song.title, Refile.attachment_url(song, :audio) %></li>
         <% end %>
       </ul>
     </div>
-    
+
     <div class="sm2-extra-controls">
       <div class="bd">
         <div class="sm2-inline-element sm2-button-element">
           <a href="#prev" title="Previous" class="sm2-inline-button previous">&lt; previous</a>
         </div>
-        
+
         <div class="sm2-inline-element sm2-button-element">
           <a href="#next" title="Next" class="sm2-inline-button next">&gt; next</a>
         </div>

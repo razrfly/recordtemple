@@ -61,7 +61,7 @@
 <% if @record.photos.count > 0 %>
   <div id="record-photos">
     <% @record.photos.each do |photo| %>
-      <%= image_tag attachment_url(photo, :image, :fill, 200, 200, filename: 'image.jpg') %>
+      <%= image_tag attachment_url(photo, :image, :fill, 200, 200) %>
     <% end %>
   </div>
 <% end %>
