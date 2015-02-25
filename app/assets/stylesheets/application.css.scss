@@ -6,3 +6,11 @@
 @import "bourbon";
 @import "base/base";
 @import "neat";
+
+.table-with-filters{
+  // @include outer-container;
+  #table { @include span-columns(9); }
+  #filters {
+    @include span-columns(3); }
+    #price-low-select, #price-high-select, #price-high-inputs, #price-low-inputs { @include span-columns(6); }
+}
