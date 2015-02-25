@@ -23,4 +23,28 @@ namespace :audio do
     end
     puts " Done!"
   end
+
+  desc "copy audio size to db"
+  task :copy_size => :environment do
+    print "Processing song "
+    Song.find_each do |song|
+      print "SONG ##{song.id} "
+      begin
+        song.update_column(:audio_size, song.audio.size)
+        puts 'OK'
+      rescue
+        puts 'FAILED!'
+      end
+    end
+    puts " Done!"
+  end
+
+  desc "copy file_name"
+  task :copy_filename => :environment do
+    Song.find_each do |song|
+      song.update_column(:audio_filename, song.mp3_file_name)
+    end
+    puts " Done!"
+  end
+
 end
