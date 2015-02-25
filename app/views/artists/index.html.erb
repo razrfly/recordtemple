@@ -2,26 +2,29 @@
 
 <h2 class="page-title">Artist</h2>
 
-<div id="artists">
-  <h3>Artist Index</h3>
-  <table>
-    <thead>
-      <tr>
-        <th> <%= sort_link @search, :name, "Name" %> </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @artists.each do |artist| %>
+<div id="artists" class="table-with-filters">
+  <div id="table">
+    <h3>Artist Index</h3>
+    <table>
+      <thead>
         <tr>
-          <td> <%= artist.name %> </td>
-          <td> <%= link_to 'show', artist %> </td>
+          <th> <%= sort_link @search, :name, "Name" %> </th>
+          <th></th>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= paginate @artists %>
-  <%= page_entries_info @artists %>
+      </thead>
+      <tbody>
+        <% @artists.each do |artist| %>
+          <tr>
+            <td> <%= artist.name %> </td>
+            <td> <%= link_to 'show', artist %> </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @artists %>
+    <%= page_entries_info @artists %>
+  </div>
+  <div id='filters'>
+    <%= render 'filters' %>
+  </div>
 </div>
-
-<%= render 'filters' %>
