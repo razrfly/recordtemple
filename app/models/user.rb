@@ -7,4 +7,8 @@ class User < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
 
+  def active?
+    invitation_accepted_at.present? | (invitation_accepted_at.nil? & invitation_sent_at.nil?)
+  end
+
 end
