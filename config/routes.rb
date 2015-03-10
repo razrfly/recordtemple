@@ -24,6 +24,7 @@ Recordapp::Application.routes.draw do
     put 'songs'   => 'songs#index'
 
     resources :genres, :record_formats, :record_types, :users, except: :show
+    resources :invitations, only: [:new, :create]
     resources :artists, :prices, :labels
     resources :records do
       resources :songs, :photos
@@ -34,4 +35,5 @@ Recordapp::Application.routes.draw do
     end
 
   end
+
 end

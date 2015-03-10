@@ -9,6 +9,7 @@ en:
         month_day_hour: "%b %e %l:%M %p"
         short: "%I:%M %p"
         sexy: '%a, %b %d %Y %H:%m'
+        month_day_year: "%B %e %Y"
   date:
     formats:
       sexy: '%a %d %b %Y'

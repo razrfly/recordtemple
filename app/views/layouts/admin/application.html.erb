@@ -334,7 +334,10 @@
             </span>
               </button>
               <ul class="dropdown-menu profile-dropdown" role="menu">
-                <li><a href="#"><i class="pg-settings_small"></i> Settings</a>
+                <li>
+                  <%= link_to edit_user_registration_path do %>
+                    <i class="pg-settings_small"></i> Settings</a>
+                  <% end %>
                 </li>
                 <li><a href="#"><i class="pg-outdent"></i> Feedback</a>
                 </li>
