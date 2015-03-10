@@ -3,7 +3,10 @@
     .panel-heading
       .panel-title User Form
     .panel-body
-      = f.input :nickname
-      = f.input :fname
-      = f.input :lname
+      .col-md-6
+        = f.input :nickname
+        = f.input :fname, label: "First Name"
+      .col-md-6
+        = f.input :email, required: true
+        = f.input :lname, label: "Last Name"
       = f.button :submit
