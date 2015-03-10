@@ -4,6 +4,6 @@ class Invitation
 
   attr_accessor :email
 
-  validates :email, presence: true
+  validates :email, presence: true, format: Devise::email_regexp
 
 end
