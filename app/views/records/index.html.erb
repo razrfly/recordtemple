@@ -1,42 +1,22 @@
 <% breadcrumb :records %>
 
 <h2 class="page-title">Records</h2>
-
-<div id="records" class="table-with-filters">
-  <div id="table">
-    <h3>Record Index</h3>
-    <table>
-      <thead>
-        <tr>
-          <th> Cover </th>
-          <th> <%= sort_link @search, :artist_name, "Artist" %></th>
-          <th> <%= sort_link @search, :label_name, "Label" %></th>
-          <th> <%= sort_link @search, :genre_name, "Genre" %></th>
-          <th> <%= sort_link @search, :price_record_format_name, "Record Format" %></th>
-          <th> <%= sort_link @search, :condition, "Condition" %></th>
-          <th> Details </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @records.each do |record| %>
-          <tr>
-            <td> <%= image_tag record.cover_photo unless record.cover_photo.blank? %></td>
-            <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
-            <td> <%= link_to(record.label.name, record.label, class: 'table-link') if record.label %> </td>
-            <td> <%= record.genre.name %> </td>
-            <td> <%= record.record_format.name %> </td>
-            <td> <%= record.get_condition %> </td>
-            <td> <%= truncate(record.desc, :length => 75) %> </td>
-            <td> <%= link_to 'show', record %> </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @records %>
-    <%= page_entries_info @records %>
-  </div>
-  <div id="filters">
-    <%= render 'filters' %>
-  </div>
+<h3>Record Index</h3>
+<ul class="records">
+  <% @records.each do |record| %>
+    <li class="record">
+      <%= link_to(image_tag(attachment_url(record.photos.first, :image, :fill, 250, 200)), record) unless record.photos.blank? %><br/>
+      <%= link_to record.artist.name, record.artist, class: 'table-link' %><br/>
+      <%= link_to(record.label.name, record.label, class: 'table-link') if record.label %><br/>
+      <%= record.genre.name %><br/>
+      <%= record.record_format.name %><br/>
+      <%= record.get_condition %><br/>
+      <span class="description"><%= truncate(record.desc, :length => 75) %></span><br/>
+      <%= link_to('show', record)  if record.photos.blank? %>
+    </li>
+  <% end %>
+</ul>
+<div class="pagination">
+  <%= paginate @records %>
+  <%= page_entries_info @records %>
 </div>

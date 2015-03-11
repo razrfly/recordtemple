@@ -1,10 +1,6 @@
 Recordapp::Application.routes.draw do
   root to: "home#index"
   # ransack and selectize
-  put 'artists' => 'artists#index'
-  put 'labels'  => 'labels#index'
-  put 'records' => 'records#index'
-  put 'songs'   => 'songs#index'
 
   devise_for :users
   devise_scope :user do

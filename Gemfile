@@ -6,8 +6,14 @@ gem 'rails', '4.1.9'
 
 gem 'pg'
 
-gem 'neat'
-gem 'sass-rails', '~> 4.0.3'
+# the Bourbon family
+gem 'bourbon', '~> 4.2.1'
+gem 'neat', '~> 1.7.1'
+gem 'bitters', '~> 1.0.0'
+gem 'refills', '~> 0.1.0'
+gem 'normalize-rails'
+
+gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
