@@ -7,7 +7,7 @@ Recordapp::Application.routes.draw do
   put 'records' => 'records#index'
   put 'songs'   => 'songs#index'
 
-  devise_for :users
+  devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do
     get "login", :to => "devise/sessions#new"
   end
