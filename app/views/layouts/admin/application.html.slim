@@ -67,8 +67,7 @@ html
           /! START User Info--
           .visible-lg.visible-md.m-t-10
             .pull-left.p-r-10.p-t-10.fs-16.font-heading
-              span.semi-bold David
-              span.text-master Nest
+              span.text-master= current_user.name
             .dropdown.pull-right
               button.profile-dropdown-toggle type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                 span.thumbnail-wrapper.d32.circular.inline.m-t-5

@@ -11,4 +11,8 @@ class User < ActiveRecord::Base
     invitation_accepted_at.present? | (invitation_accepted_at.nil? & invitation_sent_at.nil?)
   end
 
+  def name
+    "@#{nickname or fname or email.split('@').first}"
+  end
+
 end
