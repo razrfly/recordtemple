@@ -36,6 +36,6 @@ h3.page-title
                   i.fa.fa-times.fa-lg
       = paginate @prices
       span.pull-right
-        = page_entries_info @prices
+        = page_entries_info @prices, views_prefix: 'admin/'
 .col-md-3
   = render 'filters'

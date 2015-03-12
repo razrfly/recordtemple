@@ -64,7 +64,7 @@ h3.page-title
                       i.fa.fa-pencil.fa-lg
                     = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
                       i.fa.fa-times.fa-lg
-          = paginate @records, param_name: 'records_page'
+          = paginate @records, param_name: 'records_page', views_prefix: 'admin/'
           span.pull-right
             = page_entries_info @records
         - else
@@ -96,6 +96,6 @@ h3.page-title
                     i.fa.fa-pencil.fa-lg
                   = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
                     i.fa.fa-times.fa-lg
-        = paginate @prices, param_name: 'prices_page'
+        = paginate @prices, param_name: 'prices_page', views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices
