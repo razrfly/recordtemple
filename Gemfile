@@ -13,6 +13,8 @@ gem 'bitters', '~> 1.0.0'
 gem 'refills', '~> 0.1.0'
 gem 'normalize-rails'
 
+gem 'owlcarousel-rails'
+
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'

@@ -3,9 +3,25 @@
 <h2 class='page-title'><%= @artist.name %></h3>
 
 <h3>Artist details</h3>
-  <% if price_with_photo = @artist.prices.joins(:record => :photos).take %>
-    <%= image_tag attachment_url(price_with_photo.record.photos.take, :image, :fill, 200, 200) %>
+
+<!-- START PHOTOS -->
+<% if @artist.photos.present? %>
+  <% if @artist.photos.count > 5 %>
+    <!-- START CAROUSEL -->
+    <div id="owl-carousel">
+      <% @artist.photos.each do |photo| %>
+        <div class="item">
+          <%= image_tag attachment_url(photo, :image, :fill, 200, 200) %>
+        </div>
+      <% end %>
+    </div>
+    <!-- END CAROUSEL -->
+  <% else %>
+    <%= image_tag attachment_url(@artist.photos.first, :image, :fill, 200, 200) unless @artist.photos.blank? %>
   <% end %>
+<% end %>
+<!-- END PHOTOS -->
+
   <table>
     <thead>
       <tr>
@@ -20,14 +36,6 @@
         </td>
         <td>
           <%= @artist.name %>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <strong> Freebase ID </strong>
-        </td>
-        <td>
-          <%= @artist.freebase_id %>
         </td>
       </tr>
     </tbody>
@@ -54,31 +62,6 @@
           <td> <%= record.price.record_format.name %> </td>
           <td> <%= record.get_condition %> </td>
           <td> <%= link_to 'show', record %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-<div id="artist-prices">
-  <table>
-    <thead>
-      <tr>
-        <th> Label </th>
-        <th> Record Format </th>
-        <th> Price range </th>
-        <th> Date range </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @artist.prices.each do |price| %>
-        <tr>
-          <td> <%= price.label.name if price.label %> </td>
-          <td> <%= price.record_format.name %> </td>
-          <td> <%= price.price_range %> </td>
-          <td> <%= price.date_range %> </td>
-          <td> <%= link_to 'show', price %> </td>
         </tr>
       <% end %>
     </tbody>
