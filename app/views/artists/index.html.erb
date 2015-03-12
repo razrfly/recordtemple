@@ -1,27 +1,19 @@
-<% breadcrumb :artists %>
+<h2 class="page-title">Artists</h2>
 
-<h2 class="page-title">Artist</h2>
+<div class="cards">
+  <% @artists.each do |artist| %>
+    <div class="card">
+      <div class="card-image">
+        <%= link_to(image_tag(attachment_url(artist.photos.first, :image, :fill, 200, 200)), artist) unless artist.photos.blank? %><br/>
+      </div>
+      <div class="card-header">
+        <%= link_to artist.name, artist %>
+      </div>
+      <div class="card-copy">
+        <p> Lorem ipsum </p>
+      </div>
 
-<div id="artists" class="table-with-filters">
-  <div id="table">
-    <h3>Artist Index</h3>
-    <table>
-      <thead>
-        <tr>
-          <th> <%= sort_link @search, :name, "Name" %> </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @artists.each do |artist| %>
-          <tr>
-            <td> <%= artist.name %> </td>
-            <td> <%= link_to 'show', artist %> </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @artists %>
-    <%= page_entries_info @artists %>
-  </div>
+    </div>
+  <% end %>
 </div>
+<%= paginate @artists %>

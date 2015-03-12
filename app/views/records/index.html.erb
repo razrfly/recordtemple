@@ -1,22 +1,25 @@
 <% breadcrumb :records %>
 
 <h2 class="page-title">Records</h2>
-<h3>Record Index</h3>
-<ul class="records">
+
+<div class="cards">
   <% @records.each do |record| %>
-    <li class="record">
-      <%= link_to(image_tag(attachment_url(record.photos.first, :image, :fill, 250, 200)), record) unless record.photos.blank? %><br/>
-      <%= link_to record.artist.name, record.artist, class: 'table-link' %><br/>
-      <%= link_to(record.label.name, record.label, class: 'table-link') if record.label %><br/>
-      <%= record.genre.name %><br/>
-      <%= record.record_format.name %><br/>
-      <%= record.get_condition %><br/>
-      <span class="description"><%= truncate(record.desc, :length => 75) %></span><br/>
-      <%= link_to('show', record)  if record.photos.blank? %>
-    </li>
+    <div class="card">
+      <div class="card-image">
+        <%= link_to(image_tag(attachment_url(record.photos.first, :image, :fill, 200, 200)), record) unless record.photos.blank? %><br/>
+      </div>
+      <div class="card-header">
+        <%= link_to record.artist.name, record.artist %>
+      </div>
+      <div class="card-copy">
+        <p><%= truncate(record.desc, :length => 75) %></p>
+        <p>
+          <%= record.genre.name %><br/>
+          <%= record.record_format.name %><br/>
+          <%= record.get_condition %><br/>
+        </p>
+      </div>
+    </div>
   <% end %>
-</ul>
-<div class="pagination">
-  <%= paginate @records %>
-  <%= page_entries_info @records %>
 </div>
+<%= paginate @records %>
