@@ -5,9 +5,21 @@
 @import "selectize";
 @import "selectize.default";
 @import "soundmanager2/bar-ui";
+@import "owl.carousel";
+@import "owl.theme";
 @import "refills/*";
 
 #main{
   @include outer-container;
   margin: 25px auto;
+}
+
+// carousels
+#owl-carousel .item{
+  margin: 3px;
+}
+#owl-carousel .item img{
+  display: block;
+  width: 100%;
+  height: auto;
 }

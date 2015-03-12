@@ -22,7 +22,7 @@
       </li>
 
       <% if user_signed_in? %>
-        <li class="nav-link more"><a href="javascript:void(0)">@You</a>
+        <li class="nav-link more"><a href="javascript:void(0)"><%= current_user.name %></a>
           <ul class="submenu">
             <li class="nav-link">
               <%= link_to 'Dashboard', admin_root_path %>
