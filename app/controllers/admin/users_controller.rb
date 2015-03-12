@@ -4,6 +4,7 @@ class Admin::UsersController < Admin::AdminController
   def index
     @search = User.ransack(params[:q])
     @users = @search.result.page(params[:page])
+    @invitation = Invitation.new
     respond_to do |format|
       format.html
       format.json {

@@ -170,6 +170,11 @@ crumb :edit_user do |user|
   parent :show_user, user
 end
 
+crumb :new_invitation do
+  link "Invite User", new_admin_invitation_path
+  parent :users
+end
+
 
 # Prices
 
