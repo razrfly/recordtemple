@@ -26,7 +26,7 @@ h3.page-title
                   i.fa.fa-wrench.fa-lg
                 = link_to [:admin, artist], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
-      = paginate @artists
+      = paginate @artists, views_prefix: 'admin/'
       span.pull-right
         = page_entries_info @artists
 

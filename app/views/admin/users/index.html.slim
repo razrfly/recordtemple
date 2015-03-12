@@ -33,7 +33,7 @@ h3.page-title
                   i.fa.fa-wrench.fa-lg
                 = link_to [:admin, user], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
-      = paginate @users
+      = paginate @users, views_prefix: 'admin/'
 
 .col-md-3
   = render partial: 'admin/invitations/form'
