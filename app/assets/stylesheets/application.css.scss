@@ -5,14 +5,9 @@
 @import "selectize";
 @import "selectize.default";
 @import "soundmanager2/bar-ui";
+@import "refills/*";
 
-.records{
-  overflow: auto;
-  li.record{
-    @include span-columns(3);
-    max-width: 250px;
-    min-height: 500px;
-    list-style-type: none;
-    margin: 20px;
-  }
+#main{
+  @include outer-container;
+  margin: 25px auto;
 }

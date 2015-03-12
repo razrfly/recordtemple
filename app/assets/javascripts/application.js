@@ -7,3 +7,4 @@
 
 //= require ./selectize-init
 //= require ./admin/prices
+//= require_tree ./refills
