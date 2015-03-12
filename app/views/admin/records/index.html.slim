@@ -40,7 +40,7 @@ h3.page-title
                   i.fa.fa-wrench.fa-lg
                 = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
                   i.fa.fa-times.fa-lg
-      = paginate @records
+      = paginate @records, views_prefix: 'admin/'
       span.pull-right
         = page_entries_info @records
 
