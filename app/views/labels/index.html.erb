@@ -1,30 +1,20 @@
-<% breadcrumb :labels %>
+<h2 class="page-title">Labels</h2>
 
-<h3 class="page-title">Labels</h2>
-
-<div id="labels" class="table-with-filters">
-  <div id="table">
-    <h3>Label Index</h3>
-    <table>
-      <thead>
-        <tr>
-          <th> <%= sort_link @search, :name, "Name" %> </th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @labels.each do |label| %>
-          <tr>
-            <td> <%= label.name %> </td>
-            <td> <%= link_to 'show', label %> </td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-    <%= paginate @labels %>
-    <%= page_entries_info @labels %>
-  </div>
-  <div id="filters">
-    <%= render 'filters' %>
-  </div>
+<div class="cards">
+  <% @labels.each do |label| %>
+    <div class="card">
+      <div class="card-image">
+        <%# link_to(image_tag(attachment_url(artist.photos.first, :image, :fill, 200, 200)), artist) unless artist.photos.blank? %><br/>
+      </div>
+      <div class="card-header">
+        <%= link_to label.name, label %>
+      </div>
+      <div class="card-copy">
+        <p>
+          <%= label.records.count %> records <br/>
+        </p>
+      </div>
+    </div>
+  <% end %>
 </div>
+<%= paginate @labels %>

@@ -1,18 +1,13 @@
 Recordapp::Application.routes.draw do
   root to: "home#index"
   # ransack and selectize
-  put 'artists' => 'artists#index'
-  put 'prices'  => 'prices#index'
-  put 'labels'  => 'labels#index'
-  put 'records' => 'records#index'
-  put 'songs'   => 'songs#index'
 
   devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do
     get "login", :to => "devise/sessions#new"
   end
 
-  resources :labels, :prices, :artists, :records, only: [:index, :show]
+  resources :labels, :artists, :records, only: [:index, :show]
 
   namespace :admin do
     root to: 'home#index'

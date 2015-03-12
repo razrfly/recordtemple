@@ -1,13 +1,7 @@
 class ArtistsController < ApplicationController
 
   def index
-    @search = Artist.ransack(params[:q])
-    @artists = @search.result.page(params[:page])
-
-    respond_to do |format|
-      format.html
-      format.json { render json: @artists.to_json(only: [:name, :id]) }
-    end
+    @artists = Artist.all.page(params[:page])
   end
 
   def show

@@ -1,13 +1,7 @@
 class LabelsController < ApplicationController
 
   def index
-    @search = Label.ransack(params[:q])
-    @labels = @search.result.page(params[:page])
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: @labels.to_json(:only => [:name, :id]) }
-    end
+    @labels = Label.all.page(params[:page])
   end
 
   def show

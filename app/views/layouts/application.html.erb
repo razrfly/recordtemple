@@ -17,7 +17,8 @@
     <%= yield(:head) %>
   </head>
   <body>
-    <header>
+
+    <header class="navigation" role="banner">
       <%= render 'layouts/navigation' %>
     </header>
 
@@ -27,8 +28,9 @@
     </div>
 
     <footer>
+      <%= render 'layouts/footer' %>
     </footer>
 
-  <%= javascript_include_tag "application" %>
+    <%= javascript_include_tag "application" %>
   </body>
 </html>
