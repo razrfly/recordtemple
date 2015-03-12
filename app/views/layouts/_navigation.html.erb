@@ -1,18 +1,58 @@
-<nav>
-  <ul>
-    <li><%= link_to 'records', records_path %></li>
-    <li><%= link_to 'artists', artists_path %></li>
-    <li><%= link_to 'labels', labels_path %></li>
-    <ul>
-      <% if signed_in? %>
-        <li><%= link_to 'change settings', edit_user_registration_path %></li>
-        <li><%= link_to 'logout', destroy_user_session_path, method: 'delete' %></li>
+<div class="navigation-wrapper">
+  <%= link_to :root, class: 'logo' do %>
+    <%= image_tag('placeholder_logo_1.png', alt: 'Logo Image') %>
+  <% end %>
+  <a href="javascript:void(0)" class="navigation-menu-button" id="js-mobile-menu">MENU</a>
+  <nav role="navigation">
+    <ul id="js-navigation-menu" class="navigation-menu show">
+      <li class="nav-link">
+        <%= link_to 'Records', records_path %>
+      </li>
+
+      <li class="nav-link">
+        <%= link_to 'Artists', artists_path %>
+      </li>
+
+      <li class="nav-link">
+        <%= link_to 'Labels', labels_path %>
+      </li>
+
+      <li class="nav-link">
+        <%= link_to 'About', '#' %>
+      </li>
+
+      <% if user_signed_in? %>
+        <li class="nav-link more"><a href="javascript:void(0)">@You</a>
+          <ul class="submenu">
+            <li class="nav-link">
+              <%= link_to 'Dashboard', admin_root_path %>
+            </li>
+
+            <li class="nav-link">
+              <%= link_to 'Profile Settings', edit_user_registration_path %>
+            </li>
+
+            <li class="nav-link">
+              <%= link_to 'Logout', destroy_user_session_path, method: :delete %>
+            </li>
+
+          </ul>
+        </li>
       <% else %>
-        <li><%= link_to 'login', new_user_session_path %></li>
+        <li class="nav-link">
+          <%= link_to 'Login', new_user_session_path %>
+        </li>
       <% end %>
     </ul>
-  </ul>
-</nav>
-
-<br/>
-<br/>
+  </nav>
+  <div class="navigation-tools">
+    <div class="search-bar">
+      <form role="search">
+        <input type="search" placeholder="Enter Search" />
+        <button type="submit">
+          <%= image_tag('search-icon.png', alt: 'Search Icon') %>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
