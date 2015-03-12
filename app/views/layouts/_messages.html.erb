@@ -1,8 +1,10 @@
 <% flash.each do |name, msg| %>
   <% if msg.is_a?(String) %>
-    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
-      <a class="close" data-dismiss="alert">&#215;</a>
-      <%= content_tag :div, msg, :id => "flash_#{name}" %>
+    <div class="flash-<%= name == 'notice' ? 'success' : 'error' %>">
+      <%= content_tag :span, id: "flash_#{name}" do %>
+        <%= msg %>
+        <a href="#" onclick="$(this).parent().parent().remove()" class="close" data-dismiss="alert">&#215;</a>
+      <% end %>
     </div>
   <% end %>
 <% end %>
