@@ -1,7 +1,7 @@
 class LabelsController < ApplicationController
 
   def index
-    @labels = Label.all.page(params[:page])
+    @labels = Label.active.page(params[:page])
   end
 
   def show
