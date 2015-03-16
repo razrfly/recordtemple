@@ -46,13 +46,6 @@
     </ul>
   </nav>
   <div class="navigation-tools">
-    <div class="search-bar">
-      <form role="search">
-        <input type="search" placeholder="Enter Search" />
-        <button type="submit">
-          <%= image_tag('search-icon.png', alt: 'Search Icon') %>
-        </button>
-      </form>
-    </div>
+    <%= render 'layouts/search' %>
   </div>
 </div>
