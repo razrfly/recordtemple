@@ -9,15 +9,15 @@ $(document).ready(function(){
 
   searchableThings.initialize();
 
-  $("#js_search_box .typeahead").typeahead(null, {
+  $("#js_search_box .typeahead").typeahead(true, {
     displayKey: function(obj){
       return obj.name + " (" + obj.type + ")"
     },
     source: searchableThings.ttAdapter()
   });
 
-  // $("#search-box .typeahead").on("typeahead:selected", function(object, datum){
-  //   window.location = datum.path;
-  // })
+  $("#js_search_box .typeahead").on("typeahead:selected", function(object, datum){
+    window.location = datum.path;
+  });
 
 });

@@ -1,5 +1,10 @@
 class SearchesController < ApplicationController
 
+
+  def index
+
+  end
+
   def new
     # binding.pry
     @search = Search.new(params[:q])
