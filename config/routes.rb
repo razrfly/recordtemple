@@ -8,6 +8,8 @@ Recordapp::Application.routes.draw do
   end
 
   resources :labels, :artists, :records, only: [:index, :show]
+  resources :genres, :record_types, only: [:show]
+  get 'search', to: 'searches#new'
 
   namespace :admin do
     root to: 'home#index'

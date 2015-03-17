@@ -36,7 +36,11 @@ gem 'friendly_id', '~> 5.0.4'
 gem 'kaminari'
 gem 'paperclip', '~> 4.1.1'
 gem 'aws-sdk', '~> 1.44.0'
+
 gem 'ransack', '~> 1.2.3'
+gem 'textacular', '~> 3.0'
+gem 'twitter-typeahead-rails'
+
 gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'

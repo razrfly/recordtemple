@@ -5,9 +5,9 @@
 //= require soundmanager2
 //= require soundmanager2/bar-ui
 //= require owl.carousel
+//= require twitter/typeahead.min
 
-//= require ./selectize-init
-//= require ./admin/prices
+//= require ./searches
 //= require_tree ./refills
 
 

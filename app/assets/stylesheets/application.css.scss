@@ -7,6 +7,7 @@
 @import "soundmanager2/bar-ui";
 @import "owl.carousel";
 @import "owl.theme";
+@import "typeahead_fix";
 @import "refills/*";
 
 #main{
@@ -22,4 +23,15 @@
   display: block;
   width: 100%;
   height: auto;
+}
+.search-title{
+  margin-top: 50px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+.show-more{
+  text-align: center;
+}
+.expression{
+  font-weight: bold;
 }
