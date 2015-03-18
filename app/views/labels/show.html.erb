@@ -1,32 +1,56 @@
-<% breadcrumb :show_label, @label %>
-<h2 class="page-title"><%= @label.name %></h2>
-<div id="label-info">
-  <h3>Label</h3>
-  <p>Name: <%= @label.name %></p>
-  <p>Freebase ID: <%= @label.freebase_id %></p>
-</div>
-<div id="label-prices">
-  <h3>Prices</h3>
+<h2 class='page-title'><%= @label.name %></h3>
+
+<div id="genre-records">
   <table>
     <thead>
       <tr>
-        <th> Details </th>
-        <th> Medium </th>
-        <th> Footnote </th>
-        <th></th>
+        <th> Cover </th>
+        <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
+        <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
+        <th> <%= sort_link @search, :condition, "Condition" %> </th>
+        <th class="buttons"></th>
       </tr>
     </thead>
     <tbody>
-      <% @prices.each do |price| %>
+      <% @records.each do |record| %>
         <tr>
-          <td> <%= price.detail %> </td>
-          <td> <%= price.record_format.name %> </td>
-          <td> <%= price.footnote %> </td>
-          <td> <%= link_to 'show', price %> </td>
+          <td> <%= cover_link_for record %> </td>
+          <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
+          <td> <%= record.record_format.name %> </td>
+          <td> <%= record.get_condition %> </td>
+          <td class="buttons">
+            <%= link_to icon('search'), record %>
+          </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= paginate @prices %>
-  <%= page_entries_info @prices %>
+<div><%= paginate @records %></div>
+</div>
+
+<div class="show-info">
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2">Label details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Label</td>
+        <td class="value"><%= @label.name %></td>
+      </tr>
+
+      <tr>
+        <td>Records</td>
+        <td class="value"><%= @records.total_count %></td>
+      </tr>
+
+      <tr>
+        <td>Artists</td>
+        <td class="value"><%= @artists.count %></td>
+      </tr>
+
+    </tbody>
+  </table>
 </div>

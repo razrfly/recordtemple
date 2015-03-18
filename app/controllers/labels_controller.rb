@@ -6,7 +6,9 @@ class LabelsController < ApplicationController
 
   def show
     @label = Label.find(params[:id])
-    @prices = @label.prices.page(params[:page])
+    @search = @label.records.ransack(params[:q])
+    @records = @search.result.page(params[:page])
+    @artists = Artist.joins(:records => :label).where('labels.id = ?', @label.id).uniq
   end
 
 end
