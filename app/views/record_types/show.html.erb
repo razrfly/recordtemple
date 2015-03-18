@@ -1,5 +1,5 @@
 
-<h2 class='page-title'><%= @genre.name %></h3>
+<h2 class='page-title'><%= @record_type.name %></h3>
 
 <div id="genre-records">
   <table>
@@ -9,6 +9,7 @@
         <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
         <th> <%= sort_link @search, :label_name, "Label" %> </th>
         <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
+        <th> <%= sort_link @search, :genre_name, "Genre" %> </th>
         <th> <%= sort_link @search, :condition, "Condition" %> </th>
         <th class="buttons"></th>
       </tr>
@@ -20,6 +21,7 @@
           <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
           <td> <%= link_to record.label.name, record.label, class: 'table-link' %> </td>
           <td> <%= record.record_format.name %> </td>
+          <td> <%= record.genre.name %> </td>
           <td> <%= record.get_condition %> </td>
           <td class="buttons">
             <%= link_to icon('search'), record %>
@@ -35,23 +37,18 @@
   <table>
     <thead>
       <tr>
-        <th colspan="2">Genre details</th>
+        <th colspan="2">Details</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td>Name</td>
-        <td class="value"><%= @genre.name %></td>
+        <td>Record Type</td>
+        <td class="value"><%= @record_type.name %></td>
       </tr>
 
       <tr>
         <td>Records</td>
         <td class="value"><%= @records.total_count %></td>
-      </tr>
-
-      <tr>
-        <td>Artists</td>
-        <td class="value"><%= @artists.count %></td>
       </tr>
 
     </tbody>
