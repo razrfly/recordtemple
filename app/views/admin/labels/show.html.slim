@@ -35,7 +35,7 @@ h3.page-title
     .panel-heading
       .panel-title Your records
       .panel-body
-        - if @records.size>0
+        - if @records.size > 0
           table.table
             thead
               tr
@@ -49,21 +49,16 @@ h3.page-title
             tbody
               - @records.each do |record|
                 tr.record-row
-                  td
-                    - unless record.cover_photo.blank?
-                      = image_tag record.cover_photo
+                  td= cover_link_for record
                   td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
                   td= record.genre.name
                   td= record.record_format.name
                   td= record.get_condition
-                  td= truncate(record.desc, :length => 75)
+                  td= truncate(record.desc, length: 75)
                   td.buttons
-                    = link_to [:admin, record]
-                      i.fa.fa-eye.fa-lg
-                    = link_to [:edit, :admin, record]
-                      i.fa.fa-pencil.fa-lg
-                    = link_to [:admin, record], :method => :delete, :data => {:confirm => "Are you sure?"}
-                      i.fa.fa-times.fa-lg
+                    = link_to icon('search fa-lg'), [:admin, record]
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, record]
+                    = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
           = paginate @records, param_name: 'records_page', views_prefix: 'admin/'
           span.pull-right
             = page_entries_info @records
@@ -90,12 +85,9 @@ h3.page-title
                 td= price.price_low
                 td= price.price_high
                 td.buttons
-                  = link_to [:admin, price]
-                    i.fa.fa-eye.fa-lg
-                  = link_to [:edit, :admin, price]
-                    i.fa.fa-pencil.fa-lg
-                  = link_to [:admin, price], :method => :delete, :data => {:confirm => "Are you sure?"}
-                    i.fa.fa-times.fa-lg
+                  = link_to icon('search fa-lg'), [:admin, price]
+                  = link_to icon('wrench fa-lg'), [:edit, :admin, price]
+                  = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @prices, param_name: 'prices_page', views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices

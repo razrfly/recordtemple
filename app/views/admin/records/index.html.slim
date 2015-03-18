@@ -24,9 +24,7 @@ h3.page-title
         tbody
           - @records.each do |record|
             tr.record-row
-              td
-                - unless record.cover_photo.blank?
-                  = image_tag record.cover_photo
+              td= cover_link_for record
               td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
               td= link_to(record.label.name, [:admin, record.label], class: 'table-link') if record.label
               td= record.genre.name
