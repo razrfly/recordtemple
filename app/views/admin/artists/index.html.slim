@@ -20,12 +20,9 @@ h3.page-title
             tr.artist-row
               td= artist.name
               td.buttons
-                = link_to [:admin, artist]
-                  i.fa.fa-search.fa-lg
-                = link_to [:edit, :admin, artist]
-                  i.fa.fa-wrench.fa-lg
-                = link_to [:admin, artist], :method => :delete, :data => {:confirm => "Are you sure?"}
-                  i.fa.fa-times.fa-lg
+                = link_to icon('search fa-lg'), [:admin, artist]
+                = link_to icon('wrench fa-lg'), [:edit, :admin, artist]
+                = link_to icon('times fa-lg'), [:admin, artist], :method => :delete, data: {confirm: 'Are you sure?'}
       = paginate @artists, views_prefix: 'admin/'
       span.pull-right
         = page_entries_info @artists

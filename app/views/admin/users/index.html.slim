@@ -29,10 +29,8 @@ h3.page-title
               td= user.email
               td= user.sign_in_count
               td.buttons
-                = link_to [:edit, :admin, user]
-                  i.fa.fa-wrench.fa-lg
-                = link_to [:admin, user], :method => :delete, :data => {:confirm => "Are you sure?"}
-                  i.fa.fa-times.fa-lg
+                = link_to icon('wrench fa-lg'), [:edit, :admin, user]
+                = link_to icon('times fa-lg'), [:admin, user], :method => :delete, data: {confirm: 'Are you sure?'}
       = paginate @users, views_prefix: 'admin/'
 
 .col-md-3
