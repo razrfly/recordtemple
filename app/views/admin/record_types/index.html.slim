@@ -19,9 +19,5 @@ h3.page-title
           tr
             td = record_type.name
             td.buttons
-              / = link_to admin_record_type_path(record_type)
-              /   i.fa.fa-search.fa-lg
-              = link_to edit_admin_record_type_path(record_type)
-                i.fa.fa-wrench.fa-lg
-              = link_to admin_record_type_path(record_type), :method => :delete, :data => {:confirm => "Are you sure?"}
-                i.fa.fa-times.fa-lg
+              = link_to icon('wrench fa-lg'), [:edit, :admin, record_type]
+              = link_to icon('times fa-lg'), [:admin, record_type], :method => :delete, data: {confirm: 'Are you sure?'}
