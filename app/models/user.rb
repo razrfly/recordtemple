@@ -17,13 +17,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    username.present?
-      username
-    elsif fname.present?
-      fname
-    else
-      email.split('@').first
-    end
+    "#{fname} #{lname}" if fname.present? or lname.present?
   end
 
 end

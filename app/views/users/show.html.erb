@@ -30,21 +30,33 @@
     </thead>
     <tbody>
       <tr>
-        <td><strong> Name </strong></td>
-        <td><%= @user.name %></td>
+        <td><strong> Username </strong></td>
+        <td><%= @user.username %></td>
       </tr>
-      <tr>
-        <td><strong> Records </strong></td>
-        <td><%= link_to @records.size, user_records_path(@user.slug) %></td>
-      </tr>
-      <tr>
-        <td><strong> Covers uploaded </strong></td>
-        <td><%= @user.photos.size %> </strong></td>
-      </tr>
-      <tr>
-        <td><strong> Songs uploaded </strong></td>
-        <td><%= @user.songs.size %> </strong></td>
-      </tr>
+      <% if @user.name %>
+        <tr>
+          <td><strong> Name </strong></td>
+          <td><%= @user.name %></td>
+        </tr>
+      <% end %>
+      <% if @records.size > 0 %>
+        <tr>
+          <td><strong> Records </strong></td>
+          <td><%= link_to @records.size, user_records_path(@user.slug) %></td>
+        </tr>
+      <% end %>
+      <% if @user.photos.size > 0 %>
+        <tr>
+          <td><strong> Covers uploaded </strong></td>
+          <td><%= @user.photos.size %> </strong></td>
+        </tr>
+      <% end %>
+      <% if @user.songs.size > 0 %>
+        <tr>
+          <td><strong> Songs uploaded </strong></td>
+          <td><%= @user.songs.size %> </strong></td>
+        </tr>
+      <% end %>
     </tbody>
   </table>
 
