@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   has_many :songs, through: :records
 
   extend FriendlyId
-  friendly_id :nickname, use: [:slugged, :finders]
+  friendly_id :username, use: [:slugged, :finders]
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
@@ -17,8 +17,8 @@ class User < ActiveRecord::Base
   end
 
   def name
-    if nickname.present?
-      nickname
+    username.present?
+      username
     elsif fname.present?
       fname
     else

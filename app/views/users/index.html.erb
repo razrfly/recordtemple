@@ -5,7 +5,7 @@
   <table>
     <thead>
       <tr>
-        <th> Nickname </th>
+        <th> Username </th>
         <th> Name </th>
         <th> Records Count </th>
         <th></th>
@@ -14,7 +14,7 @@
     <tbody>
       <% @users.each do |user| %>
         <tr>
-          <td> <%= user.nickname %> </td>
+          <td> <%= user.username %> </td>
           <td> <%= user.name %> </td>
           <td> <%= user.records.size %> </td>
           <td> <%= link_to 'show', user_path(user.slug) %> </td>
