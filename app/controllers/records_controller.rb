@@ -1,7 +1,7 @@
 class RecordsController < ApplicationController
 
   def index
-    @records = Record.all.page(params[:page])
+    @records = (params[:user_id].nil? ? Record.all : Record.where(user: User.find(params[:user_id]))).page(params[:page])
   end
 
   def show

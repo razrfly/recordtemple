@@ -1,0 +1,84 @@
+<ul class="accordion-tabs-minimal">
+  <li class="tab-header-and-content">
+    <a href="#" class="tab-link is-active">Best matches</a>
+    <div class="tab-content">
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras tincidunt pellentesque lorem, id suscipit dolor rutrum id. Morbi facilisis porta volutpat. Fusce adipiscing, mauris quis congue tincidunt, sapien purus suscipit odio, quis dictum odio tortor in sem. Ut sit amet libero nec orci mattis fringilla. Praesent eu ipsum in sapien tincidunt molestie sed ut magna. Nam accumsan dui at orci rhoncus pharetra tincidunt elit ullamcorper. Sed ac mauris ipsum. Nullam imperdiet sapien id purus pretium id aliquam mi ullamcorper.</p>
+
+
+      <h2 class="search-title">Artists</h2>
+      <table class="table-minimal">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Number of records</th>
+            <th>Show</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @artists.limit(6).each do |artist| %>
+            <tr>
+              <td><%= artist.name.gsub((@expression, "<span class='expression'>#{@expression}</span>").html_safe) %></td>
+              <td><%= artist.records.count %></td>
+              <td><%= link_to [artist] do %>
+                  <i class="fa fa-search fa-lg">show</i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="show-more">
+        <% if @artists.count>6 %>
+          <%= link_to "Show more (#{@artists.count} total)", '#', data: {target: '#artists'} %>
+        <% end %>
+      </div>
+
+      <h2 class="search-title">Labels</h2>
+      <table class="table-minimal">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Number of records</th>
+            <th>Show</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @labels.limit(6).each do |label| %>
+            <tr>
+              <td><%= label.name %></td>
+              <td><%= label.records.count %></td>
+              <td><%= link_to [label] do %>
+                  <i class="fa fa-search fa-lg">show</i>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <div class="show-more">
+        <% if @labels.count>6 %>
+          <%= link_to "Show more (#{@labels.count} total)", '#', data: {target: '#labels'} %>
+        <% end %>
+      </div>
+
+    </div>
+  </li>
+  <li class="tab-header-and-content">
+    <a href="#" class="tab-link">Artists</a>
+    <div class="tab-content">
+      <p>Ut laoreet augue et neque pretium non sagittis nibh pulvinar. Etiam ornare tincidunt orci quis ultrices. Pellentesque ac sapien ac purus gravida ullamcorper. Duis rhoncus sodales lacus, vitae adipiscing tellus pharetra sed. Praesent bibendum lacus quis metus condimentum ac accumsan orci vulputate. Aenean fringilla massa vitae metus facilisis congue. Morbi placerat eros ac sapien semper pulvinar. Vestibulum facilisis, ligula a molestie venenatis, metus justo ullamcorper ipsum, congue aliquet dolor tortor eu neque. Sed imperdiet, nibh ut vestibulum tempor, nibh dui volutpat lacus, vel gravida magna justo sit amet quam. Quisque tincidunt ligula at nisl imperdiet sagittis. Morbi rutrum tempor arcu, non ultrices sem semper a. Aliquam quis sem mi.</p>
+    </div>
+  </li>
+  <li class="tab-header-and-content">
+    <a href="#" class="tab-link">Labels</a>
+    <div class="tab-content">
+      <p>Donec mattis mauris gravida metus laoreet non rutrum sem viverra. Aenean nibh libero, viverra vel vestibulum in, porttitor ut sapien. Phasellus tempor lorem id justo ornare tincidunt. Nulla faucibus, purus eu placerat fermentum, velit mi iaculis nunc, bibendum tincidunt ipsum justo eu mauris. Nulla facilisi. Vestibulum vel lectus ac purus tempus suscipit nec sit amet eros. Nullam fringilla, enim eu lobortis dapibus, quam magna tincidunt nibh, sit amet imperdiet dolor justo congue turpis.</p>
+    </div>
+  </li>
+  <li class="tab-header-and-content">
+    <a href="#" class="tab-link">Last Item</a>
+    <div class="tab-content">
+      <p>Sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Phasellus dui urna.</p>
+    </div>
+  </li>
+</ul>
