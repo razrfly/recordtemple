@@ -4,8 +4,13 @@ Recordapp::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do
+    # resources :records
     get "login", :to => "devise/sessions#new"
   end
+
+  # resources :users, only: [:index, :show], path: '/user' do
+    # resources :records, only: [:index, :show]
+  # end
 
   resources :labels, :artists, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
@@ -32,5 +37,12 @@ Recordapp::Application.routes.draw do
     end
 
   end
+
+
+  constraints(user_id: /rui|greggie|holden|szymon|simon|twitwilly|steve/) do
+    get ':user_id', to: 'users#show', as: 'user'
+    get ':user_id/records', to: 'records#index', as: 'user_records'
+  end
+  get 'users', to: 'users#index'
 
 end

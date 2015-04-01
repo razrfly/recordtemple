@@ -10,7 +10,7 @@ h3.page-title
       table.table
         thead
           tr
-            th= sort_link [:admin, @search], :nickname, "Nickname"
+            th= sort_link [:admin, @search], :username, "Username"
             th Name
             th Status
             th= sort_link [:admin, @search], :email, "Email"
@@ -19,7 +19,7 @@ h3.page-title
         tbody
           - @users.each do |user|
             tr.user-row
-              td= user.nickname
+              td= user.username
               td= "#{user.fname} #{user.lname}"
               td
                 - if user.active?

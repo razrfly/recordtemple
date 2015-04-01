@@ -1,6 +1,11 @@
 class User < ActiveRecord::Base
   has_many :records
   has_many :prices
+  has_many :photos, through: :records
+  has_many :songs, through: :records
+
+  extend FriendlyId
+  friendly_id :username, use: [:slugged, :finders]
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable, :lockable and :timeoutable
@@ -12,7 +17,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    "@#{nickname or fname or email.split('@').first}"
+    "#{fname} #{lname}" if fname.present? or lname.present?
   end
 
 end

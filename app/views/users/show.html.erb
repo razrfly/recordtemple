@@ -1,0 +1,91 @@
+
+<h2 class='page-title'><%= @user.name %></h3>
+
+<h3>User details</h3>
+
+<!-- START PHOTOS -->
+<% if @photos.present? %>
+  <% if @photos.count >= 4 %>
+    <!-- START CAROUSEL -->
+    <div id="owl-carousel">
+      <% @photos.each do |photo| %>
+        <div class="item">
+          <%= image_tag attachment_url(photo, :image, :fill, 200, 200) %>
+        </div>
+      <% end %>
+    </div>
+    <!-- END CAROUSEL -->
+  <% else %>
+    <%= image_tag attachment_url(@photos.first, :image, :fill, 200, 200) unless @photos.blank? %>
+  <% end %>
+<% end %>
+<!-- END PHOTOS -->
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong> Username </strong></td>
+        <td><%= @user.username %></td>
+      </tr>
+      <% if @user.name %>
+        <tr>
+          <td><strong> Name </strong></td>
+          <td><%= @user.name %></td>
+        </tr>
+      <% end %>
+      <% if @records.size > 0 %>
+        <tr>
+          <td><strong> Records </strong></td>
+          <td><%= link_to @records.size, user_records_path(@user.slug) %></td>
+        </tr>
+      <% end %>
+      <% if @user.photos.size > 0 %>
+        <tr>
+          <td><strong> Covers uploaded </strong></td>
+          <td><%= @user.photos.size %> </strong></td>
+        </tr>
+      <% end %>
+      <% if @user.songs.size > 0 %>
+        <tr>
+          <td><strong> Songs uploaded </strong></td>
+          <td><%= @user.songs.size %> </strong></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+<div id="artist-records">
+  <table>
+    <thead>
+      <tr>
+        <th> Cover </th>
+        <th> Label </th>
+        <th> Genre </th>
+        <th> Record Format </th>
+        <th> Condition </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @records.limit(5).each do |record| %>
+        <tr>
+          <td> <%= image_tag record.cover_photo unless record.cover_photo.blank? %> </td>
+          <td> <%= record.label.name %> </td>
+          <td> <%= record.genre.name %> </td>
+          <td> <%= record.record_format.name %> </td>
+          <td> <%= record.get_condition %> </td>
+          <td> <%= link_to 'show', record %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% if @records.size > 5 %>
+    <div><%= link_to "Show More", user_records_path(@user.slug) %></div>
+  <% end %>
+</div>

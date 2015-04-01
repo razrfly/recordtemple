@@ -1,0 +1,25 @@
+
+<h2 class='page-title'>Users</h3>
+
+<div id="users">
+  <table>
+    <thead>
+      <tr>
+        <th> Username </th>
+        <th> Name </th>
+        <th> Records Count </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td> <%= user.username %> </td>
+          <td> <%= user.name %> </td>
+          <td> <%= user.records.size %> </td>
+          <td> <%= link_to 'show', user_path(user.slug) %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
