@@ -194,6 +194,6 @@ crumb :show_price do |price|
 end
 
 crumb :edit_price do |price|
-  link "Edit", edit_price_path(price)
+  link "Edit", edit_admin_price_path(price)
   parent :show_price, price
 end
