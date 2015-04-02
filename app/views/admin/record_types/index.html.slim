@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Record Types
-  = link_to new_admin_record_type_path, :class => 'btn btn-default btn-sm'
-    i.fa.fa-plus>
-    | Add New
+  - if can? :create, RecordType
+    = link_to new_admin_record_type_path, class: 'btn btn-default btn-sm'
+      i.fa.fa-plus>
+      | Add New
 .panel.panel-default
   .panel-heading
     .panel-title Record Format Index
@@ -19,5 +20,7 @@ h3.page-title
           tr
             td = record_type.name
             td.buttons
-              = link_to icon('wrench fa-lg'), [:edit, :admin, record_type]
-              = link_to icon('times fa-lg'), [:admin, record_type], :method => :delete, data: {confirm: 'Are you sure?'}
+              - if can? :update, record_type
+                = link_to icon('wrench fa-lg'), [:edit, :admin, record_type]
+              - if can? :destroy, record_type
+                = link_to icon('times fa-lg'), [:admin, record_type], :method => :delete, data: {confirm: 'Are you sure?'}

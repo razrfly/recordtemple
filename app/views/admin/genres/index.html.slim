@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Genres
-  = link_to new_admin_genre_path, :class => 'btn btn-default btn-sm'
-    i.fa.fa-plus>
-    | Add New
+  - if can? :create, Genre
+    = link_to new_admin_genre_path, :class => 'btn btn-default btn-sm'
+      i.fa.fa-plus>
+      | Add New
 .panel.panel-default
   .panel-heading
     .panel-title Genres Index
@@ -19,5 +20,7 @@ h3.page-title
           tr
             td = genre.name
             td.buttons
-              = link_to icon('wrench fa-lg'), [:edit, :admin, genre]
-              = link_to icon('times fa-lg'), [:admin, genre], :method => :delete, data: {confirm: 'Are you sure?'}
+              - if can? :update, genre
+                = link_to icon('wrench fa-lg'), [:edit, :admin, genre]
+              - if can? :destroy, genre
+                = link_to icon('times fa-lg'), [:admin, genre], :method => :delete, data: {confirm: 'Are you sure?'}

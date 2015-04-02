@@ -52,9 +52,12 @@
                   td= record.record_format.name
                   td= record.get_condition
                   td.buttons
-                    = link_to icon('search fa-lg'), [:admin, record]
-                    = link_to icon('wrench fa-lg'), [:edit, :admin, record]
-                    = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
+                    - if can? :read, record
+                      = link_to icon('search fa-lg'), [:admin, record]
+                    - if can? :update, record
+                      = link_to icon('wrench fa-lg'), [:edit, :admin, record]
+                    - if can? :destroy, record
+                      = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
           = paginate @records, param_name: 'records_page', views_prefix: 'admin/'
           span.pull-right
             = page_entries_info @records
@@ -83,9 +86,12 @@
                 td= price.price_range
                 td= price.date_range
                 td.buttons
-                  = link_to icon('search fa-lg'), [:admin, price]
-                  = link_to icon('wrench fa-lg'), [:edit, :admin, price]
-                  = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
+                  - if can? :read, price
+                    = link_to icon('search fa-lg'), [:admin, price]
+                  - if can? :update, price
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, price]
+                  - if can? :destroy, price
+                    = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @prices, param_name: 'prices_page', views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices

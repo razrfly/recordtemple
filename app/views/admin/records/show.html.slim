@@ -3,9 +3,10 @@
 .panel.panel-default
 
   .panel-heading.record
-    = link_to [:edit, :admin, @price, @record], class: 'btn btn-default btn-sm pull-right edit-link'
-      i.fa.fa-wrench>
-      | Edit record
+    - if can? :update, @record
+      = link_to [:edit, :admin, @price, @record], class: 'btn btn-default btn-sm pull-right edit-link'
+        i.fa.fa-wrench>
+        | Edit record
   .panel-body
 
     .panel.panel-default.col-md-3.col-lg-5.col-xl-6
