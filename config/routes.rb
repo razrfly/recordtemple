@@ -4,13 +4,8 @@ Recordapp::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: "users/registrations" }
   devise_scope :user do
-    # resources :records
     get "login", :to => "devise/sessions#new"
   end
-
-  # resources :users, only: [:index, :show], path: '/user' do
-    # resources :records, only: [:index, :show]
-  # end
 
   resources :labels, :artists, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
@@ -35,6 +30,9 @@ Recordapp::Application.routes.draw do
     resources :prices do
       resources :records
     end
+
+    # sticky navigation
+    post 'sticky' => 'admin#sticky'
 
   end
 

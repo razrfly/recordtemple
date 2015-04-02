@@ -15,3 +15,4 @@
 //= require ./records
 //= require ./selectize
 //= require ./soundmanager
+//= require ./sticky_nav

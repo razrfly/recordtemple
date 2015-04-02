@@ -17,7 +17,7 @@ html
     = stylesheet_link_tag 'admin/application', media: 'all'
     = csrf_meta_tags
 
-  body.fixed-header
+  body class=(@pinned ? 'fixed-header menu-pin' : 'fixed-header')
     /! BEGIN SIDEBAR
     .page-sidebar data-pages="sidebar"
       #appMenu.sidebar-overlay-slide.from-top
@@ -27,7 +27,7 @@ html
         .sidebar-header-controls
           button.btn.btn-xs.sidebar-slide-toggle.btn-link.m-l-20 data-pages-toggle="#appMenu" type="button"
             i.fa.fa-angle-down.fs-16
-          button.btn.btn-link.visible-lg-inline data-toggle-pin="sidebar" type="button"
+          button.btn.btn-link.visible-lg-inline data-toggle-pin="sidebar" data-url=admin_sticky_url type="button"
             i.fa.fs-12
       /! END SIDEBAR HEADER
       = render 'layouts/admin/navigation'
@@ -48,7 +48,7 @@ html
         /! RIGHT SIDE
         .pull-right.full-height.visible-sm.visible-xs
           /! START ACTION BAR
-          .sm-action-bar"
+          .sm-action-bar
             a href="#" class="btn-link" data-toggle="quickview" data-toggle-element="#quickview"
               span.icon-set.menu-hambuger-plus
           /! END ACTION BAR
