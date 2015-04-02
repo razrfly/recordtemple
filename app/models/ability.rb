@@ -2,18 +2,18 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    user ||= User.new #guest
-
+    user ||= User.new
     if user.admin?
       can :manage, :all
+      cannot :destroy, User, id: user.id
     else
+      can :update, User, id: user.id
+      can :create, Invitation
+      can :manage, Record, user_id: user.id
+      can :manage, Song, record: {user_id: user.id}
+      can :manage, Photo, record: {user_id: user.id}
+      # need solution for labels and artists
       can :read, :all
-      if user.role?(:author)
-        can :create, Record
-        can :update, Record do |record|
-          record.try(:user) == user
-        end
-      end
     end
   end
 end
