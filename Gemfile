@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'selectize-rails'
-# gem 'pages_admin_template-rails'
+gem 'pages_admin_template-rails'
 gem 'gretel'
 
 gem 'devise', '~> 3.4.1'
@@ -55,6 +55,6 @@ group :development do
   gem 'pry-rails'
   gem 'hirb'
   gem 'better_errors'
-  gem 'rack-mini-profiler'
+  # gem 'rack-mini-profiler'
   gem 'binding_of_caller'
 end
