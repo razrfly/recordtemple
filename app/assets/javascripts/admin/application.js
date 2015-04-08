@@ -1,7 +1,8 @@
 //= require jquery
 //= require jquery_ujs
 
-//= require pages-rails
+//= require pages-admin-template
+
 //= require selectize
 //= require soundmanager2
 //= require soundmanager2/bar-ui

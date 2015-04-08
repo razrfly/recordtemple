@@ -20,7 +20,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'selectize-rails'
-gem 'pages-rails', '0.0.6'
+# gem 'pages_admin_template-rails'
 gem 'gretel'
 
 gem 'devise', '~> 3.4.1'
