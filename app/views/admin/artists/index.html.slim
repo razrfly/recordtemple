@@ -5,27 +5,28 @@ h3.page-title
   = link_to [:new, :admin, :artist], :class => 'btn btn-default btn-sm'
     i.fa.fa-plus>
     | Add New
-.col-md-9#artists
-  .panel.panel-default
-    .panel-heading
-      .panel-title Artist Index
-    .panel-body
-      table.table
-        thead
-          tr
-            th= sort_link [:admin, @search], :name, "Name"
-            th.buttons
-        tbody
-          - @artists.each do |artist|
-            tr.artist-row
-              td= artist.name
-              td.buttons
-                = link_to icon('search fa-lg'), [:admin, artist]
-                = link_to icon('wrench fa-lg'), [:edit, :admin, artist]
-                = link_to icon('times fa-lg'), [:admin, artist], :method => :delete, data: {confirm: 'Are you sure?'}
-      = paginate @artists, views_prefix: 'admin/'
-      span.pull-right
-        = page_entries_info @artists
+.row
+  .col-md-9#artists
+    .panel.panel-default
+      .panel-heading
+        .panel-title Artist Index
+      .panel-body
+        table.table
+          thead
+            tr
+              th= sort_link [:admin, @search], :name, "Name"
+              th.buttons
+          tbody
+            - @artists.each do |artist|
+              tr.artist-row
+                td= artist.name
+                td.buttons
+                  = link_to icon('search fa-lg'), [:admin, artist]
+                  = link_to icon('wrench fa-lg'), [:edit, :admin, artist]
+                  = link_to icon('times fa-lg'), [:admin, artist], :method => :delete, data: {confirm: 'Are you sure?'}
+        = paginate @artists, views_prefix: 'admin/'
+        span.pull-right
+          = page_entries_info @artists
 
-.col-md-3
-  = render 'filters'
+  .col-md-3
+    = render 'filters'

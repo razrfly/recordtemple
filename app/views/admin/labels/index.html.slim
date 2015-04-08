@@ -5,27 +5,28 @@ h3.page-title
   = link_to [:new, :admin, :label], :class => 'btn btn-default btn-sm'
     i.fa.fa-plus>
     | Add New
-.col-md-9#labels
-  .panel.panel-default
-    .panel-heading
-      .panel-title Label Index
-    .panel-body
-      table.table
-        thead
-          tr
-            th= sort_link [:admin, @search], :name, "Name"
-            th.buttons
-        tbody
-          - @labels.each do |label|
-            tr.label-row
-              td= label.name
-              td.buttons
-                = link_to icon('search fa-lg'), [:admin, label]
-                = link_to icon('wrench fa-lg'), [:edit, :admin, label]
-                = link_to icon('times fa-lg'), [:admin, label], :method => :delete, data: {confirm: 'Are you sure?'}
-      = paginate @labels, views_prefix: 'admin/'
-      span.pull-right
-        = page_entries_info @labels
+.row
+  .col-md-9#labels
+    .panel.panel-default
+      .panel-heading
+        .panel-title Label Index
+      .panel-body
+        table.table
+          thead
+            tr
+              th= sort_link [:admin, @search], :name, "Name"
+              th.buttons
+          tbody
+            - @labels.each do |label|
+              tr.label-row
+                td= label.name
+                td.buttons
+                  = link_to icon('search fa-lg'), [:admin, label]
+                  = link_to icon('wrench fa-lg'), [:edit, :admin, label]
+                  = link_to icon('times fa-lg'), [:admin, label], :method => :delete, data: {confirm: 'Are you sure?'}
+        = paginate @labels, views_prefix: 'admin/'
+        span.pull-right
+          = page_entries_info @labels
 
-.col-md-3
-  = render 'filters'
+  .col-md-3
+    = render 'filters'
