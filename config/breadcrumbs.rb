@@ -197,3 +197,26 @@ crumb :edit_price do |price|
   link "Edit", edit_admin_price_path(price)
   parent :show_price, price
 end
+
+
+# Pages
+
+crumb :pages do |user|
+  link "Pages", admin_user_pages_path(user)
+  parent :root
+end
+
+crumb :new_page do |user|
+  link "New", new_admin_user_page_path(user)
+  parent :pages, user
+end
+
+crumb :show_page do |user, page|
+  link 'Page', admin_user_page_path(user, page)
+  parent :pages, user
+end
+
+crumb :edit_page do |user, page|
+  link "Edit", edit_admin_user_page_path(user, page)
+  parent :show_page, user, page
+end

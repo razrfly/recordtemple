@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   has_many :prices
   has_many :photos, through: :records
   has_many :songs, through: :records
+  has_many :pages
 
   extend FriendlyId
   friendly_id :username, use: [:slugged, :finders]

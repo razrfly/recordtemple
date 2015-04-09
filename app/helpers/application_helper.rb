@@ -14,4 +14,14 @@ module ApplicationHelper
     end
   end
 
+  def markdown(content)
+    settings = Redcarpet::Render::HTML.new(with_toc_data: true, filter_html: true)
+    markdown = Redcarpet::Markdown.new(settings,
+        autolink: true, space_after_headers: true, autolink: true, hard_wrap: true,
+        no_intraemphasis: true, strikethrough: true, tables: true, footnotes: true)
+    unless content.blank?
+      return markdown.render(content).html_safe
+    end
+  end
+
 end

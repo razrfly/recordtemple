@@ -34,8 +34,9 @@ gem 'font-awesome-sass', '~> 4.2.0'
 gem 'active_link_to', '~> 1.0.2'
 gem 'friendly_id', '~> 5.0.4'
 gem 'kaminari'
-gem 'paperclip', '~> 4.1.1'
+gem 'redcarpet'
 gem 'aws-sdk', '~> 1.44.0'
+gem 'rails-bootstrap-markdown'
 
 gem 'ransack', '~> 1.2.3'
 gem 'textacular', '~> 3.0'
@@ -55,6 +56,6 @@ group :development do
   gem 'pry-rails'
   gem 'hirb'
   gem 'better_errors'
-  gem 'rack-mini-profiler'
+  # gem 'rack-mini-profiler'
   gem 'binding_of_caller'
 end
