@@ -1,18 +1,22 @@
 class PagesController < ApplicationController
+  before_action :set_user
 
   def index
-    @pages = Page.where(user_id: current_user.id)
+    @pages = @user.nil? ? Page.all : @user.pages
   end
 
 
   def show
-    if params[:user_id]
-      user = User.find(params[:user_id])
-      @page = user.pages.find_by(slug: params[:id])
-    # else
-      # @page = Page.find_by(slug: params[:id])
+    if @user
+      @page = @user.pages.find_by(slug: params[:id])
+    else
+      raise ActionController::RoutingError.new('Not Found') if @page.blank?
     end
-    raise ActionController::RoutingError.new('Not Found') if @page.blank?
   end
+
+  private
+    def set_user
+      @user = User.find(params[:user_id]) unless params[:user_id].nil?
+    end
 
 end

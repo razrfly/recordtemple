@@ -45,6 +45,12 @@
           <td><%= link_to @records.size, user_records_path(@user.slug) %></td>
         </tr>
       <% end %>
+      <% if @user.pages.size > 0 %>
+        <tr>
+          <td><strong> Pages </strong></td>
+          <td><%= link_to @user.pages.size, user_pages_path(@user.slug) %></td>
+        </tr>
+      <% end %>
       <% if @user.photos.size > 0 %>
         <tr>
           <td><strong> Covers uploaded </strong></td>
