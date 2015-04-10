@@ -1,5 +1,5 @@
 class Admin::SongsController < Admin::AdminController
-
+  authorize_resource
   # PUT /index
   def index
     @search = Song.ransack(params[:q])

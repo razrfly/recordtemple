@@ -45,8 +45,8 @@
       .panel-title
         | Your records
       - if can? :create, Record
-        = link_to new_admin_price_record_path(@price), class: 'btn btn-default btn-sm pull-right'
-          i.fa.fa-plus>
+        = link_to new_admin_price_record_path(@price), class: 'btn btn-default btn-sm'
+          => icon('plus')
           | Add New Record
     .panel-body
       - if @records.size > 0
@@ -81,5 +81,5 @@
             br/
             br/
             = link_to new_admin_price_record_path(@price), class: 'btn btn-default btn-sm'
-              i.fa.fa-plus>
+              => icon('plus')
               | Add New Record

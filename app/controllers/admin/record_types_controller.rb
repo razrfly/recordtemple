@@ -1,4 +1,5 @@
 class Admin::RecordTypesController < Admin::AdminController
+  authorize_resource
   before_action :set_record_type, :only => [:show, :edit, :update, :destroy]
 
   def index

@@ -3,8 +3,8 @@
 h3.page-title
   ' Record Formats
   - if can? :create, RecordFormat
-    = link_to new_admin_record_format_path, :class => 'btn btn-default btn-sm'
-      i.fa.fa-plus>
+    = link_to new_admin_record_format_path, class: 'btn btn-default btn-sm'
+      => icon('plus')
       | Add New
 .panel.panel-default
   .panel-heading

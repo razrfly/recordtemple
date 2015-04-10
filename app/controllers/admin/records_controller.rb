@@ -1,4 +1,5 @@
 class Admin::RecordsController < Admin::AdminController
+  authorize_resource
   before_action :set_record, only: [:show, :edit, :update, :destroy, :unlink_price]
   before_action :set_price, only: [:new, :create, :edit, :update, :show]
   before_action :set_collections, only: [:edit, :new, :create, :update]

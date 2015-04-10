@@ -24,8 +24,8 @@
           .panel-title Price Info
           - unless f.object.new_record?
             = link_to unlink_price_admin_record_path(@record), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-default pull-right'
-              i.fa.fa-chain-broken.fa-lg
-              | &nbsp;Unlink price
+              => icon('chain-broken fa-lg')
+              | Unlink price
         .panel-body
 
           table.table

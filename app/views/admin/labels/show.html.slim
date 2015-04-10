@@ -5,10 +5,9 @@ h3.page-title
   = @label.name
   span.pull-right
     - if can? :update, @label
-      = link_to [:edit, :admin, @label], :class => 'btn btn-default btn-sm'
-        i.fa.fa-wrench>
+      = link_to [:edit, :admin, @label], class: 'btn btn-default btn-sm'
+        => icon('wrench')
         | Edit label
-
 
 .panel.panel-default.col-md-3
     .panel-heading

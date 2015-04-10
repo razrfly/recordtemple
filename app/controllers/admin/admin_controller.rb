@@ -1,7 +1,6 @@
 class Admin::AdminController < ActionController::Base
   layout 'admin/application'
   before_action :authenticate_user!
-  authorize_resource
   before_action :set_nav
 
   def sticky

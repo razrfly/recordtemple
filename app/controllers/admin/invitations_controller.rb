@@ -1,5 +1,5 @@
 class Admin::InvitationsController < Admin::AdminController
-
+  authorize_resource
   def new
     @invitation = Invitation.new
   end
