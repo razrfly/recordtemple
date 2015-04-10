@@ -1,8 +1,14 @@
 class Admin::PagesController < Admin::AdminController
+  before_action :set_user, only: [:index]
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 
   def index
-    @pages = Page.where(user_id: current_user.id).order('position asc')
+    if @user.nil?
+      @pages = Page.all
+      render :all
+    else
+      @pages = Page.where(user: @user).order('position asc')
+    end
   end
 
   def show
@@ -16,7 +22,7 @@ class Admin::PagesController < Admin::AdminController
   end
 
   def create
-    @page = Page.new(page_params)
+    @page = Page.new(page_params.merge(user_id: current_user.id))
     if @page.save
       redirect_to admin_user_page_path(current_user, @page), notice: 'Page was successfully created.'
     else
@@ -46,11 +52,15 @@ class Admin::PagesController < Admin::AdminController
   end
 
   private
+    def set_user
+      @user = User.find(params[:user_id]) if params[:user_id].present?
+    end
+
     def set_page
       @page = Page.find(params[:id])
     end
 
     def page_params
-      params.require(:page).permit(:title, :content, :user_id, :position, :cover, :slug)
+      params.require(:page).permit(:title, :content, :position, :cover, :slug)
     end
 end

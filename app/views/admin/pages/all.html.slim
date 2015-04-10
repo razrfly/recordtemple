@@ -1,13 +1,10 @@
 / - breadcrumb :pages
 
 h3.page-title
-  ' Pages
-  = link_to [:new, :admin, current_user, :page], class: 'btn btn-default btn-sm'
-    => icon('plus')
-    | Add New
-  =< link_to [:admin, :pages], class: 'btn btn-default btn-sm'
-    => icon('users')
-    | Show All
+  ' All Pages
+  = link_to [:admin, current_user, :pages], class: 'btn btn-default btn-sm'
+    => icon('user')
+    | My Pages
 .panel.panel-default
   .panel-heading
     .panel-title Pages Index
@@ -15,20 +12,19 @@ h3.page-title
     table.table
       thead
         tr
-          th #
           th Cover
           th Title
+          th User
           th Created at
           th.buttons
-      tbody.sortable data-update-url=(sort_admin_user_pages_url(current_user))
+      tbody
         - @pages.each do |page|
-          = content_tag_for :tr, page
-            td = icon('sort', '', class: 'draggable')
+          tr
             td = link_to(image_tag(page.cover_photo), [:admin, current_user, page]) if page.cover.present?
             td = page.title
+            td = link_to page.user.username, [:admin, page.user]
             td = l page.created_at, format: :sexy
             td.buttons
               = link_to icon('search fa-lg'), [:admin, current_user, page]
               = link_to icon('wrench fa-lg'), [:edit, :admin, current_user, page]
               = link_to icon('times fa-lg'), [:admin, current_user, page], method: :delete, data: { confirm: 'Are you sure?' }
-

@@ -22,6 +22,7 @@ Recordapp::Application.routes.draw do
     put 'songs'   => 'songs#index'
 
     resources :genres, :record_formats, :record_types, except: :show
+    resources :pages, only: [:index]
     resources :users do
       resources :pages do
         post 'sort', to: 'pages#sort', on: :collection
@@ -42,7 +43,7 @@ Recordapp::Application.routes.draw do
 
   end
 
-
+  resources :pages, only: [:index]
   constraints(user_id: /rui|greggie|holden|szymon|simon|twitwilly|steve/) do
     get ':user_id', to: 'users#show', as: 'user'
     get ':user_id/records', to: 'records#index', as: 'user_records'
