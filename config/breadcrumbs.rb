@@ -161,7 +161,7 @@ crumb :new_user do
 end
 
 crumb :show_user do |user|
-  link user.nickname
+  link user.username
   parent :users
 end
 
