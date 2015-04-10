@@ -1,0 +1,47 @@
+- breadcrumb :show_user, @user
+
+h3.page-title = @user.username
+.row
+  .col-md-9#users
+    .panel.panel-default
+      .panel-heading
+        .panel-title User info
+      .panel-body
+        table.table
+          tbody
+            tr
+              td
+                strong Username
+              td = @user.username
+
+            - if @user.name
+              tr
+                td
+                  strong Name
+                td = @user.name
+
+            - if (count=@user.records.size) > 0
+              tr
+                td
+                  strong Records
+                td = link_to count, user_records_path(@user.slug), class: 'badge badge-inverse'
+
+            - if (count=@user.pages.size) > 0
+              tr
+                td
+                  strong Pages
+                td = link_to count, admin_user_pages_path(@user.slug), class: 'badge badge-inverse'
+
+            - if (count=@user.photos.size) > 0
+              tr
+                td
+                  strong Covers uploaded
+                td
+                  span.badge.badge-default = count
+
+            - if (count=@user.songs.size) > 0
+              tr
+                td
+                  strong Songs uploaded
+                td
+                  span.badge.badge-default = count
