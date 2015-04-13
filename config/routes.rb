@@ -20,6 +20,7 @@ Recordapp::Application.routes.draw do
     put 'labels'  => 'labels#index'
     put 'records' => 'records#index'
     put 'songs'   => 'songs#index'
+    put 'users'   => 'users#index'
 
     # get ':user_id/pages', to: 'pages#index', as: 'user_pages'
     resources :pages do

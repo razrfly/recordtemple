@@ -12,9 +12,9 @@
           i.pg-settings_small
           | Settings
       li
-        a href="#"
-          i class="pg-outdent"
-          | Feedback
+        = link_to admin_user_path(current_user)
+          => icon('user')
+          | Profile
       li
         a href="#"
           i.pg-signals

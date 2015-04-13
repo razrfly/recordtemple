@@ -4,9 +4,12 @@
       .panel-title User Form
     .panel-body
       .col-md-6
-        = f.input :username
-        = f.input :fname, label: "First Name"
-      .col-md-6
+        = f.input :username, required: true
         = f.input :email, required: true
+      .col-md-6
+        = f.input :fname, label: "First Name"
         = f.input :lname, label: "Last Name"
-      = f.button :submit
+
+      .col-md-12
+        br/
+        = f.button :submit, 'Update Profile'

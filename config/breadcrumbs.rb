@@ -161,7 +161,7 @@ crumb :new_user do
 end
 
 crumb :show_user do |user|
-  link user.username
+  link user.username, admin_user_path(user)
   parent :users
 end
 

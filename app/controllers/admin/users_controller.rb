@@ -14,6 +14,8 @@ class Admin::UsersController < Admin::AdminController
   end
 
   def show
+    @records = @user.records
+    @pages = @user.pages
   end
 
   def edit
