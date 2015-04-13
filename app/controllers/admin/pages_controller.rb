@@ -1,4 +1,5 @@
 class Admin::PagesController < Admin::AdminController
+  authorize_resource
   before_action :set_user, only: [:index]
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 

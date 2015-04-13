@@ -10,10 +10,12 @@ class Ability
       can :update, User, id: user.id
       can :create, Invitation
       can :manage, Record, user_id: user.id
-      can :manage, Song, record: {user_id: user.id}
-      can :manage, Photo, record: {user_id: user.id}
-      # need solution for labels and artists
+      can :manage, Song, record: { user_id: user.id }
+      can :manage, Photo, record: { user_id: user.id }
       can :read, :all
+      cannot :read, Page
+      # doesn't work!
+      can :manage, Page, user_id: user.id
     end
   end
 end

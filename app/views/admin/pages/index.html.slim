@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Pages
-  = link_to [:new, :admin, :page], class: 'btn btn-default btn-sm'
-    => icon('plus')
-    | Add New
+  - if can? :create, Page
+    = link_to [:new, :admin, :page], class: 'btn btn-default btn-sm'
+      => icon('plus')
+      | Add New
 .panel.panel-default
   .panel-heading
     .panel-title Pages Index
@@ -25,7 +26,9 @@ h3.page-title
             td = page.title
             td = l page.created_at, format: :sexy
             td.buttons
-              = link_to icon('search fa-lg'), [:admin, page]
-              = link_to icon('wrench fa-lg'), [:edit, :admin, page]
-              = link_to icon('times fa-lg'), [:admin, page], method: :delete, data: { confirm: 'Are you sure?' }
-
+              - if can? :read, page
+                = link_to icon('search fa-lg'), [:admin, page]
+              - if can? :update, page
+                = link_to icon('wrench fa-lg'), [:edit, :admin, page]
+              - if can? :destroy, page
+                = link_to icon('times fa-lg'), [:admin, page], method: :delete, data: { confirm: 'Are you sure?' }

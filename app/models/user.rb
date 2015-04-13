@@ -23,7 +23,8 @@ class User < ActiveRecord::Base
 
   # just for testing cancancan
   def admin?
-    true
+    false
+    # true
   end
 
 end
