@@ -28,5 +28,5 @@
               = f.input :price_low_eq, label: false, input_html: {class: 'control-label eq price inactive', disabled: 'disabled'}
               = f.input :price_low_lt, label: false, input_html: {class: 'control-label lt price inactive', disabled: 'disabled'}
 
-        = f.button :submit, 'Search'
+        = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_prices_path, class: 'pull-right btn btn-default'

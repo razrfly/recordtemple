@@ -13,5 +13,5 @@
         = f.input :photos_id_not_null, :as => :boolean, :label => 'With Photos'
         = f.input :songs_id_not_null, :as => :boolean, :label => 'With Songs'
         br/
-        = f.button :submit, 'Search'
+        = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_records_path, class: 'pull-right btn btn-default'

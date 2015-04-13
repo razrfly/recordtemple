@@ -37,3 +37,11 @@
 .draggable
   color: #ccc
   cursor: move
+
+// fix for simple_form-generated inputs
+span.help::before
+  content: ' '
+
+thead a:link, thead a:visited, thead a:active
+  // $color-master-dark
+  color: #626262

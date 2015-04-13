@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Prices
-  = link_to new_admin_price_path, class: 'btn btn-default btn-sm'
-    => icon('plus')
-    | Add New
+  - if can? :create, Price
+    = link_to new_admin_price_path, class: 'btn btn-default btn-sm'
+      => icon('plus')
+      | Add New
 .row
   .col-md-9#prices
     .panel.panel-default

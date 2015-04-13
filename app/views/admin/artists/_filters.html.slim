@@ -8,5 +8,5 @@
         = f.input :name_eq, label: 'Name', required: false, input_html: {id: 'filters-artist'}
 
         br/
-        = f.button :submit, 'Search'
+        = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_artists_path, class: 'pull-right btn btn-default'
