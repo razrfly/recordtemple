@@ -1,10 +1,11 @@
 - breadcrumb :show_page, @page
 
 h3.page-title
-  => @page.title
-  = link_to [:edit, :admin, @page], class: 'btn btn-default btn-sm'
-    => icon('pencil')
-    | Edit Page
+  - if can? :edit, @page
+    => @page.title
+    = link_to [:edit, :admin, @page], class: 'btn btn-default btn-sm'
+      => icon('pencil')
+      | Edit Page
 
 
 
