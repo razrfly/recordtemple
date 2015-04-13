@@ -11,10 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401151916) do
+ActiveRecord::Schema.define(version: 20150409140518) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "pg_trgm"
 
   create_table "active_admin_comments", force: true do |t|
     t.integer  "resource_id",   null: false
@@ -61,6 +62,19 @@ ActiveRecord::Schema.define(version: 20150401151916) do
 
   add_index "labels", ["name"], name: "index_labels_on_name", unique: true, using: :btree
   add_index "labels", ["slug"], name: "index_labels_on_slug", unique: true, using: :btree
+
+  create_table "pages", force: true do |t|
+    t.string   "title"
+    t.text     "content"
+    t.integer  "user_id"
+    t.integer  "position"
+    t.string   "cover_id"
+    t.string   "slug"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "pages", ["user_id"], name: "index_pages_on_user_id", using: :btree
 
   create_table "photos", force: true do |t|
     t.integer  "record_id"

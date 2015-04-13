@@ -1,0 +1,15 @@
+<div class="hero" style="background-image: url(<%= Refile.attachment_url(@page, :cover) %>)">
+  <div class="hero-helper">
+  <div class="hero-inner">
+    <a href="" class="hero-logo"><img src="https://raw.githubusercontent.com/thoughtbot/refills/master/source/images/placeholder_logo_1.png
+" alt="Logo Image"></a>
+    <div class="hero-copy">
+      <h1><%= @page.title %></h1>
+      <p>Published on <%= l @page.created_at, format: :sexy %> by <%= link_to @page.user.username, @page.user %></p> 
+    </div>
+    <!-- <button>Learn More</button> -->
+  </div>
+  </div>
+</div>
+
+<%= markdown @page.content %>

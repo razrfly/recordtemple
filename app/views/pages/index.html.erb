@@ -1,0 +1,22 @@
+<h1> Pages </h1>
+
+<table>
+  <thead>
+    <tr>
+      <th> Cover </th>
+      <th> Title </th>
+      <th> User </th>
+      <th> </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @pages.each do |page| %>
+      <tr>
+        <td> <%= link_to(image_tag(page.cover_photo), [page.user, page]) if page.cover.present? %> </td>
+        <td> <%= page.title %> </td>
+        <td> <%= link_to page.user.username, page.user %> </td>
+        <td> <%= link_to 'Show', [page.user, page] %> </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
