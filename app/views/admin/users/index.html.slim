@@ -1,7 +1,7 @@
 - breadcrumb :users
 
 h3.page-title
-  ' User
+  ' Users
 .row
   .col-md-9#users
     .panel.panel-default
@@ -30,10 +30,13 @@ h3.page-title
                 td= user.email
                 td= user.sign_in_count
                 td.buttons
-                  = link_to icon('wrench fa-lg'), [:edit, :admin, user]
-                  = link_to icon('times fa-lg'), [:admin, user], :method => :delete, data: {confirm: 'Are you sure?'}
+                  - if can? :update, user
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, user]
+                  - if can? :destroy, user
+                    = link_to icon('times fa-lg'), [:admin, user], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @users, views_prefix: 'admin/'
 
   .col-md-3
-    = render partial: 'admin/invitations/form'
+    - if can? :create, Invitation
+      = render partial: 'admin/invitations/form'
     = render 'filters'

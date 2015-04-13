@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Record Formats
-  = link_to new_admin_record_format_path, :class => 'btn btn-default btn-sm'
-    i.fa.fa-plus>
-    | Add New
+  - if can? :create, RecordFormat
+    = link_to new_admin_record_format_path, class: 'btn btn-default btn-sm'
+      => icon('plus')
+      | Add New
 .panel.panel-default
   .panel-heading
     .panel-title Record Format Index
@@ -21,5 +22,7 @@ h3.page-title
             td = record_format.name
             td = record_format.record_type.name
             td.buttons
-              = link_to icon('wrench fa-lg'), [:edit, :admin, record_format]
-              = link_to icon('times fa-lg'), [:admin, record_format], :method => :delete, data: {confirm: 'Are you sure?'}
+              - if can? :update, record_format
+                = link_to icon('wrench fa-lg'), [:edit, :admin, record_format]
+              - if can? :destroy, record_format
+                = link_to icon('times fa-lg'), [:admin, record_format], :method => :delete, data: {confirm: 'Are you sure?'}

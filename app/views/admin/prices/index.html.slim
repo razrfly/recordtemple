@@ -2,8 +2,8 @@
 
 h3.page-title
   ' Prices
-  = link_to new_admin_price_path, :class => 'btn btn-default btn-sm'
-    i.fa.fa-plus>
+  = link_to new_admin_price_path, class: 'btn btn-default btn-sm'
+    => icon('plus')
     | Add New
 .row
   .col-md-9#prices
@@ -29,9 +29,13 @@ h3.page-title
                 td= price.price_low
                 td= price.price_high
                 td.buttons
-                  = link_to icon('search fa-lg'), [:admin, price]
-                  = link_to icon('wrench fa-lg'), [:edit, :admin, price]
-                  = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
+                  - if can? :read, price
+                    = link_to icon('search fa-lg'), [:admin, price]
+                  - if can? :update, price
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, price]
+                  - if can? :destroy, price
+                    = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
+
         = paginate @prices, views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices

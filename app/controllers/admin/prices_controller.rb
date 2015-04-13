@@ -1,4 +1,5 @@
 class Admin::PricesController < Admin::AdminController
+  authorize_resource
   before_action :set_price, only: [:show, :edit, :update, :destroy]
   before_action :set_price_range, only: :index
   def index

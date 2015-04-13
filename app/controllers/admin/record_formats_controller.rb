@@ -1,4 +1,5 @@
 class Admin::RecordFormatsController < Admin::AdminController
+  authorize_resource
   before_action :set_record_format, :only => [:show, :edit, :update, :destroy]
 
   def index

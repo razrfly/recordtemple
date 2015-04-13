@@ -1,4 +1,5 @@
 class Admin::ArtistsController < Admin::AdminController
+  authorize_resource
   before_action :set_artist, only: [:show, :edit, :update, :destroy]
 
   def index

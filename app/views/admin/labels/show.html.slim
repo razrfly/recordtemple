@@ -4,10 +4,10 @@
 h3.page-title
   = @label.name
   span.pull-right
-    = link_to [:edit, :admin, @label], :class => 'btn btn-default btn-sm'
-      i.fa.fa-wrench>
-      | Edit label
-
+    - if can? :update, @label
+      = link_to [:edit, :admin, @label], class: 'btn btn-default btn-sm'
+        => icon('wrench')
+        | Edit label
 
 .panel.panel-default.col-md-3
     .panel-heading
@@ -56,9 +56,12 @@ h3.page-title
                   td= record.get_condition
                   td= truncate(record.desc, length: 75)
                   td.buttons
-                    = link_to icon('search fa-lg'), [:admin, record]
-                    = link_to icon('wrench fa-lg'), [:edit, :admin, record]
-                    = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
+                    - if can? :read, record
+                      = link_to icon('search fa-lg'), [:admin, record]
+                    - if can? :update, record
+                      = link_to icon('wrench fa-lg'), [:edit, :admin, record]
+                    - if can? :destroy, record
+                      = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
           = paginate @records, param_name: 'records_page', views_prefix: 'admin/'
           span.pull-right
             = page_entries_info @records
@@ -85,9 +88,12 @@ h3.page-title
                 td= price.price_low
                 td= price.price_high
                 td.buttons
-                  = link_to icon('search fa-lg'), [:admin, price]
-                  = link_to icon('wrench fa-lg'), [:edit, :admin, price]
-                  = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
+                  - if can? :read, price
+                    = link_to icon('search fa-lg'), [:admin, price]
+                  - if can? :update, price
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, price]
+                  - if can? :destroy, price
+                    = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @prices, param_name: 'prices_page', views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices

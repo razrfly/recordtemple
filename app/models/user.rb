@@ -20,4 +20,9 @@ class User < ActiveRecord::Base
     "#{fname} #{lname}" if fname.present? or lname.present?
   end
 
+  # just for testing cancancan
+  def admin?
+    true
+  end
+
 end

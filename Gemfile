@@ -26,7 +26,7 @@ gem 'gretel'
 gem 'devise', '~> 3.4.1'
 gem 'devise_invitable', '~> 1.3.4'
 
-gem 'cancan', '~> 1.6.10'
+gem 'cancancan', '~> 1.10'
 gem 'slim-rails', '~> 3.0.1'
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'simple_form', '~> 3.1.0'

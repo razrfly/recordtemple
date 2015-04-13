@@ -2,9 +2,10 @@
 
 h3.page-title
   ' Records
-  = link_to [:new, :admin, :record], :class => 'btn btn-default btn-sm'
-    i.fa.fa-plus>
-    | Add New
+  - if can? :create, Record
+    = link_to [:new, :admin, :record], class: 'btn btn-default btn-sm'
+      => icon('plus')
+      | Add New
 .row
   .col-md-9#records
     .panel.panel-default
@@ -33,12 +34,14 @@ h3.page-title
                 td= record.get_condition
                 td= truncate(record.desc, :length => 75)
                 td.buttons
-                  = link_to icon('search fa-lg'), [:admin, record]
-                  = link_to icon('wrench fa-lg'), [:edit, :admin, record]
-                  = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
+                  - if can? :read, record
+                    = link_to icon('search fa-lg'), [:admin, record]
+                  - if can? :update, record
+                    = link_to icon('wrench fa-lg'), [:edit, :admin, record]
+                  - if can? :destroy, record
+                    = link_to icon('times fa-lg'), [:admin, record], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @records, views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @records
-
   .col-md-3
     = render 'filters'
