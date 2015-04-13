@@ -1,8 +1,8 @@
-- breadcrumb :show_page, @page.user, @page
+- breadcrumb :show_page, @page
 
 h3.page-title
   => @page.title
-  = link_to [:edit, :admin, current_user, @page], class: 'btn btn-default btn-sm'
+  = link_to [:edit, :admin, @page], class: 'btn btn-default btn-sm'
     => icon('pencil')
     | Edit Page
 

@@ -3,12 +3,7 @@ class Admin::PagesController < Admin::AdminController
   before_action :set_page, only: [:show, :edit, :update, :destroy]
 
   def index
-    if @user.nil?
-      @pages = Page.all
-      render :all
-    else
-      @pages = Page.where(user: @user).order('position asc')
-    end
+    @pages = current_user.pages.order('position asc')
   end
 
   def show
@@ -24,7 +19,7 @@ class Admin::PagesController < Admin::AdminController
   def create
     @page = Page.new(page_params.merge(user_id: current_user.id))
     if @page.save
-      redirect_to admin_user_page_path(current_user, @page), notice: 'Page was successfully created.'
+      redirect_to [:admin, @page], notice: 'Page was successfully created.'
     else
       render action: 'new'
     end
@@ -33,7 +28,7 @@ class Admin::PagesController < Admin::AdminController
   def update
     @page.update(cover_id: nil) if params[:cover_remove] == 'true'
     if @page.update(page_params)
-      redirect_to admin_user_page_path(current_user, @page), notice: 'Page was successfully updated.'
+      redirect_to [:admin, @page], notice: 'Page was successfully updated.'
     else
       render action: 'edit'
     end
@@ -41,7 +36,7 @@ class Admin::PagesController < Admin::AdminController
 
   def destroy
     @page.destroy
-    redirect_to admin_user_pages_url(current_user), notice: 'Page was successfully destroyed.'
+    redirect_to admin_pages_url notice: 'Page was successfully destroyed.'
   end
 
   def sort

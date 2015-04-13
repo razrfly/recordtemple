@@ -202,21 +202,21 @@ end
 # Pages
 
 crumb :pages do |user|
-  link "Pages", admin_user_pages_path(user)
+  link "Pages", admin_pages_path
   parent :root
 end
 
-crumb :new_page do |user|
-  link "New", new_admin_user_page_path(user)
-  parent :pages, user
+crumb :new_page do
+  link "New", new_admin_page_path
+  parent :pages
 end
 
-crumb :show_page do |user, page|
-  link 'Page', admin_user_page_path(user, page)
-  parent :pages, user
+crumb :show_page do |page|
+  link page.title, admin_page_path(page)
+  parent :pages
 end
 
-crumb :edit_page do |user, page|
-  link "Edit", edit_admin_user_page_path(user, page)
-  parent :show_page, user, page
+crumb :edit_page do |page|
+  link "Edit", edit_admin_page_path(page)
+  parent :show_page, page
 end
