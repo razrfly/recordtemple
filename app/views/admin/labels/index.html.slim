@@ -3,11 +3,20 @@
 h3.page-title
   ' Labels
   - if can? :create, Label
-    = link_to [:new, :admin, :label], class: 'btn btn-default btn-sm'
+    => link_to [:new, :admin, :label], class: 'btn btn-default btn-sm'
       => icon('plus')
       | Add New
+  .visible-md-inline.visible-sm-inline.visible-xs-inline
+    = link_to '#', class: 'btn btn-default show-filters'
+      => icon('search')
+      | Show Filters
 .row
-  .col-md-9#labels
+  .col-md-12#filters-block
+    = render 'filters'
+
+
+.row
+  .col-md-12.col-lg-9#labels
     .panel.panel-default
       .panel-heading
         .panel-title Label Index
@@ -23,13 +32,13 @@ h3.page-title
                 td= label.name
                 td.buttons
                   - if can? :read, label
-                    = link_to icon('search fa-lg'), [:admin, label]
+                    = link_to icon('search'), [:admin, label]
                   - if can? :update, label
-                    = link_to icon('wrench fa-lg'), [:edit, :admin, label]
+                    = link_to icon('wrench'), [:edit, :admin, label]
                   - if can? :destroy, label
-                    = link_to icon('times fa-lg'), [:admin, label], :method => :delete, data: {confirm: 'Are you sure?'}
+                    = link_to icon('times'), [:admin, label], :method => :delete, data: {confirm: 'Are you sure?'}
         = paginate @labels, views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @labels
-  .col-md-3
+  .col-lg-3.clearfix.visible-lg-block
     = render 'filters'

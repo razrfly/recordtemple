@@ -4,9 +4,7 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-
-        = f.input :name_eq, label: 'Name', required: false, input_html: {id: 'filters-label'}
-
+        = f.input :name_eq, label: 'Name', required: false, input_html: { class: 'filters-label' }
         br/
         = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_labels_path, class: 'pull-right btn btn-default'
