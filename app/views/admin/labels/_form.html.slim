@@ -1,11 +1,8 @@
 = simple_form_for [:admin, @label] do |f|
-  .grid.simple
-    .grid-title.no-border
-      h4
-        span.semi-bold> Label
-        | Form
-    .grid-body.no-border
+  .panel.panel-default
+    .panel-heading
+      .panel-title Label Form
+    .panel-body
       = f.input :name
       = f.input :freebase_id
-      .form-actions
-        = f.button :submit, :class => 'btn-primary'
+      = f.button :submit
