@@ -2,9 +2,18 @@
 
 h3.page-title
   ' Users
+  .visible-md-inline.visible-sm-inline.visible-xs-inline
+    - if can? :create, Invitation
+      =< link_to new_admin_invitation_path, class: 'btn btn-default'
+        => icon('plus')
+        | Invite User
+    =< link_to '#', class: 'btn btn-default show-filters'
+      => icon('search')
+      | Show Filters
+
 
 .row
-  .col-md-9#users
+  .col-md-12.col-lg-9#users
     .col-md-12
       .panel.panel-default
         .panel-heading
@@ -14,61 +23,57 @@ h3.page-title
             thead
               tr
                 th Username
-                th Name
                 th Email
-                th Sign In Count
                 th.buttons
             tbody
               tr.user-row
                 td= current_user.username
-                td= current_user.name
-
                 td= current_user.email
-                td= current_user.sign_in_count
                 td.buttons
                   - if can? :read, current_user
-                    = link_to icon('search fa-lg'), [:admin, current_user]
+                    = link_to icon('search'), [:admin, current_user]
                   - if can? :update, current_user
-                    = link_to icon('wrench fa-lg'), [:edit, :user, :registration]
+                    = link_to icon('wrench'), [:edit, :user, :registration]
 
+    .col-md-12#filters-block
+      = render 'filters'
 
     .col-md-12
       .panel.panel-default
         .panel-heading
           .panel-title User Index
         .panel-body
-          table.table
-            thead
-              tr
-                th= sort_link [:admin, @search], :username, "Username"
-                th Name
-                th.text-center Status
-                th= sort_link [:admin, @search], :email, "Email"
-                th= sort_link [:admin, @search], :sign_in_count, "Sign In Count"
-                th.buttons
-            tbody
-              - @users.each do |user|
-                - unless user == current_user
-                  tr.user-row
-                    td= user.username
-                    td= user.name
-                    td
-                      - if user.active?
-                        span.label.label-default Invitation accepted at #{ l((user.invitation_accepted_at or user.created_at), format: :month_day_year) }
-                      - else
-                        span.label.label-warning Invitation sent at #{ l( user.invitation_sent_at, format: :month_day_year) }
-                    td= user.email
-                    td= user.sign_in_count
-                    td.buttons
-                      - if can? :read, user
-                        = link_to icon('search fa-lg'), [:admin, user]
-                      - if can? :update, user
-                        = link_to icon('wrench fa-lg'), [:edit, :admin, user]
-                      - if can? :destroy, user
-                        = link_to icon('times fa-lg'), [:admin, user], :method => :delete, data: {confirm: 'Are you sure?'}
+          .table-responsive
+            table.table
+              thead
+                tr
+                  th= sort_link [:admin, @search], :username, "Username"
+                  th Status
+                  th= sort_link [:admin, @search], :email, "Email"
+                  th.buttons
+              tbody
+                - @users.each do |user|
+                  - unless user == current_user
+                    tr class=(user.active? ? '' : 'warning')
+                      td= user.username
+                      td
+                        - if user.active?
+                          = icon('check')
+                          //span.label.label-default Invitation accepted at #{ l((user.invitation_accepted_at or user.created_at), format: :month_day_year) }
+                        - else
+                          = icon('send')
+                          //span.label.label-warning Invitation sent at #{ l( user.invitation_sent_at, format: :month_day_year) }
+                      td= user.email
+                      td.buttons
+                        - if can? :read, user
+                          = link_to icon('search'), [:admin, user]
+                        - if can? :update, user
+                          = link_to icon('wrench'), [:edit, :admin, user]
+                        - if can? :destroy, user
+                          = link_to icon('times'), [:admin, user], method: :delete, data: { confirm: 'Are you sure?' }
           = paginate @users, views_prefix: 'admin/'
 
-  .col-md-3
+  .col-md-3.visible-lg-block.clearfix
     - if can? :create, Invitation
       = render partial: 'admin/invitations/form'
     = render 'filters'

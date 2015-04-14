@@ -15,20 +15,20 @@ h3.page-title
         | Edit Profile
 
 .row
-  .col-md-9
+  .col-md-12.col-lg-9
     .col-md-12
       .panel.panel-default
         .panel-heading
           .panel-title Info
         .panel-body
           .row
-            .col-md-3.text-center.col-md-offset-1
+            .col-sm-3.text-center.col-sm-offset-1
               strong Username
               p= @user.username
-            .col-md-4.text-center
+            .col-sm-4.text-center
               strong Name
               p = @user.name
-            .col-md-3.text-center
+            .col-sm-3.text-center
               strong Email
               p = @user.email
 
@@ -38,26 +38,27 @@ h3.page-title
           .panel-heading
             .panel-title Pages
           .panel-body
-            table.table
-              thead
-                tr
-                  th Cover
-                  th Title
-                  th Created at
-                  th.buttons
-              tbody.sortable data-update-url=(sort_admin_pages_url)
-                - @pages.limit(5).each do |page|
+            .table-responsive
+              table.table
+                thead
                   tr
-                    td = link_to(image_tag(page.cover_photo), [:admin, page]) if page.cover.present?
-                    td = page.title
-                    td = l page.created_at, format: :sexy
-                    td.buttons
-                      - if can? :read, page
-                        = link_to icon('search fa-lg'), [:admin, page]
-                      - if can? :update, page
-                        = link_to icon('wrench fa-lg'), [:edit, :admin, page]
-                      - if can? :destroy, page
-                        = link_to icon('times fa-lg'), [:admin, page], method: :delete, data: { confirm: 'Are you sure?' }
+                    th Cover
+                    th Title
+                    th Created at
+                    th.buttons
+                tbody.sortable data-update-url=(sort_admin_pages_url)
+                  - @pages.limit(5).each do |page|
+                    tr
+                      td = link_to(image_tag(page.cover_photo), [:admin, page]) if page.cover.present?
+                      td = page.title
+                      td = l page.created_at, format: :sexy
+                      td.buttons
+                        - if can? :read, page
+                          = link_to icon('search'), [:admin, page]
+                        - if can? :update, page
+                          = link_to icon('wrench'), [:edit, :admin, page]
+                        - if can? :destroy, page
+                          = link_to icon('times'), [:admin, page], method: :delete, data: { confirm: 'Are you sure?' }
             - if @pages.size > 5
               .text-center
                 = link_to "Show All (#{@pages.size})", admin_pages_url, class: 'btn btn-default'
@@ -69,37 +70,34 @@ h3.page-title
           .panel-heading
             .panel-title Records
           .panel-body
-            table.table
-              thead
-                tr
-                  th Cover
-                  th Artist
-                  th Label
-                  th Genre
-                  th Record Format
-                  th Condition
-                  th.buttons
-              tbody
-                - @records.limit(5).each do |record|
-                  tr.record-row
-                    td= cover_link_for record
-                    td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
-                    td= link_to(record.label.name, [:admin, record.label], class: 'table-link') if record.label.present?
-                    td= record.genre.name
-                    td= record.record_format.name
-                    td= record.get_condition
-                    td.buttons
-                      - if can? :read, record
-                        = link_to icon('search fa-lg'), [:admin, record]
-                      - if can? :update, record
-                        = link_to icon('wrench fa-lg'), [:edit, :admin, record]
-                      - if can? :destroy, record
-                        = link_to icon('times fa-lg'), [:admin, record], method: :delete, data: { confirm: 'Are you sure?' }
+            .table-responsive
+              table.table
+                thead
+                  tr
+                    th Cover
+                    th Artist
+                    th Label
+                    th Condition
+                    th.buttons
+                tbody
+                  - @records.limit(5).each do |record|
+                    tr.record-row
+                      td= cover_link_for record
+                      td= link_to record.artist.name, [:admin, record.artist], class: 'table-link'
+                      td= link_to(record.label.name, [:admin, record.label], class: 'table-link') if record.label.present?
+                      td= record.get_condition
+                      td.buttons
+                        - if can? :read, record
+                          = link_to icon('search'), [:admin, record]
+                        - if can? :update, record
+                          = link_to icon('wrench'), [:edit, :admin, record]
+                        - if can? :destroy, record
+                          = link_to icon('times'), [:admin, record], method: :delete, data: { confirm: 'Are you sure?' }
             - if @records.size > 5
               .text-center
                 = link_to "Show All (#{@records.size})", admin_records_url, class: 'btn btn-default'
 
-  .col-md-3
+  .col-md-3.clearfix.visible-lg-block
     .panel.panel-default
       .panel-heading
         .panel-title Stats
