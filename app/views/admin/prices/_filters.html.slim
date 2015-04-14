@@ -4,29 +4,29 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-        = f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'}
-        = f.input :label_name_eq, label: 'Label', required: false, input_html: {id: 'filters-label'}
-        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_prices_count, required: false
+        = f.input :artist_name_eq, label: 'Artist', required: false, input_html: { class: 'filters-artist' }
+        = f.input :label_name_eq, label: 'Label', required: false, input_html: { class: 'filters-label' }
+        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: :name_with_prices_count, input_html: { class: 'single-select' }, required: false
 
         .form-group#price_high
           = label_tag nil, 'Price high', class: 'control-label'
           .row
-            .col-md-6
-              = select_tag "js_select_price_high", options_for_select(@price_collection, @price_high_selected), class: 'form-control js_select_price high'
-            .col-md-6
-              = f.input :price_high_gt, label: false, input_html: {class: 'control-label gt price'}
-              = f.input :price_high_eq, label: false, input_html: {class: 'control-label eq price inactive', disabled: 'disabled'}
-              = f.input :price_high_lt, label: false, input_html: {class: 'control-label lt price inactive', disabled: 'disabled'}
+            .col-xs-6
+              = select_tag "js_select_price_high", options_for_select(@price_collection, @price_high_selected), class: 'form-control js_select_price high single-select'
+            .col-xs-6
+              = f.input :price_high_gt, label: false, input_html: { class: 'control-label gt price' }
+              = f.input :price_high_eq, label: false, input_html: { class: 'control-label eq price inactive', disabled: 'disabled' }
+              = f.input :price_high_lt, label: false, input_html: { class: 'control-label lt price inactive', disabled: 'disabled' }
 
         .form-group#price_low
           = label_tag nil, 'Price low', class: 'control-label'
           .row
-            .col-md-6
-              = select_tag "js_select_price_low", options_for_select(@price_collection, @price_low_selected), class: 'form-control js_select_price low'
-            .col-md-6
-              = f.input :price_low_gt, label: false, input_html: {class: 'control-label gt price'}
-              = f.input :price_low_eq, label: false, input_html: {class: 'control-label eq price inactive', disabled: 'disabled'}
-              = f.input :price_low_lt, label: false, input_html: {class: 'control-label lt price inactive', disabled: 'disabled'}
+            .col-xs-6
+              = select_tag "js_select_price_low", options_for_select(@price_collection, @price_low_selected), class: 'form-control js_select_price low single-select'
+            .col-xs-6
+              = f.input :price_low_gt, label: false, input_html: { class: 'control-label gt price' }
+              = f.input :price_low_eq, label: false, input_html: { class: 'control-label eq price inactive', disabled: 'disabled' }
+              = f.input :price_low_lt, label: false, input_html: { class: 'control-label lt price inactive', disabled: 'disabled' }
 
         = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_prices_path, class: 'pull-right btn btn-default'

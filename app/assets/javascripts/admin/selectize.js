@@ -1,6 +1,5 @@
 $(document).ready(function() {
   $('#record-artist').selectize({
-    plugins: ['remove_button'],
     persist: false,
     maxItems: 1,
     valueField: 'id',
@@ -24,8 +23,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#filters-artist').selectize({
-    plugins: ['remove_button'],
+  $('.filters-artist').selectize({
     persist: false,
     delimiter: NaN,
     maxItems: 1,
@@ -51,7 +49,6 @@ $(document).ready(function() {
   });
 
   $('#record-label').selectize({
-    plugins: ['remove_button'],
     persist: false,
     maxItems: 1,
     valueField: 'id',
@@ -75,8 +72,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#filters-label').selectize({
-    plugins: ['remove_button'],
+  $('.filters-label').selectize({
     persist: false,
     maxItems: 1,
     delimiter: NaN,
@@ -101,8 +97,7 @@ $(document).ready(function() {
     }
   });
 
-  $('#filters-song').selectize({
-    plugins: ['remove_button'],
+  $('.filters-song').selectize({
     persist: false,
     maxItems: 1,
     delimiter: NaN,
@@ -128,21 +123,24 @@ $(document).ready(function() {
   });
 
   $('#record-condition').selectize({
-    plugins: ['remove_button'],
     persist: false,
     maxItems: 1,
     loadThrottle: 200,
   });
 
   $('#record-genre').selectize({
-    plugins: ['remove_button'],
     persist: false,
     maxItems: 1,
     loadThrottle: 200,
   });
 
   $('#record-format').selectize({
-    plugins: ['remove_button'],
+    persist: false,
+    maxItems: 1,
+    loadThrottle: 200,
+  });
+
+  $('.single-select').selectize({
     persist: false,
     maxItems: 1,
     loadThrottle: 200,

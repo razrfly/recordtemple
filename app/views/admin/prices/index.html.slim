@@ -3,42 +3,50 @@
 h3.page-title
   ' Prices
   - if can? :create, Price
-    = link_to new_admin_price_path, class: 'btn btn-default btn-sm'
+    => link_to new_admin_price_path, class: 'btn btn-default btn-sm'
       => icon('plus')
       | Add New
+    .visible-md-inline.visible-sm-inline.visible-xs-inline
+      = link_to '#', class: 'btn btn-default show-filters'
+        => icon('search')
+        | Show Filters
+.row#filters-block
+  .col-md-12.visible-md-inline.visible-sm-inline.visible-xs-inline.clearfix
+    = render 'filters'
 .row
-  .col-md-9#prices
+  .col-md-12.col-lg-9#prices
     .panel.panel-default
       .panel-heading
         .panel-title Prices Index
       .panel-body
-        table.table
-          thead
-            tr
-              th= sort_link [:admin, @search], :artist_name, "Artist"
-              th= sort_link [:admin, @search], :label_name, "Label"
-              th= sort_link [:admin, @search], :record_format_name, "Record Format"
-              th= sort_link [:admin, @search], :price_low, "Price Low"
-              th= sort_link [:admin, @search], :price_high, "Price High"
-              th.buttons
-          tbody
-            - @prices.each do |price|
-              tr.price-row
-                td= link_to price.artist.name, [:admin, price.artist], class: 'table-link'
-                td= link_to(price.label.name, [:admin, price.label], class: 'table-link') if price.label
-                td= price.record_format.name
-                td= price.price_low
-                td= price.price_high
-                td.buttons
-                  - if can? :read, price
-                    = link_to icon('search fa-lg'), [:admin, price]
-                  - if can? :update, price
-                    = link_to icon('wrench fa-lg'), [:edit, :admin, price]
-                  - if can? :destroy, price
-                    = link_to icon('times fa-lg'), [:admin, price], :method => :delete, data: {confirm: 'Are you sure?'}
+        .table-responsive
+          table.table
+            thead
+              tr
+                th= sort_link [:admin, @search], :artist_name, "Artist"
+                th= sort_link [:admin, @search], :label_name, "Label"
+                th= sort_link [:admin, @search], :record_format_name, "Record Format"
+                th= sort_link [:admin, @search], :price_low, "Price Low"
+                th= sort_link [:admin, @search], :price_high, "Price High"
+                th.buttons
+            tbody
+              - @prices.each do |price|
+                tr.price-row
+                  td= link_to price.artist.name, [:admin, price.artist], class: 'table-link'
+                  td= link_to(price.label.name, [:admin, price.label], class: 'table-link') if price.label
+                  td= price.record_format.name
+                  td= price.price_low
+                  td= price.price_high
+                  td.buttons
+                    - if can? :read, price
+                      = link_to icon('search'), [:admin, price]
+                    - if can? :update, price
+                      = link_to icon('wrench'), [:edit, :admin, price]
+                    - if can? :destroy, price
+                      = link_to icon('times'), [:admin, price], method: :delete, data: { confirm: 'Are you sure?' }
 
         = paginate @prices, views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @prices
-  .col-md-3
+  .col-lg-3.clearfix.visible-lg-block
     = render 'filters'
