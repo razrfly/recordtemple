@@ -45,11 +45,13 @@ gem 'twitter-typeahead-rails'
 gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
-gem 'rails-erd', '~> 1.1.0'
 gem 'mini_magick', '~> 4.0.2'
 gem 'refile', '~> 0.5.3', :require => ['refile/rails', 'refile/image_processing']
 
-gem 'rails_12factor', :group => :production
+group :production do
+  gem 'rails_12factor'
+end
+
 gem 'soundmanager2-rails', '~> 2.97.20140901'
 
 group :development do
@@ -58,4 +60,6 @@ group :development do
   gem 'better_errors'
   gem 'rack-mini-profiler'
   gem 'binding_of_caller'
+  gem 'rails-erd', '~> 1.4'
+  gem 'ruby-graphviz', '~> 1.2.2'
 end
