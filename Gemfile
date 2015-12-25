@@ -1,4 +1,4 @@
-ruby '2.2.0'
+ruby '2.2.1'
 source 'https://rubygems.org'
 source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
