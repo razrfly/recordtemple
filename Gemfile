@@ -24,7 +24,6 @@ gem 'gretel'
 
 gem 'devise', '~> 3.5.2'
 gem 'devise_invitable', '~> 1.3.5'
-#gem 'administrate', '~> 0.1.2'
 
 gem 'cancancan', '~> 1.10'
 gem 'slim-rails', '~> 3.0.1'
