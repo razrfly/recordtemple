@@ -1,6 +1,12 @@
+GIT
+  remote: https://2df714d6c797ab9eb30341495fb569d024404988:x-oauth-basic@github.com/razrfly/pages_admin_template-rails.git
+  revision: 5db8bea2b358c93fad73c8f46ba7eaea4fb35847
+  branch: version-2
+  specs:
+    pages_admin_template-rails (2.1.1)
+
 GEM
   remote: https://rubygems.org/
-  remote: https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/
   specs:
     actionmailer (4.2.4)
       actionpack (= 4.2.4)
@@ -127,7 +133,6 @@ GEM
     orm_adapter (0.5.0)
     owlcarousel-rails (1.1.3.3)
       jquery-rails
-    pages_admin_template-rails (1.1.0)
     pg (0.18.1)
     polyamorous (1.0.0)
       activerecord (>= 3.0)
@@ -277,7 +282,7 @@ DEPENDENCIES
   neat (~> 1.7.1)
   normalize-rails
   owlcarousel-rails
-  pages_admin_template-rails
+  pages_admin_template-rails (= 2.1.1)!
   pg
   pry-rails
   rack-mini-profiler
@@ -302,4 +307,4 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
 
 BUNDLED WITH
-   1.10.6
+   1.11.2

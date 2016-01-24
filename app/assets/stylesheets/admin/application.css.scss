@@ -1,5 +1,26 @@
 /*
- *= require pages-admin-template
+
+ *  pages core deps
+ *= require pages_admin_template/plugins/pace/pace-theme-flash
+ *= require pages_admin_template/plugins/boostrapv3/css/bootstrap
+ *= require pages_admin_template/plugins/font-awesome/css/font-awesome
+ *= require pages_admin_template/plugins/jquery-scrollbar/jquery.scrollbar
+ *= require pages_admin_template/plugins/bootstrap-select2/select2
+ *= require pages_admin_template/plugins/switchery/css/switchery.min
+ *
+ *  pages datatables deps
+ *= require pages_admin_template/plugins/jquery-datatable/media/css/dataTables.bootstrap.min
+ *= require pages_admin_template/plugins/jquery-datatable/extensions/FixedColumns/css/dataTables.fixedColumns.min
+ *= require pages_admin_template/plugins/datatables-responsive/css/datatables.responsive
+ *
+ *  pages image gallery deps (copied without checking)
+ *= require pages_admin_template/plugins/codrops-dialogFx/dialog
+ *= require pages_admin_template/plugins/codrops-dialogFx/dialog-sandra
+ *
+ *  pages
+ *= require pages_admin_template/css/pages-icons
+ *= require pages_admin_template/css/pages
+
  *
  *= require selectize.bootstrap3
  *= require soundmanager2/bar-ui

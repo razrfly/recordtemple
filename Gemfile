@@ -1,6 +1,5 @@
 ruby '2.2.1'
 source 'https://rubygems.org'
-source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
 gem 'rails', '4.2.4'
 gem 'sass-rails', '~> 5.0'
@@ -19,7 +18,9 @@ gem 'refills', '~> 0.1.0'
 gem 'normalize-rails'
 gem 'owlcarousel-rails'
 gem 'selectize-rails'
-gem 'pages_admin_template-rails'
+gem 'pages_admin_template-rails', '2.1.1',
+  git: 'https://2df714d6c797ab9eb30341495fb569d024404988:x-oauth-basic@github.com/razrfly/pages_admin_template-rails.git',
+  branch: 'version-2'
 gem 'gretel'
 
 gem 'devise', '~> 3.5.2'
