@@ -57,7 +57,6 @@ gem 'soundmanager2-rails', '~> 2.97.20140901'
 group :development do
   gem 'pry-rails'
   gem 'hirb'
-  gem 'better_errors'
   gem 'rack-mini-profiler'
   gem 'binding_of_caller'
   gem 'rails-erd', '~> 1.4'
