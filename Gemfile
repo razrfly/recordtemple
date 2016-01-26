@@ -2,12 +2,7 @@ ruby '2.2.1'
 source 'https://rubygems.org'
 source 'https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/'
 
-gem 'rails', '4.2.4'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.1.0'
-gem 'jquery-ui-rails'
-gem 'jquery-rails'
+gem 'rails', '4.1.9'
 
 gem 'pg'
 
@@ -17,13 +12,19 @@ gem 'neat', '~> 1.7.1'
 gem 'bitters', '~> 1.0.0'
 gem 'refills', '~> 0.1.0'
 gem 'normalize-rails'
+
 gem 'owlcarousel-rails'
+
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.0.0'
+gem 'jquery-rails'
 gem 'selectize-rails'
 gem 'pages_admin_template-rails'
 gem 'gretel'
 
-gem 'devise', '~> 3.5.2'
-gem 'devise_invitable', '~> 1.3.5'
+gem 'devise', '~> 3.4.1'
+gem 'devise_invitable', '~> 1.3.4'
 
 gem 'cancancan', '~> 1.10'
 gem 'slim-rails', '~> 3.0.1'
