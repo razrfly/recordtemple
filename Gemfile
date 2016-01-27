@@ -6,13 +6,6 @@ gem 'rails', '4.1.9'
 
 gem 'pg'
 
-# the Bourbon family
-gem 'bourbon', '~> 4.2.1'
-gem 'neat', '~> 1.7.1'
-gem 'bitters', '~> 1.0.0'
-gem 'refills', '~> 0.1.0'
-gem 'normalize-rails'
-
 gem 'owlcarousel-rails'
 
 gem 'sass-rails', '~> 5.0'
