@@ -15,20 +15,10 @@
 
     <div class="navbar-collapse collapse" id="navbar-collapse-main">
       <ul class="nav navbar-nav hidden-xs">
-        <li class="active">
-          <a href="#fake">Home</a>
-        </li>
+        <% # TODO: mark active link %>
 
         <li>
-          <a href="#fake">Profile</a>
-        </li>
-
-        <li>
-          <a href="#fake">Messages</a>
-        </li>
-
-        <li>
-          <a href="#fake">Docs</a>
+          <%= link_to 'Records', records_path %>
         </li>
       </ul>
 
@@ -49,26 +39,27 @@
       <%= form_tag records_path, method: :get,
         class: 'navbar-form navbar-right app-search', role: 'search' do %>
 
-        <div class="form-group">
-          <%= text_field_tag :q, nil,
-            class: 'form-control',
-            placeholder: 'Search',
-            data: { action: 'grow' } %>
-        </div>
+        <%= fields_for :q do |q_form| %>
+          <div class="form-group">
+            <%= q_form.text_field :comment_cont,
+              class: 'form-control',
+              placeholder: 'Search',
+              data: { action: 'grow' } %>
+          </div>
+        <% end %>
       <% end %>
 
       <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
-        <li><a href="#fake">Home</a></li>
-        <li><a href="#fake">Profile</a></li>
-        <li><a href="#fake">Notifications</a></li>
-        <li><a href="#fake">Messages</a></li>
-        <li><a href="#fake">Docs</a></li>
-        <li><a href="#fake">Growl</a></li>
+        <% # TODO: mark active link %>
+
+        <li>
+          <%= link_to 'Records', records_path %>
+        </li>
+
         <li><a href="#fake">Logout</a></li>
       </ul>
 
       <ul class="nav navbar-nav hidden">
-        <li><a href="#fake">Growl</a></li>
         <li><a href="#fake">Logout</a></li>
       </ul>
     </div>

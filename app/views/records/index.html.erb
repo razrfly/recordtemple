@@ -1,25 +1,55 @@
-<% breadcrumb :records %>
+<div class="container p-t-md">
+  <%= search_form_for @q do |search_form| %>
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h5 class="m-t-0">Search</h5>
 
-<h2 class="page-title">Records</h2>
+        <div class="form-group">
+          <%= search_form.label :comment_cont %>
+          <%= search_form.search_field :comment_cont, class: 'form-control' %>
+        </div>
 
-<div class="cards">
-  <% @records.each do |record| %>
-    <div class="card">
-      <div class="card-image">
-        <%= link_to(image_tag(attachment_url(record.photos.first, :image, :fill, 200, 200)), record) unless record.photos.blank? %><br/>
-      </div>
-      <div class="card-header">
-        <%= link_to record.artist.name, record.artist %>
-      </div>
-      <div class="card-copy">
-        <p><%= truncate(record.desc, :length => 75) %></p>
-        <p>
-          <%= record.genre.name %><br/>
-          <%= record.record_format.name %><br/>
-          <%= record.get_condition %><br/>
-        </p>
+        <div class="form-group">
+          <%= search_form.label :artist_name_cont %>
+          <%= search_form.search_field :artist_name_cont, class: 'form-control' %>
+        </div>
+
+        <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h5 class="m-t-0">Results</h5>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Artist</th>
+            <th>Comment</th>
+            <th>Genre</th>
+            <th>Format</th>
+            <th>Condition</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @records.each do |record| %>
+            <tr>
+              <td><%= record.artist.name %></td>
+              <td><%= record.comment %></td>
+              <td><%= record.genre.name %></td>
+              <td><%= record.record_format.name %></td>
+              <td><%= record.get_condition %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="text-center">
+      <%= paginate @records %>
+    </div>
+  </div>
 </div>
-<%= paginate @records %>
