@@ -46,11 +46,16 @@
         </li>
       </ul>
 
-      <form class="navbar-form navbar-right app-search" role="search">
+      <%= form_tag records_path, method: :get,
+        class: 'navbar-form navbar-right app-search', role: 'search' do %>
+
         <div class="form-group">
-          <input type="text" class="form-control" data-action="grow" placeholder="Search">
+          <%= text_field_tag :q, nil,
+            class: 'form-control',
+            placeholder: 'Search',
+            data: { action: 'grow' } %>
         </div>
-      </form>
+      <% end %>
 
       <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
         <li><a href="#fake">Home</a></li>
