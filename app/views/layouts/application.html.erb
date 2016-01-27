@@ -7,11 +7,13 @@
 
     <title>RecordTemple</title>
 
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
     <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= csrf_meta_tags %>
   </head>
 
-  <body>
+  <body class="with-top-navbar">
+    <%= render 'layouts/navbar' %>
     <%= yield %>
     <%= javascript_include_tag 'application' %>
   </body>
