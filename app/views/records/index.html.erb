@@ -85,11 +85,11 @@
             <tbody>
               <% @records.each do |record| %>
                 <tr>
-                  <td><%= record.artist.name %></td>
+                  <td><%= record.artist_name %></td>
                   <td><%= record.comment %></td>
-                  <td><%= record.label.name %></td>
-                  <td><%= record.genre.name %></td>
-                  <td><%= record.record_format.name %></td>
+                  <td><%= record.label_name %></td>
+                  <td><%= record.genre_name %></td>
+                  <td><%= record.record_format_name %></td>
                   <td><%= record.get_condition %></td>
                 </tr>
               <% end %>
