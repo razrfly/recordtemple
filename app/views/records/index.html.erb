@@ -79,6 +79,7 @@
                 <th>Genre</th>
                 <th>Format</th>
                 <th>Condition</th>
+                <th></th>
               </tr>
             </thead>
 
@@ -91,6 +92,11 @@
                   <td><%= record.genre_name %></td>
                   <td><%= record.record_format_name %></td>
                   <td><%= record.get_condition %></td>
+                  <td>
+                    <%= link_to record_path(record) do %>
+                      <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+                  </td>
                 </tr>
               <% end %>
             </tbody>

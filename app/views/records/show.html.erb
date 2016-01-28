@@ -1,74 +1,50 @@
-<% breadcrumb :show_record, @record, @price %>
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-1">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Cover image</h5>
 
-<div class="record-info">
-  <h2>Record #<%= @record.identifier_id %> details</h2>
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <ul>
-            <li><strong> Price </strong></li>
-            <li> User price </li>
-            <% unless @record.price.nil? %>
-              <li> Cyberguide </li>
+          <div data-grid="images">
+            <% if @record.photos.present? %>
+              <%= image_tag attachment_url(@record.photos.first, :image, :fill, 200, 200),
+                class: 'media-object', data: { width: 200, height: 200 } %>
             <% end %>
-          </ul>
-        </td>
-        <td>
-          <ul>
-            <li>&nbsp;</li>
-            <li> <%= @record.value %> </li>
-            <% unless @record.price.nil? %>
-              <li> <%= @record.cyberguide %> </li>
-            <% end %>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td> <strong> Artist </strong> </td>
-        <td> <%= link_to @record.artist.name, @record.artist %> </td>
-      </tr>
-      <tr>
-        <td> <strong> Label </strong> </td>
-        <td> <%= link_to @record.label.name, @record.label %> </td>
-      </tr>
-      <tr>
-        <td> <strong> genre </strong> </td>
-        <td> <%= @record.genre.name %> </td>
-      </tr>
-      <tr>
-        <td> <strong> Format </strong> </td>
-        <td> <%= @record.record_format.name %> </td>
-      </tr>
-      <tr>
-        <td> <strong> Condition </strong> </td>
-        <td> <%= @record.get_condition %> </td>
-      </tr>
-      <tr>
-        <td> <strong> Comment </strong> </td>
-        <td> <%= @record.comment %> </td>
-      </tr>
-    </tbody>
-  </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Record info</h5>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <dl>
+                <dt>Artist</dt>
+                <dd><%= @record.artist_name %></dd>
+                <dt>Comment</dt>
+                <dd><%= @record.comment %></dd>
+                <dt>Label</dt>
+                <dd><%= @record.label_name %></dd>
+              </dl>
+            </div>
+
+            <div class="col-sm-6">
+              <dl>
+                <dt>Genre</dt>
+                <dd><%= @record.genre_name %></dd>
+                <dt>Format</dt>
+                <dd><%= @record.record_format_name %></dd>
+                <dt>Condition</dt>
+                <dd><%= @record.get_condition %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-<% if @record.photos.count > 0 %>
-  <div id="record-photos">
-    <% @record.photos.each do |photo| %>
-      <%= image_tag attachment_url(photo, :image, :fill, 200, 200) %>
-    <% end %>
-  </div>
-<% end %>
-
-<% if @record.songs.count > 0 %>
-  <div id="record-audio">
-    <h3> Audio </h3>
-    <%= render :partial => 'player', :locals => {:songs => @record.songs} %>
-  </div>
-<% end %>
