@@ -36,19 +36,6 @@
         </li>
       </ul>
 
-      <%= form_tag records_path, method: :get,
-        class: 'navbar-form navbar-right app-search', role: 'search' do %>
-
-        <%= fields_for :q do |q_form| %>
-          <div class="form-group">
-            <%= q_form.text_field :comment_cont,
-              class: 'form-control',
-              placeholder: 'Search',
-              data: { action: 'grow' } %>
-          </div>
-        <% end %>
-      <% end %>
-
       <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
         <% # TODO: mark active link %>
 
