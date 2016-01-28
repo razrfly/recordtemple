@@ -1,40 +1,47 @@
 - breadcrumb :edit_user, @user
 
-h3.page-title Account Settings
+h3.page-title.text-center Account Settings
 
 
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  .panel.panel-default
-    .panel-heading
-      .panel-title Account Settings
-    .panel-body
-      = f.error_notification
+  .row
+    .col-md-6.col-md-offset-3
+      .panel.panel-default
 
-      / .row
-      .col-md-6
-        = f.input :username, required: true
-        = f.input :email, required: true
-      .col-md-6
-        = f.input :fname, label: "First Name"
-        = f.input :lname, label: "Last Name"
+        .panel-body
+          = f.error_notification
 
-      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-        p
-          | Currently waiting confirmation for:
-          =< resource.unconfirmed_email
+          / .row
+          .col-md-12
+            br/
+            = f.input :username, required: true
+            = f.input :email, required: true
 
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-md-6
-          = f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false
-        .col-md-6
-          = f.input :password_confirmation, required: false
-  .panel.panel-default
-    .panel-body
-      .row
-        .col-md-6
-          = f.input :current_password, required: true
-      .row
-        br/
-        = f.button :submit, 'Update'
+            - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+              p.text-center
+                span.label.label-default
+                  | Currently waiting confirmation for:
+                  =< resource.unconfirmed_email
+
+          .col-md-12
+            br/
+            = f.input :fname, label: "First Name"
+            = f.input :lname, label: "Last Name"
+
+  .row
+    .col-md-6.col-md-offset-3
+      .panel.panel-default
+        .panel-body
+          .row
+              = f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false
+              = f.input :password_confirmation, required: false
+
+  .row
+    .col-md-6.col-md-offset-3
+      .panel.panel-default
+        .panel-body
+          .row
+            = f.input :current_password, required: true
+          .row
+            br/
+            = f.button :submit, 'Update'

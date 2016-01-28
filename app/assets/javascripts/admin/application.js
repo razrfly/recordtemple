@@ -23,3 +23,10 @@
 function resizeBlocks(block1, block2){
   ($(block1).height() > $(block2).height()) ? $(block2).height($(block1).height()) : $(block1).height($(block2).height());
 }
+
+$(document).ready(function(){
+  $('.show-filters').click(function(event){
+    event.preventDefault();
+    $('#filters-block').slideToggle();
+  })
+})

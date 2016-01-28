@@ -4,14 +4,16 @@
       .panel-heading
         .panel-title Filters
       .panel-body
-        = f.input :artist_name_eq, label: 'Artist', required: false, input_html: {id: 'filters-artist'}
-        = f.input :songs_title_eq, label: 'Song title', required: false, input_html: {id: 'filters-song'}
-        = f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, label_method: lambda { |x| x.name_with_records_count(current_user)}, required: false
-        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, label_method: lambda { |x| x.name_with_records_count(current_user)}, required: false
-        = f.input :label_name_eq, label: 'Label', required: false, input_html: {id: 'filters-label'}
-        = f.input :condition_eq, label: 'Condition', collection: @conditions, required: false
-        = f.input :photos_id_not_null, :as => :boolean, :label => 'With Photos'
-        = f.input :songs_id_not_null, :as => :boolean, :label => 'With Songs'
+        = f.input :artist_name_eq, label: 'Artist', required: false, input_html: { class: 'filters-artist' }
+        = f.input :songs_title_eq, label: 'Song title', required: false, input_html: { class: 'filters-song' }
+        = f.input :genre_name_eq, label: 'Genre', collection: @genres, value_method: :name, input_html: { class: 'single-select' }, label_method: lambda { |x| x.name_with_records_count(current_user)}, required: false
+        = f.input :record_format_id_eq, label: 'Record Format', collection: @record_formats, input_html: { class: 'single-select' }, label_method: lambda { |x| x.name_with_records_count(current_user)}, required: false
+        = f.input :label_name_eq, label: 'Label', required: false, input_html: { class: 'filters-label' }
+        = f.input :condition_eq, label: 'Condition', collection: @conditions, input_html: { class: 'single-select' }, required: false
+        = f.input :photos_id_not_null, as: 'boolean', label: 'With Photos'
+        = f.input :songs_id_not_null, as: 'boolean', label: 'With Songs'
         br/
         = f.submit 'Search', class: 'btn btn-default'
         = link_to 'Reset', admin_records_path, class: 'pull-right btn btn-default'
+
+

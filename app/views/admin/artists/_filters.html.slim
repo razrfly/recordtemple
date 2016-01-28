@@ -5,7 +5,7 @@
         .panel-title Filters
       .panel-body
 
-        = f.input :name_eq, label: 'Name', required: false, input_html: {id: 'filters-artist'}
+        = f.input :name_eq, label: 'Name', required: false, input_html: { class: 'filters-artist' }
 
         br/
         = f.submit 'Search', class: 'btn btn-default'

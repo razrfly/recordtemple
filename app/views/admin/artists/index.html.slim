@@ -3,33 +3,41 @@
 h3.page-title
   ' Artist
   - if can? :create, Artist
-    = link_to [:new, :admin, :artist], class: 'btn btn-default btn-sm'
+    => link_to [:new, :admin, :artist], class: 'btn btn-default btn-sm'
       => icon('plus')
       | Add New
+    .visible-md-inline.visible-sm-inline.visible-xs-inline
+      = link_to '#', class: 'btn btn-default show-filters'
+        => icon('search')
+        | Show Filters
+.row#filters-block
+  .col-md-12.visible-md-inline.visible-sm-inline.visible-xs-inline.clearfix
+    = render 'filters'
 .row
-  .col-md-9#artists
+  .col-md-12.col-lg-9#artists
     .panel.panel-default
       .panel-heading
         .panel-title Artist Index
       .panel-body
-        table.table
-          thead
-            tr
-              th = sort_link [:admin, @search], :name, "Name"
-              th.buttons
-          tbody
-            - @artists.each do |artist|
-              tr.artist-row
-                td= artist.name
-                td.buttons
-                  - if can? :read, artist
-                    = link_to icon('search fa-lg'), [:admin, artist]
-                  - if can? :update, artist
-                    = link_to icon('wrench fa-lg'), [:edit, :admin, artist]
-                  - if can? :destroy, artist
-                    = link_to icon('times fa-lg'), [:admin, artist], :method => :delete, data: {confirm: 'Are you sure?'}
+        .table-responsive
+          table.table
+            thead
+              tr
+                th = sort_link [:admin, @search], :name, "Name"
+                th.buttons
+            tbody
+              - @artists.each do |artist|
+                tr.artist-row
+                  td= artist.name
+                  td.buttons
+                    - if can? :read, artist
+                      = link_to icon('search'), [:admin, artist]
+                    - if can? :update, artist
+                      = link_to icon('wrench'), [:edit, :admin, artist]
+                    - if can? :destroy, artist
+                      = link_to icon('times'), [:admin, artist], method: :delete, data: { confirm: 'Are you sure?' }
         = paginate @artists, views_prefix: 'admin/'
         span.pull-right
           = page_entries_info @artists
-  .col-md-3
+  .col-lg-3.clearfix.visible-lg-block
     = render 'filters'

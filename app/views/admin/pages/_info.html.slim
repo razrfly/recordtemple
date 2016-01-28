@@ -1,0 +1,15 @@
+table.table
+  tbody
+    tr
+      td
+        strong Author
+      td= link_to @page.user.username, '#'
+    tr
+      td
+        strong Created at
+      td= l @page.created_at, format: :sexy
+    - if @page.created_at != @page.updated_at
+      tr
+        td
+          strong Updated at
+        td= l @page.updated_at, format: :sexy

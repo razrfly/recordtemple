@@ -7,11 +7,11 @@ h3.page-title
       => icon('pencil')
       | Edit Page
 
-
-
-
 .row
-  .col-md-9
+  .col-md-12.visible-md-block.visible-sm-block.visible-xs-block.clearfix
+    = render 'info'
+.row
+  .col-md-12.col-lg-9
     - if @page.cover.present?
       .row
         .col-md-12
@@ -29,23 +29,9 @@ h3.page-title
           .panel-body
             = markdown(@page.content)
 
-  .col-md-3
+  .col-md-12.col-lg-3.visible-lg-block.clearfix
     .panel.panel-default
       .panel-heading
         .panel-title Info
       .panel-body
-        table.table
-          tbody
-            tr
-              td
-                strong Author
-              td= link_to @page.user.username, '#'
-            tr
-              td
-                strong Created at
-              td= l @page.created_at, format: :sexy
-            - if @page.created_at != @page.updated_at
-              tr
-                td
-                  strong Updated at
-                td= l @page.updated_at, format: :sexy
+        = render 'info'

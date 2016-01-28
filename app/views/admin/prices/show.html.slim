@@ -1,6 +1,6 @@
 - breadcrumb :show_price, @price
 
-.panel.panel-default.col-md-3
+.panel.panel-default.col-lg-4
   .panel-heading
     .panel-title
       | Price details
@@ -39,13 +39,13 @@
             td
               strong Footnote
             td= @price.footnote
-.col-md-9
+.col-lg-8
   .panel.panel-default#price-records
     .panel-heading
       .panel-title
         | Your records
       - if can? :create, Record
-        = link_to new_admin_price_record_path(@price), class: 'btn btn-default btn-sm'
+        =< link_to new_admin_price_record_path(@price), class: 'btn btn-default btn-sm'
           => icon('plus')
           | Add New Record
     .panel-body
