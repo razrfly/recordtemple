@@ -6,20 +6,13 @@ gem 'rails', '4.1.9'
 
 gem 'pg'
 
-# the Bourbon family
-gem 'bourbon', '~> 4.2.1'
-gem 'neat', '~> 1.7.1'
-gem 'bitters', '~> 1.0.0'
-gem 'refills', '~> 0.1.0'
-gem 'normalize-rails'
-
 gem 'owlcarousel-rails'
 
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
-gem 'selectize-rails'
+gem 'selectize-rails', '~> 0.12.1'
 gem 'pages_admin_template-rails'
 gem 'gretel'
 
@@ -33,13 +26,13 @@ gem 'simple_form', '~> 3.1.0'
 gem 'font-awesome-sass', '~> 4.2.0'
 gem 'active_link_to', '~> 1.0.2'
 gem 'friendly_id', '~> 5.0.4'
-gem 'kaminari'
+gem 'kaminari', '~> 0.16.3'
 gem 'redcarpet'
 gem 'aws-sdk', '~> 1.44.0'
 gem 'rails-bootstrap-markdown'
 
-gem 'ransack', '~> 1.2.3'
-gem 'textacular', '~> 3.0'
+gem 'ransack', '~> 1.7.0'
+gem 'textacular', '~> 3.2.2'
 gem 'twitter-typeahead-rails'
 
 gem 'ruby-mp3info', '~> 0.8.4'
@@ -57,7 +50,6 @@ gem 'soundmanager2-rails', '~> 2.97.20140901'
 group :development do
   gem 'pry-rails'
   gem 'hirb'
-  gem 'better_errors'
   gem 'rack-mini-profiler'
   gem 'binding_of_caller'
   gem 'rails-erd', '~> 1.4'

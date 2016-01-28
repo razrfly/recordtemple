@@ -1,0 +1,54 @@
+<nav class="navbar navbar-inverse navbar-fixed-top app-navbar">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-main">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <a class="navbar-brand" href="#fake">
+        <%= image_tag 'bootstrap/brand-white.png', alt: 'brand' %>
+      </a>
+    </div>
+
+    <div class="navbar-collapse collapse" id="navbar-collapse-main">
+      <ul class="nav navbar-nav hidden-xs">
+        <% # TODO: mark active link %>
+
+        <li>
+          <%= link_to 'Records', records_path %>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
+        <li>
+          <a class="app-notifications" href="#fake">
+            <span class="icon icon-bell"></span>
+          </a>
+        </li>
+
+        <li>
+          <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover">
+            <%= image_tag 'bootstrap/avatar-dhg.png', class: 'img-circle' %>
+          </button>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
+        <% # TODO: mark active link %>
+
+        <li>
+          <%= link_to 'Records', records_path %>
+        </li>
+
+        <li><a href="#fake">Logout</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav hidden">
+        <li><a href="#fake">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

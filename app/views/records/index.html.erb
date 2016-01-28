@@ -1,25 +1,106 @@
-<% breadcrumb :records %>
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-3">
+      <%= search_form_for @q do |search_form| %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Search</h5>
 
-<h2 class="page-title">Records</h2>
+            <div class="form-group">
+              <%= search_form.label :artist_id_eq %>
+              <%= search_form.select :artist_id_eq,
+                @q.artist_id_eq.present? ?
+                  Artist.where(id: @q.artist_id_eq).
+                    map { |artist| [artist.name, artist.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/artists.json' } } %>
+            </div>
 
-<div class="cards">
-  <% @records.each do |record| %>
-    <div class="card">
-      <div class="card-image">
-        <%= link_to(image_tag(attachment_url(record.photos.first, :image, :fill, 200, 200)), record) unless record.photos.blank? %><br/>
-      </div>
-      <div class="card-header">
-        <%= link_to record.artist.name, record.artist %>
-      </div>
-      <div class="card-copy">
-        <p><%= truncate(record.desc, :length => 75) %></p>
-        <p>
-          <%= record.genre.name %><br/>
-          <%= record.record_format.name %><br/>
-          <%= record.get_condition %><br/>
-        </p>
+            <div class="form-group">
+              <%= search_form.label :comment_cont %>
+              <%= search_form.search_field :comment_cont, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :label_id_eq %>
+              <%= search_form.select :label_id_eq,
+                @q.label_id_eq.present? ?
+                  Label.where(id: @q.label_id_eq).
+                    map { |label| [label.name, label.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/labels.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :genre_id_eq %>
+              <%= search_form.collection_select :genre_id_eq,
+                Genre.joins(:records).uniq, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :record_format_id_eq %>
+              <%= search_form.collection_select :record_format_id_eq,
+                RecordFormat.joins(:records).uniq, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :condition_eq %>
+              <%= search_form.select :condition_eq,
+                Record.conditions.to_a,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Results</h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Comment</th>
+                <th>Label</th>
+                <th>Genre</th>
+                <th>Format</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @records.each do |record| %>
+                <tr>
+                  <td><%= record.artist_name %></td>
+                  <td><%= record.comment %></td>
+                  <td><%= record.label_name %></td>
+                  <td><%= record.genre_name %></td>
+                  <td><%= record.record_format_name %></td>
+                  <td><%= record.get_condition %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <%= paginate @records %>
+        </div>
       </div>
     </div>
-  <% end %>
+  </div>
 </div>
-<%= paginate @records %>

@@ -1,7 +1,16 @@
 class LabelsController < ApplicationController
 
   def index
-    @labels = Label.active.page(params[:page])
+    respond_to do |format|
+      format.html do
+        @labels = Label.active.page(params[:page])
+      end
+
+      format.json do
+        @labels = Label.joins(:records).fuzzy_search(name: params[:q]).uniq
+        render json: @labels.as_json(only: [:id, :name])
+      end
+    end
   end
 
   def show

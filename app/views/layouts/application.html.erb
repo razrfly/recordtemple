@@ -1,36 +1,20 @@
 <!DOCTYPE html>
-<!--
-                                 _____________                        ______
-  _____________________________________  /_  /____________ ______________  /____
-  __  ___/  _ \  ___/  __ \_  ___/  __  /_  __/  _ \_  __ `__ \__  __ \_  /_  _ \
-  _  /   /  __/ /__ / /_/ /  /   / /_/ / / /_ /  __/  / / / / /_  /_/ /  / /  __/
-  /_/    \___/\___/ \____//_/    \__,_/  \__/ \___//_/ /_/ /_/_  .___//_/  \___/
-                                                              /_/
--->
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= content_for?(:title) ? yield(:title) : "Istealmusic" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Istealmusic" %>">
-    <%= stylesheet_link_tag "application", :media => "all" %>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>RecordTemple</title>
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
     <%= csrf_meta_tags %>
-    <%= yield(:head) %>
   </head>
-  <body>
 
-    <header class="navigation" role="banner">
-      <%= render 'layouts/navigation' %>
-    </header>
-
-    <div id="main" role="main">
-      <%= render 'layouts/messages' %>
-      <%= yield %>
-    </div>
-
-    <footer>
-      <%= render 'layouts/footer' %>
-    </footer>
-
-    <%= javascript_include_tag "application" %>
+  <body class="with-top-navbar">
+    <%= render 'layouts/navbar' %>
+    <%= yield %>
+    <%= javascript_include_tag 'application' %>
   </body>
 </html>

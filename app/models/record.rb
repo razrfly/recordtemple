@@ -20,6 +20,10 @@ class Record < ActiveRecord::Base
 
   #acts_as_tree :foreign_key => "price_id"
 
+  delegate :name, to: :artist, prefix: true, allow_nil: true
+  delegate :name, to: :genre, prefix: true, allow_nil: true
+  delegate :name, to: :label, prefix: true, allow_nil: true
+  delegate :name, to: :record_format, prefix: true, allow_nil: true
   delegate :detail, :to => :price
 
 

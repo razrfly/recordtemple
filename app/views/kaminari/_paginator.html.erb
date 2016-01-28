@@ -1,29 +1,15 @@
-<br/>
-
-<div class="pagination">
-<%= paginator.render do %>
-  <ul>
+<%= paginator.render do -%>
+  <ul class="pagination">
     <%= first_page_tag unless current_page.first? %>
     <%= prev_page_tag unless current_page.first? %>
-    <li>
-      <ul>
-        <% each_page do |page| %>
-          <% if page.left_outer? || page.right_outer? || page.inside_window? %>
-            <%= page_tag page %>
-          <% elsif !page.was_truncated? %>
-            <%= gap_tag %>
-          <% end %>
-        <% end %>
-      </ul>
-    </li>
+    <% each_page do |page| -%>
+      <% if page.left_outer? || page.right_outer? || page.inside_window? -%>
+        <%= page_tag page %>
+      <% elsif !page.was_truncated? -%>
+        <%= gap_tag %>
+      <% end -%>
+    <% end -%>
     <%= next_page_tag unless current_page.last? %>
     <%= last_page_tag unless current_page.last? %>
   </ul>
-<% end %>
-</div>
-
-<br/>
-
-<div class="pagination">
-  <%= page_entries_info (@records or @artists or @labels) %>
-</div>
+<% end -%>
