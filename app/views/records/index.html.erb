@@ -1,79 +1,85 @@
 <div class="container p-t-md">
-  <%= search_form_for @q do |search_form| %>
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h5 class="m-t-0">Search</h5>
+  <div class="row">
+    <div class="col-md-3">
+      <%= search_form_for @q do |search_form| %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Search</h5>
 
-        <div class="form-group">
-          <%= search_form.label :comment_cont %>
-          <%= search_form.search_field :comment_cont, class: 'form-control' %>
+            <div class="form-group">
+              <%= search_form.label :comment_cont %>
+              <%= search_form.search_field :comment_cont, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :artist_name_cont %>
+              <%= search_form.search_field :artist_name_cont, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :genre_id_eq %>
+              <%= search_form.collection_select :genre_id_eq,
+                Genre.all, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :record_format_id_eq %>
+              <%= search_form.collection_select :record_format_id_eq,
+                RecordFormat.all, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :condition_eq %>
+              <%= search_form.select :condition_eq,
+                Record.conditions.to_a,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Results</h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Comment</th>
+                <th>Genre</th>
+                <th>Format</th>
+                <th>Condition</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @records.each do |record| %>
+                <tr>
+                  <td><%= record.artist.name %></td>
+                  <td><%= record.comment %></td>
+                  <td><%= record.genre.name %></td>
+                  <td><%= record.record_format.name %></td>
+                  <td><%= record.get_condition %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
 
-        <div class="form-group">
-          <%= search_form.label :artist_name_cont %>
-          <%= search_form.search_field :artist_name_cont, class: 'form-control' %>
+        <div class="text-center">
+          <%= paginate @records %>
         </div>
-
-        <div class="form-group">
-          <%= search_form.label :genre_id_eq %>
-          <%= search_form.collection_select :genre_id_eq,
-            Genre.all, :id, :name,
-            { include_blank: true },
-            { class: 'form-control' } %>
-        </div>
-
-        <div class="form-group">
-          <%= search_form.label :record_format_id_eq %>
-          <%= search_form.collection_select :record_format_id_eq,
-            RecordFormat.all, :id, :name,
-            { include_blank: true },
-            { class: 'form-control' } %>
-        </div>
-
-        <div class="form-group">
-          <%= search_form.label :condition_eq %>
-          <%= search_form.select :condition_eq,
-            Record.conditions.to_a,
-            { include_blank: true },
-            { class: 'form-control' } %>
-        </div>
-
-        <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
       </div>
-    </div>
-  <% end %>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h5 class="m-t-0">Results</h5>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th>Artist</th>
-            <th>Comment</th>
-            <th>Genre</th>
-            <th>Format</th>
-            <th>Condition</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <% @records.each do |record| %>
-            <tr>
-              <td><%= record.artist.name %></td>
-              <td><%= record.comment %></td>
-              <td><%= record.genre.name %></td>
-              <td><%= record.record_format.name %></td>
-              <td><%= record.get_condition %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="text-center">
-      <%= paginate @records %>
     </div>
   </div>
 </div>
