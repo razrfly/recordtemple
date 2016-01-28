@@ -38,7 +38,7 @@
             <div class="form-group">
               <%= search_form.label :genre_id_eq %>
               <%= search_form.collection_select :genre_id_eq,
-                Genre.all, :id, :name,
+                Genre.joins(:records).uniq, :id, :name,
                 { include_blank: true },
                 { class: 'form-control' } %>
             </div>
@@ -46,7 +46,7 @@
             <div class="form-group">
               <%= search_form.label :record_format_id_eq %>
               <%= search_form.collection_select :record_format_id_eq,
-                RecordFormat.all, :id, :name,
+                RecordFormat.joins(:records).uniq, :id, :name,
                 { include_blank: true },
                 { class: 'form-control' } %>
             </div>

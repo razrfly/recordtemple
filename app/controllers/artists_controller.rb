@@ -7,7 +7,7 @@ class ArtistsController < ApplicationController
       end
 
       format.json do
-        @artists = Artist.fuzzy_search(name: params[:q])
+        @artists = Artist.joins(:records).fuzzy_search(name: params[:q]).uniq
         render json: @artists.as_json(only: [:id, :name])
       end
     end

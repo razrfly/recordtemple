@@ -7,7 +7,7 @@ class LabelsController < ApplicationController
       end
 
       format.json do
-        @labels = Label.fuzzy_search(name: params[:q])
+        @labels = Label.joins(:records).fuzzy_search(name: params[:q]).uniq
         render json: @labels.as_json(only: [:id, :name])
       end
     end
