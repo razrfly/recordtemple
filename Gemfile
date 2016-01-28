@@ -32,7 +32,7 @@ gem 'aws-sdk', '~> 1.44.0'
 gem 'rails-bootstrap-markdown'
 
 gem 'ransack', '~> 1.7.0'
-gem 'textacular', '~> 3.0'
+gem 'textacular', '~> 3.2.2'
 gem 'twitter-typeahead-rails'
 
 gem 'ruby-mp3info', '~> 0.8.4'
