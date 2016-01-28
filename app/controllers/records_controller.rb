@@ -3,7 +3,7 @@ class RecordsController < ApplicationController
   def index
     @q = Record.ransack(params[:q])
     @records = @q.result.
-      includes(:artist, :genre, :record_format).
+      includes(:artist, :genre, :label, :record_format).
       page(params[:page])
   end
 

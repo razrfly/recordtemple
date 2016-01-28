@@ -7,11 +7,6 @@
             <h5 class="m-t-0">Search</h5>
 
             <div class="form-group">
-              <%= search_form.label :comment_cont %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
-            </div>
-
-            <div class="form-group">
               <%= search_form.label :artist_id_eq %>
               <%= search_form.select :artist_id_eq,
                 @q.artist_id_eq.present? ?
@@ -21,6 +16,11 @@
                 {},
                 { class: 'form-control selectize_remote',
                 data: { remote_url: '/artists.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :comment_cont %>
+              <%= search_form.search_field :comment_cont, class: 'form-control' %>
             </div>
 
             <div class="form-group">
@@ -75,6 +75,7 @@
               <tr>
                 <th>Artist</th>
                 <th>Comment</th>
+                <th>Label</th>
                 <th>Genre</th>
                 <th>Format</th>
                 <th>Condition</th>
@@ -86,6 +87,7 @@
                 <tr>
                   <td><%= record.artist.name %></td>
                   <td><%= record.comment %></td>
+                  <td><%= record.label.name %></td>
                   <td><%= record.genre.name %></td>
                   <td><%= record.record_format.name %></td>
                   <td><%= record.get_condition %></td>
