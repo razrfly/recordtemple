@@ -12,8 +12,27 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :artist_name_cont %>
-              <%= search_form.search_field :artist_name_cont, class: 'form-control' %>
+              <%= search_form.label :artist_id_eq %>
+              <%= search_form.select :artist_id_eq,
+                @q.artist_id_eq.present? ?
+                  Artist.where(id: @q.artist_id_eq).
+                    map { |artist| [artist.name, artist.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/artists.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :label_id_eq %>
+              <%= search_form.select :label_id_eq,
+                @q.label_id_eq.present? ?
+                  Label.where(id: @q.label_id_eq).
+                    map { |label| [label.name, label.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/labels.json' } } %>
             </div>
 
             <div class="form-group">
