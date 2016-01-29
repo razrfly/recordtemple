@@ -45,6 +45,16 @@
           </div>
         </div>
       </div>
+
+      <% if @record.songs.present? %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Song clips</h5>
+
+            <%= render 'player', songs: @record.songs %>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
