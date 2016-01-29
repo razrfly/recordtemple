@@ -3,12 +3,16 @@
     <div class="col-md-4 col-md-offset-1">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="m-t-0">Cover image</h5>
+          <h5 class="m-t-0">Photos</h5>
 
           <div data-grid="images">
             <% if @record.photos.present? %>
-              <%= image_tag attachment_url(@record.photos.first, :image, :fill, 200, 200),
-                class: 'media-object', data: { width: 200, height: 200 } %>
+              <% @record.photos.each do |photo| %>
+                <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
+                  class: 'media-object', data: { width: 200, height: 200 } %>
+              <% end %>
+            <% else %>
+              <em>No photos available.</em>
             <% end %>
           </div>
         </div>
@@ -25,6 +29,8 @@
               <dl>
                 <dt>Artist</dt>
                 <dd><%= @record.artist_name %></dd>
+                <dt>Details</dt>
+                <dd><%= @record.detail %></dd>
                 <dt>Comment</dt>
                 <dd><%= @record.comment %></dd>
                 <dt>Label</dt>
@@ -46,15 +52,17 @@
         </div>
       </div>
 
-      <% if @record.songs.present? %>
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h5 class="m-t-0">Song clips</h5>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Song clips</h5>
 
+          <% if @record.songs.present? %>
             <%= render 'player', songs: @record.songs %>
-          </div>
+          <% else %>
+            <em>No song clips available.</em>
+          <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>

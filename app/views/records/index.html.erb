@@ -88,6 +88,7 @@
             <thead>
               <tr>
                 <th>Artist</th>
+                <th>Details</th>
                 <th>Comment</th>
                 <th>Label</th>
                 <th>Genre</th>
@@ -101,6 +102,7 @@
               <% @records.each do |record| %>
                 <tr>
                   <td><%= record.artist_name %></td>
+                  <td><%= record.detail %></td>
                   <td><%= record.comment %></td>
                   <td><%= record.label_name %></td>
                   <td><%= record.genre_name %></td>
@@ -109,6 +111,11 @@
                   <td>
                     <%= link_to record_path(record) do %>
                       <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+                    <% if record.songs.present? %>
+                      <%= link_to record.songs.first.title,
+                        Refile.attachment_url(record.songs.first, :audio),
+                        class: 'sm2_button' %>
                     <% end %>
                   </td>
                 </tr>
