@@ -1,7 +1,7 @@
 class RecordsController < ApplicationController
 
   def index
-    @q = Record.ransack(query_params)
+    @q = Record.where(user_id: 1).ransack(query_params)
     @records = @q.result.
       includes(:artist, :genre, :label, :price, :record_format, :songs).
       uniq.
