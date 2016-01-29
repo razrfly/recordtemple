@@ -112,6 +112,11 @@
                     <%= link_to record_path(record) do %>
                       <span class="icon icon-magnifying-glass"></span>
                     <% end %>
+                    <% if record.songs.present? %>
+                      <%= link_to record.songs.first.title,
+                        Refile.attachment_url(record.songs.first, :audio),
+                        class: 'sm2_button' %>
+                    <% end %>
                   </td>
                 </tr>
               <% end %>
