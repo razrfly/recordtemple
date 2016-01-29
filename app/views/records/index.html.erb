@@ -59,6 +59,20 @@
                 { class: 'form-control' } %>
             </div>
 
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box :songs_id_not_null %>
+                Only with songs
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box :photos_id_not_null %>
+                Only with photos
+              </label>
+            </div>
+
             <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
           </div>
         </div>
