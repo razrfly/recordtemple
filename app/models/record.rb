@@ -44,6 +44,17 @@ class Record < ActiveRecord::Base
     price.footnote ? "#{notes} #{price.footnote}" : notes
   end
 
+  def self.to_csv
+    attributes = %w[artist_name detail comment label_name genre_name record_format_name get_condition]
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+
+      all.each do |record|
+        csv << attributes.map { |attr| record.send(attr) }
+      end
+    end
+  end
+
   #acts_as_tree :foreign_key => "price_id"
   accepts_nested_attributes_for :photos, :allow_destroy => :true, :reject_if => proc { |attributes| attributes['image'] == "{}" }
   accepts_nested_attributes_for :songs

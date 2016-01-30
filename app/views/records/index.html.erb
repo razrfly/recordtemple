@@ -82,8 +82,10 @@
     <div class="col-md-9">
       <div class="panel panel-default">
         <div class="panel-body">
-          <small class="pull-right"><%= page_entries_info @records %></small>
-          <h5 class="m-t-0">Results </h5>
+          <small class="pull-right">
+            <%= page_entries_info @records %>
+          </small>
+          <h5 class="m-t-0">Results <small><%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
 
           <table class="table">
             <thead>
@@ -103,7 +105,7 @@
                 <tr>
                   <td><%= record.artist_name %></td>
                   <td>
-                    <%= record.detail %>
+                    <%= record.detail %></strong>
                     <i><%= record.comment %></i>
                   </td>
                   <td><%= record.label_name %></td>

@@ -2,11 +2,17 @@ class RecordsController < ApplicationController
 
   def index
     @q = Record.where(user_id: 1).ransack(query_params)
-    @records = @q.result.
+    @result = @q.result.
       includes(:artist, :genre, :label, :price, :record_format, :songs).
       order("artists.name").
-      uniq.
-      page(params[:page])
+      uniq
+
+    respond_to do |format|
+      format.html do
+        @records = @result.page(params[:page])
+      end
+      format.csv { send_data @result.to_csv }
+    end
   end
 
   def show
