@@ -4,6 +4,7 @@ class RecordsController < ApplicationController
     @q = Record.where(user_id: 1).ransack(query_params)
     @records = @q.result.
       includes(:artist, :genre, :label, :price, :record_format, :songs).
+      order("artists.name").
       uniq.
       page(params[:page])
   end
