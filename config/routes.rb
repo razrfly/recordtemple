@@ -13,6 +13,7 @@ Recordapp::Application.routes.draw do
   get 'search', to: 'searches#new'
 
   namespace :admin do
+    mount Blazer::Engine, at: 'blazer'
     root to: 'home#index'
     # ransack and selectize
     put 'artists' => 'artists#index'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160128114938) do
+ActiveRecord::Schema.define(version: 20160212102812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,46 @@ ActiveRecord::Schema.define(version: 20160128114938) do
 
   add_index "artists", ["name"], name: "index_artists_on_name", unique: true, using: :btree
   add_index "artists", ["slug"], name: "index_artists_on_slug", unique: true, using: :btree
+
+  create_table "blazer_audits", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "query_id"
+    t.text     "statement"
+    t.string   "data_source"
+    t.datetime "created_at"
+  end
+
+  create_table "blazer_checks", force: true do |t|
+    t.integer  "query_id"
+    t.string   "state"
+    t.text     "emails"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blazer_dashboard_queries", force: true do |t|
+    t.integer  "dashboard_id"
+    t.integer  "query_id"
+    t.integer  "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blazer_dashboards", force: true do |t|
+    t.text     "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "blazer_queries", force: true do |t|
+    t.integer  "creator_id"
+    t.string   "name"
+    t.text     "description"
+    t.text     "statement"
+    t.string   "data_source"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "genres", force: true do |t|
     t.string   "name"
