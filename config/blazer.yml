@@ -41,4 +41,4 @@ user_class: User
 user_name: name
 
 # email to send checks from
-# from_email: blazer@example.org
+from_email: blazer@recordtemple.com
