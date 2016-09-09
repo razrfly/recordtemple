@@ -1,0 +1,119 @@
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Price Info</h5>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <dl>
+                <dt>Price - low</dt>
+                <dd><%= @price.price_low %></dd>
+
+                <dt>Price - high</dt>
+                <dd><%= @price.price_high %></dd>
+              </dl>
+            </div>
+
+            <div class="col-sm-6">
+              <dl>
+                <dt>Year - begin</dt>
+                <dd><%= @price.yearbegin %></dd>
+
+                <dt>Year - end</dt>
+                <dd><%= @price.yearend %></dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <dl>
+                <dt>Artist</dt>
+                <dd><%= @price.artist_name %></dd>
+                <dt>Details</dt>
+                <dd><%= @price.detail %></dd>
+                <dt>Label</dt>
+                <dd><%= @price.label_name %></dd>
+              </dl>
+            </div>
+
+            <div class="col-sm-6">
+              <dl>
+                <dt>Format</dt>
+                <dd><%= @price.record_format_name %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Records</h5>
+
+          <% if @price.records.present? %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nr</th>
+                  <th>Photo</th>
+                  <th>Artist</th>
+                  <th>Label</th>
+                  <th>Genre</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @price.records.each_with_index do |record, index| %>
+                  <tr>
+                    <td><%= "##{index + 1}" %></td>
+
+                    <td>
+                      <% if record.photos.present? %>
+                        <% record.photos.each do |photo| %>
+                          <%= image_tag attachment_url(photo, :image, :fill, 30, 30),
+                            class: 'media-object', data: { width: 30, height: 30 },
+                            style: 'float:left;' %>
+                        <% end %>
+                      <% else %>
+                        <em>No photos</em>
+                      <% end %>
+                    </td>
+
+                    <td><%= record.artist_name %></td>
+                    <td><%= record.label_name %></td>
+                    <td><%= record.genre_name %></td>
+                    <td>
+                      <%= link_to record_path(record) do %>
+                        <span class="icon icon-magnifying-glass"></span>
+                      <% end %>
+
+                      <%# if record.songs.present? %>
+                        <%#= link_to record.songs.first.title,
+                          Refile.attachment_url(record.songs.first, :audio),
+                          class: 'sm2_button' %>
+                      <%# end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <em>No records found.</em>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="pull-left">
+        <%= link_to "Back", @q,
+          class: "btn btn-sm btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>
