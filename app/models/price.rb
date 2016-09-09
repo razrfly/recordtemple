@@ -4,7 +4,7 @@ class Price < ActiveRecord::Base
   belongs_to :artist
   belongs_to :label
   belongs_to :user
-  has_one :record
+  # has_one :record ????
 
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
