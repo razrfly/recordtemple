@@ -1,0 +1,101 @@
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-3">
+      <%= search_form_for @q do |search_form| %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Search</h5>
+
+            <div class="form-group">
+              <%= search_form.label :artist_id_eq %>
+              <%= search_form.select :artist_id_eq,
+                @q.artist_id_eq.present? ?
+                  Artist.where(id: @q.artist_id_eq).
+                    map { |artist| [artist.name, artist.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/artists.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :detail_cont %>
+              <%= search_form.search_field :detail_cont, class: 'form-control' %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :label_id_eq %>
+              <%= search_form.select :label_id_eq,
+                @q.label_id_eq.present? ?
+                  Label.where(id: @q.label_id_eq).
+                    map { |label| [label.name, label.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/labels.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :record_format_id_eq %>
+              <%= search_form.collection_select :record_format_id_eq,
+                RecordFormat.joins(:records).uniq, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <small class="pull-right">
+            <%= page_entries_info @prices %>
+          </small>
+          <h5 class="m-t-0">Results <small><%#= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Artist</th>
+                <th>Label</th>
+                <th>Details</th>
+                <th>Format</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @prices.each do |price| %>
+                <tr>
+                  <td><%= price.artist_name %></td>
+                  <td><%= price.label_name %></td>
+                  <td><%= price.detail %></td>
+                  <td><%= price.record_format_name %></td>
+                  <td>
+                    <%= link_to price_path(price) do %>
+                      <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+
+                    <%# if record.songs.present? %>
+                      <%#= link_to record.songs.first.title,
+                        Refile.attachment_url(record.songs.first, :audio),
+                        class: 'sm2_button' %>
+                    <%# end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <%= paginate @prices %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

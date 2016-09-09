@@ -8,7 +8,8 @@ Recordapp::Application.routes.draw do
     get "login", to: "devise/sessions#new"
   end
 
-  resources :labels, :artists, :records, only: [:index, :show]
+  resources :labels, :artists,
+    :prices, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
   get 'search', to: 'searches#new'
 
