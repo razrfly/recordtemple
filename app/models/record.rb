@@ -57,8 +57,16 @@ class Record < ActiveRecord::Base
   end
 
   #acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
-  accepts_nested_attributes_for :songs
+
+  [:photos, :songs].each do |association|
+    accepts_nested_attributes_for association, allow_destroy: true,
+      reject_if: Proc.new { |attributes|
+        attributes.except(:_destroy).reject { |_, value|
+          value.match(/\{\}/) || value.blank?
+        }.empty?
+      }
+  end
+
   # after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
