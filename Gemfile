@@ -39,8 +39,8 @@ gem 'blazer'
 gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
-gem 'mini_magick', '~> 4.0.2'
-gem 'refile', '~> 0.5.3', :require => ['refile/rails', 'refile/image_processing']
+gem "refile", require: "refile/rails"
+gem "refile-mini_magick"
 gem "cocoon"
 
 group :production do
