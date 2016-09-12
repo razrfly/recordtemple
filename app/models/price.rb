@@ -19,5 +19,4 @@ class Price < ActiveRecord::Base
   def date_range
     yearbegin == yearend ? yearbegin : [yearbegin, yearend].join('-')
   end
-
 end

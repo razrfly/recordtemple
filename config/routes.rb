@@ -8,10 +8,13 @@ Recordapp::Application.routes.draw do
     get "login", to: "devise/sessions#new"
   end
 
-  resources :labels, :artists,
-    :prices, :records, only: [:index, :show]
+  resources :labels, :artists, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
   get 'search', to: 'searches#new'
+
+  resources :prices, only: [:index, :show] do
+    resources :records, only: [:new, :create]
+  end
 
   namespace :admin do
     mount Blazer::Engine, at: 'blazer'
@@ -45,7 +48,6 @@ Recordapp::Application.routes.draw do
 
     # sticky navigation
     post 'sticky' => 'admin#sticky'
-
   end
 
   constraints(user_id: /rui|greggie|holden|szymon|simon|twitwilly|steve/) do

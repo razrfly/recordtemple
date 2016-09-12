@@ -53,7 +53,10 @@
     <div class="col-md-6">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="m-t-0">Records</h5>
+          <h5 class="m-t-0">
+            Records
+            <small> · <%= link_to "New", new_price_record_path(@price) %></small>
+          </h5>
 
           <% if @price.records.present? %>
             <table class="table">
