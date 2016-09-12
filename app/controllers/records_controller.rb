@@ -73,6 +73,12 @@ class RecordsController < ApplicationController
         :id,
         :image,
         :_destroy
+        ],
+      songs_attributes: [
+        :id,
+        :audio,
+        :title,
+        :_destroy
         ]
       )
   end
