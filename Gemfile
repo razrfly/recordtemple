@@ -41,6 +41,7 @@ gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
 gem 'mini_magick', '~> 4.0.2'
 gem 'refile', '~> 0.5.3', :require => ['refile/rails', 'refile/image_processing']
+gem "cocoon"
 
 group :production do
   gem 'rails_12factor'
