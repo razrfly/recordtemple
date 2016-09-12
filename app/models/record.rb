@@ -56,9 +56,9 @@ class Record < ActiveRecord::Base
   end
 
   #acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos, :allow_destroy => :true, :reject_if => proc { |attributes| attributes['image'] == "{}" }
+  accepts_nested_attributes_for :photos, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :songs
-# after_save :add_freebase_to_parent
+  # after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }
