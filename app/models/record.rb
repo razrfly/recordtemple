@@ -1,5 +1,6 @@
 class Record < ActiveRecord::Base
-  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3, very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
+  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3,
+    very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
 
   belongs_to :price
   belongs_to :user

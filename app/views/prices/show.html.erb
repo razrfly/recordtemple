@@ -12,8 +12,7 @@
               <dl>
                 <dt>Price</dt>
                 <dd>
-                  <%= @price.price_low %> -
-                  <%= @price.price_high %>
+                  <%= price_range @price %>
                 </dd>
               </dl>
             </div>
@@ -22,8 +21,7 @@
               <dl>
                 <dt>Year</dt>
                 <dd>
-                  <%= @price.yearbegin %> -
-                  <%= @price.yearend %>
+                  <%= date_range @price %>
                 </dd>
               </dl>
             </div>
