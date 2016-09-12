@@ -78,11 +78,10 @@
 
                     <td>
                       <% if record.photos.present? %>
-                        <% record.photos.each do |photo| %>
-                          <%= image_tag attachment_url(photo, :image, :fill, 30, 30),
-                            class: 'media-object', data: { width: 30, height: 30 },
-                            style: 'float:left;' %>
-                        <% end %>
+                        <%= image_tag attachment_url(record.photos.first, :image,
+                          :fill, 30, 30), class: 'media-object',
+                          data: { width: 30, height: 30 },
+                          style: 'float:left;' %>
                       <% else %>
                         <em>No photos</em>
                       <% end %>
