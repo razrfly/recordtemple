@@ -1,0 +1,120 @@
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">
+            <%= @price.artist_name %> -
+            <%= @price.label_name %>
+          </h5>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <dl>
+                <dt>Price</dt>
+                <dd>
+                  <%= price_range @price %>
+                </dd>
+              </dl>
+            </div>
+
+            <div class="col-sm-6">
+              <dl>
+                <dt>Year</dt>
+                <dd>
+                  <%= date_range @price %>
+                </dd>
+              </dl>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-6">
+              <dl>
+                <dt>Record format</dt>
+                <dd><%= @price.record_format_name %></dd>
+              </dl>
+            </div>
+
+            <div class="col-sm-6">
+              <dl>
+                <dt>Details</dt>
+                <dd><%= @price.detail %></dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-7">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">
+            Records
+            <small> · <%= link_to "New", new_price_record_path(@price) %></small>
+          </h5>
+
+          <% if @price.records.present? %>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nr</th>
+                  <th>Photo</th>
+                  <th>Artist</th>
+                  <th>Label</th>
+                  <th>Genre</th>
+                  <th></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @price.records.each_with_index do |record, index| %>
+                  <tr>
+                    <td><%= "##{index + 1}" %></td>
+
+                    <td>
+                      <% if record.photos.present? %>
+                        <%= image_tag attachment_url(record.photos.first, :image,
+                          :fill, 30, 30), class: 'media-object',
+                          data: { width: 30, height: 30 },
+                          style: 'float:left;' %>
+                      <% else %>
+                        <em>No photos</em>
+                      <% end %>
+                    </td>
+
+                    <td><%= record.artist_name %></td>
+                    <td><%= record.label_name %></td>
+                    <td><%= record.genre_name %></td>
+                    <td>
+                      <%= link_to record_path(record) do %>
+                        <span class="icon icon-magnifying-glass"></span>
+                      <% end %>
+
+                      <%# if record.songs.present? %>
+                        <%#= link_to record.songs.first.title,
+                          Refile.attachment_url(record.songs.first, :audio),
+                          class: 'sm2_button' %>
+                      <%# end %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          <% else %>
+            <em>No records found.</em>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <div class="pull-left">
+        <% path = @last_search_query.present? ?
+          @last_search_query : prices_path %>
+
+        <%= link_to "Back", path, class: "btn btn-sm btn-primary" %>
+      </div>
+    </div>
+  </div>
+</div>

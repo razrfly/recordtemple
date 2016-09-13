@@ -1,5 +1,6 @@
 class Record < ActiveRecord::Base
-  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3, very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
+  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3,
+    very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
 
   belongs_to :price
   belongs_to :user
@@ -24,7 +25,7 @@ class Record < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
-  delegate :detail, :to => :price
+  delegate :detail, to: :price, prefix: true, allow_nil: true
 
 
   def self.condition_collection
@@ -56,9 +57,17 @@ class Record < ActiveRecord::Base
   end
 
   #acts_as_tree :foreign_key => "price_id"
-  accepts_nested_attributes_for :photos, :allow_destroy => :true, :reject_if => proc { |attributes| attributes['image'] == "{}" }
-  accepts_nested_attributes_for :songs
-# after_save :add_freebase_to_parent
+
+  [:photos, :songs].each do |association|
+    accepts_nested_attributes_for association, allow_destroy: true,
+      reject_if: Proc.new { |attributes|
+        attributes.except(:_destroy).reject { |_, value|
+          value == "{}"
+        }.empty?
+      }
+  end
+
+  # after_save :add_freebase_to_parent
 
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }

@@ -19,8 +19,8 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :comment_cont %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
+              <%= search_form.label :detail_cont %>
+              <%= search_form.search_field :detail_cont, class: 'form-control' %>
             </div>
 
             <div class="form-group">
@@ -36,41 +36,11 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :genre_id_eq %>
-              <%= search_form.collection_select :genre_id_eq,
-                Genre.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control' } %>
-            </div>
-
-            <div class="form-group">
               <%= search_form.label :record_format_id_eq %>
               <%= search_form.collection_select :record_format_id_eq,
                 RecordFormat.joins(:records).uniq, :id, :name,
                 { include_blank: true },
                 { class: 'form-control' } %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label :condition_eq %>
-              <%= search_form.select :condition_eq,
-                Record.conditions.to_a,
-                { include_blank: true },
-                { class: 'form-control' } %>
-            </div>
-
-            <div class="checkbox">
-              <label>
-                <%= search_form.check_box :songs_id_not_null %>
-                Only with songs
-              </label>
-            </div>
-
-            <div class="checkbox">
-              <label>
-                <%= search_form.check_box :photos_id_not_null %>
-                Only with photos
-              </label>
             </div>
 
             <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
@@ -83,44 +53,38 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <small class="pull-right">
-            <%= page_entries_info @records %>
+            <%= page_entries_info @prices %>
           </small>
-          <h5 class="m-t-0">Results <small><%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
+          <h5 class="m-t-0">Results <small><%#= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
 
           <table class="table">
             <thead>
               <tr>
                 <th>Artist</th>
-                <th>Details</th>
                 <th>Label</th>
-                <th>Genre</th>
+                <th>Details</th>
                 <th>Format</th>
-                <th>Condition</th>
                 <th></th>
               </tr>
             </thead>
 
             <tbody>
-              <% @records.each do |record| %>
+              <% @prices.each do |price| %>
                 <tr>
-                  <td><%= record.artist_name %></td>
+                  <td><%= price.artist_name %></td>
+                  <td><%= price.label_name %></td>
+                  <td><%= price.detail %></td>
+                  <td><%= price.record_format_name %></td>
                   <td>
-                    <%= record.price_detail %></strong>
-                    <i><%= record.comment %></i>
-                  </td>
-                  <td><%= record.label_name %></td>
-                  <td><%= record.genre_name %></td>
-                  <td><%= record.record_format_name %></td>
-                  <td><%= record.get_condition %></td>
-                  <td>
-                    <%= link_to record_path(record) do %>
+                    <%= link_to price_path(price) do %>
                       <span class="icon icon-magnifying-glass"></span>
                     <% end %>
-                    <% if record.songs.present? %>
-                      <%= link_to record.songs.first.title,
+
+                    <%# if record.songs.present? %>
+                      <%#= link_to record.songs.first.title,
                         Refile.attachment_url(record.songs.first, :audio),
                         class: 'sm2_button' %>
-                    <% end %>
+                    <%# end %>
                   </td>
                 </tr>
               <% end %>
@@ -129,7 +93,7 @@
         </div>
 
         <div class="text-center">
-          <%= paginate @records %>
+          <%= paginate @prices %>
         </div>
       </div>
     </div>

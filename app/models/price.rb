@@ -4,19 +4,11 @@ class Price < ActiveRecord::Base
   belongs_to :artist
   belongs_to :label
   belongs_to :user
-  has_one :record
+  # has_one :record ????
 
-  attr_accessor :artist_name
-  attr_accessor :label_name
+  delegate :name, to: :artist, prefix: true, allow_nil: true
+  delegate :name, to: :label, prefix: true, allow_nil: true
+  delegate :name, to: :record_format, prefix: true, allow_nil: true
 
   validates_presence_of :artist_id, :label_id, :record_format_id
-
-  def price_range
-    price_low == price_high ? price_low : [price_low, price_high].join('-')
-  end
-
-  def date_range
-    yearbegin == yearend ? yearbegin : [yearbegin, yearend].join('-')
-  end
-
 end

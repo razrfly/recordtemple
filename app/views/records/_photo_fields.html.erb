@@ -1,0 +1,13 @@
+<div class="nested-fields" id="photo_<%= f.object.id %>">
+  <div class="row"
+    style="padding-left:15px !important; padding-right:15px !important;">
+    <div class="pull-left">
+      <%= f.attachment_field :image %>
+    </div>
+
+    <div class="pull-right">
+      <%= link_to_remove_association "Remove", f,
+        class: 'btn btn-xs btn-default' %>
+    </div>
+  </div>
+</div>

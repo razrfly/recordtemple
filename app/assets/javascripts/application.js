@@ -10,3 +10,4 @@
 //= require ./soundmanager2/mp3-player-button
 
 //= require ./selectize_remote
+//= require cocoon
