@@ -25,7 +25,7 @@ class Record < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
-  delegate :detail, :to => :price
+  delegate :detail, to: :price, prefix: true, allow_nil: true
 
 
   def self.condition_collection
@@ -62,7 +62,7 @@ class Record < ActiveRecord::Base
     accepts_nested_attributes_for association, allow_destroy: true,
       reject_if: Proc.new { |attributes|
         attributes.except(:_destroy).reject { |_, value|
-          value.match(/\{\}/) || value.blank?
+          value == "{}"
         }.empty?
       }
   end
