@@ -109,8 +109,10 @@
     </div>
     <div class="col-md-12">
       <div class="pull-left">
-        <%= link_to "Back", @q,
-          class: "btn btn-sm btn-primary" %>
+        <% path = @last_search_query.present? ?
+          @last_search_query : prices_path %>
+
+        <%= link_to "Back", path, class: "btn btn-sm btn-primary" %>
       </div>
     </div>
   </div>
