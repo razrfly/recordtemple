@@ -16,13 +16,13 @@
     <li><%= link_to "Songs", "#" %></li>
     <hr>
 
-    <li><%= link_to "Account Settings", "#" %></li>
+    <li><%= link_to "Account Settings", settings_path %></li>
     <li>
-      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+      <%= link_to "Log out", logout_path, method: :delete %>
     </li>
   </ul>
 <% else %>
   <ul class="nav navbar-nav navbar-right m-r-0">
-    <li><%= link_to "Log in", new_user_session_path %></li>
+    <li><%= link_to "Log in", login_path %></li>
   </ul>
 <% end %>
