@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
 
-  # before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create]
   before_action :set_price, only: [:new, :create]
 
   def index
@@ -28,8 +28,7 @@ class RecordsController < ApplicationController
         artist: @price.artist,
         label: @price.label,
         record_format: @price.record_format,
-        #temporary hardcoded
-        user: User.last })
+        user: current_user })
       )
 
     if @record.save
@@ -68,6 +67,7 @@ class RecordsController < ApplicationController
       :price_id,
       :artist_id,
       :label_id,
+      :user_id,
       :record_format_id,
       photos_attributes: [
         :id,
