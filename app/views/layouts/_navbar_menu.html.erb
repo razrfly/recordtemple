@@ -1,0 +1,28 @@
+<% if user_signed_in? %>
+  <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
+    <li>
+      <button class="btn btn-default navbar-btn navbar-btn-avitar hidden-xs"
+        data-toggle="popover">
+
+        <%= image_tag 'bootstrap/avatar-dhg.png', class: 'img-circle' %>
+      </button>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
+    <li><%= link_to "Records", "#" %></li>
+    <li><%= link_to "Prices", "#" %></li>
+    <li><%= link_to "Photos", "#" %></li>
+    <li><%= link_to "Songs", "#" %></li>
+    <hr>
+
+    <li><%= link_to "Account Settings", "#" %></li>
+    <li>
+      <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+    </li>
+  </ul>
+<% else %>
+  <ul class="nav navbar-nav navbar-right m-r-0">
+    <li><%= link_to "Log in", new_user_session_path %></li>
+  </ul>
+<% end %>
