@@ -2,11 +2,16 @@ Recordapp::Application.routes.draw do
   # mount Blazer::Engine, at: 'blazer'
 
   root to: "home#index"
-  # ransack and selectize
 
-  devise_for :users, controllers: { registrations: "users/registrations" }
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    sessions: "users/sessions"
+  }
+
   devise_scope :user do
-    get "login", to: "devise/sessions#new"
+    get "login", to: "users/sessions#new"
+    get "settings", to: "users/registrations#edit"
+    delete "logout", to: "users/sessions#destroy"
   end
 
   resources :labels, :artists, :records, only: [:index, :show]
