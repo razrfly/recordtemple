@@ -14,42 +14,13 @@
     </div>
 
     <div class="navbar-collapse collapse" id="navbar-collapse-main">
+      <!-- Left side navbar -->
       <ul class="nav navbar-nav hidden-xs">
-        <li>
-          <%= link_to 'Records', records_path %>
-        </li>
-        <li>
-          <%= active_link_to 'Prices', prices_path, active: :exclusive %>
-        </li>
+        <li><%= link_to "Records", records_path %></li>
+        <li><%= link_to "Prices", prices_path %></li>
       </ul>
 
-      <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
-        <li>
-          <a class="app-notifications" href="#fake">
-            <span class="icon icon-bell"></span>
-          </a>
-        </li>
-
-        <li>
-          <button class="btn btn-default navbar-btn navbar-btn-avitar" data-toggle="popover">
-            <%= image_tag 'bootstrap/avatar-dhg.png', class: 'img-circle' %>
-          </button>
-        </li>
-      </ul>
-
-      <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
-        <% # TODO: mark active link %>
-
-        <li>
-          <%= link_to 'Records', records_path %>
-        </li>
-
-        <li><a href="#fake">Logout</a></li>
-      </ul>
-
-      <ul class="nav navbar-nav hidden">
-        <li><a href="#fake">Logout</a></li>
-      </ul>
+      <%= render 'layouts/navbar_menu' %>
     </div>
   </div>
 </nav>
