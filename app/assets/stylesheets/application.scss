@@ -1,9 +1,17 @@
 @import 'bootstrap/toolkit';
 @import 'bootstrap/application';
 
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
 @import 'selectize';
 @import 'selectize.bootstrap3';
 
 @import './overrides';
+
+@import 'jquery.ezdz';
+@import './ezdz_dropzone';
+@import "dropzone/dropzone";
+
 @import './soundmanager2/bar-ui';
 @import './soundmanager2/mp3-player-button';
