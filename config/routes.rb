@@ -65,5 +65,4 @@ Recordapp::Application.routes.draw do
   #   get ':user_id/:id', to: 'pages#show', as: 'user_page'
   # end
   # get 'users', to: 'users#index'
-
 end
