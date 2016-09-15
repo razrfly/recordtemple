@@ -3,12 +3,18 @@ Recordapp::Application.routes.draw do
 
   root to: "home#index"
 
-  devise_for :users, controllers: {
+  devise_for :users,
+  path: '',
+  path_names: {
+    sign_in: 'login',
+    sign_out: 'logout'
+    },
+  controllers: {
     registrations: "users/registrations",
     sessions: "users/sessions"
   }
 
-  devise_scope :user do
+  as :user do
     get "login", to: "users/sessions#new"
     get "settings", to: "users/registrations#edit"
     delete "logout", to: "users/sessions#destroy"
