@@ -1,4 +1,6 @@
 <div class="col-md-offset-3 col-md-6">
+  <%= render 'layouts/message' %>
+
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name),
     html: {class: "m-x-auto text-center app-login-form"}) do |f| %>
 

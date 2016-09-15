@@ -1,12 +1,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
+  layout 'devise/application', only: [:new, :create]
 
   private
-  # You can put the params you want to permit in the empty array.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.for(
-  #     :account_update
-  #     ) << [:username, :fname, :lname, :avatar]
-  # end
 
   def after_update_path_for(resource)
     settings_path
