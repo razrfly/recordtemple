@@ -4,7 +4,8 @@
       <button class="btn btn-default navbar-btn navbar-btn-avitar hidden-xs"
         data-toggle="popover">
 
-        <%= image_tag 'bootstrap/avatar-dhg.png', class: 'img-circle' %>
+        <%= image_tag attachment_url(current_user, :avatar,
+          :fill, 40, 40), class: 'img-circle' %>
       </button>
     </li>
   </ul>
@@ -16,9 +17,27 @@
     <li><%= link_to "Songs", "#" %></li>
     <hr>
 
-    <li><%= link_to "Account Settings", settings_path %></li>
+    <li class="text-center m-b">
+      <span class="text-muted">
+        <small><%= current_user.email %></small>
+      </span>
+    </li>
     <li>
-      <%= link_to "Log out", logout_path, method: :delete %>
+      <%= link_to settings_path do %>
+        Account Settings
+        <span class="pull-right">
+          <%= icon "gear" %>
+        </span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to logout_path, method: :delete do %>
+        Log out
+        <span class="pull-right">
+          <%= icon "power-off" %>
+        </span>
+      <% end %>
     </li>
   </ul>
 <% else %>
