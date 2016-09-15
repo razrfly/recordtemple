@@ -4,8 +4,12 @@
       <button class="btn btn-default navbar-btn navbar-btn-avitar hidden-xs"
         data-toggle="popover">
 
-        <%= image_tag attachment_url(current_user, :avatar,
-          :fill, 40, 40), class: 'img-circle' %>
+        <% if current_user.avatar.present? %>
+          <%= image_tag attachment_url(current_user, :avatar,
+            :fill, 40, 40), class: 'img-circle' %>
+        <% else %>
+          <%= image_tag gravatar_url(current_user), class: 'img-circle' %>
+        <% end %>
       </button>
     </li>
   </ul>
