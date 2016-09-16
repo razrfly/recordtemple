@@ -4,6 +4,7 @@ Recordapp::Application.routes.draw do
   root to: "home#index"
 
   devise_for :users,
+  skip: [:registrations],
   path: '',
   path_names: {
     sign_in: 'login',

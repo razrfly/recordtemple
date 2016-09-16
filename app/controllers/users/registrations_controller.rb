@@ -1,5 +1,4 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  layout 'devise/application', only: [:new, :create]
 
   private
 
