@@ -2,9 +2,16 @@ class RecordsController < ApplicationController
 
   before_action :authenticate_user!, only: [:new, :create]
   before_action :set_price, only: [:new, :create]
+  before_action :set_user, only: [:index, :show]
 
   def index
-    @q = Record.where(user_id: 1).ransack(query_params)
+    @q =
+      if @user
+        Record.where(user_id: @user.id).ransack(query_params)
+      else
+        Record.ransack(query_params)
+      end
+
     @result = @q.result.
       includes(:artist, :genre, :label, :price, :record_format, :songs).
       order("artists.name").
@@ -55,6 +62,12 @@ class RecordsController < ApplicationController
   def set_price
     @price = Price.includes(:artist, :label, :record_format).
       find(params[:price_id])
+  end
+
+  def set_user
+    if params[:user_id].present?
+      @user = User.find(params[:user_id])
+    end
   end
 
   def record_params

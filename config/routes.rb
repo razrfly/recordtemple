@@ -16,16 +16,23 @@ Recordapp::Application.routes.draw do
 
   as :user do
     get "login", to: "users/sessions#new"
-    get "settings", to: "users/registrations#edit"
     delete "logout", to: "users/sessions#destroy"
+
+    get "settings", to: "users/registrations#edit"
+    put "users", to: "users/registrations#update",
+      as: 'user_registration'
   end
+
+  get 'search', to: 'searches#new'
 
   resources :labels, :artists, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
-  get 'search', to: 'searches#new'
-
   resources :prices, only: [:index, :show] do
     resources :records, only: [:new, :create]
+  end
+
+  resources :users do
+    resources :records, only: [:index, :show]
   end
 
   # Will be removed
