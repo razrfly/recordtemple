@@ -1,0 +1,53 @@
+<% if user_signed_in? %>
+  <ul class="nav navbar-nav navbar-right m-r-0 hidden-xs">
+    <li>
+      <button class="btn btn-default navbar-btn navbar-btn-avitar hidden-xs"
+        data-toggle="popover">
+
+        <% if current_user.avatar.present? %>
+          <%= image_tag attachment_url(current_user, :avatar,
+            :fill, 40, 40), class: 'img-circle' %>
+        <% else %>
+          <%= image_tag gravatar_url(current_user), class: 'img-circle' %>
+        <% end %>
+      </button>
+    </li>
+  </ul>
+
+  <ul class="nav navbar-nav hidden-sm hidden-md hidden-lg">
+    <li><%= link_to "Records", user_records_path(current_user) %></li>
+    <li><%= link_to "Prices", "#" %></li>
+    <li><%= link_to "Photos", "#" %></li>
+    <li><%= link_to "Songs", "#" %></li>
+    <hr>
+
+    <li class="text-center m-b">
+      <span class="text-muted">
+        <small><%= current_user.email %></small>
+      </span>
+    </li>
+    <li>
+      <%= link_to settings_path do %>
+        Account Settings
+        <span class="pull-right">
+          <%= icon "gear" %>
+        </span>
+      <% end %>
+    </li>
+
+    <li>
+      <%= link_to logout_path, method: :delete do %>
+        Log out
+        <span class="pull-right">
+          <%= icon "power-off" %>
+        </span>
+      <% end %>
+    </li>
+  </ul>
+<% else %>
+  <ul class="nav navbar-nav navbar-right m-r-0">
+    <li>
+      <%= link_to "Log in", login_path, data: {toggle: 'popover'} %>
+    </li>
+  </ul>
+<% end %>

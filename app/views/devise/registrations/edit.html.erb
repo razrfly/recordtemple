@@ -1,0 +1,85 @@
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-offset-3 col-md-6">
+      <%= render 'layouts/message' %>
+
+      <%= simple_form_for(resource, url: registration_path(resource_name),
+        html: { method: :put }, as: resource_name) do |f| %>
+
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
+              Settings
+            </h4>
+
+            <span class="pull-right">
+              <%= f.button :submit, "Update",
+                class: "btn btn-primary-outline btn-sm" %>
+
+              <%= link_to "Cancel my account", registration_path(resource_name),
+                data: { confirm: "Are you sure?" }, method: :delete,
+                class: "btn btn-danger-outline btn-sm" %>
+            </span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <%= f.input :email, required: true, autofocus: true %>
+                <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+                  <p>Currently waiting confirmation for:
+                    <%= resource.unconfirmed_email %>
+                  </p>
+                <% end %>
+
+                <%= f.input :username %>
+
+                <%= f.input :password, input_html: { autocomplete: false },
+                  label: "New Password" %>
+
+                <%= f.label :password_confirmation, style: 'margin-bottom:unset' %>
+                <small><br>(leave blank if you don't want to change it)</small>
+                <%= f.input :password_confirmation, label: false,
+                  input_html: { autocomplete: false } %>
+
+                <%= f.label :current_password, style: 'margin-bottom:unset' %>
+                <small><br>
+                  (enter current password to confirm)
+                </small>
+                <%= f.input :current_password, label: false,
+                  input_html: { autocomplete: false } %>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="ezdz-image-uploader m-b"
+                  data-image-url="<%= attachment_url(
+                    f.object, :avatar, :fit, 648, 436
+                    ) %>" data-toggle="tooltip">
+
+                  <%= f.label :avatar %>
+                  <%= f.attachment_field :avatar %>
+
+                  <% if f.object.persisted? &&
+                    f.object.avatar.present? %>
+
+                    <%= f.check_box :remove_avatar %>
+                    <%= f.label :remove_avatar %>
+                  <% end %>
+                </div>
+
+                <%= f.input :fname, label: "Name" %>
+                <%= f.input :lname, label: "Surname" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
