@@ -3,8 +3,9 @@
     <%= form_for(resource, as: resource_name, url: session_path(resource_name),
       html: {class: 'm-x-auto text-center app-login-form'}) do |f| %>
 
-      <%= link_to root_path, class: 'app-brand m-b-md' do %>
-        <%= image_tag 'bootstrap/brand-blue.png', alt: 'brand' %>
+      <%= link_to root_path, class: 'app-brand m-b-md',
+        style: 'width:70%; !important;' do %>
+        <%= image_tag 'recordtemple/recordtemple-logo.png', alt: 'brand' %>
       <% end %>
 
       <div class="form-group">
@@ -18,7 +19,7 @@
       </div>
 
       <div class="m-b">
-        <%= f.submit "Log in", class: "btn btn-primary" %>
+        <%= f.submit "Log in", class: "btn btn-sm btn-default-outline" %>
 
       </div>
 
