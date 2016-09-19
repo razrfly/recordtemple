@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  extend FriendlyId
 
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :trackable, :validatable
@@ -9,8 +10,9 @@ class User < ActiveRecord::Base
   has_many :songs, through: :records
   has_many :pages
 
-  extend FriendlyId
-  friendly_id :slug_candidates, use: [:slugged, :finders]
+  validates :username, presence: true, uniqueness: true
+
+  friendly_id :username, use: [:slugged, :finders]
 
   attachment :avatar
 
@@ -23,10 +25,6 @@ class User < ActiveRecord::Base
   # end
 
   def should_generate_new_friendly_id?
-    changed?
-  end
-
-  def slug_candidates
-    [:username, :id]
+    username_changed?
   end
 end
