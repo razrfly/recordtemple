@@ -1,0 +1,5 @@
+<% path = last_search_query.present? ?
+  last_search_query : path %>
+
+<%= link_to "Back", path,
+  class: "btn btn-primary-outline btn-sm" %>
