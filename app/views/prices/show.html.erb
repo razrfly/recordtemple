@@ -1,5 +1,23 @@
 <div class="container p-t-md">
   <%= render 'layouts/message' %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
+
+        Price
+      </h4>
+
+      <span class="pull-right">
+        <%= link_to "Edit", "",
+          class: "btn btn-primary-outline btn-sm" %>
+
+        <%= render 'shared/back_link',
+          last_search_query: @last_search_query,
+          path: prices_path %>
+      </span>
+    </div>
+  </div>
 
   <div class="row">
     <div class="col-md-5">
@@ -108,14 +126,6 @@
             <em>No records found.</em>
           <% end %>
         </div>
-      </div>
-    </div>
-    <div class="col-md-12">
-      <div class="pull-left">
-        <% path = @last_search_query.present? ?
-          @last_search_query : prices_path %>
-
-        <%= link_to "Back", path, class: "btn btn-sm btn-primary" %>
       </div>
     </div>
   </div>

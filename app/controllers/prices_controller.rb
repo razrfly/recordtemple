@@ -1,7 +1,7 @@
 class PricesController < ApplicationController
+  include SearchQueryHelper
+
   before_action :set_price, only: [:show]
-  after_action :remember_search_query, only: [:index]
-  after_action :clear_search_query, only: [:show]
 
   def index
     @q = Price.ransack(params[:q])
@@ -27,13 +27,5 @@ class PricesController < ApplicationController
   def set_price
     @price = Price.includes(:artist, :label, :record_format,
       records: [:photos]).find(params[:id])
-  end
-
-  def clear_search_query
-    session[:last_search_query].try(:clear)
-  end
-
-  def remember_search_query
-    session[:last_search_query] = request.url
   end
 end
