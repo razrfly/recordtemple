@@ -9,8 +9,10 @@ module ApplicationHelper
   end
 
   def cover_link_for target
-    unless target.cover_photo.blank?
+    if target.cover_photo.present?
       link_to image_tag(target.cover_photo), (admin? ? [:admin, target] : target)
+    else
+      "No cover"
     end
   end
 

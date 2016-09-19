@@ -46,9 +46,9 @@ class RecordsController < ApplicationController
   end
 
   def show
-    @record = Record.
-      includes(:artist, :genre, :label, :price, :record_format, :songs).
-      find(params[:id])
+    @record = Record
+      .includes(:artist, :genre, :label, :price, :record_format, :songs)
+      .find(params[:id])
   end
 
   private
