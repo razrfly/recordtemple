@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  extend FriendlyId
-  friendly_id :username, use: [:slugged, :finders]
 
   devise :database_authenticatable, :registerable, :recoverable,
     :rememberable, :trackable, :validatable
@@ -11,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :songs, through: :records
   has_many :pages
 
+  extend FriendlyId
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
   attachment :avatar
 
   # def active?
@@ -20,4 +21,12 @@ class User < ActiveRecord::Base
   # def name
   #   "#{fname} #{lname}" if fname.present? or lname.present?
   # end
+
+  def should_generate_new_friendly_id?
+    changed?
+  end
+
+  def slug_candidates
+    [:username, :id]
+  end
 end
