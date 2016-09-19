@@ -10,8 +10,6 @@ class Label < ActiveRecord::Base
 
   validates_presence_of :name
 
-  scope :active, -> { joins(:records).uniq }
-
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?
   end
@@ -28,5 +26,4 @@ class Label < ActiveRecord::Base
       :"name~=" => label
     }])
   end
-
 end

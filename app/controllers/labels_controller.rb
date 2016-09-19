@@ -1,9 +1,15 @@
 class LabelsController < ApplicationController
 
   def index
+    @q = Label.ransack(query_params)
+
+    @result = @q.result
+      .includes(:records, :artists, :genres)
+      .uniq
+
     respond_to do |format|
       format.html do
-        @labels = Label.active.page(params[:page])
+        @labels = @result.page(params[:page])
       end
 
       format.json do
@@ -20,4 +26,11 @@ class LabelsController < ApplicationController
     @artists = Artist.joins(:records => :label).where('labels.id = ?', @label.id).uniq
   end
 
+  private
+
+  def query_params
+    params[:q].try(:reject) do |k, v|
+      ['records_id_not_null'].include?(k) && v == '0'
+    end
+  end
 end
