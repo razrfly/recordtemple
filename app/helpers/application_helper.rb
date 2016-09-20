@@ -30,4 +30,8 @@ module ApplicationHelper
     gravatar_id = Digest::MD5::hexdigest(user.email).downcase
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=48"
   end
+
+  def fallback(width, height)
+    "https://placehold.it/#{width}x#{height}?text=No image"
+  end
 end
