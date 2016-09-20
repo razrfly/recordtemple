@@ -1,4 +1,6 @@
 class ArtistsController < ApplicationController
+  include SearchQueryHelper
+  before_action :set_artist, only: [:show]
 
   def index
     @q = Artist.ransack(query_params)
@@ -20,7 +22,12 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @artist = Artist.find(params[:id])
+    @search = @artist.records.ransack(params[:q])
+    @records = @search.result.includes(
+      :record_format
+      ).page(params[:page])
+
+    @last_search_query = session[:last_search_query]
   end
 
   private
@@ -29,5 +36,9 @@ class ArtistsController < ApplicationController
     params[:q].try(:reject) do |k, v|
       ['photos_id_not_null', 'songs_id_not_null'].include?(k) && v == '0'
     end
+  end
+
+  def set_artist
+    @artist = Artist.includes(:photos, :labels, :genres).find(params[:id])
   end
 end
