@@ -24,9 +24,9 @@ class LabelsController < ApplicationController
 
   def show
     @search = @label.records.ransack(params[:q])
-    @records = @search.result
-      .includes(:photos, :artist, :record_format)
-      .page(params[:page])
+    @records = @search.result.includes(
+      :photos, :artist, :record_format
+      ).page(params[:page])
 
     @last_search_query = session[:last_search_query]
   end
