@@ -1,5 +1,6 @@
 class Artist < ActiveRecord::Base
   extend FriendlyId
+  default_scope { joins(:records).uniq }
 
   has_many :records
   has_many :prices
@@ -11,8 +12,6 @@ class Artist < ActiveRecord::Base
   friendly_id :name, :use => [:slugged, :finders]
 
   validates_presence_of :name
-
-  scope :active, -> { joins(:records).uniq }
 
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?

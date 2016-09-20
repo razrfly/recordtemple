@@ -1,5 +1,6 @@
 class Label < ActiveRecord::Base
   extend FriendlyId
+  default_scope { joins(:records) }
 
   has_many :records
   has_many :prices

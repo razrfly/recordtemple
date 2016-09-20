@@ -4,10 +4,10 @@ class LabelsController < ApplicationController
   before_action :set_label, only: [:show]
 
   def index
-    @q = Label.ransack(query_params)
+    @q = Label.ransack(params[:q])
 
     @result = @q.result
-      .includes(:records, :artists, :genres)
+      .includes(:artists, :genres)
       .uniq
 
     respond_to do |format|
@@ -32,12 +32,6 @@ class LabelsController < ApplicationController
   end
 
   private
-
-  def query_params
-    params[:q].try(:reject) do |k, v|
-      ['records_id_not_null'].include?(k) && v == '0'
-    end
-  end
 
   def set_label
     @label = Label.find(params[:id])

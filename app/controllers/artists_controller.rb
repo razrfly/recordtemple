@@ -6,7 +6,7 @@ class ArtistsController < ApplicationController
     @q = Artist.ransack(query_params)
 
     @result = @q.result.
-      includes(:records, :photos).
+      includes(:photos).
       uniq
 
     respond_to do |format|
