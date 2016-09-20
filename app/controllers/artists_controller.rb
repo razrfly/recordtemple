@@ -24,7 +24,7 @@ class ArtistsController < ApplicationController
   def show
     @search = @artist.records.ransack(params[:q])
     @records = @search.result.includes(
-      :record_format
+      :photos, :label, :genre, :record_format
       ).page(params[:page])
 
     @last_search_query = session[:last_search_query]
@@ -34,11 +34,12 @@ class ArtistsController < ApplicationController
 
   def query_params
     params[:q].try(:reject) do |k, v|
-      ['photos_id_not_null', 'songs_id_not_null'].include?(k) && v == '0'
+      ['record_id_not_null','photos_id_not_null', 'songs_id_not_null'].
+      include?(k) && v == '0'
     end
   end
 
   def set_artist
-    @artist = Artist.includes(:photos, :labels, :genres).find(params[:id])
+    @artist = Artist.find(params[:id])
   end
 end

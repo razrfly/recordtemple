@@ -1,69 +1,81 @@
-<% breadcrumb :show_artist, @artist %>
+<div class="container p-t-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
 
-<h2 class='page-title'><%= @artist.name %></h3>
+        <%= @artist.name %>
+      </h4>
 
-<h3>Artist details</h3>
+      <span class="pull-right">
+        <%= link_to "Edit", "",
+          class: "btn btn-primary-outline btn-sm" %>
 
-<!-- START PHOTOS -->
-<% if @artist.photos.present? %>
-  <% if @artist.photos.count > 5 %>
-    <!-- START CAROUSEL -->
-    <div id="owl-carousel">
-      <% @artist.photos.each do |photo| %>
-        <div class="item">
-          <%= image_tag attachment_url(photo, :image, :fill, 200, 200) %>
-        </div>
-      <% end %>
+        <%= render 'shared/back_link',
+          last_search_query: @last_search_query,
+          path: labels_path %>
+      </span>
     </div>
-    <!-- END CAROUSEL -->
-  <% else %>
-    <%= image_tag attachment_url(@artist.photos.first, :image, :fill, 200, 200) unless @artist.photos.blank? %>
-  <% end %>
-<% end %>
-<!-- END PHOTOS -->
+  </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th></th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          <strong> Name </strong>
-        </td>
-        <td>
-          <%= @artist.name %>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Artist Info</h5>
+            Records: <%= @artist.records_count %><br>
+            Genres: <%= @artist.genres.size %><br>
+            Labels: <%= @artist.labels.size %>
+        </div>
+      </div>
+    </div>
 
-<div id="artist-records">
-  <table>
-    <thead>
-      <tr>
-        <th> Cover </th>
-        <th> Label </th>
-        <th> Genre </th>
-        <th> Record Format </th>
-        <th> Condition </th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @artist.records.each do |record| %>
-        <tr>
-          <td> <%= image_tag record.cover_photo unless record.cover_photo.blank? %> </td>
-          <td> <%= record.label.name %> </td>
-          <td> <%= record.genre.name %> </td>
-          <td> <%= record.record_format.name %> </td>
-          <td> <%= record.get_condition %> </td>
-          <td> <%= link_to 'show', record %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Related Records</h5>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th> Cover </th>
+                  <th> <%= sort_link @search, :label_name, "Label" %></th>
+                  <th> <%= sort_link @search, :genre_name, "Genre" %></th>
+                  <th> <%= sort_link @search, :record_format_name, "Record Format" %></th>
+                  <th> <%= sort_link @search, :condition, "Condition" %></th>
+                  <th class="buttons"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @records.each do |record| %>
+                  <tr>
+                    <td><%= cover_link_for record %></td>
+
+                    <td>
+                      <%= link_to record.label_name, record.label,
+                        class: 'table-link' %>
+                    </td>
+
+                    <td><%= record.genre_name %></td>
+                    <td><%= record.record_format_name %></td>
+                    <td><%= record.get_condition %></td>
+
+                    <td class="buttons">
+                      <%= link_to icon('search'), record %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="text-center">
+              <%= paginate @records %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
