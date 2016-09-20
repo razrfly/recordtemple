@@ -63,7 +63,7 @@
                     ) %>" data-toggle="tooltip">
 
                   <%= f.label :avatar %>
-                  <%= f.attachment_field :avatar %>
+                  <%= f.attachment_field :avatar, direct: true, presigned: true %>
 
                   <% if f.object.persisted? &&
                     f.object.avatar.present? %>
