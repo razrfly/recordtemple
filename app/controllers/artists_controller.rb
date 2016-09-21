@@ -1,5 +1,6 @@
 class ArtistsController < ApplicationController
   include SearchQueryHelper
+
   before_action :set_artist, only: [:show]
 
   def index

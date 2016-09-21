@@ -1,6 +1,7 @@
 class RecordsController < ApplicationController
+  include SearchQueryHelper
 
-  before_action :authenticate_user!, only: [:new, :create]
+  before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_price, only: [:new, :create]
   before_action :set_user, only: [:index, :show]
 
@@ -49,6 +50,8 @@ class RecordsController < ApplicationController
     @record = Record
       .includes(:artist, :genre, :label, :price, :record_format, :songs)
       .find(params[:id])
+
+    @last_search_query = session[:last_search_query]
   end
 
   private
