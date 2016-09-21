@@ -4,7 +4,7 @@ class RecordsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_price, only: [:new, :create]
   before_action :set_user, only: [:index, :show]
-  before_action :set_record, only: [:show, :edit, :update]
+  before_action :set_record, only: [:show, :edit, :update, :destroy]
 
   def index
     @q =
@@ -60,6 +60,12 @@ class RecordsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def destroy
+    @record.destroy
+
+    redirect_to records_path, notice: "Record was successfully deleted."
   end
 
   private
