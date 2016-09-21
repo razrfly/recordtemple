@@ -1,83 +1,106 @@
+<% price = nil if !defined?(price) %>
+
 <%= simple_form_for [price, record] do |record_form| %>
   <div class="container p-t-md">
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
+          Record
+        </h4>
+
+        <span class="pull-right">
+          <%= record_form.button :submit,
+            class: "btn btn-primary-outline btn-sm" %>
+
+
+          <%= link_to "Back", (
+            price.present? ? price_path(price) : record_path(record)
+            ), class: "btn btn-sm btn-default-outline" %>
+        </span>
+      </div>
+    </div>
+
     <div class="row">
       <%= render 'application/error_messages', object: record %>
 
-      <div class="col-md-4">
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h5 class="m-t-0">Price</h5>
+      <% if price.present? %>
+        <div class="col-md-4">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h5 class="m-t-0">Price Info</h5>
 
-            <%= price.artist_name %><br>
-            <%= price.label_name %><br>
-            <%= price.record_format_name %><br>
+              <dl>
+                <dt>Artist</dt>
+                <dd><%= price.artist_name %></dd>
+              </dl>
+
+              <dl>
+                <dt>Label</dt>
+                <dd><%= price.label_name %></dd>
+              </dl>
+
+              <dl>
+                <dt>Format</dt>
+                <dd><%= price.record_format_name %></dd>
+              </dl>
+            </div>
           </div>
         </div>
-      </div>
+      <% end %>
 
-      <div class="col-md-8">
-        <div class="row">
-          <div class="panel panel-default panel-profile">
-            <div class="panel-body">
-              <h5 class="m-t-0">
-                Records
-              </h5>
+      <div class="<%= price.present? ? 'col-md-8' : 'col-md-12' %>">
+        <div class="panel panel-default panel-profile">
+          <div class="panel-body">
+            <h5 class="m-t-0">
+              Record Info
+            </h5>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <%= record_form.input :identifier_id, label: 'Identifier ID' %>
-                  <%= record_form.input :value, label: "Your price" %>
+            <div class="row">
+              <div class="col-md-6">
+                <%= record_form.input :identifier_id, label: 'Identifier ID' %>
+                <%= record_form.input :value, label: "Your price" %>
 
-                  <%= record_form.input :condition, collection: Record.conditions.map { |x, y|
-                    [Record.transform_condition(x), x] },
-                    input_html: {id: 'record-condition'} %>
+                <%= record_form.input :condition, collection: Record.conditions.map { |x, y|
+                  [Record.transform_condition(x), x] },
+                  input_html: {id: 'record-condition'} %>
 
-                  <%= record_form.association :genre %>
-                </div>
+                <%= record_form.association :genre %>
+              </div>
 
-                <div class="col-md-6">
-                  <%= record_form.input :comment, as: :text,
-                    input_html: { rows: 12, style: "resize:vertical" } %>
+              <div class="col-md-6">
+                <%= record_form.input :comment, as: :text,
+                  input_html: { rows: 12, style: "resize:vertical" } %>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="photos-fields m-t">
+                  <%= record_form.simple_fields_for :photos do |photo| %>
+
+                    <%= render 'photo_fields', f: photo %>
+                  <% end %>
+
+                  <div class="m-t">
+                    <%= link_to_add_association 'Add photo', record_form, :photos %>
+                  </div>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="photos-fields m-t">
-                    <%= record_form.simple_fields_for :photos do |photo| %>
+              <div class="col-md-6">
+                <div class="songs-fields m-t">
+                  <%= record_form.simple_fields_for :songs do |song| %>
 
-                      <%= render 'photo_fields', f: photo %>
-                    <% end %>
+                    <%= render 'song_fields', f: song %>
+                  <% end %>
 
-                    <div class="m-t">
-                      <%= link_to_add_association 'Add photo', record_form, :photos %>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="col-md-6">
-                  <div class="songs-fields m-t">
-                    <%= record_form.simple_fields_for :songs do |song| %>
-
-                      <%= render 'song_fields', f: song %>
-                    <% end %>
-
-                    <div class="m-t">
-                      <%= link_to_add_association 'Add song', record_form, :songs %>
-                    </div>
+                  <div class="m-t">
+                    <%= link_to_add_association 'Add song', record_form, :songs %>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="pull-right">
-            <%= link_to "Back", price_path(price),
-              class: "btn btn-sm btn-default-outline" %>
-
-            <%= record_form.button :submit, class: "btn btn-sm btn-primary" %>
           </div>
         </div>
       </div>
