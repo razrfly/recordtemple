@@ -97,7 +97,7 @@
 
               <% if @record.photos.present? %>
                 <% @record.photos.each do |photo| %>
-                  <div class="col-md-4">
+                  <div class="col-sm-4">
                     <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
                       class: 'img-responsive' %>
                   </div>
@@ -115,9 +115,7 @@
               <h5 class="m-t-0">Songs</h5>
 
               <% if @record.songs.present? %>
-                <div class="col-md-4">
-                  <%= render 'player', songs: @record.songs %>
-                </div>
+                <%= render 'player', songs: @record.songs %>
               <% else %>
                 <em>No song clips available.</em>
               <% end %>

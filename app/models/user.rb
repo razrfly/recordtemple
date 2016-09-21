@@ -12,12 +12,4 @@ class User < ActiveRecord::Base
   has_many :pages
 
   attachment :avatar
-
-  # def active?
-  #   invitation_accepted_at.present? | (invitation_accepted_at.nil? & invitation_sent_at.nil?)
-  # end
-
-  # def name
-  #   "#{fname} #{lname}" if fname.present? or lname.present?
-  # end
 end
