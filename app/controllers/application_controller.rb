@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include Pundit
+
   before_action :store_current_location,
     :unless => :devise_controller?
 
