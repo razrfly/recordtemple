@@ -1,5 +1,6 @@
 class RecordsController < ApplicationController
   include SearchQueryHelper
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_price, only: [:new, :create]
@@ -52,6 +53,7 @@ class RecordsController < ApplicationController
   end
 
   def edit
+    authorize @record
   end
 
   def update
@@ -74,6 +76,11 @@ class RecordsController < ApplicationController
     params[:q].try(:reject) do |k, v|
       ['photos_id_not_null', 'songs_id_not_null'].include?(k) && v == '0'
     end
+  end
+
+  def user_not_authorized
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to(@record)
   end
 
   def set_record
