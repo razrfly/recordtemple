@@ -21,7 +21,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
           <h5 class="m-t-0">Record Info</h5>
@@ -31,21 +31,26 @@
               <dl>
                 <dt>Artist</dt>
                 <dd><%= @record.artist_name %></dd>
-                <dt>Details</dt>
-                <dd><%= @record.price_detail %></dd>
-                <dt>Comment</dt>
-                <dd><%= @record.comment %></dd>
+              </dl>
+
+              <dl>
                 <dt>Label</dt>
                 <dd><%= @record.label_name %></dd>
+              </dl>
+
+              <dl>
+                <dt>Genre</dt>
+                <dd><%= @record.genre_name %></dd>
               </dl>
             </div>
 
             <div class="col-sm-6">
               <dl>
-                <dt>Genre</dt>
-                <dd><%= @record.genre_name %></dd>
                 <dt>Format</dt>
                 <dd><%= @record.record_format_name %></dd>
+              </dl>
+
+              <dl>
                 <dt>Condition</dt>
                 <dd><%= @record.get_condition %></dd>
               </dl>
@@ -53,9 +58,33 @@
           </div>
         </div>
       </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Details</h5>
+
+          <% if @record.price_detail.present? %>
+            <%= @record.price_detail %>
+          <% else %>
+            <em>No details.</em>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Comment</h5>
+
+          <% if @record.comment.present? %>
+            <%= @record.comment %>
+          <% else %>
+            <em>No comment.</em>
+          <% end %>
+        </div>
+      </div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-8">
       <div class="row">
         <div class="col-md-12">
           <div class="panel panel-default">
