@@ -7,7 +7,7 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   belongs_to :label
   belongs_to :record_format
-  belongs_to :artist, counter_cache: true
+  belongs_to :artist
 
   attr_accessor :freebase_id
 
