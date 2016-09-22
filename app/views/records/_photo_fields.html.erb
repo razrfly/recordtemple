@@ -2,12 +2,19 @@
   <div class="row"
     style="padding-left:15px !important; padding-right:15px !important;">
     <div class="pull-left">
-      <%= f.attachment_field :image %>
+      <% if f.object.persisted? %>
+        <%= image_tag attachment_url(f.object, :image, :fill, 64, 64),
+          class: 'img-responsive' %>
+      <% else %>
+        <%= f.attachment_field :image, direct: true, class: 'p-t' %>
+      <% end %>
     </div>
 
-    <div class="pull-right">
-      <%= link_to_remove_association "Remove", f,
-        class: 'btn btn-xs btn-default' %>
+    <div class="pull-right p-t">
+      <%= link_to_remove_association f,
+        class: 'btn btn-xs btn-default' do %>
+        <%= icon 'close' %>
+      <% end %>
     </div>
   </div>
 </div>
