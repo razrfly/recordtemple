@@ -68,7 +68,7 @@
               <% @labels.each do |label| %>
                 <tr>
                   <td><%= label.name %></td>
-                  <td><%= label.records_count %></td>
+                  <td><%= label.records.size %></td>
                   <td><%= label.artists.size %></td>
                   <td><%= label.genres.size %></td>
 
