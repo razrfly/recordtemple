@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919075126) do
+ActiveRecord::Schema.define(version: 20160915071753) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,14 +83,6 @@ ActiveRecord::Schema.define(version: 20160919075126) do
     t.datetime "updated_at"
   end
 
-  create_table "bubbles", force: true do |t|
-    t.integer  "low"
-    t.integer  "high"
-    t.integer  "price_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "genres", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -106,24 +98,10 @@ ActiveRecord::Schema.define(version: 20160919075126) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "slug"
-    t.integer  "records_count"
   end
 
   add_index "labels", ["name"], name: "index_labels_on_name", unique: true, using: :btree
   add_index "labels", ["slug"], name: "index_labels_on_slug", unique: true, using: :btree
-
-  create_table "mugshots", force: true do |t|
-    t.integer  "record_id"
-    t.integer  "parent_id"
-    t.string   "content_type"
-    t.string   "filename"
-    t.string   "thumbnail"
-    t.integer  "size"
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "pages", force: true do |t|
     t.string   "title"
