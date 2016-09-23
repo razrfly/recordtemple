@@ -46,7 +46,7 @@ class Record < ActiveRecord::Base
   end
 
   def self.to_csv
-    attributes = %w[artist_name detail comment label_name genre_name record_format_name get_condition]
+    attributes = %w[artist_name price_detail comment label_name genre_name record_format_name get_condition]
     CSV.generate(headers: true) do |csv|
       csv << attributes
 

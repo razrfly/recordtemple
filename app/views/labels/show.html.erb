@@ -1,56 +1,79 @@
-<h2 class='page-title'><%= @label.name %></h3>
+<div class="container p-t-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
 
-<div id="genre-records">
-  <table>
-    <thead>
-      <tr>
-        <th> Cover </th>
-        <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
-        <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
-        <th> <%= sort_link @search, :condition, "Condition" %> </th>
-        <th class="buttons"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @records.each do |record| %>
-        <tr>
-          <td> <%= cover_link_for record %> </td>
-          <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
-          <td> <%= record.record_format.name %> </td>
-          <td> <%= record.get_condition %> </td>
-          <td class="buttons">
-            <%= link_to icon('search'), record %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<div><%= paginate @records %></div>
-</div>
+        <%= @label.name %>
+      </h4>
 
-<div class="show-info">
-  <table>
-    <thead>
-      <tr>
-        <th colspan="2">Label details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Label</td>
-        <td class="value"><%= @label.name %></td>
-      </tr>
+      <span class="pull-right">
+        <%= link_to "Edit", "",
+          class: "btn btn-primary-outline btn-sm" %>
 
-      <tr>
-        <td>Records</td>
-        <td class="value"><%= @records.total_count %></td>
-      </tr>
+        <%= render 'shared/back_link',
+          last_search_query: @last_search_query,
+          path: labels_path %>
+      </span>
+    </div>
+  </div>
 
-      <tr>
-        <td>Artists</td>
-        <td class="value"><%= @artists.count %></td>
-      </tr>
+  <div class="row">
+    <div class="col-md-3">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Label Info</h5>
+            Description: <%#= @label.description %><br>
+            Records: <%= @label.records.size %><br>
+            Artists: <%= @label.artists.size %><br>
+        </div>
+      </div>
+    </div>
 
-    </tbody>
-  </table>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Related Records</h5>
+
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th> Cover </th>
+                  <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
+                  <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
+                  <th> <%= sort_link @search, :condition, "Condition" %> </th>
+                  <th class="buttons"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <% @records.each do |record| %>
+                  <tr>
+                    <td><%= cover_link_for record %></td>
+
+                    <td>
+                      <%= link_to record.artist_name, record.artist,
+                        class: 'table-link' %>
+                    </td>
+
+                    <td><%= record.record_format_name %></td>
+                    <td><%= record.get_condition %></td>
+
+                    <td class="buttons">
+                      <%= link_to icon('search'), record %>
+                    </td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="text-center">
+              <%= paginate @records %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
