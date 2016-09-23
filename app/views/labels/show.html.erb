@@ -21,7 +21,7 @@
         <div class="panel-body">
           <h5 class="m-t-0">Label Info</h5>
             Description: <%#= @label.description %><br>
-            Records: <%= @label.records_count %><br>
+            Records: <%= @label.records.size %><br>
             Artists: <%= @label.artists.size %><br>
         </div>
       </div>
