@@ -1,0 +1,113 @@
+<%= search_form_for q do |search_form| %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h5 class="m-t-0">Search</h5>
+
+      <% if search_fields.include? :base_klass %>
+        <% _klass = search_fields[:base_klass] %>
+        <div class="form-group">
+          <%= search_form.label _klass.name %>
+          <%= search_form.select :id_eq,
+            @q.id_eq.present? ?
+              _klass.where(id: @q.id_eq).
+                map { |base| [base.name, base.id] } :
+              [],
+            {},
+            { class: 'form-control selectize_remote',
+            data: { remote_url: "/#{_klass.table_name}.json" } } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include? :artist_association %>
+        <% _artist = search_fields[:artist_association] %>
+
+        <div class="form-group">
+          <%= search_form.label "Artist" %>
+          <%= search_form.select "#{_artist}_id_eq",
+            @q.send("#{_artist}_id_eq").present? ?
+              Artist.where(id: @q.send("#{_artist}_id_eq")).
+                map { |artist| [artist.name, artist.id] } :
+              [],
+            {},
+            { class: 'form-control selectize_remote',
+            data: { remote_url: "/#{_artist.pluralize}.json" } } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include? :label_association %>
+        <% _label = search_fields[:label_association] %>
+
+        <div class="form-group">
+          <%= search_form.label "Label" %>
+          <%= search_form.select "#{_label}_id_eq",
+            @q.send("#{_label}_id_eq").present? ?
+              Label.where(id: @q.send("#{_label}_id_eq")).
+                map { |label| [label.name, label.id] } :
+              [],
+            {},
+            { class: 'form-control selectize_remote',
+            data: { remote_url: "/#{_label.pluralize}.json" } } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include? :genre_association %>
+        <% _genre = search_fields[:genre_association] %>
+
+        <div class="form-group">
+          <%= search_form.label "Genre" %>
+          <%= search_form.collection_select "#{_genre}_id_eq",
+            Genre.joins(:records).uniq, :id, :name,
+            { include_blank: true },
+            { class: 'form-control' } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include? :record_format_association %>
+        <% _record_format = search_fields[:record_format_association] %>
+        <div class="form-group">
+          <%= search_form.label "Record Format" %>
+          <%= search_form.collection_select "#{_record_format}_id_eq",
+            RecordFormat.joins(:records).uniq, :id, :name,
+            { include_blank: true },
+            { class: 'form-control' } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include?(:condition) &&
+        search_fields[:condition] %>
+        <div class="form-group">
+          <%= search_form.label "Condition" %>
+          <%= search_form.select :condition_eq,
+            Record.conditions.map { |k, v|
+              [k.gsub('_',' ').gsub('plus', '+'), v]
+              },
+            { include_blank: true },
+            { class: 'form-control' } %>
+        </div>
+      <% end %>
+
+      <% if search_fields.include?(:with_songs) &&
+        search_fields[:with_songs] %>
+
+        <div class="checkbox">
+          <label>
+            <%= search_form.check_box :songs_id_not_null %>
+            Only with songs
+          </label>
+        </div>
+      <% end %>
+
+      <% if search_fields.include?(:with_photos) &&
+        search_fields[:with_photos] %>
+        <div class="checkbox">
+          <label>
+            <%= search_form.check_box :photos_id_not_null %>
+            Only with photos
+          </label>
+        </div>
+      <% end %>
+
+      <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
