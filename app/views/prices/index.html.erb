@@ -1,52 +1,12 @@
 <div class="container p-t-md">
   <div class="row">
     <div class="col-md-3">
-      <%= search_form_for @q do |search_form| %>
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h5 class="m-t-0">Search</h5>
-
-            <div class="form-group">
-              <%= search_form.label :artist_id_eq %>
-              <%= search_form.select :artist_id_eq,
-                @q.artist_id_eq.present? ?
-                  Artist.where(id: @q.artist_id_eq).
-                    map { |artist| [artist.name, artist.id] } :
-                  [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/artists.json' } } %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label :detail_cont %>
-              <%= search_form.search_field :detail_cont, class: 'form-control' %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label :label_id_eq %>
-              <%= search_form.select :label_id_eq,
-                @q.label_id_eq.present? ?
-                  Label.where(id: @q.label_id_eq).
-                    map { |label| [label.name, label.id] } :
-                  [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/labels.json' } } %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label :record_format_id_eq %>
-              <%= search_form.collection_select :record_format_id_eq,
-                RecordFormat.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control' } %>
-            </div>
-
-            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
-          </div>
-        </div>
-      <% end %>
+      <%= render 'shared/search_box', q: @q,
+        search_fields: {
+          label_association: 'label',
+          artist_association: 'artist',
+          record_format_association: 'record_format'
+        } %>
     </div>
 
     <div class="col-md-9">
