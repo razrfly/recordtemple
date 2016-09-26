@@ -1,6 +1,5 @@
 class Label < ActiveRecord::Base
   extend FriendlyId
-  default_scope { joins(:records) }
 
   has_many :records
   has_many :prices
@@ -10,6 +9,8 @@ class Label < ActiveRecord::Base
   friendly_id :name, :use => [:slugged, :finders]
 
   validates_presence_of :name
+
+  scope :active, -> { joins(:records).includes(:genres, :artists).uniq }
 
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?

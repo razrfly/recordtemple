@@ -12,11 +12,15 @@ class LabelsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @labels = @result.page(params[:page])
+        @labels = params[:q].nil? ? Label.active : @result
+
+        @labels = @labels.page(params[:page])
       end
 
       format.json do
-        @labels = Label.joins(:records).fuzzy_search(name: params[:q]).uniq
+        @labels = params[:q].nil? ? Label.joins(:records) : Label
+
+        @labels = @labels.fuzzy_search(name: params[:q]).uniq
         render json: @labels.as_json(only: [:id, :name])
       end
     end
