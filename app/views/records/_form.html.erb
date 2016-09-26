@@ -13,10 +13,11 @@
           <%= record_form.button :submit,
             class: "btn btn-primary-outline btn-sm" %>
 
-
-          <%= link_to "Back", (
-            price.present? ? price_path(price) : record_path(record)
-            ), class: "btn btn-sm btn-default-outline" %>
+          <% unless record_form.object.new_record? %>
+            <%= link_to "Back", (
+              price.present? ? price_path(price) : record_path(record)
+              ), class: "btn btn-sm btn-default-outline" %>
+          <% end %>
         </span>
       </div>
     </div>
@@ -70,6 +71,10 @@
               input_html: {id: 'record-condition'} %>
 
             <%= record_form.association :genre %>
+
+            <% unless price.present? %>
+              <%= record_form.association :record_format %>
+            <% end %>
 
             <%= record_form.input :comment, as: :text,
               input_html: { rows: 2, style: "resize:vertical" } %>
