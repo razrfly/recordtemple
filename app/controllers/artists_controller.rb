@@ -12,11 +12,13 @@ class ArtistsController < ApplicationController
 
     respond_to do |format|
       format.html do
-        @artists = @result.page(params[:page])
+        @artists = query_params.blank? ? Artist.active : @result
+
+        @artists = @artists.page(params[:page])
       end
 
       format.json do
-        @artists = Artist.joins(:records).fuzzy_search(name: params[:q]).uniq
+        @artists = Artist.fuzzy_search(name: params[:q]).uniq
         render json: @artists.as_json(only: [:id, :name])
       end
     end
@@ -32,13 +34,6 @@ class ArtistsController < ApplicationController
   end
 
   private
-
-  def query_params
-    params[:q].try(:reject) do |k, v|
-      ['record_id_not_null','photos_id_not_null', 'songs_id_not_null'].
-      include?(k) && v == '0'
-    end
-  end
 
   def set_artist
     @artist = Artist.find(params[:id])

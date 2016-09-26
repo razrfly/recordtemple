@@ -40,6 +40,14 @@
 
             <div class="checkbox">
               <label>
+                <%= search_form.check_box :records_id_null %>
+
+                Only without records
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
                 <%= search_form.check_box :songs_id_not_null %>
                 Only with songs
               </label>
