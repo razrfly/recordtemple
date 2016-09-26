@@ -1,19 +1,98 @@
-<h2 class="page-title">Artists</h2>
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-md-3">
+      <%= search_form_for @q do |search_form| %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Search</h5>
 
-<div class="cards">
-  <% @artists.each do |artist| %>
-    <div class="card">
-      <div class="card-image">
-        <%= link_to(image_tag(attachment_url(artist.photos.first, :image, :fill, 200, 200)), artist) unless artist.photos.blank? %><br/>
-      </div>
-      <div class="card-header">
-        <%= link_to artist.name, artist %>
-      </div>
-      <div class="card-copy">
-        <p> Lorem ipsum </p>
-      </div>
+            <div class="form-group">
+              <%= search_form.label :name %>
+              <%= search_form.select :id_eq,
+                @q.id_eq.present? ?
+                  Artist.where(id: @q.id_eq).
+                    map { |artist| [artist.name, artist.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/artists.json' } } %>
+            </div>
 
+            <div class="form-group">
+              <%= search_form.label :label %>
+              <%= search_form.select :labels_id_eq,
+                @q.labels_id_eq.present? ?
+                  Label.where(id: @q.labels_id_eq).
+                    map { |label| [label.name, label.id] } :
+                  [],
+                {},
+                { class: 'form-control selectize_remote',
+                data: { remote_url: '/labels.json' } } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label :genre %>
+              <%= search_form.collection_select :genres_id_eq,
+                Genre.joins(:records).uniq, :id, :name,
+                { include_blank: true },
+                { class: 'form-control' } %>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box :records_id_null %>
+
+                Only without records
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box :songs_id_not_null %>
+                Only with songs
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box :photos_id_not_null %>
+                Only with photos
+              </label>
+            </div>
+
+            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+          </div>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+
+    <div class="col-md-9">
+      <div class="row">
+        <% @artists.each do |artist| %>
+          <div class="col-md-3">
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <% if artist.photos.present? %>
+                  <%= image_tag attachment_url(
+                    artist.photos.try(:first), :image, :fill, 200, 200),
+                    class: 'img-responsive' %>
+                <% else %>
+                  <%= image_tag fallback(200, 200),
+                    class: 'img-responsive' %>
+                <% end %>
+
+                <p class="text-center">
+                  <%= link_to truncate(artist.name, length: 20), artist_path(artist) %>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="text-center">
+        <%= paginate @artists %>
+      </div>
+    </div>
+  </div>
 </div>
-<%= paginate @artists %>

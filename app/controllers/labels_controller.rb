@@ -7,16 +7,18 @@ class LabelsController < ApplicationController
     @q = Label.ransack(query_params)
 
     @result = @q.result
-      .includes(:records, :artists, :genres)
+      .includes(:artists, :genres)
       .uniq
 
     respond_to do |format|
       format.html do
-        @labels = @result.page(params[:page])
+        @labels = query_params.blank? ? Label.active : @result
+
+        @labels = @labels.page(params[:page])
       end
 
       format.json do
-        @labels = Label.joins(:records).fuzzy_search(name: params[:q]).uniq
+        @labels = Label.fuzzy_search(name: params[:q]).uniq
         render json: @labels.as_json(only: [:id, :name])
       end
     end
@@ -24,20 +26,14 @@ class LabelsController < ApplicationController
 
   def show
     @search = @label.records.ransack(params[:q])
-    @records = @search.result
-      .includes(:photos, :artist, :record_format)
-      .page(params[:page])
+    @records = @search.result.includes(
+      :photos, :artist, :record_format
+      ).page(params[:page])
 
     @last_search_query = session[:last_search_query]
   end
 
   private
-
-  def query_params
-    params[:q].try(:reject) do |k, v|
-      ['records_id_not_null'].include?(k) && v == '0'
-    end
-  end
 
   def set_label
     @label = Label.find(params[:id])

@@ -5,11 +5,12 @@
       <h4 class="m-t-0 m-b-0"
         style="display: inline-block; padding-top: 5px;">
 
-        Price
+        <%= @price.artist_name %> -
+        <%= @price.label_name %>
       </h4>
 
       <span class="pull-right">
-        <%= link_to "Edit", "",
+        <%= link_to "New Record", new_price_record_path(@price),
           class: "btn btn-primary-outline btn-sm" %>
 
         <%= render 'shared/back_link',
@@ -20,66 +21,51 @@
   </div>
 
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-3">
       <div class="panel panel-default">
         <div class="panel-body">
           <h5 class="m-t-0">
-            <%= @price.artist_name %> -
-            <%= @price.label_name %>
+            Price Info
           </h5>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <dl>
-                <dt>Price</dt>
-                <dd>
-                  <%= price_range @price %>
-                </dd>
-              </dl>
-            </div>
+          <dl>
+            <dt>Price</dt>
+            <dd>
+              <%= price_range @price %>
+            </dd>
+          </dl>
 
-            <div class="col-sm-6">
-              <dl>
-                <dt>Year</dt>
-                <dd>
-                  <%= date_range @price %>
-                </dd>
-              </dl>
-            </div>
-          </div>
+          <dl>
+            <dt>Year</dt>
+            <dd>
+              <%= date_range @price %>
+            </dd>
+          </dl>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <dl>
-                <dt>Record format</dt>
-                <dd><%= @price.record_format_name %></dd>
-              </dl>
-            </div>
+          <dl>
+            <dt>Record format</dt>
+            <dd><%= @price.record_format_name %></dd>
+          </dl>
 
-            <div class="col-sm-6">
-              <dl>
-                <dt>Details</dt>
-                <dd><%= @price.detail %></dd>
-              </dl>
-            </div>
-          </div>
+          <dl>
+            <dt>Details</dt>
+            <dd><%= @price.detail %></dd>
+          </dl>
         </div>
       </div>
     </div>
 
-    <div class="col-md-7">
+    <div class="col-md-9">
       <div class="panel panel-default">
         <div class="panel-body">
           <h5 class="m-t-0">
             Records
-            <small> · <%= link_to "New", new_price_record_path(@price) %></small>
           </h5>
 
           <% if @price.records.present? %>
             <table class="table">
               <thead>
                 <tr>
-                  <th>Nr</th>
                   <th>Photo</th>
                   <th>Artist</th>
                   <th>Label</th>
@@ -89,10 +75,8 @@
               </thead>
 
               <tbody>
-                <% @price.records.each_with_index do |record, index| %>
+                <% @price.records.each do |record| %>
                   <tr>
-                    <td><%= "##{index + 1}" %></td>
-
                     <td>
                       <% if record.photos.present? %>
                         <%= image_tag attachment_url(record.photos.first, :image,

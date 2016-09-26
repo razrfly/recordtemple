@@ -28,8 +28,9 @@ Recordapp::Application.routes.draw do
     resources :records, only: [:index, :show]
   end
 
+  resources :records, only: [:index, :show, :edit, :update, :destroy]
+  resources :labels, :artists, only: [:index, :show]
   get 'search', to: 'searches#new'
-  resources :labels, :artists, :records, only: [:index, :show]
   resources :genres, :record_types, only: [:show]
   resources :prices, only: [:index, :show] do
     resources :records, only: [:new, :create]

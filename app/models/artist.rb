@@ -12,7 +12,7 @@ class Artist < ActiveRecord::Base
 
   validates_presence_of :name
 
-  scope :active, -> { joins(:records).uniq }
+  scope :active, -> { joins(:records).includes(:photos).uniq }
 
   def description
       Freebase.find(freebase_id).description unless freebase_id.blank?

@@ -1,49 +1,60 @@
 <div class="container p-t-md">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-1">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h5 class="m-t-0">Photos</h5>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
 
-          <div data-grid="images">
-            <% if @record.photos.present? %>
-              <% @record.photos.each do |photo| %>
-                <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
-                  class: 'media-object', data: { width: 200, height: 200 } %>
-              <% end %>
-            <% else %>
-              <em>No photos available.</em>
-            <% end %>
-          </div>
-        </div>
-      </div>
+        Record <%= "##{@record.id}" %>
+      </h4>
+
+      <span class="pull-right">
+        <% if user_signed_in? && @record.user == current_user %>
+          <%= link_to "Edit", edit_record_path(@record),
+            class: "btn btn-primary-outline btn-sm" %>
+
+          <%= link_to "Delete", record_path(@record), method: :delete,
+            class: "btn btn-danger-outline btn-sm",
+            data: { confirm: 'Are you sure?' } %>
+        <% end %>
+
+        <%= render 'shared/back_link',
+          last_search_query: @last_search_query,
+          path: records_path %>
+      </span>
     </div>
+  </div>
 
-    <div class="col-md-6">
+  <div class="row">
+    <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="m-t-0">Record info</h5>
+          <h5 class="m-t-0">Record Info</h5>
 
           <div class="row">
             <div class="col-sm-6">
               <dl>
                 <dt>Artist</dt>
                 <dd><%= @record.artist_name %></dd>
-                <dt>Details</dt>
-                <dd><%= @record.price_detail %></dd>
-                <dt>Comment</dt>
-                <dd><%= @record.comment %></dd>
+              </dl>
+
+              <dl>
                 <dt>Label</dt>
                 <dd><%= @record.label_name %></dd>
+              </dl>
+
+              <dl>
+                <dt>Genre</dt>
+                <dd><%= @record.genre_name %></dd>
               </dl>
             </div>
 
             <div class="col-sm-6">
               <dl>
-                <dt>Genre</dt>
-                <dd><%= @record.genre_name %></dd>
                 <dt>Format</dt>
                 <dd><%= @record.record_format_name %></dd>
+              </dl>
+
+              <dl>
                 <dt>Condition</dt>
                 <dd><%= @record.get_condition %></dd>
               </dl>
@@ -54,13 +65,62 @@
 
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="m-t-0">Song clips</h5>
+          <h5 class="m-t-0">Details</h5>
 
-          <% if @record.songs.present? %>
-            <%= render 'player', songs: @record.songs %>
+          <% if @record.price_detail.present? %>
+            <%= @record.price_detail %>
           <% else %>
-            <em>No song clips available.</em>
+            <em>No details.</em>
           <% end %>
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Comment</h5>
+
+          <% if @record.comment.present? %>
+            <%= @record.comment %>
+          <% else %>
+            <em>No comment.</em>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-8">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h5 class="m-t-0">Photos</h5>
+
+              <% if @record.photos.present? %>
+                <% @record.photos.each do |photo| %>
+                  <div class="col-sm-4">
+                    <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
+                      class: 'img-responsive' %>
+                  </div>
+                <% end %>
+              <% else %>
+                <em>No photos available.</em>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h5 class="m-t-0">Songs</h5>
+
+              <% if @record.songs.present? %>
+                <%= render 'player', songs: @record.songs %>
+              <% else %>
+                <em>No song clips available.</em>
+              <% end %>
+            </div>
+          </div>
         </div>
       </div>
     </div>
