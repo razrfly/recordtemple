@@ -17,7 +17,11 @@
       <!-- Left side navbar -->
       <ul class="nav navbar-nav hidden-xs">
         <li><%= link_to "Records", records_path %></li>
-        <li><%= link_to "Prices", prices_path %></li>
+
+        <% if user_signed_in? %>
+          <li><%= link_to "Prices", prices_path %></li>
+        <% end %>
+
         <li><%= link_to "Labels", labels_path %></li>
         <li><%= link_to "Artists", artists_path %></li>
       </ul>

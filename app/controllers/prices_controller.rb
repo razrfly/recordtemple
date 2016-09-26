@@ -2,6 +2,7 @@ class PricesController < ApplicationController
   include SearchQueryHelper
 
   before_action :set_price, only: [:show]
+  before_action :authenticate_user!, only: [:index, :show]
 
   def index
     @q = Price.ransack(params[:q])

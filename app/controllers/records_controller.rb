@@ -1,6 +1,5 @@
 class RecordsController < ApplicationController
   include SearchQueryHelper
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_price, only: [:new, :create]
