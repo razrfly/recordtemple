@@ -96,12 +96,14 @@
               <h5 class="m-t-0">Photos</h5>
 
               <% if @record.photos.present? %>
-                <% @record.photos.each do |photo| %>
-                  <div class="col-sm-4" style="padding-left: unset;">
-                    <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
-                      class: 'img-responsive' %>
-                  </div>
-                <% end %>
+                <div class="row">
+                  <% @record.photos.each do |photo| %>
+                    <div class="col-sm-3 m-b">
+                      <%= image_tag attachment_url(photo, :image, :fill, 200, 200),
+                        class: 'img-responsive' %>
+                    </div>
+                  <% end %>
+                </div>
               <% else %>
                 <em>No photos available.</em>
               <% end %>
