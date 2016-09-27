@@ -1,0 +1,29 @@
+<div class="panel panel-default panel-profile">
+  <div class="panel-body">
+    <h5 class="m-t-0">Photos</h5>
+
+    <% if f.object.photos.present? %>
+      <% f.object.photos.each do |photo| %>
+        <div class="col-sm-3" style="padding-left: unset;">
+          <%= image_tag attachment_url(photo, :image, :fill, 150, 150),
+            class: 'img-responsive' %>
+
+          <div class="pull-left">
+            <small class="text-muted">
+              <%= distance_of_time_in_words_to_now(
+                photo.created_at,
+                include_seconds: true
+                ) %> ago
+            </small>
+          </div>
+
+          <%= link_to icon("times"), record_photo_path(f.object, photo),
+            method: :delete, data: { confirm: "Are you sure?" },
+            class: 'text-muted pull-right' %>
+        </div>
+      <% end %>
+    <% else %>
+      <em>No photos</em>
+    <% end %>
+  </div>
+</div>
