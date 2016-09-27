@@ -1,29 +1,49 @@
-<div class="panel panel-default panel-profile">
-  <div class="panel-body">
-    <h5 class="m-t-0">Photos</h5>
+<% if f.object.photos.present? %>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h5 class="m-t-0">Related Photos</h5>
 
-    <% if f.object.photos.present? %>
-      <% f.object.photos.each do |photo| %>
-        <div class="col-sm-3" style="padding-left: unset;">
-          <%= image_tag attachment_url(photo, :image, :fill, 150, 150),
-            class: 'img-responsive' %>
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Uploaded</th>
+              <th class="buttons"></th>
+            </tr>
+          </thead>
 
-          <div class="pull-left">
-            <small class="text-muted">
-              <%= distance_of_time_in_words_to_now(
-                photo.created_at,
-                include_seconds: true
-                ) %> ago
-            </small>
-          </div>
+          <tbody>
+            <% f.object.photos.each do |photo| %>
+              <tr>
+                <td>
+                  <%= image_tag attachment_url(photo, :image,
+                    :fill, 48, 48), class: 'img-responsive' %>
+                </td>
 
-          <%= link_to icon("times"), record_photo_path(f.object, photo),
-            method: :delete, data: { confirm: "Are you sure?" },
-            class: 'text-muted pull-right' %>
-        </div>
-      <% end %>
-    <% else %>
-      <em>No photos</em>
-    <% end %>
+                <td><%= photo.title || "No title" %></td>
+
+                <td>
+                  <%= distance_of_time_in_words_to_now(
+                    photo.created_at,
+                    include_seconds: true
+                    ) %> ago
+                </td>
+
+                <td class="buttons text-center">
+                  <%= link_to icon("cog"), "#", class: 'text-muted',
+                    style: 'margin-right:5px;' %>
+
+                  <%= link_to icon("times"), record_photo_path(f.object, photo),
+                    method: :delete, data: { confirm: "Are you sure?" },
+                    class: 'text-muted' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
-</div>
+<% end %>
