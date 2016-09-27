@@ -60,8 +60,20 @@
 
     <div class="sm2-playlist-wrapper">
       <ul class="sm2-playlist-bd">
-        <% songs.each do |song| %>
-          <li><%= link_to song.title, Refile.attachment_url(song, :audio, :filename => 'audio.mp3') %></li>
+        <% if defined?(song) && song %>
+          <li>
+            <%= link_to song.title, Refile.attachment_url(
+              song, :audio, :filename => 'audio.mp3'
+              ) %>
+          </li>
+        <% else %>
+          <% songs.each do |song| %>
+            <li>
+              <%= link_to song.title, Refile.attachment_url(
+                song, :audio, :filename => 'audio.mp3'
+                ) %>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>

@@ -49,7 +49,7 @@ class RecordsController < ApplicationController
     end
 
     if @record.save
-      redirect_to @price.present? ? @price : @record,
+      redirect_to [:edit, @record],
         notice: "Record was created successfully."
     else
       render :new
