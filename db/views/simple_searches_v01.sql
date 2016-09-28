@@ -8,11 +8,6 @@ SELECT labels.id AS searchable_id, labels.name AS term,
 FROM labels
 
 UNION
-SELECT record_formats.id AS searchable_id, record_formats.name AS term,
-  'RecordFormat' AS searchable_type
-FROM record_formats
-
-UNION
 SELECT genres.id AS searchable_id, genres.name AS term,
   'Genre' AS searchable_type
 FROM genres

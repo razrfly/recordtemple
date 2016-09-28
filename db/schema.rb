@@ -261,11 +261,6 @@ UNION
     'Label'::text AS searchable_type
    FROM labels
 UNION
- SELECT record_formats.id AS searchable_id,
-    record_formats.name AS term,
-    'RecordFormat'::text AS searchable_type
-   FROM record_formats
-UNION
  SELECT genres.id AS searchable_id,
     genres.name AS term,
     'Genre'::text AS searchable_type
