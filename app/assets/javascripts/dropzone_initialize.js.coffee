@@ -1,6 +1,10 @@
 Dropzone.autoDiscover = false;
 
 jQuery ->
-  $(".dropzone").each ->
+  $("#photos.dropzone").each ->
+    $(this).dropzone
+      url: $(this).data("url")
+
+  $("#songs.dropzone").each ->
     $(this).dropzone
       url: $(this).data("url")

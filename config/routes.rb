@@ -28,7 +28,11 @@ Recordapp::Application.routes.draw do
     resources :records, only: [:index, :show]
   end
 
-  resources :records, only: [:index, :show, :edit, :update, :destroy]
+  resources :records do
+    resources :photos, only: [:create, :destroy]
+    resources :songs, only: [:create, :destroy]
+  end
+
   resources :labels, :artists, only: [:index, :show]
   get 'search', to: 'searches#new'
   resources :genres, :record_types, only: [:show]
