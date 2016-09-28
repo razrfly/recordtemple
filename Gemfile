@@ -35,6 +35,7 @@ gem 'dropzonejs-rails', '~> 0.7.3'
 
 gem 'ransack', '~> 1.7.0'
 gem 'textacular', '~> 3.2.2'
+gem 'scenic', '~> 0.3.0'
 gem 'twitter-typeahead-rails'
 
 gem 'blazer'
