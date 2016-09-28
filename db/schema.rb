@@ -267,9 +267,10 @@ UNION
    FROM genres
 UNION
  SELECT records.id AS searchable_id,
-    records.comment AS term,
+    array_to_string(ARRAY[prices.detail, prices.footnote, (records.comment)::character varying], ' '::text) AS term,
     'Record'::text AS searchable_type
-   FROM records
+   FROM (records
+     LEFT JOIN prices ON ((records.price_id = prices.id)))
 UNION
  SELECT songs.id AS searchable_id,
     songs.title AS term,
