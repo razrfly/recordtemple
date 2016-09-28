@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915071753) do
+ActiveRecord::Schema.define(version: 20160928075837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,5 +249,32 @@ ActiveRecord::Schema.define(version: 20160915071753) do
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
+
+        create_view :simple_searches, sql_definition:<<-SQL
+          SELECT artists.id AS searchable_id,
+    artists.name AS term,
+    'Artist'::text AS searchable_type
+   FROM artists
+UNION
+ SELECT labels.id AS searchable_id,
+    labels.name AS term,
+    'Label'::text AS searchable_type
+   FROM labels
+UNION
+ SELECT record_formats.id AS searchable_id,
+    record_formats.name AS term,
+    'RecordFormat'::text AS searchable_type
+   FROM record_formats
+UNION
+ SELECT genres.id AS searchable_id,
+    genres.name AS term,
+    'Genre'::text AS searchable_type
+   FROM genres
+UNION
+ SELECT records.id AS searchable_id,
+    records.comment AS term,
+    'Record'::text AS searchable_type
+   FROM records;
+        SQL
 
 end
