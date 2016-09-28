@@ -9,12 +9,19 @@ class SearchesController < ApplicationController
           result = {
             term: row.term,
             type: row.searchable_type,
-            path: polymorphic_path([row.searchable])
+            path: polymorphic_path([generate_path_for(row)])
           }
         end
-        # raise @search.size.inspect
+
         render json: @search
       end
     end
+  end
+
+  private
+
+  def generate_path_for row
+    row.searchable.is_a?(Song) ?
+    row.searchable.record : row.searchable
   end
 end

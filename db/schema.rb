@@ -274,7 +274,12 @@ UNION
  SELECT records.id AS searchable_id,
     records.comment AS term,
     'Record'::text AS searchable_type
-   FROM records;
+   FROM records
+UNION
+ SELECT songs.id AS searchable_id,
+    songs.title AS term,
+    'Song'::text AS searchable_type
+   FROM songs;
         SQL
 
 end

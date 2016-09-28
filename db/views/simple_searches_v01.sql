@@ -21,3 +21,8 @@ UNION
 SELECT records.id AS searchable_id, records.comment AS term,
   'Record' AS searchable_type
 FROM records
+
+UNION
+SELECT songs.id AS searchable_id, songs.title AS term,
+  'Song' AS searchable_type
+FROM songs
