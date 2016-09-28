@@ -254,17 +254,20 @@ ActiveRecord::Schema.define(version: 20160928075837) do
           SELECT artists.id AS searchable_id,
     artists.name AS term,
     'Artist'::text AS searchable_type
-   FROM artists
+   FROM (artists
+     JOIN records ON ((records.artist_id = artists.id)))
 UNION
  SELECT labels.id AS searchable_id,
     labels.name AS term,
     'Label'::text AS searchable_type
-   FROM labels
+   FROM (labels
+     JOIN records ON ((records.label_id = labels.id)))
 UNION
  SELECT genres.id AS searchable_id,
     genres.name AS term,
     'Genre'::text AS searchable_type
-   FROM genres
+   FROM (genres
+     JOIN records ON ((records.genre_id = genres.id)))
 UNION
  SELECT records.id AS searchable_id,
     array_to_string(ARRAY[prices.detail, prices.footnote, (records.comment)::character varying], ' '::text) AS term,
@@ -275,7 +278,8 @@ UNION
  SELECT songs.id AS searchable_id,
     songs.title AS term,
     'Song'::text AS searchable_type
-   FROM songs;
+   FROM (songs
+     JOIN records ON ((songs.record_id = records.id)));
         SQL
 
 end
