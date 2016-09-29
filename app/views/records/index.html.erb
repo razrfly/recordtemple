@@ -1,4 +1,19 @@
 <div class="container p-t-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
+
+        <%= @records.model_name.plural.humanize %>
+      </h4>
+
+      <span class="pull-right">
+        <%= link_to "New", new_record_path,
+          class: 'btn btn-primary-outline btn-sm' %>
+      </span>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-3">
       <%= render 'shared/search_box', q: @q,
@@ -19,7 +34,9 @@
           <small class="pull-right">
             <%= page_entries_info @records %>
           </small>
-          <h5 class="m-t-0">Results <small><%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
+          <h5 class="m-t-0">Results <small>
+            <%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %>
+          </small></h5>
 
           <table class="table">
             <thead>

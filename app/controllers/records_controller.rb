@@ -1,6 +1,5 @@
 class RecordsController < ApplicationController
   include SearchQueryHelper
-  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :authenticate_user!, only: [:new, :create, :edit, :update]
   before_action :set_price, only: [:new, :create]
@@ -29,20 +28,29 @@ class RecordsController < ApplicationController
   end
 
   def new
-    @record = @price.records.build
+    @record = @price.present? ?
+    @price.records.build : Record.new
   end
 
   def create
-    @record = @price.records.build(
-      record_params.merge({
+    @record = Record.new(record_params)
+
+    if @price.present?
+      @record.price = @price
+
+      @record.assign_attributes(
         artist: @price.artist,
         label: @price.label,
         record_format: @price.record_format,
-        user: current_user })
+        user: current_user
       )
+    else
+      @record.user = current_user
+    end
 
     if @record.save
-      redirect_to @price, notice: "Record was created successfully."
+      redirect_to [:edit, @record],
+        notice: "Record was created successfully."
     else
       render :new
     end
@@ -72,12 +80,6 @@ class RecordsController < ApplicationController
 
   private
 
-  def query_params
-    params[:q].try(:reject) do |k, v|
-      ['photos_id_not_null', 'songs_id_not_null'].include?(k) && v == '0'
-    end
-  end
-
   def user_not_authorized
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(@record)
@@ -88,9 +90,11 @@ class RecordsController < ApplicationController
   end
 
   def set_price
-    @price = Price.includes(
-      :artist, :label, :record_format
-      ).find(params[:price_id])
+    if params[:price_id].present?
+      @price = Price.includes(
+        :artist, :label, :record_format
+        ).find(params[:price_id])
+    end
   end
 
   def set_user

@@ -19,3 +19,7 @@
 
 //= require dropzone
 //= require ./dropzone_initialize
+
+//= require twitter/typeahead
+//= require twitter/typeahead.min
+//= require ./searches

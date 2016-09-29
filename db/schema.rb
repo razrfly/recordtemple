@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160915071753) do
+ActiveRecord::Schema.define(version: 20160928075837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -249,5 +249,37 @@ ActiveRecord::Schema.define(version: 20160915071753) do
   add_index "users", ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["slug"], name: "index_users_on_slug", unique: true, using: :btree
+
+        create_view :simple_searches, sql_definition:<<-SQL
+          SELECT artists.id AS searchable_id,
+    artists.name AS term,
+    'Artist'::text AS searchable_type
+   FROM (artists
+     JOIN records ON ((records.artist_id = artists.id)))
+UNION
+ SELECT labels.id AS searchable_id,
+    labels.name AS term,
+    'Label'::text AS searchable_type
+   FROM (labels
+     JOIN records ON ((records.label_id = labels.id)))
+UNION
+ SELECT genres.id AS searchable_id,
+    genres.name AS term,
+    'Genre'::text AS searchable_type
+   FROM (genres
+     JOIN records ON ((records.genre_id = genres.id)))
+UNION
+ SELECT records.id AS searchable_id,
+    array_to_string(ARRAY[prices.detail, prices.footnote, (records.comment)::character varying], ' '::text) AS term,
+    'Record'::text AS searchable_type
+   FROM (records
+     LEFT JOIN prices ON ((records.price_id = prices.id)))
+UNION
+ SELECT songs.id AS searchable_id,
+    songs.title AS term,
+    'Song'::text AS searchable_type
+   FROM (songs
+     JOIN records ON ((songs.record_id = records.id)));
+        SQL
 
 end

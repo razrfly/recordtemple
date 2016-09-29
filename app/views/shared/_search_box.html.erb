@@ -107,6 +107,16 @@
         </div>
       <% end %>
 
+      <% if search_fields.include?(:without_records) &&
+        search_fields[:without_records] %>
+        <div class="checkbox">
+          <label>
+            <%= search_form.check_box :records_id_null %>
+            Only without records
+          </label>
+        </div>
+      <% end %>
+
       <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
     </div>
   </div>

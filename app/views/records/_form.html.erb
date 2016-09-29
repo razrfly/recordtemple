@@ -2,62 +2,41 @@
 
 <%= simple_form_for [price, record] do |record_form| %>
   <div class="container p-t-md">
+    <div class="<%= 'row' if record_form.object.new_record? %>">
+      <div class="<%= 'col-md-6 col-md-offset-3' if
+        record_form.object.new_record? %>">
 
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
-          Record
-        </h4>
+        <%= render 'application/error_messages', object: record %>
 
-        <span class="pull-right">
-          <%= record_form.button :submit,
-            class: "btn btn-primary-outline btn-sm" %>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
+              Record
+            </h4>
 
+            <span class="pull-right">
+              <%= record_form.button :submit,
+                class: "btn btn-primary-outline btn-sm" %>
 
-          <%= link_to "Back", (
-            price.present? ? price_path(price) : record_path(record)
-            ), class: "btn btn-sm btn-default-outline" %>
-        </span>
+              <% unless record_form.object.new_record? %>
+                <%= link_to "Back", (
+                  price.present? ? price_path(price) : record_path(record)
+                  ), class: "btn btn-sm btn-default-outline" %>
+              <% end %>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
 
+    <% if price.present? %>
+      <%= render 'price_info', f: record_form, price: price %>
+    <% end %>
+
     <div class="row">
-      <%= render 'application/error_messages', object: record %>
+      <div class="<%= record_form.object.new_record? ?
+        'col-md-6 col-md-offset-3' : 'col-md-4' %>">
 
-      <% if price.present? %>
-        <div class="col-md-12">
-          <div class="panel panel-default">
-            <div class="panel-body">
-              <h5 class="m-t-0">Price Info</h5>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <dl>
-                    <dt>Artist</dt>
-                    <dd><%= price.artist_name %></dd>
-                  </dl>
-                </div>
-
-                <div class="col-md-4">
-                  <dl>
-                    <dt>Label</dt>
-                    <dd><%= price.label_name %></dd>
-                  </dl>
-                </div>
-
-                <div class="col-md-4">
-                  <dl>
-                    <dt>Format</dt>
-                    <dd><%= price.record_format_name %></dd>
-                  </dl>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
-
-      <div class="col-md-6">
         <div class="panel panel-default panel-profile">
           <div class="panel-body">
             <h5 class="m-t-0">Record Info</h5>
@@ -71,47 +50,23 @@
 
             <%= record_form.association :genre %>
 
+            <% unless price.present? %>
+              <%= record_form.association :record_format %>
+            <% end %>
+
             <%= record_form.input :comment, as: :text,
               input_html: { rows: 2, style: "resize:vertical" } %>
           </div>
         </div>
       </div>
 
-      <div class="col-md-6">
-        <div class="panel panel-default panel-profile">
-          <div class="panel-body">
-            <h5 class="m-t-0">Photos</h5>
-
-            <div class="photos-fields m-t">
-              <%= record_form.simple_fields_for :photos do |photo| %>
-
-                <%= render 'photo_fields', f: photo %>
-              <% end %>
-
-              <div class="m-t">
-                <%= link_to_add_association 'Add photo', record_form, :photos %>
-              </div>
-            </div>
-          </div>
+      <% if record_form.object.persisted? %>
+        <div class="col-md-8">
+          <%= render 'records/assets/dropzones_panel', f: record_form %>
+          <%= render 'records/assets/photos_panel', f: record_form %>
+          <%= render 'records/assets/songs_panel', f: record_form %>
         </div>
-
-        <div class="panel panel-default panel-profile">
-          <div class="panel-body">
-            <h5 class="m-t-0">Songs</h5>
-
-            <div class="songs-fields m-t">
-              <%= record_form.simple_fields_for :songs do |song| %>
-
-                <%= render 'song_fields', f: song %>
-              <% end %>
-
-              <div class="m-t">
-                <%= link_to_add_association 'Add song', record_form, :songs %>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 <% end %>

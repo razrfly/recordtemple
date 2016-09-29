@@ -24,53 +24,21 @@ Recordapp::Application.routes.draw do
       as: 'user_registration'
   end
 
-  get 'search', to: 'searches#new'
+  scope path: ":user_id", as: "user" do
+    resources :records, only: [:index, :show]
+  end
 
-  resources :records, only: [:index, :show, :edit, :update, :destroy]
+  resources :records do
+    resources :photos, only: [:create, :destroy]
+    resources :songs, only: [:create, :destroy]
+  end
+
   resources :labels, :artists, only: [:index, :show]
+  get 'search', to: 'searches#new'
   resources :genres, :record_types, only: [:show]
   resources :prices, only: [:index, :show] do
     resources :records, only: [:new, :create]
   end
-
-  resources :users do
-    resources :records, only: [:index, :show]
-  end
-
-  # Will be removed
-  # namespace :admin do
-
-  #   root to: 'home#index'
-  #   # ransack and selectize
-  #   put 'artists' => 'artists#index'
-  #   put 'prices'  => 'prices#index'
-  #   put 'labels'  => 'labels#index'
-  #   put 'records' => 'records#index'
-  #   put 'songs'   => 'songs#index'
-  #   put 'users'   => 'users#index'
-
-  #   # get ':user_id/pages', to: 'pages#index', as: 'user_pages'
-  #   resources :pages do
-  #     post 'sort', to: 'pages#sort', on: :collection
-  #   end
-
-
-  #   resources :genres, :record_formats, :record_types, except: :show
-  #   resources :pages, only: [:index]
-  #   resources :users
-  #   resources :invitations, only: [:new, :create]
-  #   resources :artists, :prices, :labels
-  #   resources :records do
-  #     resources :songs, :photos
-  #     delete 'unlink_price', on: :member
-  #   end
-  #   resources :prices do
-  #     resources :records
-  #   end
-
-  #   # sticky navigation
-  #   post 'sticky' => 'admin#sticky'
-  # end
 
   #Dont know what is it for
   # constraints(user_id: /rui|greggie|holden|szymon|simon|twitwilly|steve/) do

@@ -1,11 +1,22 @@
 <div class="container p-t-md">
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h4 class="m-t-0 m-b-0"
+        style="display: inline-block; padding-top: 5px;">
+
+        <%= @labels.model_name.plural.humanize %>
+      </h4>
+    </div>
+  </div>
+
   <div class="row">
     <div class="col-md-3">
       <%= render 'shared/search_box', q: @q,
         search_fields: {
           base_klass: @labels.klass,
           artist_association: 'artists',
-          genre_association: 'genres'
+          genre_association: 'genres',
+          without_records: true
         } %>
     </div>
 
