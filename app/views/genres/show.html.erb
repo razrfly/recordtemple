@@ -20,7 +20,7 @@
           <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
           <td> <%= link_to record.label.name, record.label, class: 'table-link' %> </td>
           <td> <%= record.record_format.name %> </td>
-          <td> <%= record.get_condition %> </td>
+          <td> <%= condition_formatter(record.condition) %> </td>
           <td class="buttons">
             <%= link_to icon('search'), record %>
           </td>

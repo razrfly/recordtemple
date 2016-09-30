@@ -18,6 +18,12 @@
               <%= record_form.button :submit,
                 class: "btn btn-primary-outline btn-sm" %>
 
+              <% if user_signed_in? && record.user == current_user %>
+                <%= link_to "Delete", record_path(record), method: :delete,
+                  class: "btn btn-danger-outline btn-sm",
+                  data: { confirm: 'Are you sure?' } %>
+              <% end %>
+
               <% unless record_form.object.new_record? %>
                 <%= link_to "Back", (
                   price.present? ? price_path(price) : record_path(record)
@@ -44,9 +50,11 @@
             <%= record_form.input :identifier_id, label: 'Identifier ID' %>
             <%= record_form.input :value, label: "Your price" %>
 
-            <%= record_form.input :condition, collection: Record.conditions.map { |x, y|
-              [Record.transform_condition(x), x] },
-              input_html: {id: 'record-condition'} %>
+            <%= record_form.input :condition,
+              collection: Record.conditions.keys.map { |key|
+                [condition_formatter(key), key]
+              },
+              input_html: { id: 'record-condition' } %>
 
             <%= record_form.association :genre %>
 

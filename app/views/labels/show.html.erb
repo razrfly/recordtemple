@@ -55,7 +55,7 @@
                     </td>
 
                     <td><%= record.record_format_name %></td>
-                    <td><%= record.get_condition %></td>
+                    <td><%= condition_formatter(record.condition) %></td>
 
                     <td class="buttons">
                       <%= link_to icon('search'), record %>
