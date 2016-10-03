@@ -82,14 +82,7 @@
           <div class="col-md-3">
             <div class="panel panel-default">
               <div class="panel-body">
-                <% if artist.photos.present? %>
-                  <%= image_tag attachment_url(
-                    artist.photos.try(:first), :image, :fill, 200, 200),
-                    class: 'img-responsive' %>
-                <% else %>
-                  <%= image_tag fallback(200, 200),
-                    class: 'img-responsive' %>
-                <% end %>
+                <%= photo_link_helper(artist, 200, 200) %>
 
                 <p class="text-center">
                   <%= link_to truncate(artist.name, length: 20), artist_path(artist) %>

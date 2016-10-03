@@ -100,8 +100,7 @@
                   <div class="slideshow-image">
                     <% @record.photos.each do |photo| %>
                       <div class="col-sm-3 m-b">
-                        <%= link_to attachment_image_tag(photo, :image, :fit, 200, 200, class: 'img-responsive'),
-                          attachment_url(photo, :image), class: 'image-link' %>
+                        <%= photo_link_helper(photo, 200, 200) %>
                       </div>
                     <% end %>
                   </div>

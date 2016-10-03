@@ -48,7 +48,7 @@
               <tbody>
                 <% @records.each do |record| %>
                   <tr>
-                    <td><%= cover_link_for record %></td>
+                    <td><%= photo_link_helper(record, 60, 60) %></td>
 
                     <td>
                       <%= link_to record.label_name, record.label,

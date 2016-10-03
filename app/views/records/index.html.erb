@@ -107,9 +107,10 @@
           <table class="table">
             <thead>
               <tr>
+                <th>Cover</th>
                 <th>Artist</th>
                 <th>Label</th>
-                <th>Details</th>
+                <th>Price Details / Comment</th>
                 <th>Genre</th>
                 <th>Format</th>
                 <th>Condition</th>
@@ -120,11 +121,10 @@
             <tbody>
               <% @records.each do |record| %>
                 <tr>
+                  <td><%= photo_link_helper(record, 60, 60) %></td>
                   <td><%= record.artist_name %></td>
                   <td><%= record.label_name %></td>
-                  <td>
-                    <%= record.price_detail %> / <%= record.comment %>
-                  </td>
+                  <td><%= record.comment %></td>
                   <td><%= record.genre_name %></td>
                   <td><%= record.record_format_name %></td>
                   <td><%= record.get_condition %></td>
