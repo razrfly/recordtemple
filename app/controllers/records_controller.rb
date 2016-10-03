@@ -15,7 +15,10 @@ class RecordsController < ApplicationController
       end
 
     @result = @q.result.
-      includes(:artist, :genre, :label, :price, :record_format, :songs).
+      includes(
+        :artist, :genre, :label, :price,
+        :record_format, :songs, :photos
+      ).
       order("artists.name").
       uniq
 
