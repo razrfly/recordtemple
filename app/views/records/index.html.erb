@@ -22,7 +22,7 @@
             <h5 class="m-t-0">Search</h5>
 
             <div class="form-group">
-              <%= search_form.label :artist_id_eq %>
+              <%= search_form.label "Artist" %>
               <%= search_form.select :artist_id_eq,
                 @q.artist_id_eq.present? ?
                   Artist.where(id: @q.artist_id_eq).
@@ -34,12 +34,7 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :comment_cont %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label :label_id_eq %>
+              <%= search_form.label "Label" %>
               <%= search_form.select :label_id_eq,
                 @q.label_id_eq.present? ?
                   Label.where(id: @q.label_id_eq).
@@ -51,27 +46,32 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :genre_id_eq %>
+              <%= search_form.label "Genre" %>
               <%= search_form.collection_select :genre_id_eq,
                 Genre.joins(:records).uniq, :id, :name,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :record_format_id_eq %>
+              <%= search_form.label "Record format" %>
               <%= search_form.collection_select :record_format_id_eq,
                 RecordFormat.joins(:records).uniq, :id, :name,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :condition_eq %>
+              <%= search_form.label "Condition" %>
               <%= search_form.select :condition_eq,
                 Record.conditions.to_a,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
+            </div>
+
+            <div class="form-group">
+              <%= search_form.label "Comment" %>
+              <%= search_form.search_field :comment_cont, class: 'form-control' %>
             </div>
 
             <div class="checkbox">
@@ -108,8 +108,8 @@
             <thead>
               <tr>
                 <th>Artist</th>
-                <th>Details</th>
                 <th>Label</th>
+                <th>Details</th>
                 <th>Genre</th>
                 <th>Format</th>
                 <th>Condition</th>
@@ -121,11 +121,10 @@
               <% @records.each do |record| %>
                 <tr>
                   <td><%= record.artist_name %></td>
-                  <td>
-                    <%= record.price_detail %></strong>
-                    <i><%= record.comment %></i>
-                  </td>
                   <td><%= record.label_name %></td>
+                  <td>
+                    <%= record.price_detail %> / <%= record.comment %>
+                  </td>
                   <td><%= record.genre_name %></td>
                   <td><%= record.record_format_name %></td>
                   <td><%= record.get_condition %></td>
@@ -133,6 +132,7 @@
                     <%= link_to record_path(record) do %>
                       <span class="icon icon-magnifying-glass"></span>
                     <% end %>
+
                     <% if record.songs.present? %>
                       <%= link_to record.songs.first.title,
                         Refile.attachment_url(record.songs.first, :audio),
