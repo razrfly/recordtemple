@@ -23,3 +23,6 @@
 //= require twitter/typeahead
 //= require twitter/typeahead.min
 //= require ./searches
+
+//= require magnific-popup
+//= require ./magnific
