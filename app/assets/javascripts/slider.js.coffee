@@ -1,0 +1,3 @@
+jQuery ->
+  $('.slider').slider()
+  return
