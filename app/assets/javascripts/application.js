@@ -26,3 +26,6 @@
 
 //= require magnific-popup
 //= require ./magnific
+
+//= require bootstrap-slider
+//= require ./slider
