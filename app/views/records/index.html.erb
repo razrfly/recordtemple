@@ -62,6 +62,32 @@
             </div>
 
             <div class="form-group">
+              <label>Price high</label>
+                <% max = 100 %>
+                <%= search_form.range_field :price_price_high_lteq,
+                  class: 'slider', style: 'width:100% !important',
+                  data: {
+                    'slider-max': max,
+                    'slider-step': 1 }.
+                    merge(
+                      'slider-value': @q.price_price_high_lteq
+                    ) %>
+            </div>
+
+            <div class="form-group">
+              <label>Price low</label>
+                <% max = 100 %>
+                <%= search_form.range_field :price_price_low_gteq,
+                  class: 'slider', style: 'width:100% !important',
+                  data: {
+                    'slider-max': max,
+                    'slider-step': 1 }.
+                    merge(
+                      'slider-value': @q.price_price_low_gteq
+                    ) %>
+            </div>
+
+            <div class="form-group">
               <%= search_form.label "Comment" %>
               <%= search_form.search_field :comment_cont, class: 'form-control' %>
             </div>
