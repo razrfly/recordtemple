@@ -61,20 +61,22 @@
                 { class: 'form-control selectize_remote' } %>
             </div>
 
-            <div class="form-group">
-              <label>Price</label>
+            <% if user_signed_in? %>
+              <div class="form-group">
+                <label>Price</label>
 
-              <%= search_form.search_field :price_between,
-                class: 'slider',
-                style: "width: 100%;",
-                data: {
-                  'slider-min': 0,
-                  'slider-max': 100,
-                  'slider-step': 1
-                  }.merge(
-                    slider_value_helper(@q)
-                  ) %>
-            </div>
+                <%= search_form.search_field :price_between,
+                  class: 'slider',
+                  style: "width: 100%;",
+                  data: {
+                    'slider-min': 0,
+                    'slider-max': 100,
+                    'slider-step': 1
+                    }.merge(
+                      slider_value_helper(@q)
+                    ) %>
+              </div>
+            <% end %>
 
             <div class="form-group">
               <%= search_form.label "Comment" %>
