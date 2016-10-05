@@ -9,11 +9,11 @@ module SearchQueryHelper
   private
 
   def query_params
-    _search_keys =
-      ['records_id_null','photos_id_not_null', 'songs_id_not_null']
+    _keys = ['records_id_null','photos_id_not_null',
+      'songs_id_not_null', 'price_between']
 
     params[:q].try(:reject) do |key, value|
-      (_search_keys.include?(key) && value == '0') || value.blank?
+      _keys.include?(key) && value.match(/\A(0|0,0)\z/) || value.blank?
     end
   end
 
