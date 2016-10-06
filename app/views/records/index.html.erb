@@ -63,18 +63,21 @@
 
             <% if user_signed_in? %>
               <div class="form-group">
-                <label>Price</label>
+                <label>Price
+                  <small>( low - high )</small>
+                </label>
 
-                <%= search_form.search_field :price_between,
-                  class: 'slider',
-                  style: "width: 100%;",
-                  data: {
-                    'slider-min': 0,
-                    'slider-max': 100,
-                    'slider-step': 1
-                    }.merge(
-                      slider_value_helper(@q)
-                    ) %>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <%= search_form.number_field :price_price_low_gteq,
+                      style: 'width:100%;' %>
+                  </div>
+
+                  <div class="col-xs-6">
+                    <%= search_form.number_field :price_price_high_lteq,
+                      style: 'width:100%;' %>
+                  </div>
+                </div>
               </div>
             <% end %>
 
