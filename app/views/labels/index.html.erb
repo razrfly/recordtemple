@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :artist %>
+              <%= search_form.label :artist_id %>
               <%= search_form.select :artists_id_eq,
                 @q.artists_id_eq.present? ?
                   Artist.where(id: @q.artists_id_eq).
@@ -41,11 +41,11 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :genre %>
+              <%= search_form.label :genre_id %>
               <%= search_form.collection_select :genres_id_eq,
                 Genre.joins(:records).uniq, :id, :name,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
             </div>
 
             <div class="checkbox">

@@ -34,11 +34,6 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :comment_cont %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
-            </div>
-
-            <div class="form-group">
               <%= search_form.label "Label" %>
               <%= search_form.select :label_id_eq,
                 @q.label_id_eq.present? ?
@@ -55,25 +50,73 @@
               <%= search_form.collection_select :genre_id_eq,
                 Genre.joins(:records).uniq, :id, :name,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
+            </div>
+
+            <% if user_signed_in? %>
+              <div class="form-group">
+                <label>Price
+                  <small>( low - high )</small>
+                </label>
+
+                <div class="row">
+                  <div class="col-xs-6">
+                    <%= search_form.number_field :price_price_low_gteq,
+                      class: 'form-control' %>
+                  </div>
+
+                  <div class="col-xs-6">
+                    <%= search_form.number_field :price_price_high_lteq,
+                      class: 'form-control' %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="form-group">
+              <%= search_form.label "Comment" %>
+              <%= search_form.search_field :comment_cont, class: 'form-control' %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label "Record format" %>
-              <%= search_form.collection_select :record_format_id_eq,
-                RecordFormat.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control' } %>
+              <%= search_form.label "Record type",
+                style: 'display: block;' %>
+
+              <% RecordType.pluck(:name).each do |name| %>
+                <label class="checkbox-inline">
+                  <%= search_form.check_box(
+                    :record_format_record_type_name_eq_any,
+                    { multiple: true }, name, nil) %>
+
+                  <%= name %>
+                </label>
+              <% end %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label "Condition" %>
-              <%= search_form.select :condition_eq,
-                Record.conditions.map { |key, value|
-                  [condition_formatter(key), value]
-                  },
-                { include_blank: true },
-                { class: 'form-control' } %>
+              <%= link_to "#", data: { toggle: 'collapse',
+                target: '#conditions' },
+                style:'color:#1e3948;' do %>
+
+                <label>Add Condition <%= icon 'plus' %></label>
+              <% end %>
+
+              <div id="conditions" class="collapse
+                <%= 'in' if @q.condition_eq_any.present? %>">
+
+                <% Record.conditions.each do |key, value| %>
+                  <div class="checkbox">
+                    <label>
+                      <%= search_form.check_box(:condition_eq_any,
+                        { multiple: true }, value, nil) %>
+
+                      <%= condition_formatter(key) %>
+                    </label>
+                  </div>
+                <% end %>
+
+                <hr>
+              </div>
             </div>
 
             <div class="checkbox">
@@ -109,9 +152,10 @@
           <table class="table">
             <thead>
               <tr>
+                <th>Cover</th>
                 <th>Artist</th>
-                <th>Details</th>
                 <th>Label</th>
+                <th>Price Details / Comment</th>
                 <th>Genre</th>
                 <th>Format</th>
                 <th>Condition</th>
@@ -122,12 +166,10 @@
             <tbody>
               <% @records.each do |record| %>
                 <tr>
+                  <td><%= photo_link_helper(record, 60, 60) %></td>
                   <td><%= record.artist_name %></td>
-                  <td>
-                    <%= record.price_detail %></strong>
-                    <i><%= record.comment %></i>
-                  </td>
                   <td><%= record.label_name %></td>
+                  <td><%= record.comment %></td>
                   <td><%= record.genre_name %></td>
                   <td><%= record.record_format_name %></td>
                   <td><%= condition_formatter(record.condition) %></td>
@@ -135,6 +177,7 @@
                     <%= link_to record_path(record) do %>
                       <span class="icon icon-magnifying-glass"></span>
                     <% end %>
+
                     <% if record.songs.present? %>
                       <%= link_to record.songs.first.title,
                         Refile.attachment_url(record.songs.first, :audio),

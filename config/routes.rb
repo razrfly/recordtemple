@@ -34,18 +34,11 @@ Recordapp::Application.routes.draw do
   end
 
   resources :labels, :artists, only: [:index, :show]
-  get 'search', to: 'searches#new'
   resources :genres, :record_types, only: [:show]
+
   resources :prices, only: [:index, :show] do
     resources :records, only: [:new, :create]
   end
 
-  #Dont know what is it for
-  # constraints(user_id: /rui|greggie|holden|szymon|simon|twitwilly|steve/) do
-  #   get ':user_id', to: 'users#show', as: 'user'
-  #   get ':user_id/records', to: 'records#index', as: 'user_records'
-  #   get ':user_id/pages', to: 'pages#index', as: 'user_pages'
-  #   get ':user_id/:id', to: 'pages#show', as: 'user_page'
-  # end
-  # get 'users', to: 'users#index'
+  get 'search', to: 'searches#new'
 end

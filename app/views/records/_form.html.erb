@@ -18,8 +18,10 @@
               <%= record_form.button :submit,
                 class: "btn btn-primary-outline btn-sm" %>
 
-              <% if user_signed_in? && record.user == current_user %>
-                <%= link_to "Delete", record_path(record), method: :delete,
+              <% if user_signed_in? && @record.user == current_user &&
+                record_form.object.persisted? %>
+
+                <%= link_to "Delete", record_path(@record), method: :delete,
                   class: "btn btn-danger-outline btn-sm",
                   data: { confirm: 'Are you sure?' } %>
               <% end %>
@@ -54,12 +56,16 @@
               collection: Record.conditions.keys.map { |key|
                 [condition_formatter(key), key]
               },
-              input_html: { id: 'record-condition' } %>
+              input_html: {
+                id: 'record-condition',
+                class: 'selectize_remote' } %>
 
-            <%= record_form.association :genre %>
+            <%= record_form.association :genre,
+              input_html: { class: 'selectize_remote' } %>
 
             <% unless price.present? %>
-              <%= record_form.association :record_format %>
+              <%= record_form.association :record_format,
+                input_html: { class: 'selectize_remote' } %>
             <% end %>
 
             <%= record_form.input :comment, as: :text,

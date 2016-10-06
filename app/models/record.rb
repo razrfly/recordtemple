@@ -70,9 +70,9 @@ class Record < ActiveRecord::Base
   #   price.price_high * Record.pricing[Record.transform_condition condition] if price and condition
   # end
 
-  def cover_photo
-    Refile.attachment_url(photos.first, :image, :fill, 60, 60) unless photos.blank?
-  end
+  # def cover_photo
+  #   Refile.attachment_url(photos.first, :image, :fill, 60, 60) unless photos.blank?
+  # end
 
   # don't used anymore
   # def desc

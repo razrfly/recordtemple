@@ -1,18 +1,18 @@
 module ApplicationHelper
 
-  def admin?
-    controller.class.name.split("::").first=="Admin"
-  end
+  def photo_link_helper target, width = nil, height = nil
+    create_link_for = Proc.new do |target|
+      link_to attachment_image_tag(target, :image, :fit, width, height,
+        class: 'img-responsive'), attachment_url(target, :image),
+        class: 'image-link'
+    end
 
-  def real_currency(number)
-    number_to_currency(number, :delimiter => ".", :unit => "$", :separator => ".")
-  end
-
-  def cover_link_for target
-    if target.cover_photo.present?
-      link_to image_tag(target.cover_photo), (admin? ? [:admin, target] : target)
+    if target.is_a?(Photo)
+      create_link_for.(target)
+    elsif target.photos.present?
+      create_link_for.(target.photos.first)
     else
-      "No cover"
+      image_tag fallback(width, height), class: 'img-responsive'
     end
   end
 
