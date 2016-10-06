@@ -12,7 +12,7 @@ module ApplicationHelper
     elsif target.photos.present?
       create_link_for.(target.photos.first)
     else
-      image_tag fallback(width, height)
+      image_tag fallback(width, height), class: 'img-responsive'
     end
   end
 
