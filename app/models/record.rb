@@ -27,16 +27,6 @@ class Record < ActiveRecord::Base
   delegate :name, to: :record_format, prefix: true, allow_nil: true
   delegate :detail, to: :price, prefix: true, allow_nil: true
 
-  scope :price_between, ->(range){ low, high = range.split(',');
-    joins(:price).where(
-      'prices.price_low > ? AND prices.price_high < ?', low, high
-      )
-  }
-
-  def self.ransackable_scopes(auth=nil)
-    %i(price_between)
-  end
-
   def self.condition_collection
     Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), k]}]
   end
