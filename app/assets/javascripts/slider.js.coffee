@@ -1,3 +1,0 @@
-jQuery ->
-  $('.slider').slider()
-  return

@@ -32,7 +32,6 @@ gem 'rails-bootstrap-markdown'
 gem 'ezdz-rails', '~> 0.4.3'
 gem 'dropzonejs-rails', '~> 0.7.3'
 gem 'magnific-popup-rails', '~> 1.1'
-gem 'bootstrap-slider-rails', '~> 9.2'
 
 gem 'ransack', '~> 1.7.0'
 gem 'textacular', '~> 3.2.2'
