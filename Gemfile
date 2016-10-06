@@ -31,6 +31,7 @@ gem 'aws-sdk', '~> 1.44.0'
 gem 'rails-bootstrap-markdown'
 gem 'ezdz-rails', '~> 0.4.3'
 gem 'dropzonejs-rails', '~> 0.7.3'
+gem 'magnific-popup-rails', '~> 1.1'
 
 gem 'ransack', '~> 1.7.0'
 gem 'textacular', '~> 3.2.2'

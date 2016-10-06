@@ -27,7 +27,6 @@ class Record < ActiveRecord::Base
   delegate :name, to: :record_format, prefix: true, allow_nil: true
   delegate :detail, to: :price, prefix: true, allow_nil: true
 
-
   def self.condition_collection
     Hash[Record.conditions.map{ |k, v| [Record.transform_condition(k), k]}]
   end

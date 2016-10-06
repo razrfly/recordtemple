@@ -17,7 +17,7 @@
             <h5 class="m-t-0">Search</h5>
 
             <div class="form-group">
-              <%= search_form.label :artist_id_eq %>
+              <%= search_form.label :artist_id %>
               <%= search_form.select :artist_id_eq,
                 @q.artist_id_eq.present? ?
                   Artist.where(id: @q.artist_id_eq).
@@ -29,12 +29,12 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :detail_cont %>
+              <%= search_form.label :detail_id %>
               <%= search_form.search_field :detail_cont, class: 'form-control' %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :label_id_eq %>
+              <%= search_form.label :label_id %>
               <%= search_form.select :label_id_eq,
                 @q.label_id_eq.present? ?
                   Label.where(id: @q.label_id_eq).
@@ -46,11 +46,11 @@
             </div>
 
             <div class="form-group">
-              <%= search_form.label :record_format_id_eq %>
+              <%= search_form.label :record_format_id %>
               <%= search_form.collection_select :record_format_id_eq,
                 RecordFormat.joins(:records).uniq, :id, :name,
                 { include_blank: true },
-                { class: 'form-control' } %>
+                { class: 'form-control selectize_remote' } %>
             </div>
 
             <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
