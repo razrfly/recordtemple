@@ -1,6 +1,5 @@
 GEM
   remote: https://rubygems.org/
-  remote: https://_opyjF4Gv9ozhx_VtKpm@gem.fury.io/holden/
   specs:
     actionmailer (4.1.9)
       actionpack (= 4.1.9)
