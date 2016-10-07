@@ -20,41 +20,58 @@
   </div>
 
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h5 class="m-t-0">
-            Price Info
-          </h5>
+          <h5 class="m-t-0">Price Info</h5>
 
-          <dl>
-            <dt>Price</dt>
-            <dd>
-              <%= price_range @price %>
-            </dd>
-          </dl>
+          <div class="row">
+            <div class="col-xs-6">
+              <dl>
+                <dt>Price</dt>
+                <dd><%= price_price_range @price %></dd>
+              </dl>
+            </div>
 
-          <dl>
-            <dt>Year</dt>
-            <dd>
-              <%= date_range @price %>
-            </dd>
-          </dl>
+            <div class="col-xs-6">
+              <dl>
+                <dt>Year</dt>
+                <dd><%= price_year_range @price %></dd>
+              </dl>
+            </div>
 
-          <dl>
-            <dt>Record format</dt>
-            <dd><%= @price.record_format_name %></dd>
-          </dl>
+            <div class="col-xs-6">
+              <dl>
+                <dt>Record type</dt>
+                <dd><%= @price.record_format.record_type_name %></dd>
+              </dl>
+            </div>
 
-          <dl>
-            <dt>Details</dt>
-            <dd><%= @price.detail %></dd>
-          </dl>
+            <div class="col-xs-6">
+              <dl>
+                <dt>Format</dt>
+                <dd><%= @price.record_format_name %></dd>
+              </dl>
+            </div>
+
+            <div class="col-xs-6">
+              <dl>
+                <dt>Detail</dt>
+                <dd>
+                  <% if @price_detail.present? %>
+                    <%= @price.detail %>
+                  <% else %>
+                    <em>No details.</em>
+                  <% end %>
+                </dd>
+              </dl>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-md-9">
+    <div class="col-md-8">
       <div class="panel panel-default">
         <div class="panel-body">
           <h5 class="m-t-0">
