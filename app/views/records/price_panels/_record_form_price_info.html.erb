@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <div class="panel panel-default">
+      <div class="panel-body">
+        <h5 class="m-t-0">Price Info</h5>
+
+        <div class="row">
+          <div class="col-xs-6">
+            <dl>
+              <dt>Artist</dt>
+              <dd><%= price.artist_name %></dd>
+            </dl>
+          </div>
+
+          <div class="col-xs-6">
+            <dl>
+              <dt>Label</dt>
+              <dd><%= price.label_name %></dd>
+            </dl>
+          </div>
+
+          <div class="col-xs-6">
+            <dl>
+              <dt>Price</dt>
+              <dd><%= price_price_range price %></dd>
+            </dl>
+          </div>
+
+          <div class="col-xs-6">
+            <dl>
+              <dt>Year</dt>
+              <dd><%= price_year_range price %></dd>
+            </dl>
+          </div>
+
+          <div class="col-xs-6">
+            <dl>
+              <dt>Record type</dt>
+              <dd><%= price.record_format.record_type_name %></dd>
+            </dl>
+          </div>
+
+          <div class="col-xs-6">
+            <dl>
+              <dt>Format</dt>
+              <dd><%= price.record_format_name %></dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

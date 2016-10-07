@@ -38,7 +38,8 @@
     </div>
 
     <% if price.present? %>
-      <%= render 'price_info', f: record_form, price: price %>
+      <%= render 'records/price_panels/record_form_price_info',
+        price: price %>
     <% end %>
 
     <div class="row">
