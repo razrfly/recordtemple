@@ -23,34 +23,38 @@
 
             <div class="form-group">
               <%= search_form.label "Artist" %>
-              <%= search_form.select :artist_id_eq,
-                @q.artist_id_eq.present? ?
-                  Artist.where(id: @q.artist_id_eq).
+
+              <%= search_form.select :artist_id_in,
+                @q.artist_id_in.present? ?
+                  Artist.where(id: @q.artist_id_in).
                     map { |artist| [artist.name, artist.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/artists.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/artists.json' } } %>
             </div>
 
             <div class="form-group">
               <%= search_form.label "Label" %>
-              <%= search_form.select :label_id_eq,
-                @q.label_id_eq.present? ?
-                  Label.where(id: @q.label_id_eq).
+              <%= search_form.select :label_id_in,
+                @q.label_id_in.present? ?
+                  Label.where(id: @q.label_id_in).
                     map { |label| [label.name, label.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/labels.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/labels.json' } } %>
             </div>
 
             <div class="form-group">
               <%= search_form.label "Genre" %>
-              <%= search_form.collection_select :genre_id_eq,
+              <%= search_form.collection_select :genre_id_in,
                 Genre.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control selectize_remote' } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote' } %>
             </div>
 
             <% if user_signed_in? %>
