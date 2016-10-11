@@ -82,8 +82,11 @@
             <% end %>
 
             <div class="form-group">
-              <%= search_form.label "Comment" %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
+              <%= search_form.label "Details" %>
+              <%= search_form.search_field :comment_or_price_detail_or_price_footnote_cont,
+                class: 'form-control' %>
+
+                <small>(tracks, song titles, etc.)</small>
             </div>
 
             <div class="form-group">
