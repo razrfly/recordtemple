@@ -94,4 +94,9 @@ class Record < ActiveRecord::Base
     end
   end
 
+  def to_param
+    "#{id}-" +
+    "#{artist_name.parameterize}-" +
+    "#{label_name.parameterize}"
+  end
 end
