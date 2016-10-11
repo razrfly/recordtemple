@@ -22,34 +22,37 @@
 
             <div class="form-group">
               <%= search_form.label :name %>
-              <%= search_form.select :id_eq,
-                @q.id_eq.present? ?
-                  Label.where(id: @q.id_eq).
+              <%= search_form.select :id_in,
+                @q.id_in.present? ?
+                  Label.where(id: @q.id_in).
                     map { |label| [label.name, label.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/labels.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/labels.json' } } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :artist_id %>
-              <%= search_form.select :artists_id_eq,
-                @q.artists_id_eq.present? ?
-                  Artist.where(id: @q.artists_id_eq).
+              <%= search_form.label "Artists" %>
+              <%= search_form.select :artists_id_in,
+                @q.artists_id_in.present? ?
+                  Artist.where(id: @q.artists_id_in).
                     map { |artist| [artist.name, artist.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/artists.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/artists.json' } } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :genre_id %>
-              <%= search_form.collection_select :genres_id_eq,
+              <%= search_form.label "Genres" %>
+              <%= search_form.collection_select :genres_id_in,
                 Genre.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control selectize_remote' } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote' } %>
             </div>
 
             <div class="checkbox">
