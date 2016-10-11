@@ -1,3 +1,7 @@
+<% content_for :page_title do %>
+  <%= record.persisted? ? "Edit Record" : "New Record" %>
+<% end %>
+
 <% price = nil if !defined?(price) %>
 
 <%= simple_form_for [price, record] do |record_form| %>
