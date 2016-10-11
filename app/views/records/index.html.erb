@@ -93,7 +93,7 @@
               <% RecordType.pluck(:name).each do |name| %>
                 <label class="checkbox-inline">
                   <%= search_form.check_box(
-                    :record_format_record_type_name_eq_any,
+                    :record_format_record_type_name_in,
                     { multiple: true }, name, nil) %>
 
                   <%= name %>
@@ -110,12 +110,12 @@
               <% end %>
 
               <div id="conditions" class="collapse
-                <%= 'in' if @q.condition_eq_any.present? %>">
+                <%= 'in' if @q.condition_in.present? %>">
 
                 <% Record.conditions.each do |key, value| %>
                   <div class="checkbox">
                     <label>
-                      <%= search_form.check_box(:condition_eq_any,
+                      <%= search_form.check_box(:condition_in,
                         { multiple: true }, value, nil) %>
 
                       <%= key %>
