@@ -84,24 +84,40 @@
     </div>
 
     <div class="col-md-9">
-      <div class="row">
-        <% @artists.each do |artist| %>
-          <div class="col-md-3">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <%= photo_link_helper(artist, 200, 200) %>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <small class="pull-right">
+            <%= page_entries_info @artists %>
+          </small>
 
-                <p class="text-center">
-                  <%= link_to truncate(artist.name, length: 20), artist_path(artist) %>
-                </p>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
 
-      <div class="text-center">
-        <%= paginate @artists %>
+            <tbody>
+              <% @artists.each do |artist| %>
+                <tr>
+                  <td><%= photo_link_helper(artist, 50, 50) %></td>
+                  <td><%= artist.name %></td>
+                  <td>
+                    <%= link_to artist_path(artist) do %>
+                      <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <%= paginate @artists %>
+        </div>
       </div>
     </div>
   </div>
