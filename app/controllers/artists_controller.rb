@@ -36,6 +36,6 @@ class ArtistsController < ApplicationController
   private
 
   def set_artist
-    @artist = Artist.find(params[:id])
+    @artist = Artist.includes(:photos).find(params[:id])
   end
 end
