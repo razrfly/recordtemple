@@ -5,7 +5,7 @@
 <div class="container p-t-md">
   <% photos = @artist.photos %>
 
-  <% if photos.present? && photos.size > 4 %>
+  <% if photos.present? && photos.size >= 8 %>
     <div class="row m-b">
       <div class="col-xs-12">
         <div id="artists-carousel" class="carousel slide">

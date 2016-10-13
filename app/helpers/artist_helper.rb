@@ -1,9 +1,8 @@
 module ArtistHelper
   def carousel_photos photos
-    method =
-      photos.size.between?(4,7) ? "each_cons" : "each_slice"
+    limit = photos.size / 2
 
     photos.order('RANDOM()').
-    limit().send(method, 4).to_a
+    limit(limit).each_slice(4).to_a
   end
 end
