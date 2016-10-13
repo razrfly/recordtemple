@@ -56,30 +56,29 @@
 
   <div class="row">
     <div class="col-md-3">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h5 class="m-t-0">Artist Info</h5>
-            Records: <%#= @artist.records.size %><br>
-            Genres: <%#= @artist.genres.size %><br>
-            Labels: <%#= @artist.labels.size %>
-        </div>
-      </div>
+      <%= render 'records/search_panel/search', q: @q, scope: @artist %>
     </div>
 
     <div class="col-md-9">
       <div class="panel panel-default">
         <div class="panel-body">
+          <small class="pull-right">
+            <%= page_entries_info @records %>
+          </small>
+
           <h5 class="m-t-0">Related Records</h5>
 
           <div class="table-responsive">
             <table class="table">
               <thead>
                 <tr>
-                  <th> Cover </th>
-                  <th> <%= sort_link @search, :label_name, "Label" %></th>
-                  <th> <%= sort_link @search, :genre_name, "Genre" %></th>
-                  <th> <%= sort_link @search, :record_format_name, "Record Format" %></th>
-                  <th> <%= sort_link @search, :condition, "Condition" %></th>
+                  <th>Cover</th>
+                  <th>Label</th>
+                  <th>Price Details / Comment</th>
+                  <th>Genre</th>
+                  <th>Record format</th>
+                  <th>Condition</th>
+                  <th>Price</th>
                   <th class="buttons"></th>
                 </tr>
               </thead>
@@ -88,15 +87,15 @@
                 <% @records.each do |record| %>
                   <tr>
                     <td><%= photo_link_helper(record, 60, 60) %></td>
-
                     <td>
                       <%= link_to record.label_name, record.label,
                         class: 'table-link' %>
                     </td>
-
+                    <td><%= record.comment %></td>
                     <td><%= record.genre_name %></td>
                     <td><%= record.record_format_name %></td>
                     <td><%= record.get_condition %></td>
+                    <td><%= price_price_range(record.price) %></td>
 
                     <td class="buttons">
                       <%= link_to icon('search'), record %>
