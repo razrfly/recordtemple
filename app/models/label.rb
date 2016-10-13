@@ -5,6 +5,7 @@ class Label < ActiveRecord::Base
   has_many :prices
   has_many :artists, -> { uniq }, :through => :records
   has_many :genres, -> { uniq }, :through => :records
+  has_many :photos, :through => :records
 
   friendly_id :name, :use => [:slugged, :finders]
 
