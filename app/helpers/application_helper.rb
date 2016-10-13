@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-  def photo_link_helper target, width = nil, height = nil
+  def photo_link_helper(target, width = nil, height = nil)
     create_link_for = Proc.new do |target|
       link_to attachment_image_tag(target, :image, :fit, width, height,
         class: 'img-responsive'), attachment_url(target, :image),
@@ -14,6 +14,11 @@ module ApplicationHelper
     else
       image_tag fallback(width, height), class: 'img-responsive'
     end
+  end
+
+  def carousel_photos(photos)
+    photos.order('RANDOM()').
+    limit(16).each_slice(4).to_a
   end
 
   def markdown(content)

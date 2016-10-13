@@ -25,10 +25,14 @@ class ArtistsController < ApplicationController
   end
 
   def show
-    @search = @artist.records.ransack(params[:q])
-    @records = @search.result.includes(
-      :photos, :label, :genre, :record_format
-      ).page(params[:page])
+    @q = Record.where('artist_id': @artist.id).
+      ransack(query_params)
+
+    @records = @q.result.includes(
+      :price, :genre, :artist, :photos,
+      :songs, :record_format => :record_type
+    ).uniq
+    .page(params[:page])
 
     @last_search_query = session[:last_search_query]
   end

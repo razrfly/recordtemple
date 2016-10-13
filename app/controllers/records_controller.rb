@@ -69,7 +69,8 @@ class RecordsController < ApplicationController
 
   def update
     if @record.update_attributes(record_params)
-      redirect_to @record, notice: "Record was updated successfully."
+      redirect_to edit_record_path(@record),
+        notice: "Record was updated successfully."
     else
       render :edit
     end

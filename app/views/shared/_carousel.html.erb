@@ -1,0 +1,34 @@
+<% photos = object.photos %>
+
+<% if photos.present? && photos.size >= 8 %>
+  <div class="row m-b">
+    <div class="col-xs-12">
+      <div id="artists-carousel" class="carousel slide">
+        <div class="carousel-inner">
+          <% carousel_photos(photos).
+            each_with_index do |photo_collection, index| %>
+
+            <div class="item <%= 'active' if index == 0 %>">
+              <% photo_collection.each_with_index do |photo, i| %>
+                <div class="col-xs-3"
+                  style="<%= 'padding-left:unset' if [0,1].include?(i) %>;
+                    <%= 'padding-right:unset' if [2,3].include?(i) %>">
+
+                  <%= photo_link_helper(photo, 300, 300) %>
+                </div>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+
+        <a class="left carousel-control" href="#artists-carousel" data-slide="prev">
+          <span class="icon-prev"></span>
+        </a>
+
+        <a class="right carousel-control" href="#artists-carousel" data-slide="next">
+          <span class="icon-next"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+<% end %>
