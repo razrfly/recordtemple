@@ -6,13 +6,20 @@
       <h5 class="m-t-0">Search</h5>
 
       <% unless defined?(scope) && scope.is_a?(Artist) %>
+        <% scoped  = ->(scope) {
+            Artist.joins(:records => :label).
+            where('labels.id': scope.id).
+            uniq.map { |label| [label.name, label.id] }
+          } if defined?(scope) %>
+
         <div class="form-group">
           <%= search_form.label "Artist" %>
 
           <%= search_form.select :artist_id_in,
-            q.artist_id_in.present? ?
-              Artist.where(id: q.artist_id_in).
-                map { |artist| [artist.name, artist.id] } :
+            defined?(scope) && scope.present? ? scoped.(scope) :
+              q.artist_id_in.present? ?
+                Artist.where(id: q.artist_id_in).
+                  map { |artist| [artist.name, artist.id] } :
               [],
             { include_hidden: false },
             { multiple: true,
