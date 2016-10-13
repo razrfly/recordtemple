@@ -29,8 +29,8 @@ class ArtistsController < ApplicationController
       ransack(query_params)
 
     @records = @q.result.includes(
-      :price, :genre, :label, :photos,
-      :record_format => :record_type
+      :price, :genre, :artist, :photos,
+      :songs, :record_format => :record_type
     ).uniq
     .page(params[:page])
 
