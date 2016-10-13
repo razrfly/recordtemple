@@ -3,40 +3,7 @@
 <% end %>
 
 <div class="container p-t-md">
-  <% photos = @artist.photos %>
-
-  <% if photos.present? && photos.size >= 8 %>
-    <div class="row m-b">
-      <div class="col-xs-12">
-        <div id="artists-carousel" class="carousel slide">
-          <div class="carousel-inner">
-            <% carousel_photos(photos).
-              each_with_index do |photo_collection, index| %>
-
-              <div class="item <%= 'active' if index == 0 %>">
-                <% photo_collection.each_with_index do |photo, i| %>
-                  <div class="col-xs-3"
-                    style="<%= 'padding-left:unset' if [0,1].include?(i) %>;
-                      <%= 'padding-right:unset' if [2,3].include?(i) %>">
-
-                    <%= photo_link_helper(photo, 300, 300) %>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
-
-          <a class="left carousel-control" href="#artists-carousel" data-slide="prev">
-            <span class="icon-prev"></span>
-          </a>
-
-          <a class="right carousel-control" href="#artists-carousel" data-slide="next">
-            <span class="icon-next"></span>
-          </a>
-        </div>
-      </div>
-    </div>
-  <% end %>
+  <%= render 'shared/carousel', object: @artist %>
 
   <div class="panel panel-default">
     <div class="panel-body">
@@ -56,7 +23,8 @@
 
   <div class="row">
     <div class="col-md-3">
-      <%= render 'records/search_panel/search', q: @q, scope: @artist %>
+      <%= render 'records/search_panel/search_box',
+        q: @q, scope: @artist %>
     </div>
 
     <div class="col-md-9">
@@ -68,47 +36,8 @@
 
           <h5 class="m-t-0">Related Records</h5>
 
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Cover</th>
-                  <th>Label</th>
-                  <th>Price Details / Comment</th>
-                  <th>Genre</th>
-                  <th>Record format</th>
-                  <th>Condition</th>
-                  <th>Price</th>
-                  <th class="buttons"></th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <% @records.each do |record| %>
-                  <tr>
-                    <td><%= photo_link_helper(record, 60, 60) %></td>
-                    <td>
-                      <%= link_to record.label_name, record.label,
-                        class: 'table-link' %>
-                    </td>
-                    <td><%= record.comment %></td>
-                    <td><%= record.genre_name %></td>
-                    <td><%= record.record_format_name %></td>
-                    <td><%= record.get_condition %></td>
-                    <td><%= price_price_range(record.price) %></td>
-
-                    <td class="buttons">
-                      <%= link_to icon('search'), record %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-
-            <div class="text-center">
-              <%= paginate @records %>
-            </div>
-          </div>
+          <%= render 'records/search_panel/records_table',
+            records: @records %>
         </div>
       </div>
     </div>
