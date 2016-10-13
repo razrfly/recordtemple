@@ -3,8 +3,15 @@
     <thead>
       <tr>
         <th>Cover</th>
-        <th>Artist</th>
-        <th>Label</th>
+
+        <% unless object.is_a?(Artist) %>
+          <th>Artist</th>
+        <% end %>
+
+        <% unless object.is_a?(Label) %>
+          <th>Label</th>
+        <% end %>
+
         <th>Comment</th>
         <th>Genre</th>
         <th>Format</th>
@@ -18,10 +25,28 @@
       <% records.each do |record| %>
         <tr>
           <td><%= photo_link_helper(record, 50, 50) %></td>
-          <td><%= record.artist_name %></td>
-          <td><%= record.label_name %></td>
+
+          <% unless object.is_a?(Artist) %>
+            <td>
+              <%= link_to record.artist_name,
+                artist_path(record.artist) %>
+            </td>
+          <% end %>
+
+          <% unless object.is_a?(Label) %>
+            <td>
+              <%= link_to record.label_name,
+                label_path(record.label) %>
+            </td>
+          <% end %>
+
           <td><%= record.comment %></td>
-          <td><%= record.genre_name %></td>
+
+          <td>
+            <%= link_to record.genre_name,
+              genre_path(record.genre) %>
+          </td>
+
           <td><%= record.record_format_name %></td>
           <td><%= record.get_condition %></td>
           <td><%= price_price_range(record.price) %></td>

@@ -33,7 +33,8 @@
             <%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %>
           </small></h5>
 
-          <%= render 'records/search_panel/records_table', records: @records %>
+          <%= render 'records/search_panel/records_table',
+            records: @records, object: @records %>
         </div>
 
         <div class="text-center">
