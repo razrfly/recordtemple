@@ -95,8 +95,10 @@ class Record < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}-" +
-    "#{artist_name.parameterize}-" +
-    "#{label_name.parameterize}"
+    [
+      id,
+      artist_name.parameterize,
+      label_name.parameterize,
+    ].reject(&:blank?).join("-")
   end
 end
