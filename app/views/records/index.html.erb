@@ -20,7 +20,7 @@
 
   <div class="row">
     <div class="col-md-3">
-      <%= render 'records/search_panel/search', q: @q %>
+      <%= render 'records/search_panel/search_box', q: @q %>
     </div>
 
     <div class="col-md-9">
@@ -33,47 +33,7 @@
             <%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %>
           </small></h5>
 
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Cover</th>
-                <th>Artist</th>
-                <th>Label</th>
-                <th>Comment</th>
-                <th>Genre</th>
-                <th>Format</th>
-                <th>Condition</th>
-                <th>Price</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% @records.each do |record| %>
-                <tr>
-                  <td><%= photo_link_helper(record, 60, 60) %></td>
-                  <td><%= record.artist_name %></td>
-                  <td><%= record.label_name %></td>
-                  <td><%= record.comment %></td>
-                  <td><%= record.genre_name %></td>
-                  <td><%= record.record_format_name %></td>
-                  <td><%= record.get_condition %></td>
-                  <td><%= price_price_range(record.price) %></td>
-                  <td>
-                    <%= link_to record_path(record) do %>
-                      <span class="icon icon-magnifying-glass"></span>
-                    <% end %>
-
-                    <% if record.songs.present? %>
-                      <%= link_to record.songs.first.title,
-                        Refile.attachment_url(record.songs.first, :audio),
-                        class: 'sm2_button' %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+          <%= render 'records/search_panel/records_table', records: @records %>
         </div>
 
         <div class="text-center">
