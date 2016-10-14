@@ -1,0 +1,25 @@
+<div class="pull-left">
+  <ol class="breadcrumb" style="padding:unset;
+    background-color:unset; margin:unset;
+      padding-top:4px;">
+
+    <% breadcrumbs.tap do |links| %>
+      <% if links.any? %>
+        <% links.each do |link| %>
+          <% if link.url.present? %>
+            <li>
+              <%= link_to truncate(link.text.to_s, length: 30, separator: ' '),
+                link.url, class: (link.current? ? 'active' : nil) %>
+            </li>
+          <% else %>
+            <li>
+              <span style="font-size: 11px">
+                <%= truncate(link.text.to_s, length: 20, separator: ' ') %>
+              </span>
+            </li>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </ol>
+</div>
