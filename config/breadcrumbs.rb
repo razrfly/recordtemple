@@ -2,9 +2,35 @@ crumb :root do
   link "Home", root_path
 end
 
-# crumb :projects do
-#   link "Projects", projects_path
-# end
+# This is just for create crumbs from
+# any provided attributes like for ex.:
+# /:artist-name-:label_name
+
+slug_helper = ->(*args){
+    args.reject(&:blank?).join('-').parameterize
+  }
+
+#Records crumbs
+  crumb :records do
+    link "Records", records_path
+  end
+
+  crumb :new_record do
+    link "New", new_record_path
+    parent :records
+  end
+
+  crumb :record do |record|
+    slug = slug_helper.(record.artist_name, record.label_name)
+
+    link slug, record_path(record)
+    parent :records
+  end
+
+  crumb :edit_record do |record|
+    link "Edit", edit_record_path(record)
+    parent :record, record
+  end
 
 # crumb :project do |project|
 #   link project.name, project_path(project)
