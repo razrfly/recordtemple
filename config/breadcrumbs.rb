@@ -32,6 +32,27 @@ slug_helper = ->(*args){
     parent :record, record
   end
 
+#Labels crumbs
+  crumb :labels do
+    link "Labels", labels_path
+  end
+
+  crumb :label do |label|
+    link label.name.parameterize, label_path(label)
+    parent :labels
+  end
+
+#Artist crumbs
+  crumb :artists do
+    link "Artist", artists_path
+  end
+
+  crumb :artist do |artist|
+    link artist.name.parameterize, artist_path(artist)
+    parent :artists
+  end
+
+
 # crumb :project do |project|
 #   link project.name, project_path(project)
 #   parent :projects

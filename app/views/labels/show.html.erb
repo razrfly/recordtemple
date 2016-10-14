@@ -1,25 +1,20 @@
+<% breadcrumb :label, @label %>
+
 <% content_for :page_title do %>
   <%= @label.name %>
 <% end %>
 
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <%= render 'shared/back_link',
+      last_search_query: @last_search_query,
+      path: labels_path %>
+  </span>
+<% end %>
+
 <div class="container p-t-md">
   <%= render 'shared/carousel', object: @label %>
-
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        <%= @label.name %>
-      </h4>
-
-      <span class="pull-right">
-        <%= render 'shared/back_link',
-          last_search_query: @last_search_query,
-          path: labels_path %>
-      </span>
-    </div>
-  </div>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-3">
