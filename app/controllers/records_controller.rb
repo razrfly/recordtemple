@@ -14,18 +14,14 @@ class RecordsController < ApplicationController
         Record.ransack(query_params)
       end
 
-    @result = @q.result.
-      includes(
-        :artist, :genre, :label, :price, :songs,
-        :photos, :record_format => :record_type
-      ).
-      order("artists.name").
-      uniq
+    @result = related_records_search_helper(@q).
+      order("artists.name").uniq
 
     respond_to do |format|
       format.html do
         @records = @result.page(params[:page])
       end
+
       format.csv { send_data @result.to_csv }
     end
   end

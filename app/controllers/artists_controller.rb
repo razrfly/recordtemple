@@ -6,9 +6,9 @@ class ArtistsController < ApplicationController
   def index
     @q = Artist.ransack(query_params)
 
-    @result = @q.result.
-      includes(:photos).
-      uniq
+    @result = @q.result.includes(
+      :photos
+      ).uniq
 
     respond_to do |format|
       format.html do
@@ -28,13 +28,8 @@ class ArtistsController < ApplicationController
     @q = Record.where('artist_id': @artist.id).
       ransack(query_params)
 
-    @records = @q.result.includes(
-      :price, :genre, :artist, :photos,
-      :songs, :record_format => :record_type
-    ).uniq
-    .page(params[:page])
-
-    @last_search_query = session[:last_search_query]
+    related_records_search_helper(@q)
+    remember_last_search_query
   end
 
   private
