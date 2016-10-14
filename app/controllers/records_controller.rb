@@ -14,7 +14,7 @@ class RecordsController < ApplicationController
         Record.ransack(query_params)
       end
 
-    @result = related_records_search_helper(@q).
+    @result = records_search_results(@q).
       order("artists.name").uniq
 
     respond_to do |format|

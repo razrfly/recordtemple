@@ -20,8 +20,8 @@ module SearchQueryHelper
 
   #Just to make controllers using related records
   #search table more DRY
-  def related_records_search_helper(query)
-    @records = query.result.includes(
+  def records_search_results(search_query)
+    @records = search_query.result.includes(
       :artist, :genre, :label, :price, :photos,
       :songs, :record_format => :record_type
       ).page(params[:page])

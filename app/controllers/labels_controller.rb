@@ -28,7 +28,7 @@ class LabelsController < ApplicationController
     @q = Record.where('label_id': @label.id).
       ransack(query_params)
 
-    related_records_search_helper(@q)
+    records_search_results(@q)
     remember_last_search_query
   end
 

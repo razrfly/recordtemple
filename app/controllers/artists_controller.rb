@@ -28,7 +28,7 @@ class ArtistsController < ApplicationController
     @q = Record.where('artist_id': @artist.id).
       ransack(query_params)
 
-    related_records_search_helper(@q)
+    records_search_results(@q)
     remember_last_search_query
   end
 
