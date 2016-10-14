@@ -2,7 +2,7 @@ module ApplicationHelper
 
   def photo_link_helper(target, width = nil, height = nil)
     create_link_for = Proc.new do |target|
-      link_to attachment_image_tag(target, :image, :fit, width, height,
+      link_to attachment_image_tag(target, :image, :fill, width, height,
         class: 'img-responsive'), attachment_url(target, :image),
         class: 'image-link'
     end

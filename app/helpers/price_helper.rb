@@ -1,17 +1,19 @@
 module PriceHelper
-  def price_price_range price
-    price_range =
+  def price_price_range(price)
+    price_range = ->(price){
       price.price_low == price.price_high ?
       price.price_low : [price.price_low, price.price_high].join('-')
+    }
 
-    price_range || "-"
+    price.present? ? price_range.(price) : '-'
   end
 
-  def price_year_range price
-    year_range =
+  def price_year_range(price)
+    year_range = ->(price){
       price.yearbegin == price.yearend ?
       price.yearbegin : [price.yearbegin, price.yearend].join('-')
+    }
 
-    year_range || "-"
+    price.present? ? year_range.(price) : '-'
   end
 end
