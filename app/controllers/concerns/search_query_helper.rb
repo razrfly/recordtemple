@@ -18,6 +18,19 @@ module SearchQueryHelper
     end
   end
 
+  #Just to make controllers using related records
+  #search table more DRY
+  def related_records_search_helper(query)
+    @records = query.result.includes(
+      :artist, :genre, :label, :price, :photos,
+      :songs, :record_format => :record_type
+      ).page(params[:page])
+  end
+
+  def remember_last_search_query
+    @last_search_query = session[:last_search_query]
+  end
+
   def clear_search_query_link
     session[:last_search_query].try(:clear)
   end
