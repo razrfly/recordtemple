@@ -36,8 +36,8 @@
 
           <h5 class="m-t-0">Related Records</h5>
 
-          <%= render 'records/search_panel/records_table',
-            records: @records, object: @artist %>
+          <%= render 'records/records_table',
+            records: @records, object: @artist, q: @q %>
         </div>
       </div>
     </div>

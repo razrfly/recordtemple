@@ -5,15 +5,15 @@
         <th>Cover</th>
 
         <% unless object.is_a?(Artist) %>
-          <th>Artist</th>
+          <th><%= sort_link q, :artist_name, "Artist" %></th>
         <% end %>
 
         <% unless object.is_a?(Label) %>
-          <th>Label</th>
+          <th><%= sort_link q, :label_name, "Label" %></th>
         <% end %>
 
         <th>Comment</th>
-        <th>Genre</th>
+        <th><%= sort_link q, :genre_name, "Genre" %></th>
         <th>Format</th>
         <th>Condition</th>
         <th>Price</th>
