@@ -44,7 +44,7 @@ slug_helper = ->(*args){
 
 #Artist crumbs
   crumb :artists do
-    link "Artist", artists_path
+    link "Artists", artists_path
   end
 
   crumb :artist do |artist|
@@ -52,24 +52,22 @@ slug_helper = ->(*args){
     parent :artists
   end
 
+#Prices crumbs
+  crumb :prices do
+    link "Prices", prices_path
+  end
 
-# crumb :project do |project|
-#   link project.name, project_path(project)
-#   parent :projects
-# end
+  crumb :price do |price|
+    slug = slug_helper.(price.cached_artist, price.cached_label)
 
-# crumb :project_issues do |project|
-#   link "Issues", project_issues_path(project)
-#   parent :project, project
-# end
+    link slug, price_path(price)
+    parent :prices
+  end
 
-# crumb :issue do |issue|
-#   link issue.title, issue_path(issue)
-#   parent :project_issues, issue.project
-# end
+#User crumbs
+  crumb :settings do
+    link "Settings", settings_path
+    parent :root
+  end
 
-# If you want to split your breadcrumbs configuration over multiple files, you
-# can create a folder named `config/breadcrumbs` and put your configuration
-# files there. All *.rb files (e.g. `frontend.rb` or `products.rb`) in that
-# folder are loaded and reloaded automatically when you change them, just like
-# this file (`config/breadcrumbs.rb`).
+

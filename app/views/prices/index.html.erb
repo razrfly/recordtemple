@@ -1,17 +1,11 @@
+<% breadcrumb :prices %>
+
 <% content_for :page_title do %>
   <%= @prices.model_name.plural.humanize %>
 <% end %>
 
 <div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        <%= @prices.model_name.plural.humanize %>
-      </h4>
-    </div>
-  </div>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-3">
@@ -69,7 +63,8 @@
           <small class="pull-right">
             <%= page_entries_info @prices %>
           </small>
-          <h5 class="m-t-0">Results <small><%#= link_to 'export to csv', url_for(params.merge(:format => :csv)) %></small></h5>
+
+          <h5 class="m-t-0">Results</h5>
 
           <table class="table">
             <thead>
@@ -93,12 +88,6 @@
                     <%= link_to price_path(price) do %>
                       <span class="icon icon-magnifying-glass"></span>
                     <% end %>
-
-                    <%# if record.songs.present? %>
-                      <%#= link_to record.songs.first.title,
-                        Refile.attachment_url(record.songs.first, :audio),
-                        class: 'sm2_button' %>
-                    <%# end %>
                   </td>
                 </tr>
               <% end %>
