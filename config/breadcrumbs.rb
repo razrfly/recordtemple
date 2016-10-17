@@ -52,6 +52,11 @@ slug_helper = ->(*args){
     parent :artists
   end
 
+#Genre crumbs
+  crumb :genre do |genre|
+    link genre.name.parameterize, genre_path(genre)
+  end
+
 #Prices crumbs
   crumb :prices do
     link "Prices", prices_path
