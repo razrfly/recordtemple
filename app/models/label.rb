@@ -9,8 +9,6 @@ class Label < ActiveRecord::Base
 
   friendly_id :name, :use => [:slugged, :finders]
 
-  validates_presence_of :name
-
   scope :active, -> { joins(:records).includes(:genres, :artists).uniq }
 
   def description
