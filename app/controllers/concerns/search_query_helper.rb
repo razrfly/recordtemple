@@ -21,7 +21,7 @@ module SearchQueryHelper
   #Just to make controllers using related records
   #search table more DRY
   def records_search_results(search_query)
-    @records = search_query.result.includes(
+    @records = search_query.result.eager_load(
       :artist, :genre, :label, :price, :photos,
       :songs, :record_format => :record_type
       ).page(params[:page])
