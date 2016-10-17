@@ -6,9 +6,7 @@ class LabelsController < ApplicationController
   def index
     @q = Label.ransack(query_params)
 
-    @result = @q.result.includes(
-      :artists, :genres
-      ).uniq
+    @result = @q.result.includes(:artists, :genres).uniq
 
     respond_to do |format|
       format.html do

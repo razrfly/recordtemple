@@ -6,9 +6,7 @@ class ArtistsController < ApplicationController
   def index
     @q = Artist.ransack(query_params)
 
-    @result = @q.result.includes(
-      :photos
-      ).uniq
+    @result = @q.result.includes(:photos).uniq
 
     respond_to do |format|
       format.html do
