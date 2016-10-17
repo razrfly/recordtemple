@@ -13,7 +13,11 @@
         <% end %>
 
         <th>Comment</th>
-        <th><%= sort_link q, :genre_name, "Genre" %></th>
+
+        <% unless object.is_a?(Genre) %>
+          <th><%= sort_link q, :genre_name, "Genre" %></th>
+        <% end %>
+
         <th>Format</th>
         <th>Condition</th>
         <th>Price</th>
@@ -42,10 +46,12 @@
 
           <td><%= record.comment %></td>
 
-          <td>
-            <%= link_to record.genre_name,
-              genre_path(record.genre) %>
-          </td>
+          <% unless object.is_a?(Genre) %>
+            <td>
+              <%= link_to record.genre_name,
+                genre_path(record.genre) %>
+            </td>
+          <% end %>
 
           <td><%= record.record_format_name %></td>
           <td><%= record.get_condition %></td>

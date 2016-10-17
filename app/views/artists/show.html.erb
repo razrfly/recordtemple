@@ -8,7 +8,7 @@
   <span class="pull-right">
     <%= render 'shared/back_link',
       last_search_query: @last_search_query,
-      path: labels_path %>
+      path: artists_path %>
   </span>
 <% end %>
 
@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col-md-3">
       <%= render 'records/search_panel/search_box',
-        q: @q, scope: @artist %>
+        q: @q, object: @artist %>
     </div>
 
     <div class="col-md-9">
