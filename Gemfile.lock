@@ -242,7 +242,7 @@ DEPENDENCIES
   ezdz-rails (~> 0.4.3)
   font-awesome-sass (~> 4.2.0)
   friendly_id (~> 5.0.4)
-  gretel (~> 3.0, >= 3.0.9)
+  gretel (~> 3.0.9)
   hirb
   jquery-rails
   kaminari (~> 0.16.3)
