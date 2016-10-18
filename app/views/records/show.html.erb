@@ -133,7 +133,13 @@
         <div class="col-md-12">
           <div class="panel panel-default">
             <div class="panel-body">
-              <h5 class="m-t-0">Songs</h5>
+              <h5 class="m-t-0">Songs
+                <% unless user_signed_in? %>
+                  <small class="text-danger">
+                    &middot; Log in to hear full songs
+                  </small>
+                <% end %>
+              </h5>
 
               <% if @record.songs.present? %>
                 <%= render 'player', songs: @record.songs %>
