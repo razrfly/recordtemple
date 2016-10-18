@@ -6,9 +6,7 @@ class LabelsController < ApplicationController
   def index
     @q = Label.ransack(query_params)
 
-    @result = @q.result
-      .includes(:artists, :genres)
-      .uniq
+    @result = @q.result.includes(:artists, :genres).uniq
 
     respond_to do |format|
       format.html do
@@ -28,13 +26,8 @@ class LabelsController < ApplicationController
     @q = Record.where('label_id': @label.id).
       ransack(query_params)
 
-    @records = @q.result.includes(
-      :price, :genre, :label, :photos,
-      :songs, :record_format => :record_type
-    ).uniq
-    .page(params[:page])
-
-    @last_search_query = session[:last_search_query]
+    records_search_results(@q)
+    remember_last_search_query
   end
 
   private

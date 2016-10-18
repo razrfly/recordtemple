@@ -12,7 +12,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'selectize-rails', '~> 0.12.1'
-gem 'gretel'
+gem 'gretel', '~> 3.0.9'
 
 gem 'devise', '~> 3.4.1'
 gem 'devise_invitable', '~> 1.3.4'

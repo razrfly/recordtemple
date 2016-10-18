@@ -1,23 +1,18 @@
+<% breadcrumb :price, @price %>
+
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <%= link_to "New Record", new_price_record_path(@price),
+      class: "btn btn-primary-outline btn-sm" %>
+
+    <%= render 'shared/back_link',
+      last_search_query: @last_search_query,
+      path: prices_path %>
+  </span>
+<% end %>
+
 <div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        <%= @price.artist_name %> -
-        <%= @price.label_name %>
-      </h4>
-
-      <span class="pull-right">
-        <%= link_to "New Record", new_price_record_path(@price),
-          class: "btn btn-primary-outline btn-sm" %>
-
-        <%= render 'shared/back_link',
-          last_search_query: @last_search_query,
-          path: prices_path %>
-      </span>
-    </div>
-  </div>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-4">

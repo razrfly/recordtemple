@@ -20,7 +20,7 @@ class PricesController < ApplicationController
   end
 
   def show
-    @last_search_query = session[:last_search_query]
+    remember_last_search_query
   end
 
   private

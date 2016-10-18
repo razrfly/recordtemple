@@ -1,12 +1,20 @@
 class GenresController < ApplicationController
+  include SearchQueryHelper
+
+  before_action :set_genre, only: [:show]
 
   def show
-    @genre = Genre.find(params[:id])
-    @search = @genre.records.ransack(params[:q])
-    @records = @search.result.page(params[:page])
-    # fix to POPULAR artists
-    @artists = Artist.joins(:records => :genre).where('genres.id = ?', @genre.id).uniq
+    @q = Record.where('genre_id': @genre.id).
+      ransack(query_params)
+
+    records_search_results(@q)
+    remember_last_search_query
   end
 
+  private
+
+  def set_genre
+    @genre = Genre.find(params[:id])
+  end
 end
 

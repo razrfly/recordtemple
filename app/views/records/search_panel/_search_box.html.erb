@@ -1,22 +1,31 @@
-<%= search_form_for q, url: (url_for(scope) if
-  defined?(scope) && scope.present?) do |search_form| %>
+<%= search_form_for q, url: (url_for(object) if
+  defined?(object) && object.present?) do |search_form| %>
 
   <div class="panel panel-default">
     <div class="panel-body">
       <h5 class="m-t-0">Search</h5>
 
-      <% unless defined?(scope) && scope.is_a?(Artist) %>
-        <% scoped  = ->(scope) {
-            Artist.joins(:records => :label).
-            where('labels.id': scope.id).
-            uniq.map { |label| [label.name, label.id] }
-          } if defined?(scope) %>
+      <!-- This is because of scoped ransack
+           search. Another query is needed to
+           make selectize load only scoped objects -->
 
+      <% should_use_scoped_records =
+         defined?(object) && object.present? %>
+
+      <% scoped = ->(object, klass) {
+          model_name = object.class.model_name
+
+          klass.joins("records" => model_name.singular).
+            where("#{model_name.collection}.id": object.id).
+              uniq.map { |model_name| [model_name.name, model_name.id] }
+        } if defined?(object) %>
+
+      <% unless defined?(object) && object.is_a?(Artist) %>
         <div class="form-group">
           <%= search_form.label "Artist" %>
 
           <%= search_form.select :artist_id_in,
-            defined?(scope) && scope.present? ? scoped.(scope) :
+            should_use_scoped_records ? scoped.(object, Artist) :
               q.artist_id_in.present? ?
                 Artist.where(id: q.artist_id_in).
                   map { |artist| [artist.name, artist.id] } :
@@ -24,22 +33,18 @@
             { include_hidden: false },
             { multiple: true,
               class: 'form-control selectize_remote',
-              data: { remote_url: '/artists.json' } } %>
+              data: {
+                remote_url: ('/artists.json' unless defined?(object))
+              } } %>
         </div>
       <% end %>
 
-      <% unless defined?(scope) && scope.is_a?(Label) %>
-        <% scoped  = ->(scope) {
-            Label.joins(:records => :artist).
-            where('artists.id': scope.id).
-            uniq.map { |artist| [artist.name, artist.id] }
-          } if defined?(scope) %>
-
+      <% unless defined?(object) && object.is_a?(Label) %>
         <div class="form-group">
           <%= search_form.label "Label" %>
 
           <%= search_form.select :label_id_in,
-            defined?(scope) && scope.present? ? scoped.(scope) :
+            should_use_scoped_records ? scoped.(object, Label) :
               q.label_id_in.present? ?
                 Label.where(id: q.label_id_in).
                   map { |label| [label.name, label.id] } :
@@ -47,28 +52,26 @@
             { include_hidden: false },
             { multiple: true,
               class: 'form-control selectize_remote',
-              data: { remote_url: '/labels.json' } } %>
+              data: {
+                remote_url: ('/labels.json' unless defined?(object))
+              } } %>
         </div>
       <% end %>
 
-      <div class="form-group">
-        <% scoped = ->(scope) {
-            association = scope.class.model_name
+      <% unless defined?(object) && object.is_a?(Genre) %>
+        <div class="form-group">
+          <%= search_form.label "Genre" %>
 
-            Genre.joins(:records => association.singular.to_sym).
-            where("#{association.plural}.id": scope.id).uniq
-          } if defined?(scope) %>
-
-        <%= search_form.label "Genre" %>
-
-        <%= search_form.collection_select :genre_id_in,
-          defined?(scope) && scope.present? ? scoped.(scope) :
-            Genre.joins(:records).uniq,
-          :id, :name,
-          { include_hidden: false },
-          { multiple: true,
-            class: 'form-control selectize_remote' } %>
-      </div>
+          <%= search_form.select :genre_id_in,
+            should_use_scoped_records ? scoped.(object, Genre) :
+              Genre.joins(:records).uniq.map { |genre|
+                [genre.name, genre.id]
+                },
+            { include_hidden: false },
+            { multiple: true,
+              class: 'form-control selectize_remote' } %>
+        </div>
+      <% end %>
 
       <% if user_signed_in? %>
         <div class="form-group">

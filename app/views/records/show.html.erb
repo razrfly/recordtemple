@@ -1,32 +1,28 @@
+<% breadcrumb :record, @record %>
+
 <% content_for :page_title do %>
   <%= @record.try(:artist_name) %>
 <% end %>
 
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <% if user_signed_in? && @record.user == current_user %>
+      <%= link_to "Edit", edit_record_path(@record),
+        class: "btn btn-primary-outline btn-sm" %>
+
+      <%= link_to "Delete", record_path(@record), method: :delete,
+        class: "btn btn-danger-outline btn-sm",
+        data: { confirm: 'Are you sure?' } %>
+    <% end %>
+
+    <%= render 'shared/back_link',
+      last_search_query: @last_search_query,
+      path: records_path %>
+  </span>
+<% end %>
+
 <div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        Record <%= "##{@record.id}" %>
-      </h4>
-
-      <span class="pull-right">
-        <% if user_signed_in? && @record.user == current_user %>
-          <%= link_to "Edit", edit_record_path(@record),
-            class: "btn btn-primary-outline btn-sm" %>
-
-          <%= link_to "Delete", record_path(@record), method: :delete,
-            class: "btn btn-danger-outline btn-sm",
-            data: { confirm: 'Are you sure?' } %>
-        <% end %>
-
-        <%= render 'shared/back_link',
-          last_search_query: @last_search_query,
-          path: records_path %>
-      </span>
-    </div>
-  </div>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-4">
