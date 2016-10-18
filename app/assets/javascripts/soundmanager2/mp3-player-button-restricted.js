@@ -32,7 +32,7 @@ function BasicMP3Player() {
   this.config = {
     // configuration options
     playNext: false, // stop after one sound, or play through list until end
-    autoPlay: false  // start playing the first sound right away
+    autoPlay: false,  // start playing the first sound right away
   };
 
   this.css = {
@@ -116,7 +116,7 @@ function BasicMP3Player() {
     resume: function() {
       pl.removeClass(this._data.oLink,this._data.className);
       this._data.className = pl.css.sPlaying;
-      pl.addClass(this._data.oLink,this._data.className);      
+      pl.addClass(this._data.oLink,this._data.className);
     },
 
     finish: function() {
@@ -174,6 +174,8 @@ function BasicMP3Player() {
     sm._writeDebug('handleClick()');
     soundURL = (o.href);
     thisSound = self.getSoundByURL(soundURL);
+    user = document.body.dataset.user
+
     if (thisSound) {
       // already exists
       if (thisSound === self.lastSound) {
@@ -188,17 +190,39 @@ function BasicMP3Player() {
         }
       }
     } else {
-      // create sound
-      thisSound = sm.createSound({
-       id:'basicMP3Sound'+(self.soundCount++),
-       url:soundURL,
-       onplay:self.events.play,
-       onstop:self.events.stop,
-       onpause:self.events.pause,
-       onresume:self.events.resume,
-       onfinish:self.events.finish,
-       type:(o.type||null)
-      });
+      // if user logged in
+      if (user == 'true') {
+
+        //create sound without restriction
+        thisSound = sm.createSound({
+         id:'basicMP3Sound'+(self.soundCount++),
+         url:soundURL,
+         onplay:self.events.play,
+         onstop:self.events.stop,
+         onpause:self.events.pause,
+         onresume:self.events.resume,
+         onfinish:self.events.finish,
+         type:(o.type||null)
+        });
+
+      } else {
+
+        //create sound restricted
+        thisSound = sm.createSound({
+         id:'basicMP3Sound'+(self.soundCount++),
+         url:soundURL,
+         from: 0,
+         to: 10000,
+         onplay:self.events.play,
+         onstop:self.events.stop,
+         onpause:self.events.pause,
+         onresume:self.events.resume,
+         onfinish:self.events.finish,
+         type:(o.type||null)
+        });
+
+      }
+
       // tack on some custom data
       thisSound._data = {
         oLink: o, // DOM node for reference within SM2 object event handlers
