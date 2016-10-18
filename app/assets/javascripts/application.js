@@ -8,7 +8,7 @@
 //= require ./selectize_remote
 
 //= require soundmanager2
-//= require ./soundmanager2/bar-ui
+//= require ./soundmanager2/bar
 //= require ./soundmanager2/mp3-player-button
 
 
