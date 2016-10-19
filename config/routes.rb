@@ -29,8 +29,8 @@ Recordapp::Application.routes.draw do
   end
 
   resources :records do
-    resources :photos, only: [:create, :destroy]
-    resources :songs, only: [:create, :destroy]
+    resources :photos, only: [:create, :destroy, :edit, :update]
+    resources :songs, only: [:create, :destroy, :edit, :update]
   end
 
   resources :labels, :artists, only: [:index, :show]
