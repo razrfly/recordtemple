@@ -29,6 +29,10 @@
           <%= render 'records/records_table',
             records: @records, object: @label, q: @q %>
         </div>
+
+        <div class="text-center">
+          <%= paginate @records %>
+        </div>
       </div>
     </div>
   </div>
