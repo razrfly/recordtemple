@@ -120,10 +120,20 @@
           <table class="table">
             <thead>
               <tr>
-                <th>Artist</th>
-                <th>Label</th>
+                <th><%= sort_link @q, :artist_name, "Artist" %></th>
+                <th><%= sort_link @q, :label_name, "Label" %></th>
                 <th>Details</th>
-                <th>Format</th>
+                <th>Type</th>
+
+                <th>
+                  <%= sort_link @q, :price_low,
+                    [:price_low, :price_high], "Price" %>
+                </th>
+
+                <th><%= sort_link @q, :yearbegin,
+                  [:yearbegin, :yearend], "Year" %>
+                </th>
+
                 <th></th>
               </tr>
             </thead>
