@@ -7,9 +7,9 @@ class PricesController < ApplicationController
   def index
     @q = Price.ransack(params[:q])
 
-    @result = @q.result.includes(
-      :artist, :label, :record_format, :records
-      ).uniq
+    @result = @q.result.includes(:artist, :label,
+      :records, :record_format => :record_type
+      )
 
     respond_to do |format|
       format.html do
