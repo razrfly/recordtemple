@@ -69,6 +69,11 @@ slug_helper = ->(*args){
     parent :prices
   end
 
+#Record Types crumbs
+  crumb :record_types do
+    link "Record Types", record_types_path
+  end
+
 #User crumbs
   crumb :settings do
     link "Settings", settings_path

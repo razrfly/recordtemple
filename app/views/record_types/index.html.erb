@@ -1,0 +1,52 @@
+<% breadcrumb :record_types %>
+
+<% content_for :page_title do %>
+  <%= @record_types.model_name.plural.humanize %>
+<% end %>
+
+<% content_for :header_links do %>
+  <%= link_to "Back", root_path,
+    class: 'btn btn-primary-outline btn-sm pull-right' %>
+<% end %>
+
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= render 'shared/header_panel' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Record Types</h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Related records</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @record_types.each do |record_type| %>
+                <tr>
+                  <td><%= record_type.name %></td>
+                  <td><%= record_type.count_records %></td>
+                  <td>
+                    <%= link_to "" do %>
+                      <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
