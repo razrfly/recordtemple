@@ -1,0 +1,6 @@
+<%= simple_form_for @record_type, remote: true do |f| %>
+  <%= f.input  :name %>
+
+  <%= f.button :submit,
+    class: 'btn btn-primary-outline btn-sm pull-right' %>
+<% end %>
