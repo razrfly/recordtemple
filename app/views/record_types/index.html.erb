@@ -5,8 +5,13 @@
 <% end %>
 
 <% content_for :header_links do %>
-  <%= link_to "Back", root_path,
-    class: 'btn btn-primary-outline btn-sm pull-right' %>
+  <span class="pull-right">
+    <%= link_to 'New', new_record_type_path, remote: true,
+      class: 'btn btn-primary-outline btn-sm' %>
+
+    <%= link_to "Back", root_path,
+      class: 'btn btn-primary-outline btn-sm' %>
+  </span>
 <% end %>
 
 <div class="container p-t-md">
@@ -31,20 +36,12 @@
               </tr>
             </thead>
 
-            <tbody>
-              <% @record_types.each do |record_type| %>
-                <tr>
-                  <td><%= record_type.name %></td>
-                  <td><%= record_type.count_records %></td>
-                  <td>
-                    <%= link_to "" do %>
-                      <span class="icon icon-magnifying-glass"></span>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
+            <tbody id="record-types">
+              <%= render @record_types %>
             </tbody>
           </table>
+
+          <div id="record-type-form" style="display:none;"></div>
         </div>
       </div>
     </div>

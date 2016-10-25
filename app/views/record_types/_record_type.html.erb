@@ -1,0 +1,15 @@
+<tr>
+  <td><%= record_type.name %></td>
+  <td><%= record_type.records.size %></td>
+  <td>
+    <%= link_to "" do %>
+      <span class="icon icon-magnifying-glass"></span>
+    <% end %>
+
+    <% unless record_type.records.present? %>
+      <%= link_to icon("times"), record_type_path(record_type),
+        method: :delete, remote: true, data: { confirm: "Are you sure?" },
+        class: 'm-l text-danger' %>
+    <% end %>
+  </td>
+</tr>
