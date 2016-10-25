@@ -1,0 +1,120 @@
+<% content_for :page_title do %>
+  <%= asset.is_a?(Photo) ? "Edit photo" : "Edit song" %>
+<% end %>
+
+<%= simple_form_for [record, asset] do |asset_form| %>
+  <% content_for :header_links do %>
+    <span class="pull-right">
+      <%= asset_form.button :submit,
+        class: "btn btn-primary-outline btn-sm" %>
+
+      <% asset_delete_path = asset.is_a?(Photo) ?
+          record_photo_path(record, asset_form.object) :
+          record_song_path(record, asset_form.object) %>
+
+      <%= link_to "Delete", asset_delete_path,
+        method: :delete, class: "btn btn-danger-outline btn-sm",
+        data: { confirm: 'Are you sure?' } %>
+
+      <%= link_to "Back", edit_record_path(record),
+        class: "btn btn-sm btn-default-outline" %>
+    </span>
+  <% end %>
+
+  <div class="container p-t-md">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2 col-sm-12">
+        <%= render 'shared/header_panel' %>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-4 col-md-offset-2 col-sm-6">
+        <div class="panel panel-default panel-profile">
+          <div class="panel-body">
+            <h5 class="m-t-0">Related Record Info</h5>
+
+            <div class="row">
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Artist</dt>
+                  <dd><%= record.artist_name %></dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Label</dt>
+                  <dd><%= record.label_name %></dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Genre</dt>
+                  <dd><%= record.genre_name %></dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Record type</dt>
+                  <dd>
+                    <%= record.record_format.record_type_name %>
+                  </dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Condition</dt>
+                  <dd><%= record.get_condition %></dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Format</dt>
+                  <dd><%= record.record_format_name %></dd>
+                </dl>
+              </div>
+
+              <div class="col-xs-6">
+                <dl>
+                  <dt>Current price</dt>
+                  <dd><%= record.value %></dd>
+                </dl>
+              </div>
+            </div>
+
+            <br>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h5 class="m-t-0">Photo Info</h5>
+
+            <%= asset_form.input :title %>
+
+            <% if asset.is_a?(Photo) %>
+              <div class="ezdz-image-uploader m-b"
+                data-image-url="<%= attachment_url(
+                  asset_form.object, :image, :fit, 190, 190
+                  ) %>" data-toggle="tooltip">
+
+                <%= asset_form.label :image %>
+                <%= asset_form.attachment_field :image, direct: true,
+                  class: 'attachment' %>
+              </div>
+            <% else %>
+              <%= render 'records/player', song: asset %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

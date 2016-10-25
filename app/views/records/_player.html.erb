@@ -54,7 +54,9 @@
   </div>
 
   <div class="bd sm2-playlist-drawer sm2-element"
-    style="height: <%= (songs.size * 32) + 5 %>px !important;">
+    style="height: <%= defined?(song) ?
+      32 : (songs.size * 32) + 8 %>px !important;">
+
     <div class="sm2-inline-texture">
       <div class="sm2-box-shadow"></div>
     </div>
