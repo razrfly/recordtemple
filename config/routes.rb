@@ -35,7 +35,7 @@ Recordapp::Application.routes.draw do
 
   resources :labels, :artists, only: [:index, :show]
   resources :genres, only: [:show]
-  resources :record_types, only: [:index]
+  resources :record_types, only: [:index, :new, :create, :destroy]
 
   resources :prices, only: [:index, :show] do
     resources :records, only: [:new, :create]
