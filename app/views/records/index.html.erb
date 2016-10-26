@@ -1,142 +1,22 @@
+<% breadcrumb :records %>
+
+<% content_for :page_title do %>
+  <%= @records.model_name.plural.humanize %>
+<% end %>
+
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <%= link_to "New", new_record_path,
+      class: 'btn btn-primary-outline btn-sm' %>
+  </span>
+<% end %>
+
 <div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        <%= @records.model_name.plural.humanize %>
-      </h4>
-
-      <span class="pull-right">
-        <%= link_to "New", new_record_path,
-          class: 'btn btn-primary-outline btn-sm' %>
-      </span>
-    </div>
-  </div>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-3">
-      <%= search_form_for @q do |search_form| %>
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h5 class="m-t-0">Search</h5>
-
-            <div class="form-group">
-              <%= search_form.label "Artist" %>
-              <%= search_form.select :artist_id_eq,
-                @q.artist_id_eq.present? ?
-                  Artist.where(id: @q.artist_id_eq).
-                    map { |artist| [artist.name, artist.id] } :
-                  [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/artists.json' } } %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label "Label" %>
-              <%= search_form.select :label_id_eq,
-                @q.label_id_eq.present? ?
-                  Label.where(id: @q.label_id_eq).
-                    map { |label| [label.name, label.id] } :
-                  [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/labels.json' } } %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label "Genre" %>
-              <%= search_form.collection_select :genre_id_eq,
-                Genre.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control selectize_remote' } %>
-            </div>
-
-            <% if user_signed_in? %>
-              <div class="form-group">
-                <label>Price
-                  <small>( low - high )</small>
-                </label>
-
-                <div class="row">
-                  <div class="col-xs-6">
-                    <%= search_form.number_field :price_price_low_gteq,
-                      class: 'form-control' %>
-                  </div>
-
-                  <div class="col-xs-6">
-                    <%= search_form.number_field :price_price_high_lteq,
-                      class: 'form-control' %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-
-            <div class="form-group">
-              <%= search_form.label "Comment" %>
-              <%= search_form.search_field :comment_cont, class: 'form-control' %>
-            </div>
-
-            <div class="form-group">
-              <%= search_form.label "Record type",
-                style: 'display: block;' %>
-
-              <% RecordType.pluck(:name).each do |name| %>
-                <label class="checkbox-inline">
-                  <%= search_form.check_box(
-                    :record_format_record_type_name_eq_any,
-                    { multiple: true }, name, nil) %>
-
-                  <%= name %>
-                </label>
-              <% end %>
-            </div>
-
-            <div class="form-group">
-              <%= link_to "#", data: { toggle: 'collapse',
-                target: '#conditions' },
-                style:'color:#1e3948;' do %>
-
-                <label>Add Condition <%= icon 'plus' %></label>
-              <% end %>
-
-              <div id="conditions" class="collapse
-                <%= 'in' if @q.condition_eq_any.present? %>">
-
-                <% Record.conditions.each do |key, value| %>
-                  <div class="checkbox">
-                    <label>
-                      <%= search_form.check_box(:condition_eq_any,
-                        { multiple: true }, value, nil) %>
-
-                      <%= condition_formatter(key) %>
-                    </label>
-                  </div>
-                <% end %>
-
-                <hr>
-              </div>
-            </div>
-
-            <div class="checkbox">
-              <label>
-                <%= search_form.check_box :songs_id_not_null %>
-                Only with songs
-              </label>
-            </div>
-
-            <div class="checkbox">
-              <label>
-                <%= search_form.check_box :photos_id_not_null %>
-                Only with photos
-              </label>
-            </div>
-
-            <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
-          </div>
-        </div>
-      <% end %>
+      <%= render 'records/search_panel/search_box', q: @q %>
     </div>
 
     <div class="col-md-9">
@@ -149,45 +29,8 @@
             <%= link_to 'export to csv', url_for(params.merge(:format => :csv)) %>
           </small></h5>
 
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Cover</th>
-                <th>Artist</th>
-                <th>Label</th>
-                <th>Price Details / Comment</th>
-                <th>Genre</th>
-                <th>Format</th>
-                <th>Condition</th>
-                <th></th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <% @records.each do |record| %>
-                <tr>
-                  <td><%= photo_link_helper(record, 60, 60) %></td>
-                  <td><%= record.artist_name %></td>
-                  <td><%= record.label_name %></td>
-                  <td><%= record.comment %></td>
-                  <td><%= record.genre_name %></td>
-                  <td><%= record.record_format_name %></td>
-                  <td><%= condition_formatter(record.condition) %></td>
-                  <td>
-                    <%= link_to record_path(record) do %>
-                      <span class="icon icon-magnifying-glass"></span>
-                    <% end %>
-
-                    <% if record.songs.present? %>
-                      <%= link_to record.songs.first.title,
-                        Refile.attachment_url(record.songs.first, :audio),
-                        class: 'sm2_button' %>
-                    <% end %>
-                  </td>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
+          <%= render 'records/records_table',
+            records: @records, object: @records, q: @q %>
         </div>
 
         <div class="text-center">

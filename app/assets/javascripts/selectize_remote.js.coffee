@@ -1,10 +1,13 @@
 initialize_selectize_remote = (selectize_remote) ->
   $selectize_remote = $(selectize_remote)
   $selectize_remote.selectize(
+    plugins: ['remove_button']
     valueField: 'id'
     labelField: 'name'
     searchField: ['name']
     selectOnTab: true
+    closeAfterSelect: true
+
     load: (query, callback) ->
       if !query.length
         return callback()

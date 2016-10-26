@@ -1,59 +1,30 @@
+<% breadcrumb :genre, @genre %>
 
-<h2 class='page-title'><%= @genre.name %></h3>
+<% content_for :page_title do %>
+  <%= @genre.name %>
+<% end %>
 
-<div id="genre-records">
-  <table>
-    <thead>
-      <tr>
-        <th> Cover </th>
-        <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
-        <th> <%= sort_link @search, :label_name, "Label" %> </th>
-        <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
-        <th> <%= sort_link @search, :condition, "Condition" %> </th>
-        <th class="buttons"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @records.each do |record| %>
-        <tr>
-          <td> <%= cover_link_for record %> </td>
-          <td> <%= link_to record.artist.name, record.artist, class: 'table-link' %> </td>
-          <td> <%= link_to record.label.name, record.label, class: 'table-link' %> </td>
-          <td> <%= record.record_format.name %> </td>
-          <td> <%= condition_formatter(record.condition) %> </td>
-          <td class="buttons">
-            <%= link_to icon('search'), record %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<div><%= paginate @records %></div>
-</div>
+<div class="container p-t-md">
+  <%= render 'shared/header_panel' %>
 
-<div class="show-info">
-  <table>
-    <thead>
-      <tr>
-        <th colspan="2">Genre details</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Name</td>
-        <td class="value"><%= @genre.name %></td>
-      </tr>
+  <div class="row">
+    <div class="col-md-3">
+      <%= render 'records/search_panel/search_box', q: @q, object: @genre %>
+    </div>
 
-      <tr>
-        <td>Records</td>
-        <td class="value"><%= @records.total_count %></td>
-      </tr>
+    <div class="col-md-9">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <small class="pull-right">
+            <%= page_entries_info @records %>
+          </small>
 
-      <tr>
-        <td>Artists</td>
-        <td class="value"><%= @artists.count %></td>
-      </tr>
+          <h5 class="m-t-0">Related Records</h5>
 
-    </tbody>
-  </table>
+          <%= render 'records/records_table',
+            records: @records, object: @genre, q: @q %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

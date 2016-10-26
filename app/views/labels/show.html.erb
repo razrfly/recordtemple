@@ -1,30 +1,24 @@
+<% breadcrumb :label, @label %>
+
+<% content_for :page_title do %>
+  <%= @label.name %>
+<% end %>
+
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <%= render 'shared/back_link',
+      last_search_query: @last_search_query,
+      path: labels_path %>
+  </span>
+<% end %>
+
 <div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
-
-        <%= @label.name %>
-      </h4>
-
-      <span class="pull-right">
-        <%= render 'shared/back_link',
-          last_search_query: @last_search_query,
-          path: labels_path %>
-      </span>
-    </div>
-  </div>
+  <%= render 'shared/carousel', object: @label %>
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-3">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h5 class="m-t-0">Label Info</h5>
-            Description: <%#= @label.description %><br>
-            Records: <%= @label.records.size %><br>
-            Artists: <%= @label.artists.size %><br>
-        </div>
-      </div>
+      <%= render 'records/search_panel/search_box', q: @q, object: @label %>
     </div>
 
     <div class="col-md-9">
@@ -32,43 +26,12 @@
         <div class="panel-body">
           <h5 class="m-t-0">Related Records</h5>
 
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th> Cover </th>
-                  <th> <%= sort_link @search, :artist_name, "Artist" %> </th>
-                  <th> <%= sort_link @search, :record_format_name, "Record Format" %> </th>
-                  <th> <%= sort_link @search, :condition, "Condition" %> </th>
-                  <th class="buttons"></th>
-                </tr>
-              </thead>
+          <%= render 'records/records_table',
+            records: @records, object: @label, q: @q %>
+        </div>
 
-              <tbody>
-                <% @records.each do |record| %>
-                  <tr>
-                    <td><%= photo_link_helper(record, 60, 60) %></td>
-
-                    <td>
-                      <%= link_to record.artist_name, record.artist,
-                        class: 'table-link' %>
-                    </td>
-
-                    <td><%= record.record_format_name %></td>
-                    <td><%= condition_formatter(record.condition) %></td>
-
-                    <td class="buttons">
-                      <%= link_to icon('search'), record %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-
-            <div class="text-center">
-              <%= paginate @records %>
-            </div>
-          </div>
+        <div class="text-center">
+          <%= paginate @records %>
         </div>
       </div>
     </div>

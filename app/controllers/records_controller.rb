@@ -14,18 +14,14 @@ class RecordsController < ApplicationController
         Record.ransack(query_params)
       end
 
-    @result = @q.result.
-      includes(
-        :artist, :genre, :label, :price, :songs,
-        :photos, :record_format => :record_type
-      ).
-      order("artists.name").
-      uniq
+    @result = records_search_results(@q).
+      order("artists.name").uniq
 
     respond_to do |format|
       format.html do
         @records = @result.page(params[:page])
       end
+
       format.csv { send_data @result.to_csv }
     end
   end
@@ -69,7 +65,8 @@ class RecordsController < ApplicationController
 
   def update
     if @record.update_attributes(record_params)
-      redirect_to @record, notice: "Record was updated successfully."
+      redirect_to edit_record_path(@record),
+        notice: "Record was updated successfully."
     else
       render :edit
     end

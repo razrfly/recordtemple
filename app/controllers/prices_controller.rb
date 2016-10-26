@@ -7,9 +7,9 @@ class PricesController < ApplicationController
   def index
     @q = Price.ransack(params[:q])
 
-    @result = @q.result.includes(
-      :artist, :label, :record_format, :records
-      ).uniq
+    @result = @q.result.includes(:artist, :label,
+      :records, :record_format => :record_type
+      )
 
     respond_to do |format|
       format.html do
@@ -20,7 +20,7 @@ class PricesController < ApplicationController
   end
 
   def show
-    @last_search_query = session[:last_search_query]
+    remember_last_search_query
   end
 
   private

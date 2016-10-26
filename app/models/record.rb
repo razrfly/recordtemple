@@ -14,6 +14,8 @@ class Record < ActiveRecord::Base
   has_many :photos, -> { order(:position)}, :dependent => :destroy
   has_many :songs, :dependent => :destroy
 
+  validates_presence_of :genre, :condition, :value, :user
+
   [:photos, :songs].each do |association|
     accepts_nested_attributes_for association, allow_destroy: true,
       reject_if: Proc.new { |attributes|
@@ -22,8 +24,6 @@ class Record < ActiveRecord::Base
         }.empty?
       }
   end
-
-  validates_presence_of :genre, :condition, :value, :user
 
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :genre, prefix: true, allow_nil: true
@@ -34,11 +34,12 @@ class Record < ActiveRecord::Base
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }
 
-  def self.pricing
-    {'mint' => 1, 'near mint' => 1, 'very good ++' => 0.9,
-      'very good +' => 0.5, 'very good' => 0.25, 'good' => 0.2,
-        'poor' => 0.15}
-  end
+  #Do we need this?
+  # def self.pricing
+  #   {'mint' => 1, 'near mint' => 1, 'very good ++' => 0.9,
+  #     'very good +' => 0.5, 'very good' => 0.25, 'good' => 0.2,
+  #       'poor' => 0.15}
+  # end
 
   def self.to_csv
     attributes = %w[artist_name price_detail comment label_name
@@ -53,37 +54,11 @@ class Record < ActiveRecord::Base
     end
   end
 
-  #acts_as_tree :foreign_key => "price_id"
-  #maybes
-  #delegate :freebase_id, :to => :price
-  #acts_as_tree :foreign_key => "price_id"
-  # after_save :add_freebase_to_parent
-
-  # don't used?
-  # def notes
-  #   notes = price.detail
-  #   price.footnote ? "#{notes} #{price.footnote}" : notes
-  # end
-
-  # used only on admin
-  # def cyberguide
-  #   price.price_high * Record.pricing[Record.transform_condition condition] if price and condition
-  # end
-
-  # def cover_photo
-  #   Refile.attachment_url(photos.first, :image, :fill, 60, 60) unless photos.blank?
-  # end
-
-  # don't used anymore
-  # def desc
-  #   price.nil? ? comment : "#{price.detail} #{comment} #{price.footnote}"
-  # end
-
-  #commented earlier?
-  # def add_freebase_to_parent
-  #   unless freebase_id.blank?
-  #     #self.price.freebase_id = self.freebase_id
-  #     self.price.update_attribute(:freebase_id, self.freebase_id)
-  #   end
-  # end
+  def to_param
+    [
+      id,
+      artist_name.parameterize,
+      label_name.parameterize,
+    ].reject(&:blank?).join("-")
+  end
 end

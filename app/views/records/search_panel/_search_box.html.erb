@@ -1,0 +1,162 @@
+<%= search_form_for q, url: (url_for(object) if
+  defined?(object) && object.present?) do |search_form| %>
+
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <h5 class="m-t-0">Search</h5>
+
+      <!-- This is because of scoped ransack
+           search. Another query is needed to
+           make selectize load only scoped objects -->
+
+      <% should_use_scoped_records =
+         defined?(object) && object.present? %>
+
+      <% scoped = ->(object, klass) {
+          model_name = object.class.model_name
+
+          klass.joins("records" => model_name.singular).
+            where("#{model_name.collection}.id": object.id).
+              uniq.map { |model_name| [model_name.name, model_name.id] }
+        } if defined?(object) %>
+
+      <% unless defined?(object) && object.is_a?(Artist) %>
+        <div class="form-group">
+          <%= search_form.label "Artist" %>
+
+          <%= search_form.select :artist_id_in,
+            should_use_scoped_records ? scoped.(object, Artist) :
+              q.artist_id_in.present? ?
+                Artist.where(id: q.artist_id_in).
+                  map { |artist| [artist.name, artist.id] } :
+              [],
+            { include_hidden: false },
+            { multiple: true,
+              class: 'form-control selectize_remote',
+              data: {
+                remote_url: ('/artists.json' unless defined?(object))
+              } } %>
+        </div>
+      <% end %>
+
+      <% unless defined?(object) && object.is_a?(Label) %>
+        <div class="form-group">
+          <%= search_form.label "Label" %>
+
+          <%= search_form.select :label_id_in,
+            should_use_scoped_records ? scoped.(object, Label) :
+              q.label_id_in.present? ?
+                Label.where(id: q.label_id_in).
+                  map { |label| [label.name, label.id] } :
+              [],
+            { include_hidden: false },
+            { multiple: true,
+              class: 'form-control selectize_remote',
+              data: {
+                remote_url: ('/labels.json' unless defined?(object))
+              } } %>
+        </div>
+      <% end %>
+
+      <% unless defined?(object) && object.is_a?(Genre) %>
+        <div class="form-group">
+          <%= search_form.label "Genre" %>
+
+          <%= search_form.select :genre_id_in,
+            should_use_scoped_records ? scoped.(object, Genre) :
+              Genre.joins(:records).uniq.map { |genre|
+                [genre.name, genre.id]
+                },
+            { include_hidden: false },
+            { multiple: true,
+              class: 'form-control selectize_remote' } %>
+        </div>
+      <% end %>
+
+      <% if user_signed_in? %>
+        <div class="form-group">
+          <label>Price
+            <small>( low - high )</small>
+          </label>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <%= search_form.number_field :price_price_low_gteq,
+                class: 'form-control' %>
+            </div>
+
+            <div class="col-xs-6">
+              <%= search_form.number_field :price_price_high_lteq,
+                class: 'form-control' %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= search_form.label "Details" %>
+        <%= search_form.search_field :comment_or_price_detail_or_price_footnote_cont,
+          class: 'form-control' %>
+
+          <small>(tracks, song titles, etc.)</small>
+      </div>
+
+      <div class="form-group">
+        <%= search_form.label "Record type",
+          style: 'display: block;' %>
+
+        <% RecordType.pluck(:name).each do |name| %>
+          <label class="checkbox-inline">
+            <%= search_form.check_box(
+              :record_format_record_type_name_in,
+              { multiple: true }, name, nil) %>
+
+            <%= name %>
+          </label>
+        <% end %>
+      </div>
+
+      <div class="form-group">
+        <%= link_to "#", data: { toggle: 'collapse',
+          target: '#conditions' },
+          style:'color:#1e3948;' do %>
+
+          <label>Add Condition <%= icon 'plus' %></label>
+        <% end %>
+
+        <div id="conditions" class="collapse
+          <%= 'in' if q.condition_in.present? %>">
+
+          <% Record.conditions.each do |key, value| %>
+            <div class="checkbox">
+              <label>
+                <%= search_form.check_box(:condition_in,
+                  { multiple: true }, value, nil) %>
+
+                <%= condition_formatter(key) %>
+              </label>
+            </div>
+          <% end %>
+
+          <hr>
+        </div>
+      </div>
+
+      <div class="checkbox">
+        <label>
+          <%= search_form.check_box :songs_id_not_null %>
+          Only with songs
+        </label>
+      </div>
+
+      <div class="checkbox">
+        <label>
+          <%= search_form.check_box :photos_id_not_null %>
+          Only with photos
+        </label>
+      </div>
+
+      <%= search_form.submit 'Submit', class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>

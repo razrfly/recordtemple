@@ -1,49 +1,66 @@
+<% content_for :page_title do %>
+  <%= record.persisted? ? "Edit Record" : "New Record" %>
+<% end %>
+
 <% price = nil if !defined?(price) %>
 
 <%= simple_form_for [price, record] do |record_form| %>
+
+  <% content_for :header_links do %>
+    <span class="pull-right">
+      <%= record_form.button :submit,
+        class: "btn btn-primary-outline btn-sm" %>
+
+      <% if user_signed_in? && @record.user == current_user &&
+          record_form.object.persisted? %>
+
+        <%= link_to "Delete", record_path(@record), method: :delete,
+          class: "btn btn-danger-outline btn-sm",
+          data: { confirm: 'Are you sure?' } %>
+      <% end %>
+
+      <% unless record_form.object.new_record? %>
+        <%= link_to "Back", (
+          price.present? ? price_path(price) : record_path(@record)
+          ), class: "btn btn-sm btn-default-outline" %>
+      <% end %>
+    </span>
+  <% end %>
+
   <div class="container p-t-md">
-    <div class="<%= 'row' if record_form.object.new_record? %>">
-      <div class="<%= 'col-md-6 col-md-offset-3' if
-        record_form.object.new_record? %>">
+    <% if record_form.object.new_record? %>
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          <%= render 'application/error_messages', object: record %>
 
-        <%= render 'application/error_messages', object: record %>
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
+                New Record
+              </h4>
 
-        <div class="panel panel-default">
-          <div class="panel-body">
-            <h4 class="m-t-0 m-b-0" style="display: inline-block; padding-top: 5px;">
-              Record
-            </h4>
-
-            <span class="pull-right">
-              <%= record_form.button :submit,
-                class: "btn btn-primary-outline btn-sm" %>
-
-              <% if user_signed_in? && @record.user == current_user &&
-                record_form.object.persisted? %>
-
-                <%= link_to "Delete", record_path(@record), method: :delete,
-                  class: "btn btn-danger-outline btn-sm",
-                  data: { confirm: 'Are you sure?' } %>
-              <% end %>
-
-              <% unless record_form.object.new_record? %>
-                <%= link_to "Back", (
-                  price.present? ? price_path(price) : record_path(record)
-                  ), class: "btn btn-sm btn-default-outline" %>
-              <% end %>
-            </span>
+              <span class="pull-right">
+                <%= record_form.button :submit,
+                  class: "btn btn-primary-outline btn-sm" %>
+              </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <% if price.present? %>
-      <%= render 'price_info', f: record_form, price: price %>
+    <% else %>
+      <%= render 'shared/header_panel' %>
     <% end %>
 
     <div class="row">
+      <% if price.present? %>
+        <div class="col-md-4 col-md-offset-2">
+          <%= render 'records/price_panels/record_form_price_info',
+            price: price %>
+        </div>
+      <% end %>
+
       <div class="<%= record_form.object.new_record? ?
-        'col-md-6 col-md-offset-3' : 'col-md-4' %>">
+        "#{price.present? ? 'col-md-4' : 'col-md-8 col-md-offset-2'}" : 'col-md-4' %>">
 
         <div class="panel panel-default panel-profile">
           <div class="panel-body">

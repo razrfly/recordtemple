@@ -3,6 +3,8 @@ class RecordFormat < ActiveRecord::Base
   has_many :records
   belongs_to :record_type
 
+  delegate :name, to: :record_type, prefix: true, allow_nil: true
+
   scope :with_records, lambda { |user=nil|
     if user.nil?
       joins('INNER JOIN records ON record_formats.id = records.record_format_id')

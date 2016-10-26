@@ -1,13 +1,11 @@
-<div class="container p-t-md">
-  <div class="panel panel-default">
-    <div class="panel-body">
-      <h4 class="m-t-0 m-b-0"
-        style="display: inline-block; padding-top: 5px;">
+<% breadcrumb :artists %>
 
-        <%= @artists.model_name.plural.humanize %>
-      </h4>
-    </div>
-  </div>
+<% content_for :page_title do %>
+  <%= @artists.model_name.plural.humanize %>
+<% end %>
+
+<div class="container p-t-md">
+  <%= render 'shared/header_panel' %>
 
   <div class="row">
     <div class="col-md-3">
@@ -18,34 +16,37 @@
 
             <div class="form-group">
               <%= search_form.label :name %>
-              <%= search_form.select :id_eq,
-                @q.id_eq.present? ?
-                  Artist.where(id: @q.id_eq).
+              <%= search_form.select :id_in,
+                @q.id_in.present? ?
+                  Artist.where(id: @q.id_in).
                     map { |artist| [artist.name, artist.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/artists.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/artists.json' } } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :label_id %>
-              <%= search_form.select :labels_id_eq,
-                @q.labels_id_eq.present? ?
-                  Label.where(id: @q.labels_id_eq).
+              <%= search_form.label "Label" %>
+              <%= search_form.select :labels_id_in,
+                @q.labels_id_in.present? ?
+                  Label.where(id: @q.labels_id_in).
                     map { |label| [label.name, label.id] } :
                   [],
-                {},
-                { class: 'form-control selectize_remote',
-                data: { remote_url: '/labels.json' } } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote',
+                  data: { remote_url: '/labels.json' } } %>
             </div>
 
             <div class="form-group">
-              <%= search_form.label :genre_id %>
-              <%= search_form.collection_select :genres_id_eq,
+              <%= search_form.label "Genres" %>
+              <%= search_form.collection_select :genres_id_in,
                 Genre.joins(:records).uniq, :id, :name,
-                { include_blank: true },
-                { class: 'form-control selectize_remote' } %>
+                { include_hidden: false },
+                { multiple: true,
+                  class: 'form-control selectize_remote' } %>
             </div>
 
             <div class="checkbox">
@@ -77,24 +78,42 @@
     </div>
 
     <div class="col-md-9">
-      <div class="row">
-        <% @artists.each do |artist| %>
-          <div class="col-md-3">
-            <div class="panel panel-default">
-              <div class="panel-body">
-                <%= photo_link_helper(artist, 200, 200) %>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <small class="pull-right">
+            <%= page_entries_info @artists %>
+          </small>
 
-                <p class="text-center">
-                  <%= link_to truncate(artist.name, length: 20), artist_path(artist) %>
-                </p>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </div>
+          <h5 class="m-t-0">Results</h5>
 
-      <div class="text-center">
-        <%= paginate @artists %>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Name</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @artists.each do |artist| %>
+                <tr>
+                  <td><%= photo_link_helper(artist, 50, 50) %></td>
+                  <td><%= artist.name %></td>
+                  <td>
+                    <%= link_to artist_path(artist) do %>
+                      <span class="icon icon-magnifying-glass"></span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center">
+          <%= paginate @artists %>
+        </div>
       </div>
     </div>
   </div>
