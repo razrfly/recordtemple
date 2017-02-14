@@ -88,10 +88,8 @@
         </div>
       </div>
 
-      <% if user_signed_in? %>
-        <%= render 'records/price_panels/record_show_price_info',
-          record: @record %>
-      <% end %>
+      <%= render 'records/price_panels/record_show_price_info',
+        record: @record %>
 
       <div class="panel panel-default">
         <div class="panel-body">
