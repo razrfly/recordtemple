@@ -1,9 +1,6 @@
+
 class DataDispatcher
-  EXECUTE_MESSAGE = {
-    :load_file => 'Loading file... This could take a while.',
-    :parse_file_with_nokogiri => 'Parsing file with nokogiri...',
-    :fetch_allowed_paragraphs => 'Extracting allowed paragraphs from parsed file.'
-  }
+  include Utils
 
   def initialize(file_name)
     @file_name = file_name
@@ -15,23 +12,19 @@ class DataDispatcher
     load_file
     parse_file_with_nokogiri
     fetch_allowed_paragraphs
+    extract_artists
+
+    counter = Array(artists).count
+
+    until counter.zero?
+      execute_artist_prices_updater!
+      counter -= 1
+    end
+    execute_time
   end
 
   private
-  attr_reader :original_file, :parsed_file, :paragraphs
-
-  def set_start_time
-    @start_time = Time.now
-  end
-
-  def execute_time
-    @execute_time ||= 0 and @execute_time += (Time.now - @start_time)
-    puts "Done. Execution time: #@execute_time"
-  end
-
-  def execute_message(command)
-    puts EXECUTE_MESSAGE[command]
-  end
+  attr_reader :original_file, :parsed_file, :paragraphs, :artists
 
   def create_file_path
     @file_path = Rails.root.join('lib', 'data_dispatcher', @file_name)
