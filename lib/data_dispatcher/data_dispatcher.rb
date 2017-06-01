@@ -1,6 +1,7 @@
 class DataDispatcher
   EXECUTE_MESSAGE = {
-    :load_file => 'Loading file ... This could take a while.'
+    :load_file => 'Loading file... This could take a while.',
+    :parse_file_with_nokogiri => 'Parsing file with nokogiri...'
   }
 
   def initialize(file_name)
@@ -11,10 +12,11 @@ class DataDispatcher
     set_start_time
     create_file_path
     load_file
+    parse_file_with_nokogiri
   end
 
   private
-  attr_reader :original_file
+  attr_reader :original_file, :parsed_file
 
   def set_start_time
     @start_time = Time.now
@@ -37,6 +39,16 @@ class DataDispatcher
     execute_message(__callee__)
 
     File.exist?(@file_path) && @original_file = open(@file_path)
+    execute_time
+  end
+
+  def parse_file_with_nokogiri
+    execute_message(__callee__)
+
+    @parsed_file = Nokogiri::HTML(original_file) do |config|
+      config.options |= Nokogiri::XML::ParseOptions::HUGE |
+        Nokogiri::XML::ParseOptions::NOBLANKS
+    end
     execute_time
   end
 
