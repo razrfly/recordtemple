@@ -57,6 +57,15 @@ class DataDispatcher
     execute_time
   end
 
+  def extract_artists
+    execute_message(__callee__)
+
+    @artists = paragraphs.slice_before do |paragraph|
+      paragraph.attr('class') == 'p2'
+    end
+    execute_time
+  end
+
   class << self
     def call(file_name)
       new(file_name).execute!
