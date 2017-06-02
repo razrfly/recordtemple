@@ -49,7 +49,7 @@ class DataDispatcher
 
   def fetch_allowed_paragraphs
     execute_message(__callee__)
-    allowed_paragraphs = %w(p2 p3 p4 p5)
+    allowed_paragraphs = %w(p2 p3 p4)
 
     @paragraphs = Array(parsed_file.css('p')).keep_if do |paragraph|
       allowed_paragraphs.include? paragraph.attr('class')
