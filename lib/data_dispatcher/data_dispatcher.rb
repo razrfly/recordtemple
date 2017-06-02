@@ -12,12 +12,12 @@ class DataDispatcher
     load_file
     parse_file_with_nokogiri
     fetch_allowed_paragraphs
-    extract_artists
+    create_artists_namespaces
 
     counter = Array(artists).count
 
     until counter.zero?
-      execute_artist_prices_updater!
+      prepare_prices_data(artists.next)
       counter -= 1
     end
     execute_time
@@ -57,7 +57,7 @@ class DataDispatcher
     execute_time
   end
 
-  def extract_artists
+  def create_artists_namespaces
     execute_message(__callee__)
 
     @artists = paragraphs.slice_before do |paragraph|
