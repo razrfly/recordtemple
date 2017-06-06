@@ -1,4 +1,3 @@
-
 class DataDispatcher
   include Utils
 
@@ -14,17 +13,17 @@ class DataDispatcher
     fetch_allowed_paragraphs
     create_artists_namespaces
 
-    counter = Array(artists).count
-
-    until counter.zero?
-      prepare_prices_data(artists.next)
-      counter -= 1
+    artists.each do |artist|
+      prepare_prices_data(artist).each do |data|
+        prices << data
+      end
     end
+
     execute_time
   end
 
   private
-  attr_reader :original_file, :parsed_file, :paragraphs, :artists
+  attr_reader :original_file, :parsed_file, :paragraphs, :artists, :prices
 
   def create_file_path
     @file_path = Rails.root.join('lib', 'data_dispatcher', @file_name)
@@ -64,6 +63,40 @@ class DataDispatcher
       paragraph.attr('class') == 'p2'
     end
     execute_time
+  end
+
+  def prices
+    @prices ||= []
+  end
+
+  def prepare_prices_data(artist_paragraphs)
+    data = artist_paragraphs
+
+    # First paragraph is always obligated to be an artist paragraph.
+    # Artist name could be extracted easily. Paragraph will be skipped
+    # in other child nodes.
+    artist_name = data.shift.text
+
+    # Artist paragraphs structure forces to create namespaces for each
+    # record format.
+    record_formats = data.slice_before do |paragraph|
+      paragraph.attr('class') == 'p3'
+    end
+
+    # Prices will be determined from investigating each record format namespace.
+    record_formats.each_with_object([]) do |record_format_paragraphs, result|
+      paragraphs = record_format_paragraphs
+
+      # First paragraph is always obliged to be an record format paragraph.
+      # Record format name could be extracted easily. Paragraph will be skipped
+      # in other child nodes.
+      record_format_name = paragraphs.shift.text
+
+      # Label, details, ranges and footnote will be extracted from each
+      # record format children nodes.
+      paragraphs.each do |paragraph|
+      end
+    end
   end
 
   class << self
