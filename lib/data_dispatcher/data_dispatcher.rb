@@ -163,6 +163,19 @@ class DataDispatcher
         # Footnote extraction
         footnote_extractor = ->(text) { text =~ /(.*)/ and $1.gsub(/\(|\)/, '') }
         footnote = footnote_extractor.(remaining_text) if remaining_text.present?
+
+        # Compose result price hash for future use.
+        result << {
+          cached_artist: artist_name,
+          media_type: record_format_name,
+          cached_label: label,
+          details: details,
+          price_low: price_low,
+          price_high: price_high,
+          yearbegin: year_begin,
+          yearend: year_end,
+          footnote: footnote
+        }
       end
     end
   end
