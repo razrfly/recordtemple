@@ -95,6 +95,18 @@ class DataDispatcher
       # Label, details, ranges and footnote will be extracted from each
       # record format children nodes.
       paragraphs.each do |paragraph|
+        child_nodes = paragraph.children
+
+        # Every price row has at least one 'tab-span' so we need to remove
+        # invalid rows first
+        next unless child_nodes.find {|node| node.attr('class') == 'Apple-tab-span'}
+
+        # 'Tab-span' nodes could be easily used to create enclosed text namespaces
+        child_nodes = child_nodes.slice_before do |node|
+          node.attr('class') == 'Apple-tab-span'
+        end
+
+        child_nodes = Array(child_nodes)
       end
     end
   end
