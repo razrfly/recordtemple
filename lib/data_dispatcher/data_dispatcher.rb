@@ -107,6 +107,62 @@ class DataDispatcher
         end
 
         child_nodes = Array(child_nodes)
+
+        # Label and details extraction
+        label_and_details_extractor = ->(text) {
+          details = $2 if text =~ /(\()(.*)(\))/
+          label = details.present? ? text.gsub($1<<details<<$3, '').strip : text
+          return [label, details]
+        }
+
+        label_and_details_nodes = child_nodes.shift
+        label_and_details_text = label_and_details_nodes.inject('') do |r, node|
+          r << node.text; r
+        end
+
+        label, details = label_and_details_extractor.(label_and_details_text)
+
+        # Price range extraction
+        price_range_extractor = ->(text) {
+          text =~ /([0-9]*)-([0-9]*)(.*)/ and [$1, $2, $3]
+        }
+
+        price_range_nodes = child_nodes.shift
+        price_range_text = price_range_nodes.inject('') do |r, node|
+          r << node.text; r
+        end if price_range_nodes.present?
+
+        price_low, price_high, remaining_text =
+          price_range_extractor.(price_range_text) if price_range_text.present?
+
+        # Year range extraction
+        year_range_extractor = ->(text) {
+          if text =~ /(')([0-9]{1})[0-9]{1}(s)(.*)/
+            year_begin, year_end = "19#{$2}0", "19#{$2}9"
+            return [year_begin, year_end, $4]
+          elsif text =~ /([0-9]{2})-([0-9]{2})(.*)/
+            year_begin, year_end = "19#{$1}", "19#{$2}"
+            return [year_begin, year_end, $3]
+          elsif text =~ /([0-9]{4})(.*)/
+            year_begin, year_end = $1, $1
+            return [year_begin, year_end, $2]
+          elsif text =~ /([0-9]{2})(.*)/
+            year_begin, year_end = "19#{$1}", "19#{$1}"
+            return [year_begin, year_end, $2]
+          end
+        }
+
+        year_range_nodes = child_nodes.shift
+        year_range_text = year_range_nodes.inject('') do |r, node|
+          r << node.text; r
+        end if year_range_nodes.present?
+
+        year_begin, year_end, remaining_text =
+          year_range_extractor.(year_range_text) if year_range_text.present?
+
+        # Footnote extraction
+        footnote_extractor = ->(text) { text =~ /(.*)/ and $1.gsub(/\(|\)/, '') }
+        footnote = footnote_extractor.(remaining_text) if remaining_text.present?
       end
     end
   end
