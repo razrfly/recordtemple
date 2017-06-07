@@ -65,7 +65,7 @@ class DataDispatcher
 
   def fetch_allowed_paragraphs
     execute_message(__callee__)
-    allowed_paragraphs = %w(p2 p3 p4)
+    allowed_paragraphs = SOURCE_CONFIG[file_name][:allowed_paragraphs]
 
     @paragraphs = Array(parsed_file.css('p')).keep_if do |paragraph|
       allowed_paragraphs.include? paragraph.attr('class')
@@ -77,7 +77,7 @@ class DataDispatcher
     execute_message(__callee__)
 
     @artists = paragraphs.slice_before do |paragraph|
-      paragraph.attr('class') == 'p2'
+      paragraph.attr('class') == SOURCE_CONFIG[file_name][:artist_paragraph]
     end
     execute_time
   end
@@ -198,8 +198,10 @@ class DataDispatcher
   end
 
   class << self
-    def call(file_name)
-      new(file_name).execute!
+    def call
+      SOURCE_FILES.each do |file_name|
+        new(file_name).execute!
+      end
     end
   end
 end
