@@ -1,5 +1,22 @@
 class DataDispatcher
   include Utils
+  include Stats
+
+  SOURCE_FILES = %w(a-d.html e-k.html l-q.html r-z.html)
+  SOURCE_CONFIG = {
+    'a-d.html' => {
+      allowed_paragraphs: %w(p2 p3 p4),
+      artist_paragraph: 'p2',
+      record_format_paragraph: 'p3'
+    },
+    'e-k.html' => {
+      allowed_paragraphs: %w(p3 p5 p6),
+      artist_paragraph: 'p3',
+      record_format_paragraph: 'p5'
+    },
+    'l-q.html' => {},
+    'r-z.html' => {}
+  }
 
   def initialize(file_name)
     @file_name = file_name
