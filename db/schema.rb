@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928075837) do
+ActiveRecord::Schema.define(version: 20170607120953) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -153,6 +153,9 @@ ActiveRecord::Schema.define(version: 20160928075837) do
     t.string   "freebase_id"
     t.integer  "user_id"
   end
+
+  add_index "prices", ["cached_artist"], name: "index_prices_on_cached_artist", using: :btree
+  add_index "prices", ["media_type"], name: "index_prices_on_media_type", using: :btree
 
   create_table "record_formats", force: true do |t|
     t.string   "name"
