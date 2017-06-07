@@ -30,26 +30,31 @@ class DataDispatcher
     fetch_allowed_paragraphs
     create_artists_namespaces
 
-    artists.each do |artist|
+    artists.first(10).each do |artist|
       prepare_prices_data(artist).each do |data|
         prices << data
       end
     end
 
+    fire_price_judgement!
+
+    fire_stats!
+
     execute_time
   end
 
   private
-  attr_reader :original_file, :parsed_file, :paragraphs, :artists, :prices
+  attr_reader :file_name, :file_path, :original_file, :parsed_file, :paragraphs,
+    :artists, :prices
 
   def create_file_path
-    @file_path = Rails.root.join('lib', 'data_dispatcher', @file_name)
+    @file_path = Rails.root.join('lib', 'data_dispatcher', file_name)
   end
 
   def load_file
     execute_message(__callee__)
 
-    File.exist?(@file_path) && @original_file = open(@file_path)
+    File.exist?(file_path) && @original_file = open(file_path)
     execute_time
   end
 
@@ -83,7 +88,7 @@ class DataDispatcher
   end
 
   def prices
-    @prices ||= []
+    @@prices ||= []
   end
 
   def prepare_prices_data(artist_paragraphs)
