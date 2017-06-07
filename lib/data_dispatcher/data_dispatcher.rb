@@ -97,22 +97,29 @@ class DataDispatcher
     # First paragraph is always obligated to be an artist paragraph.
     # Artist name could be extracted easily. Paragraph will be skipped
     # in other child nodes.
-    artist_name = data.shift.text
+    artist_name = data.shift.text.to_s
 
     # Artist paragraphs structure forces to create namespaces for each
     # record format.
     record_formats = data.slice_before do |paragraph|
-      paragraph.attr('class') == 'p3'
+      paragraph.attr('class') == SOURCE_CONFIG[file_name][:record_format_paragraph]
     end
 
     # Prices will be determined from investigating each record format namespace.
     record_formats.each_with_object([]) do |record_format_paragraphs, result|
       paragraphs = record_format_paragraphs
 
-      # First paragraph is always obliged to be an record format paragraph.
-      # Record format name could be extracted easily. Paragraph will be skipped
-      # in other child nodes.
-      record_format_name = paragraphs.shift.text
+      # First paragraph is always obliged to be an 'record-format' paragraph.
+      # Record format name will extracted easily then. Paragraph will be skipped
+      # in other child nodes. Little hack need to be involved. To provide
+      # correctly searching through existing prices encoded by nokogirii &:mdash
+      # needs to be replaced by '-' (minus) character as it was in previous
+      # parsing.
+
+      rf_name_replacement = ->(text) {
+        text.chars.inject("") { |r, chr| r << (chr.ord == 8211 ? "-" : chr); r }
+      }
+      record_format_name = rf_name_replacement.(paragraphs.shift.text)
 
       # Label, details, ranges and footnote will be extracted from each
       # record format children nodes.
