@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170607120953) do
+ActiveRecord::Schema.define(version: 20170608171624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,8 +154,10 @@ ActiveRecord::Schema.define(version: 20170607120953) do
     t.integer  "user_id"
   end
 
-  add_index "prices", ["cached_artist"], name: "index_prices_on_cached_artist", using: :btree
-  add_index "prices", ["media_type"], name: "index_prices_on_media_type", using: :btree
+  add_index "prices", ["cached_artist"], name: "index_prices_on_cached_artist_trigram", using: :gin
+  add_index "prices", ["cached_label"], name: "index_prices_on_cached_label_trigram", using: :gin
+  add_index "prices", ["detail"], name: "index_prices_on_detail_trigram", using: :gin
+  add_index "prices", ["media_type"], name: "index_prices_on_media_type_trigram", using: :gin
 
   create_table "record_formats", force: true do |t|
     t.string   "name"
