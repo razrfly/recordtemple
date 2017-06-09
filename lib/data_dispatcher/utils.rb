@@ -9,12 +9,12 @@ module Utils
   private
 
   def set_start_time
-    @start_time = Time.now
+    @@start_time = Time.now
   end
 
   def execute_time
-    @execute_time ||= 0 and @execute_time += (Time.now - @start_time)
-    puts "Done. Execution time: #@execute_time"
+    @@execute_time ||= 0 and @@execute_time += (Time.now - @@start_time)
+    puts "Done. Execution time: #@@execute_time"
   end
 
   def execute_message(command)

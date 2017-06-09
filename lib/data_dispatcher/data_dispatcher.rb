@@ -88,7 +88,8 @@ class DataDispatcher
   end
 
   def prices
-    @@prices ||= []
+    @@prices ||= {}
+    @@prices[file_name] ||= []
   end
 
   def prepare_prices_data(artist_paragraphs)
@@ -138,18 +139,18 @@ class DataDispatcher
         child_nodes = Array(child_nodes)
 
         # Label and details extraction
-        label_and_details_extractor = ->(text) {
-          details = $2 if text =~ /(\()(.*)(\))/
-          label = details.present? ? text.gsub($1<<details<<$3, '').strip : text
-          return [label, details]
+        label_and_detail_extractor = ->(text) {
+          detail = $2 if text =~ /(\()(.*)(\))/
+          label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text
+          return [label, detail]
         }
 
-        label_and_details_nodes = child_nodes.shift
-        label_and_details_text = label_and_details_nodes.inject('') do |r, node|
+        label_and_detail_nodes = child_nodes.shift
+        label_and_detail_text = label_and_detail_nodes.inject('') do |r, node|
           r << node.text; r
         end
 
-        label, details = label_and_details_extractor.(label_and_details_text)
+        label, detail = label_and_detail_extractor.(label_and_detail_text)
 
         # Price range extraction
         price_range_extractor = ->(text) {
@@ -194,16 +195,17 @@ class DataDispatcher
         footnote = footnote_extractor.(remaining_text) if remaining_text.present?
 
         # Compose result price hash for future use.
+
         result << {
-          cached_artist: artist_name,
-          media_type: record_format_name,
-          cached_label: label,
-          details: details,
-          price_low: price_low,
-          price_high: price_high,
-          yearbegin: year_begin,
-          yearend: year_end,
-          footnote: footnote
+          'cached_artist' => artist_name,
+          'media_type' => record_format_name,
+          'cached_label' => label,
+          'detail' => detail,
+          'price_low' => price_low,
+          'price_high' => price_high,
+          'yearbegin' => year_begin,
+          'yearend' => year_end,
+          'footnote' => footnote
         }
       end
     end
