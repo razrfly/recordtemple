@@ -221,6 +221,22 @@ class DataDispatcher
     end
   end
 
+  def find_db_prices(artist, type, label)
+    @raw_price_query = <<-SQL.strip
+      SELECT prices.*
+      FROM prices
+      WHERE prices.cached_artist ILIKE ?
+      AND prices.media_type ILIKE ?
+      AND prices.cached_label ILIKE ?
+    SQL
+
+    query = ActiveRecord::Base.send(
+      :sanitize_sql_array, [@raw_price_query, artist, type, label]
+    )
+
+    Price.select("*").from(Arel.sql("(#{query}) as prices"))
+  end
+
   def fire_price_judgement!
     initialize_counters
 
