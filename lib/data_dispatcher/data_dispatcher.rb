@@ -246,6 +246,34 @@ class DataDispatcher
     prices_with_details, prices_without_detail = prices.partition do |price|
       price['detail'].present?
     end
+
+    # We will start with analizing prices parsed without detail attribute
+
+    prices_without_detail.each do |price|
+      increment_total_with_missing_detail
+
+      artist, type, label, detail, low, high, yearbegin, yearend = price.values
+
+      db_prices = Array(find_db_prices(artist, type, label))
+
+      if db_prices.present?
+        # There is no need for invoking update-engine, if all attributes from
+        # parsed price and database match. They will be rejected first.
+
+        price_with_same_attributes = db_prices.find do |db_price|
+          db_price.price_low == low && db_price.price_high == high &&
+            db_price.yearbegin == yearbegin && db_price.yearend == yearend
+        end
+
+        if price_with_same_attributes.present?
+          increment_price_with_same_attributes_and_missing_detail
+        else
+          increment_price_with_different_attributes_and_missing_detail
+        end
+      else
+        increment_price_with_missing_detail_not_found
+      end
+    end
   end
 
   class << self
