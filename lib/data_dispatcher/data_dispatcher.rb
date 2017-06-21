@@ -138,18 +138,18 @@ class DataDispatcher
 
         child_nodes = Array(child_nodes)
 
-        # Label and details extraction
+        #Label and details extraction
         label_and_detail_extractor = ->(text) {
           detail = $2 if text =~ /(\()(.*)(\))/
-          label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text
+          label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text.strip
+          detail = detail.gsub(/[[:space:]]{2,}/, ' ') if detail.present?
           return [label, detail]
         }
 
         label_and_detail_nodes = child_nodes.shift
-        label_and_detail_text = label_and_detail_nodes.inject('') do |r, node|
+        label_and_detail_text = label_and_detail_nodes.inject([]) do |r, node|
           r << node.text; r
-        end
-
+        end.join(' ')
         label, detail = label_and_detail_extractor.(label_and_detail_text)
 
         # Price range extraction
