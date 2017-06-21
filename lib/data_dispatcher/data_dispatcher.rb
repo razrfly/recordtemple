@@ -138,7 +138,7 @@ class DataDispatcher
 
         child_nodes = Array(child_nodes)
 
-        #Label and details extraction
+        # Label and details extraction
         label_and_detail_extractor = ->(text) {
           detail = $2 if text =~ /(\()(.*)(\))/
           label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text.strip
@@ -218,6 +218,17 @@ class DataDispatcher
           'footnote' => footnote
         }
       end
+    end
+  end
+
+  def fire_price_judgement!
+    initialize_counters
+
+    # There are a lot of parsed prices with missing detail attribute. We
+    # need to make distinction between those two groups.
+
+    prices_with_details, prices_without_detail = prices.partition do |price|
+      price['detail'].present?
     end
   end
 
