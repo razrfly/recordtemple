@@ -194,6 +194,16 @@ class DataDispatcher
         footnote_extractor = ->(text) { text =~ /(.*)/ and $1.gsub(/\(|\)/, '') }
         footnote = footnote_extractor.(remaining_text) if remaining_text.present?
 
+        # Due to values discrepancies in our current database
+        # we need to make sure that integer type attributes won't
+        # be converted to 0 in case of nil value. They need to be compared
+        # with nil.
+
+        price_low &&= price_low.to_i
+        price_high &&= price_high.to_i
+        year_begin &&= year_begin.to_i
+        year_end &&= year_end.to_i
+
         # Compose result price hash for future use.
 
         result << {
