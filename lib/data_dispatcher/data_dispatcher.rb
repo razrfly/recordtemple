@@ -221,7 +221,7 @@ class DataDispatcher
     end
   end
 
-  def find_db_prices(artist, type, label)
+  def find_db_prices(artist, type, label, detail = nil)
     @raw_price_query = <<-SQL.strip
       SELECT prices.*
       FROM prices
@@ -230,9 +230,13 @@ class DataDispatcher
       AND prices.cached_label ILIKE ?
     SQL
 
-    query = ActiveRecord::Base.send(
-      :sanitize_sql_array, [@raw_price_query, artist, type, label]
-    )
+    detail && @raw_price_query << <<-SQL.strip
+      \s AND prices.detail = ?
+    SQL
+
+    query_args = [@raw_price_query, artist, type, label, detail].compact
+
+    query = ActiveRecord::Base.send(:sanitize_sql_array, query_args)
 
     Price.select("*").from(Arel.sql("(#{query}) as prices"))
   end
