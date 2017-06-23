@@ -260,6 +260,12 @@ class DataDispatcher
           (db_price.yearend == yearend && db_price.yearbegin == yearbegin)
     }
 
+    # These two steps (little extractors) could be quite confusing at first,
+    # but they are really important to omit prices that should not be updated.
+    # It is possible, that we have multiple prices with the same label, artist
+    # and media type, but for example different years. There is no ability to
+    # distinct those prices only by basing only on 3 attributes
+
     different_years_match = ->(db_price, yearbegin, yearend) {
       (db_price.yearbegin && db_price.yearend) &&
         (db_price.yearbegin != yearbegin || db_price.yearend != yearend)
@@ -278,6 +284,7 @@ class DataDispatcher
       db_prices = Array(find_db_prices(artist, type, label, ''))
 
       if db_prices.present?
+
         # There is no need for invoking update-engine, if all attributes from
         # parsed price and database match. They will be rejected first.
 
