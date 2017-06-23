@@ -30,7 +30,7 @@ class DataDispatcher
     fetch_allowed_paragraphs
     create_artists_namespaces
 
-    artists.first(10).each do |artist|
+    artists.each do |artist|
       prepare_prices_data(artist).each do |data|
         prices << data
       end
@@ -142,7 +142,7 @@ class DataDispatcher
         label_and_detail_extractor = ->(text) {
           detail = $2 if text =~ /(\()(.*)(\))/
           label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text.strip
-          detail = detail.gsub(/[[:space:]]{2,}/, ' ') if detail.present?
+          detail = detail.gsub(/[[:space:]]{2,}/, ' ').strip if detail.present?
           return [label, detail]
         }
 
