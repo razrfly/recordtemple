@@ -260,6 +260,11 @@ class DataDispatcher
           (db_price.yearend == yearend && db_price.yearbegin == yearbegin)
     }
 
+    different_years_match = ->(db_price, yearbegin, yearend) {
+      (db_price.yearbegin && db_price.yearend) &&
+        (db_price.yearbegin != yearbegin || db_price.yearend != yearend)
+    }
+
     prices_without_detail.each do |price|
       increment_total_with_missing_detail
 
@@ -277,6 +282,13 @@ class DataDispatcher
         db_prices -= direct_matches
 
         direct_matches.each { increment_price_with_same_attributes_and_missing_detail }
+
+        different_years_matches = db_prices.select do |db_price|
+          different_years_match.(db_price, yearbegin, yearend)
+        end
+        db_prices -= different_years_matches
+
+        different_years_matches.each { increment_price_with_different_years_and_missing_detail }
 
         db_prices.each do |db_price|
           increment_price_with_missing_detail_to_update
