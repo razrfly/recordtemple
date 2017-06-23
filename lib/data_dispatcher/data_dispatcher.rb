@@ -253,29 +253,38 @@ class DataDispatcher
 
     # We will start with analizing prices parsed without detail attribute
 
+    # First move is to skip prices that are directly matched in our db
+
+    direct_match = ->(db_price, low, high, yearbegin, yearend) {
+      (db_price.price_low == low && db_price.price_high == high) &&
+          (db_price.yearend == yearend && db_price.yearbegin == yearbegin)
+    }
+
     prices_without_detail.each do |price|
       increment_total_with_missing_detail
 
       artist, type, label, detail, low, high, yearbegin, yearend = price.values
 
-      db_prices = Array(find_db_prices(artist, type, label))
+      db_prices = Array(find_db_prices(artist, type, label, ''))
 
       if db_prices.present?
         # There is no need for invoking update-engine, if all attributes from
         # parsed price and database match. They will be rejected first.
 
-        price_with_same_attributes = db_prices.find do |db_price|
-          db_price.price_low == low && db_price.price_high == high &&
-            db_price.yearbegin == yearbegin && db_price.yearend == yearend
+        direct_matches = db_prices.select do |db_price|
+          direct_match.(db_price, low, high, yearbegin, yearend)
         end
+        db_prices -= direct_matches
 
-        if price_with_same_attributes.present?
-          increment_price_with_same_attributes_and_missing_detail
-        else
-          increment_price_with_different_attributes_and_missing_detail
+        direct_matches.each { increment_price_with_same_attributes_and_missing_detail }
+
+        db_prices.each do |db_price|
+          increment_price_with_missing_detail_to_update
+          # fire_update_engine!(found, price)
         end
       else
         increment_price_with_missing_detail_not_found
+        # fire_insertion_engine!(price)
       end
     end
   end
