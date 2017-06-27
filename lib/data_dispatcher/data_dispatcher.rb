@@ -255,9 +255,15 @@ class DataDispatcher
 
     # First move is to skip prices that are directly matched in our db
 
-    direct_match = ->(db_price, low, high, yearbegin, yearend) {
-      (db_price.price_low == low && db_price.price_high == high) &&
-          (db_price.yearend == yearend && db_price.yearbegin == yearbegin)
+    direct_match = ->(db_price, low, high, yearbegin, yearend, detail=nil) {
+      condition =
+        (db_price.price_low == low) &&
+          (db_price.price_high == high) &&
+            (db_price.yearend == yearend) &&
+              (db_price.yearbegin == yearbegin)
+
+      detail.present? ?
+        (condition &&= db_price.detail == detail) : condition
     }
 
     # These two steps (little extractors) could be quite confusing at first,
@@ -308,7 +314,6 @@ class DataDispatcher
         db_prices -= different_prices_matches
 
         different_prices_matches.each { increment_price_with_different_prices_and_missing_detail }
-        end
 
         db_prices.each do |db_price|
           increment_price_with_missing_detail_to_update
@@ -318,6 +323,28 @@ class DataDispatcher
         increment_price_with_missing_detail_not_found
         # fire_insertion_engine!(price)
       end
+    end
+
+    #Parsed prices with detail
+
+    prices_with_details.each do |price|
+      increment_total_with_detail
+
+      artist, type, label, detail, low, high, yearbegin, yearend = price.values
+
+      db_prices = Array(find_db_prices(artist, type, label))
+
+      # First move is to skip prices that are directly matched in our database.
+      # The whole process is slightly different then in case of missing details.
+      # Direct matching here is much more strict and iteration could be much
+      # more restrictive. If there is match, we can skip current loop evaluation
+      # and move to next price.
+
+      found = db_prices.find do |db_price|
+        direct_match.(db_price, low, high, yearbegin, yearend, detail)
+      end && increment_price_with_detail_and_same_attributes && next
+
+      increment_price_with_detail_not_found
     end
   end
 
