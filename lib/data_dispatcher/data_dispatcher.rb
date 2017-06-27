@@ -344,6 +344,19 @@ class DataDispatcher
         direct_match.(db_price, low, high, yearbegin, yearend, detail)
       end && increment_price_with_detail_and_same_attributes && next
 
+      # Details are essential attributes here. In most cases prices without
+      # directly matched detail will become the new one. Prices that directly
+      # match should be considered to update
+
+      db_price_with_detail = db_prices.find do |db_price|
+        db_price.detail && db_price.detail == detail
+      end
+
+      db_price_with_detail && begin
+        increment_price_with_detail_found
+        # fire_update_engine!(found, price)
+      end && next
+
       increment_price_with_detail_not_found
     end
   end
