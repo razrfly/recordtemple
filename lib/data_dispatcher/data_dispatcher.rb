@@ -280,7 +280,7 @@ class DataDispatcher
         )
     }
 
-    prices_without_detail.each do |price|
+    prices_without_detail.uniq.each do |price|
       increment_total_with_missing_detail
 
       artist, type, label, detail, low, high, yearbegin, yearend = price.values
@@ -318,7 +318,7 @@ class DataDispatcher
 
     #Parsed prices with detail
 
-    prices_with_details.each do |price|
+    prices_with_details.uniq.each do |price|
       increment_total_with_detail
 
       artist, type, label, detail, low, high, yearbegin, yearend = price.values
