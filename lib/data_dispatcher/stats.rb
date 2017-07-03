@@ -33,6 +33,7 @@ module Stats
   puts "Skipped - different years:     #{@@price_with_detail_and_different_years}"
   puts "To update:                     #{@@price_with_detail_to_update}"
   puts "Not found prices:              #{@@price_with_detail_not_found}"
+  puts "Total with detail:             #{@@total_with_detail}"
   puts "\n\n#{'*' * 40}\n\n"
   puts "Total parsed prices:           #{@@total_with_detail + @@total_with_missing_detail}"
   puts "\n\n"
