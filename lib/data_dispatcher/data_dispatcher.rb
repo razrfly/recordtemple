@@ -344,11 +344,17 @@ class DataDispatcher
       end
 
       db_price_with_detail && begin
-        increment_price_with_detail_found
-        # fire_update_engine!(found, price)
+        if different_years_match.(db_price_with_detail, yearbegin, yearend)
+          increment_price_with_detail_and_different_years
+          # fire_insertion_engine!(db_price_with_detail, price)
+        else
+          increment_price_with_detail_to_update
+          # fire_update_engine!(db_price_with_detail, price)
+        end
       end && next
 
       increment_price_with_detail_not_found
+      # fire_insertion_engine!(price)
     end
   end
 
