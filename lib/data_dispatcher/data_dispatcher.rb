@@ -270,16 +270,14 @@ class DataDispatcher
     # but they are really important to omit prices that should not be updated.
     # It is possible, that we have multiple prices with the same label, artist
     # and media type, but for example different years. There is no ability to
-    # distinct those prices only by basing only on 3 attributes
+    # distinct those prices only by basing on 3 attributes
 
     different_years_match = ->(db_price, yearbegin, yearend) {
       (db_price.yearbegin && db_price.yearend) &&
-        (db_price.yearbegin != yearbegin || db_price.yearend != yearend)
-    }
-
-    different_price_match = ->(db_price, low, high) {
-      (db_price.price_low && db_price.price_high) &&
-        (db_price.price_low != low || db_price.price_high != high)
+        (
+          (yearbegin && db_price.yearbegin != yearbegin) ||
+            (yearend && db_price.yearend != yearend)
+        )
     }
 
     prices_without_detail.each do |price|
