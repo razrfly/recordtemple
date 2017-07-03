@@ -358,6 +358,25 @@ class DataDispatcher
     end
   end
 
+  def fire_update_engine!(db_price, price)
+    raw_update_query = <<-SQL.strip
+      UPDATE prices SET
+        detail = ?, price_low = ?, price_high = ?, yearbegin = ?,
+        yearend = ?, footnote = ?, updated_at = ?
+      WHERE prices.id = ?
+    SQL
+
+    omitted_keys = [:cached_artist, :media_type, :cached_label]
+    price = price.transform_keys!(&:to_sym).except(*omitted_keys)
+
+    query = ActiveRecord::Base.send(
+      :sanitize_sql_array,
+      [raw_update_query, *price.values, Time.now, db_price.id]
+    )
+
+    ActiveRecord::Base.connection.execute(query)
+  end
+
   class << self
     def call
       SOURCE_FILES.each do |file_name|
