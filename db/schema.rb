@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608171624) do
+ActiveRecord::Schema.define(version: 20170703132513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,7 +146,7 @@ ActiveRecord::Schema.define(version: 20170608171624) do
     t.integer  "yearend"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "footnote"
+    t.text     "footnote"
     t.integer  "artist_id"
     t.integer  "label_id"
     t.integer  "record_format_id"
@@ -275,7 +275,7 @@ UNION
      JOIN records ON ((records.genre_id = genres.id)))
 UNION
  SELECT records.id AS searchable_id,
-    array_to_string(ARRAY[prices.detail, prices.footnote, (records.comment)::character varying], ' '::text) AS term,
+    array_to_string(ARRAY[prices.detail, (records.comment)::character varying], ' '::text) AS term,
     'Record'::text AS searchable_type
    FROM (records
      LEFT JOIN prices ON ((records.price_id = prices.id)))
