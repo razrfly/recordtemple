@@ -19,23 +19,37 @@ module Stats
   puts "Missing year begin:            #{missing_yearbegin[:parsed]}"
   puts "Missing year end:              #{missing_yearend[:parsed]}"
   puts "Missing footnote:              #{missing_footnote[:parsed]}"
+  puts "Total:                         #{@@total_with_detail + @@total_with_missing_detail}"
   puts "\n\n#{'*' * 40}\n\n"
   puts "\tParsed prices without detail\n"
-  puts "The same attributes:           #{@@price_with_same_attributes_and_missing_detail}"
-  puts "Different attributes:          #{@@price_with_different_attributes_and_missing_detail}"
+  puts "The same attributes:           #{@@price_with_missing_detail_and_same_attributes}"
+  puts "Skipped - different years:     #{@@price_with_missing_detail_and_different_years}"
+  puts "To update:                     #{@@price_with_missing_detail_to_update}"
   puts "Not found prices:              #{@@price_with_missing_detail_not_found}"
   puts "Total with missing detail:     #{@@total_with_missing_detail}"
+  puts "\n\n#{'*' * 40}\n\n"
+  puts "\tParsed prices with detail\n"
+  puts "The same attributes:           #{@@price_with_detail_and_same_attributes}"
+  puts "Skipped - different years:     #{@@price_with_detail_and_different_years}"
+  puts "To update:                     #{@@price_with_detail_to_update}"
+  puts "Not found prices:              #{@@price_with_detail_not_found}"
+  puts "\n\n#{'*' * 40}\n\n"
   puts "Total parsed prices:           #{@@total_with_detail + @@total_with_missing_detail}"
   puts "\n\n"
  end
 
  def initialize_counters
   @@total_with_missing_detail ||= 0
-  @@price_with_same_attributes_and_missing_detail ||= 0
-  @@price_with_different_attributes_and_missing_detail ||= 0
+  @@price_with_missing_detail_and_same_attributes ||= 0
+  @@price_with_missing_detail_and_different_years ||= 0
+  @@price_with_missing_detail_to_update ||= 0
   @@price_with_missing_detail_not_found ||= 0
 
   @@total_with_detail ||= 0
+  @@price_with_detail_and_same_attributes ||= 0
+  @@price_with_detail_and_different_years ||= 0
+  @@price_with_detail_to_update ||= 0
+  @@price_with_detail_not_found ||= 0
 
   @@original_prices ||= {
     'cached_label' => Price.where(cached_label: [nil, '']).count,
@@ -49,23 +63,51 @@ module Stats
   }
  end
 
+# Counters for prices without detail
+
 def increment_total_with_missing_detail
   @@total_with_missing_detail += 1
 end
 
-def increment_price_with_same_attributes_and_missing_detail
-  @@price_with_same_attributes_and_missing_detail += 1
+def increment_price_with_missing_detail_and_same_attributes
+  @@price_with_missing_detail_and_same_attributes += 1
 end
 
-def increment_price_with_different_attributes_and_missing_detail
-  @@price_with_different_attributes_and_missing_detail += 1
+def increment_price_with_missing_detail_and_different_years
+  @@price_with_missing_detail_and_different_years += 1
+end
+
+def increment_price_with_missing_detail_to_update
+  @@price_with_missing_detail_to_update += 1
 end
 
 def increment_price_with_missing_detail_not_found
   @@price_with_missing_detail_not_found += 1
 end
 
- def method_missing(name, *args)
+# Counters for prices with detail
+
+def increment_total_with_detail
+  @@total_with_detail += 1
+end
+
+def increment_price_with_detail_and_same_attributes
+  @@price_with_detail_and_same_attributes += 1
+end
+
+def increment_price_with_detail_and_different_years
+  @@price_with_detail_and_different_years += 1
+end
+
+def increment_price_with_detail_to_update
+  @@price_with_detail_to_update += 1
+end
+
+def increment_price_with_detail_not_found
+  @@price_with_detail_not_found += 1
+end
+
+def method_missing(name, *args)
   super unless name =~ /^missing_(.*)$/
 
   original_prices = @@original_prices.send(:[], $1)
