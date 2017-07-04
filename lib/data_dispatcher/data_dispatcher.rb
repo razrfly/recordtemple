@@ -2,20 +2,18 @@ class DataDispatcher
   include Utils
   include Stats
 
-  SOURCE_FILES = %w(a-d.html e-k.html l-q.html r-z.html)
+  SOURCE_FILES = %w(a-d.html e-k.html)
   SOURCE_CONFIG = {
     'a-d.html' => {
-      allowed_paragraphs: %w(p2 p3 p4),
+      allowed_paragraphs: %w(p2 p3 p4 p12),
       artist_paragraph: 'p2',
-      record_format_paragraph: 'p3'
+      record_format_paragraphs: %w(p3 p12)
     },
     'e-k.html' => {
       allowed_paragraphs: %w(p3 p5 p6),
       artist_paragraph: 'p3',
       record_format_paragraph: 'p5'
-    },
-    'l-q.html' => {},
-    'r-z.html' => {}
+    }
   }
 
   def initialize(file_name)
@@ -110,8 +108,9 @@ class DataDispatcher
 
     # Artist paragraphs structure forces to create namespaces for each
     # record format.
+    record_format_paragraphs = SOURCE_CONFIG[file_name][:record_format_paragraphs]
     record_formats = data.slice_before do |paragraph|
-      paragraph.attr('class') == SOURCE_CONFIG[file_name][:record_format_paragraph]
+      record_format_paragraphs.include? paragraph.attr('class')
     end
 
     # Prices will be determined from investigating each record format namespace.
@@ -243,7 +242,7 @@ class DataDispatcher
     SQL
 
     detail && @raw_price_query << <<-SQL.strip
-      \s AND prices.detail = ?
+      \n AND prices.detail = ?
     SQL
 
     query_args = [@raw_price_query, artist, type, label, detail].compact
