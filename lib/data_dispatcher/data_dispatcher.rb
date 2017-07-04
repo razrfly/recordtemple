@@ -95,10 +95,18 @@ class DataDispatcher
   def prepare_prices_data(artist_paragraphs)
     data = artist_paragraphs
 
+    # I need to create global extractors for non-brekable spaces replacements.
+    # These spaces are real plagues.
+    nbsp_replacement = ->(text) { text.to_s.gsub(/[[:space:]]{2,}/, ' ').strip }
+    preceded_nbsp_replacement = ->(text) { text.to_s.gsub(/^[[:space:]]+/, '') }
+
     # First paragraph is always obligated to be an artist paragraph.
     # Artist name could be extracted easily. Paragraph will be skipped
-    # in other child nodes.
-    artist_name = data.shift.text.to_s
+    # in other child nodes. Little coercion need to be involved.
+    # To provide correctly searching through existing prices &:nbsp
+    # encoded by nokogirii, needs to be replaced by '' (empty string)
+    # as it is currenty in persisted prices in database.
+    artist_name = nbsp_replacement.(data.shift.text)
 
     # Artist paragraphs structure forces to create namespaces for each
     # record format.
@@ -111,13 +119,14 @@ class DataDispatcher
       paragraphs = record_format_paragraphs
 
       # First paragraph is always obliged to be an 'record-format' paragraph.
-      # Record format name will extracted easily then. Paragraph will be skipped
-      # in other child nodes. Little hack need to be involved. To provide
-      # correctly searching through existing prices encoded by nokogirii &:mdash
-      # needs to be replaced by '-' (minus) character as it was in previous
-      # parsing.
+      # Record format name could be extracted easily then. Paragraph will be
+      # skipped in other child nodes. Little hack need to be involved.
+      # To provide correctly searching through existing prices &:mdash encoded
+      # by nokogirii needs to be replaced by '-' (minus) character as
+      # it is currently in persisted prices in database.
 
       rf_name_replacement = ->(text) {
+        text = preceded_nbsp_replacement.(text)
         text.chars.inject("") { |r, chr| r << (chr.ord == 8211 ? "-" : chr); r }
       }
       record_format_name = rf_name_replacement.(paragraphs.shift.text)
@@ -141,8 +150,11 @@ class DataDispatcher
         # Label and details extraction
         label_and_detail_extractor = ->(text) {
           detail = $2 if text =~ /(\()(.*)(\))/
-          label = detail.present? ? text.gsub($1<<detail<<$3, '').strip : text.strip
-          detail = detail.gsub(/[[:space:]]{2,}/, ' ').strip if detail.present?
+          label = detail.present? ? text.gsub($1<<detail<<$3, '') : text
+
+          label &&= nbsp_replacement.(label)
+          detail &&= nbsp_replacement.(detail)
+
           return [label, detail]
         }
 
