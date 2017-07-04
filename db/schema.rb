@@ -275,7 +275,7 @@ UNION
      JOIN records ON ((records.genre_id = genres.id)))
 UNION
  SELECT records.id AS searchable_id,
-    array_to_string(ARRAY[prices.detail, (records.comment)::character varying], ' '::text) AS term,
+    array_to_string(ARRAY[prices.detail, (prices.footnote)::character varying, (records.comment)::character varying], ' '::text) AS term,
     'Record'::text AS searchable_type
    FROM (records
      LEFT JOIN prices ON ((records.price_id = prices.id)))
