@@ -436,6 +436,30 @@ class DataDispatcher
 
     label = inserter.(price['cached_label'], Label)
     label_id = attribute_fetcher.('id', label)
+
+    raw_price = price.merge!({
+      artist_id: artist_id,
+      label_id: label_id,
+      record_format_id: record_format_id,
+      created_at: Time.now,
+      updated_at: Time.now
+    })
+
+    raw_insert_query = <<-SQL.strip
+      INSERT INTO prices (
+        #{raw_price.keys.join(',')}
+      ) VALUES (
+        #{raw_price.count.times.collect {'?'}.join(',')}
+      )
+    SQL
+
+    arguments = raw_price.values
+
+    insertion = ActiveRecord::Base.send(
+      :sanitize_sql_array, [raw_insert_query, *arguments]
+    )
+
+    ActiveRecord::Base.connection.execute(insertion)
   end
 
   class << self
