@@ -52,6 +52,13 @@ module Stats
   @@price_with_detail_to_update ||= 0
   @@price_with_detail_not_found ||= 0
 
+  @@artist_not_found ||= 0
+  @@label_not_found ||= 0
+  @@record_format_not_found ||= 0
+
+  @@updated_prices ||= 0
+  @@created_prices ||= 0
+
   @@original_prices ||= {
     'cached_label' => Price.where(cached_label: [nil, '']).count,
     'detail' => Price.where(detail: [nil, '']).count,
@@ -106,6 +113,27 @@ end
 
 def increment_price_with_detail_not_found
   @@price_with_detail_not_found += 1
+end
+
+# Insertion counters
+def increment_artist_not_found
+  @@artist_not_found += 1
+end
+
+def increment_label_not_found
+  @@label_not_found += 1
+end
+
+def increment_record_format_not_found
+  @@record_format_not_found += 1
+end
+
+def increment_updated_prices
+  @@updated_prices += 1
+end
+
+def increment_created_prices
+  @@created_prices += 1
 end
 
 def method_missing(name, *args)

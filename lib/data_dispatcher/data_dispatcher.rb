@@ -397,6 +397,8 @@ class DataDispatcher
     )
 
     ActiveRecord::Base.connection.execute(query)
+
+    increment_updated_prices
   end
 
   def fire_insertion_engine!(price)
@@ -460,6 +462,8 @@ class DataDispatcher
     )
 
     ActiveRecord::Base.connection.execute(insertion)
+
+    increment_created_prices
   end
 
   class << self
