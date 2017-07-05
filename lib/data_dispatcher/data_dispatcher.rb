@@ -422,11 +422,20 @@ class DataDispatcher
       end
     }
 
+    attribute_fetcher = ->(attribute, object) {
+      attribute &&= attribute.to_s
+      object = PG::Result === object ? object.first : object
+      object.send(:[], attribute)
+    }
+
     artist = inserter.(price['cached_artist'], Artist)
+    artist_id = attribute_fetcher.('id', artist)
 
     record_format = inserter.(price['media_type'], RecordFormat)
+    record_format_id = attribute_fetcher.('id', record_format)
 
     label = inserter.(price['cached_label'], Label)
+    label_id = attribute_fetcher.('id', label)
   end
 
   class << self
