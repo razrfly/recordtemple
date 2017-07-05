@@ -399,6 +399,36 @@ class DataDispatcher
     ActiveRecord::Base.connection.execute(query)
   end
 
+  def fire_insertion_engine!(price)
+    inserter = ->(entity_name, klass) {
+      object = klass.find_by(name: entity_name)
+      object || self.send("increment_#{klass.table_name.singularize}_not_found")
+
+      return if RecordFormat === klass
+
+      object ||= begin
+        raw_insert_query = <<-SQL.strip
+          INSERT INTO #{klass.table_name} (created_at, name, updated_at)
+          VALUES (?, ?, ?) returning id
+        SQL
+
+        arguments = [Time.now, entity_name, Time.now]
+
+        insertion = ActiveRecord::Base.send(
+          :sanitize_sql_array, [raw_insert_query, *arguments]
+        )
+
+        ActiveRecord::Base.connection.execute(insertion)
+      end
+    }
+
+    artist = inserter.(price['cached_artist'], Artist)
+
+    record_format = inserter.(price['media_type'], RecordFormat)
+
+    label = inserter.(price['cached_label'], Label)
+  end
+
   class << self
     def call
       SOURCE_FILES.each do |file_name|
