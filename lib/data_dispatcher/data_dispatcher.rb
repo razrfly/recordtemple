@@ -93,10 +93,21 @@ class DataDispatcher
   def prepare_prices_data(artist_paragraphs)
     data = artist_paragraphs
 
-    # I need to create global extractors for non-brekable spaces replacements.
+    # I need to create global extractors for non-brekable spaces replacement.
     # These spaces are real plagues.
-    nbsp_replacement = ->(text) { text.to_s.gsub(/[[:space:]]{2,}/, ' ').strip }
-    preceded_nbsp_replacement = ->(text) { text.to_s.gsub(/^[[:space:]]+/, '') }
+    nbsp_replacement = ->(text) {
+      replacements = {
+        %r([[:space:]]{2,}) => ' ',
+        %r(^[[:space:]]+) => '',
+        %r([[:space:]]+$) => ''
+      }
+
+      result = replacements.inject(text) do |text, (rule, value)|
+        text = text.to_s.gsub(rule, value); text
+      end
+
+      result
+    }
 
     # First paragraph is always obligated to be an artist paragraph.
     # Artist name could be extracted easily. Paragraph will be skipped
@@ -125,7 +136,7 @@ class DataDispatcher
       # it is currently in persisted prices in database.
 
       rf_name_replacement = ->(text) {
-        text = preceded_nbsp_replacement.(text)
+        text = nbsp_replacement.(text)
         text.chars.inject("") { |r, chr| r << (chr.ord == 8211 ? "-" : chr); r }
       }
       record_format_name = rf_name_replacement.(paragraphs.shift.text)
