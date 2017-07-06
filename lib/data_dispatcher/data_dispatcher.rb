@@ -300,7 +300,7 @@ class DataDispatcher
     # There are a lot of parsed prices with missing detail attribute. We
     # need to make distinction between those two groups.
 
-    prices_with_details, prices_without_detail = prices.partition do |price|
+    prices_with_details, prices_without_detail = prices.uniq.partition do |price|
       price['detail'].present?
     end
 
@@ -333,7 +333,7 @@ class DataDispatcher
         )
     }
 
-    prices_without_detail.uniq.each do |price|
+    prices_without_detail.each do |price|
       increment_total_with_missing_detail
 
       artist, type, label, detail, low, high, yearbegin, yearend = price.values
@@ -371,7 +371,7 @@ class DataDispatcher
 
     #Parsed prices with detail
 
-    prices_with_details.uniq.each do |price|
+    prices_with_details.each do |price|
       increment_total_with_detail
 
       artist, type, label, detail, low, high, yearbegin, yearend = price.values

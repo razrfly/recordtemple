@@ -96,7 +96,10 @@ def method_missing(name, *args)
     parsed_prices =
       DataDispatcher::SOURCE_FILES.inject(0) do |result, file_name|
         sub_prices = current_class.class_variable_get(:@@prices)[file_name]
-        result + sub_prices.try(:count) { |x| x.send(:[], _match).nil? }.to_i
+        result + begin
+          sub_prices = sub_prices.present? ? sub_prices.uniq : []
+          sub_prices.count { |x| x.send(:[], _match).nil? }.to_i
+        end
       end
 
     { original: original_prices, parsed: parsed_prices }
