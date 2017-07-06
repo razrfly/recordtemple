@@ -78,83 +78,36 @@ def initialize_counters!
     'footnote' => Price.where(footnote: [nil, '']).count,
     'total' => Price.count
   }
- end
-
-# Counters for prices without detail
-
-def increment_total_with_missing_detail
-  @@total_with_missing_detail += 1
-end
-
-def increment_price_with_missing_detail_and_same_attributes
-  @@price_with_missing_detail_and_same_attributes += 1
-end
-
-def increment_price_with_missing_detail_and_different_years
-  @@price_with_missing_detail_and_different_years += 1
-end
-
-def increment_price_with_missing_detail_to_update
-  @@price_with_missing_detail_to_update += 1
-end
-
-def increment_price_with_missing_detail_not_found
-  @@price_with_missing_detail_not_found += 1
-end
-
-# Counters for prices with detail
-
-def increment_total_with_detail
-  @@total_with_detail += 1
-end
-
-def increment_price_with_detail_and_same_attributes
-  @@price_with_detail_and_same_attributes += 1
-end
-
-def increment_price_with_detail_and_different_years
-  @@price_with_detail_and_different_years += 1
-end
-
-def increment_price_with_detail_to_update
-  @@price_with_detail_to_update += 1
-end
-
-def increment_price_with_detail_not_found
-  @@price_with_detail_not_found += 1
-end
-
-# Insertion counters
-def increment_artist_not_found
-  @@artist_not_found += 1
-end
-
-def increment_label_not_found
-  @@label_not_found += 1
-end
-
-def increment_record_format_not_found
-  @@record_format_not_found += 1
-end
-
-def increment_updated_prices
-  @@updated_prices += 1
-end
-
-def increment_created_prices
-  @@created_prices += 1
 end
 
 def method_missing(name, *args)
-  super unless name =~ /^missing_(.*)$/
 
-  original_prices = @@original_prices.send(:[], $1)
-  parsed_prices = DataDispatcher::SOURCE_FILES.inject(0) do |result, file_name|
-    sub_prices = self.class.class_variable_get(:@@prices)[file_name]
-    result + sub_prices.try(:count) { |x| x.send(:[], $1).nil? }.to_i
+  current_class = self.class
+
+  increment_counter = ->(_match) {
+    class_variable_name = "@@#{_match}".to_sym
+    counter = current_class.class_variable_get(class_variable_name)
+    current_class.class_variable_set(class_variable_name, counter + 1)
+  }
+
+  count_attribute = ->(_match) {
+    original_prices = @@original_prices.send(:[], _match)
+
+    parsed_prices =
+      DataDispatcher::SOURCE_FILES.inject(0) do |result, file_name|
+        sub_prices = current_class.class_variable_get(:@@prices)[file_name]
+        result + sub_prices.try(:count) { |x| x.send(:[], _match).nil? }.to_i
+      end
+
+    { original: original_prices, parsed: parsed_prices }
+  }
+
+  case name
+  when /^increment_(.*)$/ then increment_counter.($1)
+  when /^missing_(.*)$/ then count_attribute.($1)
+  else
+    super
   end
-
-  { original: original_prices, parsed: parsed_prices }
  end
 
  def respond_to_missing?(name, include_private = false)
