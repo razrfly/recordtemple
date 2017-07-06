@@ -34,6 +34,8 @@ class DataDispatcher
       end
     end
 
+    initialize_counters!
+
     fire_price_judgement!
 
     fire_stats!
@@ -294,7 +296,6 @@ class DataDispatcher
   end
 
   def fire_price_judgement!
-    initialize_counters
 
     # There are a lot of parsed prices with missing detail attribute. We
     # need to make distinction between those two groups.

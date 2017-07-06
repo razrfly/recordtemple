@@ -45,9 +45,10 @@ module Stats
   puts "Created prices:                #{@@created_prices}"
   puts "\n\n#{'*' * 40}\n\n"
   puts "Total parsed prices:           #{@@total_with_detail + @@total_with_missing_detail}"
+  puts "\n\n#{'*' * 40}\n\n"
  end
 
- def initialize_counters
+def initialize_counters!
   @@total_with_missing_detail ||= 0
   @@price_with_missing_detail_and_same_attributes ||= 0
   @@price_with_missing_detail_and_different_years ||= 0
