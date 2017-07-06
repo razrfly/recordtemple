@@ -120,6 +120,36 @@ class DataDispatcher
     # Artist paragraphs structure forces to create namespaces for each
     # record format.
     record_format_paragraphs = SOURCE_CONFIG[file_name][:record_format_paragraphs]
+
+    # Essential bug was found during developing process. Provided data pattern
+    # in some occasionally cases could be invalid. In most cases after artist
+    # paragraph there are related paragraphs with record-formats, but in
+    # some - they are missing. I think the only way to resolve this issue was
+    # to create external iterator which skip all paragraphs, until record format
+    # paragraph has been found.
+
+    broken_pattern_resolver = ->(data) {
+      iterator = Enumerator.new do |yielder|
+        found = false
+        rfps = record_format_paragraphs
+
+        until data.empty?
+          candidate = data.shift
+
+          found ? yielder << candidate : begin
+            if rfps.include?(candidate.attr('class'))
+              found = true and yielder << candidate
+            end
+          end
+        end
+      end
+
+      fixed_data = [] and loop { fixed_data << iterator.next }
+      fixed_data
+    }
+
+    data = broken_pattern_resolver.(data)
+
     record_formats = data.slice_before do |paragraph|
       record_format_paragraphs.include? paragraph.attr('class')
     end
