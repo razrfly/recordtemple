@@ -433,11 +433,16 @@ class DataDispatcher
   end
 
   def fire_insertion_engine!(price)
+
+    # To insert new price first move is to find or initialize related
+    # artist/label/record_format. As we need to keep our code relatively
+    # fast, executing raw sql will be much more faster than using ActiveRecord
+    # finders. Clousure to the rescue when we talk about avoiding repeatable
+    # code.
+
     inserter = ->(entity_name, klass) {
       object = klass.find_by(name: entity_name)
       object || self.send("increment_#{klass.table_name.singularize}_not_found")
-
-      return if RecordFormat === klass
 
       object ||= begin
         raw_insert_query = <<-SQL.strip
