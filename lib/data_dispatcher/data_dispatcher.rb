@@ -2,7 +2,7 @@ class DataDispatcher
   include Utils
   include Stats
 
-  SOURCE_FILES = %w(a-d.html e-k.html)
+  SOURCE_FILES = %w(a-d.html e-k.html l-q.html r-z.html)
   SOURCE_CONFIG = {
     'a-d.html' => {
       allowed_paragraphs: %w(p2 p3 p4 p12),
@@ -12,7 +12,17 @@ class DataDispatcher
     'e-k.html' => {
       allowed_paragraphs: %w(p3 p5 p6),
       artist_paragraph: 'p3',
-      record_format_paragraph: 'p5'
+      record_format_paragraphs: %w(p5)
+    },
+    'l-q.html' => {
+      allowed_paragraphs: %w(p3 p4 p5),
+      artist_paragraph: 'p3',
+      record_format_paragraphs: %w(p4 p14)
+    },
+    'r-z.html' => {
+      allowed_paragraphs: %w(p2 p3 p4),
+      artist_paragraph: 'p2',
+      record_format_paragraphs: %w(p3)
     }
   }
 
