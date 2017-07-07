@@ -371,11 +371,11 @@ class DataDispatcher
 
         db_prices.each do |db_price|
           increment_price_with_missing_detail_to_update
-          # fire_update_engine!(found, price)
+          fire_update_engine!(db_price, price)
         end
       else
         increment_price_with_missing_detail_not_found
-        # fire_insertion_engine!(price)
+        fire_insertion_engine!(price)
       end
     end
 
@@ -409,15 +409,15 @@ class DataDispatcher
       db_price_with_detail && begin
         if different_years_match.(db_price_with_detail, yearbegin, yearend)
           increment_price_with_detail_and_different_years
-          # fire_insertion_engine!(db_price_with_detail, price)
+          fire_insertion_engine!(price)
         else
           increment_price_with_detail_to_update
-          # fire_update_engine!(db_price_with_detail, price)
+          fire_update_engine!(db_price_with_detail, price)
         end
       end && next
 
       increment_price_with_detail_not_found
-      # fire_insertion_engine!(price)
+      fire_insertion_engine!(price)
     end
   end
 
