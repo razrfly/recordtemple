@@ -84,30 +84,38 @@ def method_missing(name, *args)
 
   current_class = self.class
 
-  increment_counter = ->(_match) {
-    class_variable_name = "@@#{_match}".to_sym
+  case name
+  when /^increment_(.*)$/
+    class_variable_name = "@@#{$1}".to_sym
     counter = current_class.class_variable_get(class_variable_name)
     current_class.class_variable_set(class_variable_name, counter + 1)
-  }
-
-  count_attribute = ->(_match) {
-    original_prices = @@original_prices.send(:[], _match)
+  when /^missing_(.*)$/
+    original_prices = @@original_prices.send(:[], $1)
 
     parsed_prices =
-      DataDispatcher::SOURCE_FILES.inject(0) do |result, file_name|
+      DataDispatcher::SOURCE_FILES.inject(0) do |result, (file_name, source)|
         sub_prices = current_class.class_variable_get(:@@prices)[file_name]
+
+        # There is some weird bug in script code which I cannot localize.
+        # To protect stats I decide to rewrite and coerce all prices keys
+        # to symbols.
+
+        sub_prices &&= sub_prices.inject([]) do |array, price|
+          price = price.keys.inject({}) do |result, key|
+            result[key.to_sym] = price[key]
+            result
+          end
+
+          array << price
+        end
+
         result + begin
           sub_prices = sub_prices.present? ? sub_prices.uniq : []
-          sub_prices.count { |x| x.send(:[], _match).nil? }.to_i
+          sub_prices.count { |x| x.send(:[], $1.to_sym).nil? }.to_i
         end
       end
 
     { original: original_prices, parsed: parsed_prices }
-  }
-
-  case name
-  when /^increment_(.*)$/ then increment_counter.($1)
-  when /^missing_(.*)$/ then count_attribute.($1)
   else
     super
   end
