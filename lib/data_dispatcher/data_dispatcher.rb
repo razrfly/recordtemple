@@ -2,7 +2,13 @@ class DataDispatcher
   include Utils
   include Stats
 
-  SOURCE_FILES = %w(a-d.html e-k.html l-q.html r-z.html)
+  SOURCE_FILES = {
+    "a-d.html" => 'http://razrfly-client.s3.amazonaws.com/recordtemple/a-d.html',
+    "e-k.html" => 'http://razrfly-client.s3.amazonaws.com/recordtemple/e-k.html',
+    "l-q.html" => 'http://razrfly-client.s3.amazonaws.com/recordtemple/l-q.html',
+    "r-z.html" => 'http://razrfly-client.s3.amazonaws.com/recordtemple/r-z.html'
+  }
+
   SOURCE_CONFIG = {
     'a-d.html' => {
       allowed_paragraphs: %w(p2 p3 p4 p12),
