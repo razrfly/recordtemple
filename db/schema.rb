@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160928075837) do
+ActiveRecord::Schema.define(version: 20170703132513) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -146,13 +146,18 @@ ActiveRecord::Schema.define(version: 20160928075837) do
     t.integer  "yearend"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "footnote"
+    t.text     "footnote"
     t.integer  "artist_id"
     t.integer  "label_id"
     t.integer  "record_format_id"
     t.string   "freebase_id"
     t.integer  "user_id"
   end
+
+  add_index "prices", ["cached_artist"], name: "index_prices_on_cached_artist_trigram", using: :gin
+  add_index "prices", ["cached_label"], name: "index_prices_on_cached_label_trigram", using: :gin
+  add_index "prices", ["detail"], name: "index_prices_on_detail_trigram", using: :gin
+  add_index "prices", ["media_type"], name: "index_prices_on_media_type_trigram", using: :gin
 
   create_table "record_formats", force: true do |t|
     t.string   "name"
@@ -270,7 +275,7 @@ UNION
      JOIN records ON ((records.genre_id = genres.id)))
 UNION
  SELECT records.id AS searchable_id,
-    array_to_string(ARRAY[prices.detail, prices.footnote, (records.comment)::character varying], ' '::text) AS term,
+    array_to_string(ARRAY[prices.detail, (prices.footnote)::character varying, (records.comment)::character varying], ' '::text) AS term,
     'Record'::text AS searchable_type
    FROM (records
      LEFT JOIN prices ON ((records.price_id = prices.id)))
