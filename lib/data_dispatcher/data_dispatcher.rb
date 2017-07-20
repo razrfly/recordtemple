@@ -32,13 +32,13 @@ class DataDispatcher
     }
   }
 
-  def initialize(file_name)
+  def initialize(file_name, source)
     @file_name = file_name
+    @source = source
   end
 
   def execute!
     set_start_time
-    create_file_path
     load_file
     parse_file_with_nokogiri
     fetch_allowed_paragraphs
@@ -60,17 +60,13 @@ class DataDispatcher
   end
 
   private
-  attr_reader :file_name, :file_path, :original_file, :parsed_file, :paragraphs,
+  attr_reader :file_name, :source, :original_file, :parsed_file, :paragraphs,
     :artists, :prices
-
-  def create_file_path
-    @file_path = Rails.root.join('lib', 'data_dispatcher', file_name)
-  end
 
   def load_file
     execute_message(__callee__)
 
-    File.exist?(file_path) && @original_file = open(file_path)
+    @original_file = open(source)
     execute_time
   end
 
@@ -520,8 +516,8 @@ class DataDispatcher
 
   class << self
     def call
-      SOURCE_FILES.each do |file_name|
-        new(file_name).execute!
+      SOURCE_FILES.each do |file_name, source|
+        new(file_name, source).execute!
       end
     end
   end
