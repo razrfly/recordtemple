@@ -35,11 +35,9 @@
         <dl>
           <dt>Detail</dt>
           <dd>
-            <% if price.detail.present? %>
-              <%= price.detail %>
-            <% else %>
-              <em>No details.</em>
-            <% end %>
+            <%= presence_or price.detail, 'No details' do
+              price.detail
+            end %>
           </dd>
         </dl>
       </div>
@@ -48,11 +46,9 @@
         <dl>
           <dt>Footnote</dt>
           <dd>
-            <% if price.footnote.present? %>
-              <%= price.footnote %>
-            <% else %>
-              <em>No footnote.</em>
-            <% end %>
+            <%= presence_or price.footnote, 'No footnote' do
+              price.footnote
+            end %>
           </dd>
         </dl>
       </div>

@@ -23,11 +23,9 @@
         <dl>
           <dt>Detail</dt>
           <dd>
-            <% if record.price_detail.present? %>
-              <%= record.price_detail %>
-            <% else %>
-              <em>No details.</em>
-            <% end %>
+            <%= presence_or record.price_detail, 'No details' do
+              record.price_detail
+            end %>
           </dd>
         </dl>
       </div>
