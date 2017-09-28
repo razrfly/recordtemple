@@ -7,6 +7,7 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   belongs_to :label
   belongs_to :record_format
+  has_one :record_type, through: :record_format
   belongs_to :artist
 
   attr_accessor :freebase_id
@@ -25,6 +26,7 @@ class Record < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
+  delegate :name, to: :record_type, prefix: true, allow_nil: true
   delegate :detail, to: :price, prefix: true, allow_nil: true
 
   def self.condition_collection
