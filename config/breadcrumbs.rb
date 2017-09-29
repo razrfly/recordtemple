@@ -25,7 +25,7 @@ slug_composer = ->(entity, *methods){
   end
 
   crumb :record do |record|
-    slug = slug_helper.(record.artist_name, record.label_name)
+    slug = slug_composer.(record, 'artist_name', 'label_name')
 
     link slug, record_path(record)
     parent :records
@@ -67,7 +67,7 @@ slug_composer = ->(entity, *methods){
   end
 
   crumb :price do |price|
-    slug = slug_helper.(price.cached_artist, price.cached_label)
+    slug = slug_composer.(price, 'cached_artist', 'cached_label')
 
     link slug, price_path(price)
     parent :prices
@@ -78,5 +78,3 @@ slug_composer = ->(entity, *methods){
     link "Settings", settings_path
     parent :root
   end
-
-
