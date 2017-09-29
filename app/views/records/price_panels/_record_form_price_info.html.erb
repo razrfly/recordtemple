@@ -35,9 +35,7 @@
         <dl>
           <dt>Detail</dt>
           <dd>
-            <%= presence_or price.detail, 'No details' do
-              price.detail
-            end %>
+            <%= presence_or price.detail, 'No detail' %>
           </dd>
         </dl>
       </div>
@@ -46,9 +44,7 @@
         <dl>
           <dt>Footnote</dt>
           <dd>
-            <%= presence_or price.footnote, 'No footnote' do
-              price.footnote
-            end %>
+            <%= presence_or price.footnote, 'No footnote' %>
           </dd>
         </dl>
       </div>
@@ -56,7 +52,7 @@
       <div class="col-xs-6">
         <dl>
           <dt>Record type</dt>
-          <dd><%= price.record_type_name %></dd>
+          <dd><%= presence_or price.record_type_name, 'No record type' %></dd>
         </dl>
       </div>
 
