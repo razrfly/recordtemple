@@ -6,8 +6,12 @@ end
 # any provided attributes like for ex.:
 # /:artist-name-:label_name
 
-slug_helper = ->(*args){
-    args.reject(&:blank?).join('-').parameterize
+slug_composer = ->(entity, *methods){
+    slug = methods.inject([]) do |result, method|
+      result << entity.send(method).presence
+    end.join('-').parameterize
+
+    slug.presence || entity.id
   }
 
 #Records crumbs
