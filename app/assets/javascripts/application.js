@@ -26,3 +26,5 @@
 
 //= require magnific-popup
 //= require ./magnific
+
+//= require ./update_modal
