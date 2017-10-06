@@ -154,3 +154,11 @@
     </div>
   </div>
 </div>
+
+<% if @record.artist.blank? %>
+  <%= render 'shared/update_artist_modal', record: @record %>
+<% end %>
+
+<% if @record.label.blank? %>
+  <%= render 'shared/update_label_modal', record: @record %>
+<% end %>
