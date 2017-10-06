@@ -65,10 +65,32 @@ class RecordsController < ApplicationController
 
   def update
     if @record.update_attributes(record_params)
-      redirect_to edit_record_path(@record),
-        notice: "Record was updated successfully."
+      respond_to do |f|
+        f.html do
+          redirect_to(
+            edit_record_path(@record),
+            notice: "Record was updated successfully."
+          )
+        end
+
+        f.json do
+          render(
+            json: @record.as_json
+              .merge!(
+                {
+                  artist_name: @record.artist_name,
+                  label_name: @record.label_name
+                }
+              ).to_json,
+            status: :ok
+          )
+        end
+      end
     else
-      render :edit
+      respond_to do |f|
+        f.html { render :edit }
+        f.json { head :no_content }
+      end
     end
   end
 
