@@ -34,14 +34,26 @@
             <div class="col-xs-6">
               <dl>
                 <dt>Artist</dt>
-                <dd><%= presence_or(@record.artist_name, 'No artist') %></dd>
+                <dd>
+                  <%= presence_or(@record.artist_name, 'No artist') %>
+                  <%= icon(
+                        'plus-circle',
+                        id: 'artist'
+                      ) unless @record.artist %>
+                </dd>
               </dl>
             </div>
 
             <div class="col-xs-6">
               <dl>
                 <dt>Label</dt>
-                <dd><%= presence_or(@record.label_name, 'No label') %></dd>
+                <dd>
+                  <%= presence_or(@record.label_name, 'No label') %>
+                  <%= icon(
+                        'plus-circle',
+                        id: 'label'
+                      ) unless @record.label %>
+                </dd>
               </dl>
             </div>
 
