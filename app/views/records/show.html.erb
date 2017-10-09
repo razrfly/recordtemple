@@ -118,7 +118,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <h5 class="m-t-0">Photos</h5>
-              <%= presence_or @record.photos, 'No photos available' do %>
+              <% presence_or @record.photos, 'No photos available' do %>
                 <div class="row">
                   <div class="slideshow-image">
                     <% @record.photos.each do |photo| %>
@@ -144,7 +144,7 @@
                 <% end %>
               </h5>
 
-              <%= presence_or @record.songs, 'No song clips available' do %>
+              <% presence_or @record.songs, 'No song clips available' do %>
                 <%= render 'player', songs: @record.songs %>
               <% end  %>
             </div>
