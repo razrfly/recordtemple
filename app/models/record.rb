@@ -9,6 +9,7 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   belongs_to :label
   belongs_to :record_format
+  has_one :record_type, through: :record_format
   belongs_to :artist
 
   has_many :photos, -> { order(:position)}, :dependent => :destroy
@@ -55,10 +56,10 @@ class Record < ActiveRecord::Base
   end
 
   def to_param
-    [
-      id,
-      artist_name.parameterize,
-      label_name.parameterize,
-    ].reject(&:blank?).join("-")
+    elements = ['artist', 'label'].each_with_object([]) do |element, result|
+      self.send(element) && (result << self.send("#{element}_name").parameterize)
+    end
+
+    elements.prepend(id).join('-')
   end
 end

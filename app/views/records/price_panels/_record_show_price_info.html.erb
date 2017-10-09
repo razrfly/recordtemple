@@ -3,12 +3,14 @@
     <h5 class="m-t-0">Price Guide</h5>
 
     <div class="row">
-      <div class="col-xs-6">
-        <dl>
-          <dt>Price</dt>
-          <dd><%= price_price_range record.price %></dd>
-        </dl>
-      </div>
+      <% if user_signed_in? %>
+        <div class="col-xs-6">
+          <dl>
+            <dt>Price</dt>
+            <dd><%= price_price_range record.price %></dd>
+          </dl>
+        </div>
+      <% end %>
 
       <div class="col-xs-6">
         <dl>
@@ -21,11 +23,7 @@
         <dl>
           <dt>Detail</dt>
           <dd>
-            <% if record.price_detail.present? %>
-              <%= record.price_detail %>
-            <% else %>
-              <em>No details.</em>
-            <% end %>
+            <%= presence_or record.price_detail, 'No details' %>
           </dd>
         </dl>
       </div>

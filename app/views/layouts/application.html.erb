@@ -17,7 +17,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body class="with-top-navbar">
+  <body class="with-top-navbar" data-user="<%= user_signed_in? %>">
     <%= render 'layouts/navbar' %>
     <%= render 'layouts/message' %>
 

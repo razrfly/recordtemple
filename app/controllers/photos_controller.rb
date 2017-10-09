@@ -3,8 +3,8 @@ class PhotosController < ApplicationController
     controller.action_name == "create"
   }
 
-  before_action :set_record, only: [:create, :destroy]
-  before_action :set_photo, only: [:destroy]
+  before_action :set_record, only: [:create, :destroy, :edit, :update]
+  before_action :set_photo, only: [:destroy, :edit, :update]
 
   def create
     photo = @record.photos.build(image: params[:file])
@@ -27,6 +27,17 @@ class PhotosController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @photo.update_attributes(photo_params)
+      redirect_to @record, notice: "Photo was successfully updated"
+    else
+      render :edit
+    end
+  end
+
   private
 
   def set_record
@@ -35,5 +46,9 @@ class PhotosController < ApplicationController
 
   def set_photo
     @photo = Photo.find(params[:id])
+  end
+
+  def photo_params
+    params.require(:photo).permit(:title, :image)
   end
 end

@@ -6,7 +6,7 @@
 
 <% content_for :header_links do %>
   <span class="pull-right">
-    <% if user_signed_in? && @record.user == current_user %>
+    <% if user_signed_in? && current_user.owner?(@record) %>
       <%= link_to "Edit", edit_record_path(@record),
         class: "btn btn-primary-outline btn-sm" %>
 
@@ -34,21 +34,39 @@
             <div class="col-xs-6">
               <dl>
                 <dt>Artist</dt>
-                <dd><%= @record.artist_name %></dd>
+                <dd>
+                  <%= presence_or(@record.artist_name, 'No artist') %>
+
+                  <% if user_signed_in? && current_user.owner?(@record) %>
+                    <%= icon(
+                      'plus-circle',
+                      id: 'artist'
+                    ) unless @record.artist_id? %>
+                  <% end %>
+                </dd>
               </dl>
             </div>
 
             <div class="col-xs-6">
               <dl>
                 <dt>Label</dt>
-                <dd><%= @record.label_name %></dd>
+                <dd>
+                  <%= presence_or(@record.label_name, 'No label') %>
+
+                  <% if user_signed_in? && current_user.owner?(@record) %>
+                    <%= icon(
+                      'plus-circle',
+                      id: 'label'
+                    ) unless @record.label_id? %>
+                  <% end %>
+                </dd>
               </dl>
             </div>
 
             <div class="col-xs-6">
               <dl>
                 <dt>Genre</dt>
-                <dd><%= @record.genre_name %></dd>
+                <dd><%= presence_or(@record.genre_name, 'No genre') %></dd>
               </dl>
             </div>
 
@@ -56,7 +74,7 @@
               <dl>
                 <dt>Record type</dt>
                 <dd>
-                  <%= @record.record_format.record_type_name %>
+                  <%= presence_or(@record.record_type_name, 'No record type') %>
                 </dd>
               </dl>
             </div>
@@ -71,12 +89,13 @@
             <div class="col-xs-6">
               <dl>
                 <dt>Format</dt>
-                <dd><%= @record.record_format_name %></dd>
+                <dd>
+                  <%= presence_or(@record.record_format_name, 'No record format') %>
+                </dd>
               </dl>
             </div>
 
-            <% if user_signed_in? &&
-                current_user == @record.user %>
+            <% if user_signed_in? && current_user.owner?(@record) %>
               <div class="col-xs-6">
                 <dl>
                   <dt>Current price</dt>
@@ -88,20 +107,12 @@
         </div>
       </div>
 
-      <% if user_signed_in? %>
-        <%= render 'records/price_panels/record_show_price_info',
-          record: @record %>
-      <% end %>
+      <%= render 'records/price_panels/record_show_price_info', record: @record %>
 
       <div class="panel panel-default">
         <div class="panel-body">
           <h5 class="m-t-0">Comment</h5>
-
-          <% if @record.comment.present? %>
-            <%= @record.comment %>
-          <% else %>
-            <em>No comment.</em>
-          <% end %>
+          <%= presence_or(@record.comment, 'No comment') %>
         </div>
       </div>
     </div>
@@ -112,8 +123,7 @@
           <div class="panel panel-default">
             <div class="panel-body">
               <h5 class="m-t-0">Photos</h5>
-
-              <% if @record.photos.present? %>
+              <% presence_or @record.photos, 'No photos available' do %>
                 <div class="row">
                   <div class="slideshow-image">
                     <% @record.photos.each do |photo| %>
@@ -123,9 +133,7 @@
                     <% end %>
                   </div>
                 </div>
-              <% else %>
-                <em>No photos available.</em>
-              <% end %>
+              <% end  %>
             </div>
           </div>
         </div>
@@ -133,13 +141,17 @@
         <div class="col-md-12">
           <div class="panel panel-default">
             <div class="panel-body">
-              <h5 class="m-t-0">Songs</h5>
+              <h5 class="m-t-0">Songs
+                <% unless user_signed_in? %>
+                  <small class="text-danger">
+                    &middot; Log in to hear full songs
+                  </small>
+                <% end %>
+              </h5>
 
-              <% if @record.songs.present? %>
+              <% presence_or @record.songs, 'No song clips available' do %>
                 <%= render 'player', songs: @record.songs %>
-              <% else %>
-                <em>No song clips available.</em>
-              <% end %>
+              <% end  %>
             </div>
           </div>
         </div>
@@ -147,3 +159,11 @@
     </div>
   </div>
 </div>
+
+<% if @record.artist.blank? %>
+  <%= render 'shared/update_artist_modal', record: @record %>
+<% end %>
+
+<% if @record.label.blank? %>
+  <%= render 'shared/update_label_modal', record: @record %>
+<% end %>

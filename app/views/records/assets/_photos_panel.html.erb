@@ -32,8 +32,8 @@
                 </td>
 
                 <td class="buttons text-center">
-                  <%= link_to icon("cog"), "#", class: 'text-muted',
-                    style: 'margin-right:5px;' %>
+                  <%= link_to icon("cog"), edit_record_photo_path(f.object, photo),
+                    class: 'text-muted', style: 'margin-right:5px;' %>
 
                   <%= link_to icon("times"), record_photo_path(f.object, photo),
                     method: :delete, data: { confirm: "Are you sure?" },

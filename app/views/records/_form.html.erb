@@ -11,7 +11,7 @@
       <%= record_form.button :submit,
         class: "btn btn-primary-outline btn-sm" %>
 
-      <% if user_signed_in? && @record.user == current_user &&
+      <% if user_signed_in? && current_user.owner?(@record) &&
           record_form.object.persisted? %>
 
         <%= link_to "Delete", record_path(@record), method: :delete,
@@ -83,6 +83,36 @@
             <% unless price.present? %>
               <%= record_form.association :record_format,
                 input_html: { class: 'selectize_remote' } %>
+
+              <%= record_form.association :artist, collection: (
+                  record_form.object.artist_id? ?
+                    [
+                      [
+                        record_form.object.artist_name,
+                        record_form.object.artist_id
+                      ]
+                    ] : []
+                ),
+                input_html: {
+                  disabled: record_form.object.artist_id?,
+                  class: 'selectize_remote',
+                    data: { remote_url: '/artists.json' }
+                } %>
+
+                <%= record_form.association :label, collection: (
+                    record_form.object.label_id? ?
+                      [
+                        [
+                          record_form.object.label_name,
+                          record_form.object.label_id
+                        ]
+                      ] : []
+                  ),
+                  input_html: {
+                    disabled: record_form.object.label_id?,
+                    class: 'selectize_remote',
+                      data: { remote_url: '/label.json' }
+                  } %>
             <% end %>
 
             <%= record_form.input :comment, as: :text,

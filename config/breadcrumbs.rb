@@ -6,8 +6,12 @@ end
 # any provided attributes like for ex.:
 # /:artist-name-:label_name
 
-slug_helper = ->(*args){
-    args.reject(&:blank?).join('-').parameterize
+slug_composer = ->(entity, *methods){
+    slug = methods.inject([]) do |result, method|
+      result << entity.send(method).presence
+    end.join('-').parameterize
+
+    slug.presence || entity.id
   }
 
 #Records crumbs
@@ -21,7 +25,7 @@ slug_helper = ->(*args){
   end
 
   crumb :record do |record|
-    slug = slug_helper.(record.artist_name, record.label_name)
+    slug = slug_composer.(record, 'artist_name', 'label_name')
 
     link slug, record_path(record)
     parent :records
@@ -63,7 +67,7 @@ slug_helper = ->(*args){
   end
 
   crumb :price do |price|
-    slug = slug_helper.(price.cached_artist, price.cached_label)
+    slug = slug_composer.(price, 'cached_artist', 'cached_label')
 
     link slug, price_path(price)
     parent :prices
@@ -74,5 +78,3 @@ slug_helper = ->(*args){
     link "Settings", settings_path
     parent :root
   end
-
-
