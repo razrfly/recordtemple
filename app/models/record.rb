@@ -30,17 +30,11 @@ class Record < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
+  delegate :name, to: :record_type, prefix: true, allow_nil: true
   delegate :detail, to: :price, prefix: true, allow_nil: true
 
   scope :with_music, -> { joins(:songs) }
   scope :with_photo, -> { joins(:photos) }
-
-  #Do we need this?
-  # def self.pricing
-  #   {'mint' => 1, 'near mint' => 1, 'very good ++' => 0.9,
-  #     'very good +' => 0.5, 'very good' => 0.25, 'good' => 0.2,
-  #       'poor' => 0.15}
-  # end
 
   def self.to_csv
     attributes = %w[artist_name price_detail comment label_name
