@@ -45,7 +45,7 @@
               <% RecordType.pluck(:name).each do |name| %>
                 <label class="checkbox-inline">
                   <%= search_form.check_box(
-                    :record_format_record_type_name_in,
+                    :record_type_name_in,
                     { multiple: true }, name, nil) %>
 
                   <%= name %>
@@ -143,8 +143,8 @@
                 <tr>
                   <td><%= price.artist_name %></td>
                   <td><%= price.label_name %></td>
-                  <td><%= price.detail %></td>
-                  <td><%= price.record_format.record_type_name %></td>
+                  <td><%= presence_or price.detail, 'No detail' %></td>
+                  <td><%= presence_or price.record_type_name, 'No record type' %></td>
                   <td><%= price_price_range(price) %></td>
                   <td><%= price_year_range(price) %></td>
                   <td>

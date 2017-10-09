@@ -32,15 +32,17 @@
 
           <% unless object.is_a?(Artist) %>
             <td>
-              <%= link_to record.artist_name,
-                artist_path(record.artist) %>
+              <%= presence_or record.artist, 'No artist' do
+                link_to record.artist_name, artist_path(record.artist)
+              end %>
             </td>
           <% end %>
 
           <% unless object.is_a?(Label) %>
             <td>
-              <%= link_to record.label_name,
-                label_path(record.label) %>
+              <%= presence_or record.label, 'No label' do
+                link_to record.label_name, label_path(record.label)
+              end %>
             </td>
           <% end %>
 
@@ -48,8 +50,9 @@
 
           <% unless object.is_a?(Genre) %>
             <td>
-              <%= link_to record.genre_name,
-                genre_path(record.genre) %>
+              <%= presence_or record.genre, 'No genre' do
+                link_to record.genre_name, genre_path(record.genre)
+              end %>
             </td>
           <% end %>
 
@@ -61,11 +64,13 @@
               <span class="icon icon-magnifying-glass"></span>
             <% end %>
 
-            <% if record.songs.present? %>
-              <%= link_to record.songs.first.title,
+            <%= presence_or record.songs do
+              link_to(
+                record.songs.first.title,
                 Refile.attachment_url(record.songs.first, :audio),
-                class: 'sm2_button' %>
-            <% end %>
+                class: 'sm2_button'
+              )
+            end %>
           </td>
         </tr>
       <% end %>

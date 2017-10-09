@@ -1,0 +1,44 @@
+<div class="modal modal-label">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"
+                aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+
+        <h4 class="modal-title">Add label</h4>
+      </div>
+
+      <%= simple_form_for @record do |record_form| %>
+        <div class="modal-body">
+          <%= record_form.association :label, collection: [],
+            label: false,
+            input_html: {
+              include_hidden: false,
+              class: 'selectize_remote',
+                data: { remote_url: '/labels.json' }
+            } %>
+        </div>
+
+        <div class="modal-actions">
+          <%= button_tag(
+                class: 'btn-link modal-action', id: 'close',
+                data: { dismiss: 'modal' }
+              ) do %>
+
+            <%= icon('close') %>
+          <% end %>
+
+          <%= button_tag(
+                :submit,
+                class: 'btn-link modal-action', id: 'update'
+              ) do %>
+
+            <%= icon('floppy-o') %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

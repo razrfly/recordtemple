@@ -7,6 +7,7 @@ class Record < ActiveRecord::Base
   belongs_to :genre
   belongs_to :label
   belongs_to :record_format
+  has_one :record_type, through: :record_format
   belongs_to :artist
 
   attr_accessor :freebase_id
@@ -25,6 +26,7 @@ class Record < ActiveRecord::Base
   delegate :name, to: :genre, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
+  delegate :name, to: :record_type, prefix: true, allow_nil: true
   delegate :detail, to: :price, prefix: true, allow_nil: true
 
   def self.condition_collection
@@ -95,10 +97,10 @@ class Record < ActiveRecord::Base
   end
 
   def to_param
-    [
-      id,
-      artist_name.parameterize,
-      label_name.parameterize,
-    ].reject(&:blank?).join("-")
+    elements = ['artist', 'label'].each_with_object([]) do |element, result|
+      self.send(element) && (result << self.send("#{element}_name").parameterize)
+    end
+
+    elements.prepend(id).join('-')
   end
 end

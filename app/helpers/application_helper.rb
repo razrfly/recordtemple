@@ -1,4 +1,5 @@
 module ApplicationHelper
+  DEFAULT_MESSAGE = '-'
 
   def photo_link_helper(target, width = nil, height = nil)
     create_link_for = Proc.new do |target|
@@ -38,5 +39,11 @@ module ApplicationHelper
 
   def fallback(width, height)
     "https://placehold.it/#{width}x#{height}?text=No image"
+  end
+
+  def presence_or(entity, message = nil)
+     presence = entity.presence
+     presence &&= block_given? ? yield : presence
+     presence || message.presence || DEFAULT_MESSAGE
   end
 end

@@ -38,7 +38,7 @@
             <div class="col-xs-6">
               <dl>
                 <dt>Record type</dt>
-                <dd><%= @price.record_format.record_type_name %></dd>
+                <dd><%= presence_or @price.record_type_name, 'No record type' %></dd>
               </dl>
             </div>
 
@@ -52,13 +52,7 @@
             <div class="col-xs-6">
               <dl>
                 <dt>Detail</dt>
-                <dd>
-                  <% if @price_detail.present? %>
-                    <%= @price.detail %>
-                  <% else %>
-                    <em>No details.</em>
-                  <% end %>
-                </dd>
+                <dd><%= presence_or @price.detail, 'No details' %></dd>
               </dl>
             </div>
           </div>
@@ -89,18 +83,20 @@
                 <% @price.records.each do |record| %>
                   <tr>
                     <td>
-                      <% if record.photos.present? %>
-                        <%= image_tag attachment_url(record.photos.first, :image,
-                          :fill, 30, 30), class: 'media-object',
+                      <%= presence_or record.photos, 'No photos' do
+                        image_tag(
+                          attachment_url(
+                          record.photos.first, :image, :fill, 30, 30
+                          ),
+                          class: 'media-object',
                           data: { width: 30, height: 30 },
-                          style: 'float:left;' %>
-                      <% else %>
-                        <em>No photos</em>
-                      <% end %>
+                          style: 'float:left;'
+                        )
+                      end %>
                     </td>
 
-                    <td><%= record.artist_name %></td>
-                    <td><%= record.label_name %></td>
+                    <td><%= presence_or record.artist_name, 'No artist' %></td>
+                    <td><%= presence_or record.label_name, 'No label' %></td>
                     <td><%= record.genre_name %></td>
                     <td>
                       <%= link_to record_path(record) do %>
