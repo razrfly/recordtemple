@@ -11,7 +11,7 @@
       <%= record_form.button :submit,
         class: "btn btn-primary-outline btn-sm" %>
 
-      <% if user_signed_in? && @record.user == current_user &&
+      <% if user_signed_in? && current_user.owner?(@record) &&
           record_form.object.persisted? %>
 
         <%= link_to "Delete", record_path(@record), method: :delete,

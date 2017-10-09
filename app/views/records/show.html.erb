@@ -6,7 +6,7 @@
 
 <% content_for :header_links do %>
   <span class="pull-right">
-    <% if user_signed_in? && @record.user == current_user %>
+    <% if user_signed_in? && current_user.owner?(@record) %>
       <%= link_to "Edit", edit_record_path(@record),
         class: "btn btn-primary-outline btn-sm" %>
 
@@ -36,10 +36,13 @@
                 <dt>Artist</dt>
                 <dd>
                   <%= presence_or(@record.artist_name, 'No artist') %>
-                  <%= icon(
-                        'plus-circle',
-                        id: 'artist'
-                      ) unless @record.artist %>
+
+                  <% if user_signed_in? && current_user.owner?(@record) %>
+                    <%= icon(
+                      'plus-circle',
+                      id: 'artist'
+                    ) unless @record.artist_id? %>
+                  <% end %>
                 </dd>
               </dl>
             </div>
@@ -49,10 +52,13 @@
                 <dt>Label</dt>
                 <dd>
                   <%= presence_or(@record.label_name, 'No label') %>
-                  <%= icon(
-                        'plus-circle',
-                        id: 'label'
-                      ) unless @record.label %>
+
+                  <% if user_signed_in? && current_user.owner?(@record) %>
+                    <%= icon(
+                      'plus-circle',
+                      id: 'label'
+                    ) unless @record.label_id? %>
+                  <% end %>
                 </dd>
               </dl>
             </div>
@@ -89,8 +95,7 @@
               </dl>
             </div>
 
-            <% if user_signed_in? &&
-                current_user == @record.user %>
+            <% if user_signed_in? && current_user.owner?(@record) %>
               <div class="col-xs-6">
                 <dl>
                   <dt>Current price</dt>
