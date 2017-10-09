@@ -57,7 +57,7 @@
           <% end %>
 
           <td><%= record.record_format_name %></td>
-          <td><%= record.get_condition %></td>
+          <td><%= condition_formatter(record.condition) %></td>
           <td><%= price_price_range(record.price) %></td>
           <td>
             <%= link_to record_path(record) do %>

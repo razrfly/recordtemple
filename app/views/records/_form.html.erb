@@ -70,8 +70,8 @@
             <%= record_form.input :value, label: "Your price" %>
 
             <%= record_form.input :condition,
-              collection: Record.conditions.map { |x, y|
-                [ Record.transform_condition(x), x ]
+              collection: Record.conditions.keys.map { |key|
+                [condition_formatter(key), key]
               },
               input_html: {
                 id: 'record-condition',

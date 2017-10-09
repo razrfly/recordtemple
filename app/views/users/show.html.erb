@@ -85,7 +85,7 @@
           <td> <%= record.label.name %> </td>
           <td> <%= record.genre.name %> </td>
           <td> <%= record.record_format.name %> </td>
-          <td> <%= record.get_condition %> </td>
+          <td> <%= condition_formatter(record.condition) %> </td>
           <td> <%= link_to 'show', record %> </td>
         </tr>
       <% end %>
