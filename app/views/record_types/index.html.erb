@@ -1,0 +1,49 @@
+<% breadcrumb :record_types %>
+
+<% content_for :page_title do %>
+  <%= @record_types.model_name.plural.humanize %>
+<% end %>
+
+<% content_for :header_links do %>
+  <span class="pull-right">
+    <%= link_to 'New', new_record_type_path, remote: true,
+      class: 'btn btn-primary-outline btn-sm' %>
+
+    <%= link_to "Back", root_path,
+      class: 'btn btn-primary-outline btn-sm' %>
+  </span>
+<% end %>
+
+<div class="container p-t-md">
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <%= render 'shared/header_panel' %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h5 class="m-t-0">Record Types</h5>
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Related records</th>
+                <th></th>
+              </tr>
+            </thead>
+
+            <tbody id="record-types">
+              <%= render @record_types %>
+            </tbody>
+          </table>
+
+          <div id="record-type-form" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
