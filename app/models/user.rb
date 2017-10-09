@@ -27,4 +27,8 @@ class User < ActiveRecord::Base
   def should_generate_new_friendly_id?
     username_changed?
   end
+
+  def owner?(entity = nil)
+    !!(entity) && entity.respond_to?(:user) ? entity.user == self : false
+  end
 end
