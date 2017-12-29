@@ -59,31 +59,16 @@
         </div>
       <% end %>
 
-      <div class="<%= record_form.object.new_record? ?
-        "#{price.present? ? 'col-md-4' : 'col-md-8 col-md-offset-2'}" : 'col-md-4' %>">
+      <div class="<%=
+        record_form.object.new_record? ?
+          "#{price.present? ? 'col-md-4' : 'col-md-8 col-md-offset-2'}" :
+            'col-md-4' %>">
 
         <div class="panel panel-default panel-profile">
           <div class="panel-body">
             <h5 class="m-t-0">Record Info</h5>
 
-            <%= record_form.input :identifier_id, label: 'Identifier ID' %>
-            <%= record_form.input :value, label: "Your price" %>
-
-            <%= record_form.input :condition,
-              collection: Record.conditions.keys.map { |key|
-                [condition_formatter(key), key]
-              },
-              input_html: {
-                id: 'record-condition',
-                class: 'selectize_remote' } %>
-
-            <%= record_form.association :genre,
-              input_html: { class: 'selectize_remote' } %>
-
             <% unless price.present? %>
-              <%= record_form.association :record_format,
-                input_html: { class: 'selectize_remote' } %>
-
               <%= record_form.association :artist, collection: (
                   record_form.object.artist_id? ?
                     [
@@ -92,31 +77,62 @@
                         record_form.object.artist_id
                       ]
                     ] : []
-                ),
-                input_html: {
-                  disabled: record_form.object.artist_id?,
-                  class: 'selectize_remote',
+                  ),
+                  input_html: {
+                    disabled: record_form.object.artist_id?,
+                    class: 'selectize_remote',
                     data: { remote_url: '/artists.json' }
-                } %>
+                  } %>
 
-                <%= record_form.association :label, collection: (
-                    record_form.object.label_id? ?
+              <%= record_form.association :label, collection: (
+                  record_form.object.label_id? ?
+                    [
                       [
-                        [
-                          record_form.object.label_name,
-                          record_form.object.label_id
-                        ]
-                      ] : []
+                        record_form.object.label_name,
+                        record_form.object.label_id
+                      ]
+                    ] : []
                   ),
                   input_html: {
                     disabled: record_form.object.label_id?,
                     class: 'selectize_remote',
-                      data: { remote_url: '/labels.json' }
+                    data: { remote_url: '/labels.json' }
                   } %>
             <% end %>
 
+            <%= record_form.association :genre,
+                input_html: { class: 'selectize_remote' } %>
+
+            <% unless price.present? %>
+              <%= record_form.association :record_format,
+                  input_html: { class: 'selectize_remote' } %>
+            <% end %>
+
+            <%= record_form.input :condition, collection: (
+                  Record.conditions.keys.map { |key|
+                    [condition_formatter(key), key]
+                  }
+                ),
+                input_html: {
+                  id: 'record-condition',
+                  class: 'selectize_remote'
+                } %>
+
+            <div class="row">
+              <div class="col-md-6">
+                <%= record_form.input :value, label: "Your price" %>
+              </div>
+
+              <div class="col-md-6">
+                <%= record_form.input :identifier_id, label: 'Identifier ID' %>
+              </div>
+            </div>
+
             <%= record_form.input :comment, as: :text,
-              input_html: { rows: 2, style: "resize:vertical" } %>
+                input_html: {
+                  rows: 2,
+                  style: "resize:vertical"
+                } %>
           </div>
         </div>
       </div>
