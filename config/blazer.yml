@@ -23,12 +23,15 @@ data_sources:
       # zone_id: "SELECT id, name FROM zones ORDER BY name ASC"
 
     linked_columns:
-      # user_id: "/admin/users/{value}"
+      record_id: "/records/{value}"
+      label_id: "/labels/{value}"
 
     smart_columns:
+      record_id: "SELECT id, comment FROM records WHERE id IN {value}"
       artist_id: "SELECT id, name FROM artists WHERE id IN {value}"
       genre_id: "SELECT id, name FROM genres WHERE id IN {value}"
       label_id: "SELECT id, name FROM labels WHERE id IN {value}"
+      record_format_id: "SELECT id, name FROM record_formats WHERE id IN {value}"
 
 # create audits
 audit: true
