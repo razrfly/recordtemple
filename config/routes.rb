@@ -1,5 +1,7 @@
 Recordapp::Application.routes.draw do
-  # mount Blazer::Engine, at: 'blazer'
+  authenticate :user, ->(user) { user.admin? } do
+    mount Blazer::Engine, at: 'blazer'
+  end
 
   root to: "home#index"
 

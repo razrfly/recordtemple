@@ -37,13 +37,15 @@ GEM
     bcrypt (3.1.9)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
-    blazer (1.1.0)
+    blazer (1.9.0)
+      activerecord (>= 4)
       chartkick
-      rails
+      railties (>= 4)
+      safely_block (>= 0.1.1)
     bootstrap-sass (3.2.0.2)
       sass (~> 3.2)
     builder (3.2.2)
-    chartkick (1.4.1)
+    chartkick (3.0.1)
     choice (0.2.0)
     cocoon (1.2.9)
     coderay (1.1.0)
@@ -67,6 +69,7 @@ GEM
       devise (>= 3.2.0)
     dropzonejs-rails (0.7.3)
       rails (> 3.1)
+    errbase (0.1.0)
     erubis (2.7.0)
     execjs (2.2.2)
     extlib (0.9.16)
@@ -169,6 +172,8 @@ GEM
       railties (>= 3.2, < 4.2)
     ruby-graphviz (1.2.2)
     ruby-mp3info (0.8.5)
+    safely_block (0.2.1)
+      errbase
     sass (3.4.13)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -232,7 +237,7 @@ DEPENDENCIES
   active_link_to (~> 1.0.2)
   aws-sdk (~> 1.44.0)
   binding_of_caller
-  blazer
+  blazer (= 1.9.0)
   bootstrap-sass (~> 3.2.0)
   cocoon (~> 1.2, >= 1.2.9)
   coffee-rails (~> 4.0.0)
@@ -278,4 +283,4 @@ RUBY VERSION
    ruby 2.2.1p85
 
 BUNDLED WITH
-   1.14.4
+   1.16.2

@@ -37,7 +37,7 @@ gem 'textacular', '~> 3.2.2'
 gem 'scenic', '~> 0.3.0'
 gem 'twitter-typeahead-rails'
 
-gem 'blazer'
+gem 'blazer', '1.9.0'
 gem 'ruby-mp3info', '~> 0.8.4'
 gem 'ken', '~> 0.2.1'
 gem 'randumb', '~> 0.5.0'
