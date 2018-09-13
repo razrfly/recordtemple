@@ -26,7 +26,9 @@ data_sources:
       # user_id: "/admin/users/{value}"
 
     smart_columns:
-      # user_id: "SELECT id, name FROM users WHERE id IN {value}"
+      artist_id: "SELECT id, name FROM artists WHERE id IN {value}"
+      genre_id: "SELECT id, name FROM genres WHERE id IN {value}"
+      label_id: "SELECT id, name FROM labels WHERE id IN {value}"
 
 # create audits
 audit: true
