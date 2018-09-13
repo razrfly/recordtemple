@@ -24,6 +24,10 @@ class User < ActiveRecord::Base
   #   "#{fname} #{lname}" if fname.present? or lname.present?
   # end
 
+  def admin?
+    true
+  end
+
   def should_generate_new_friendly_id?
     username_changed?
   end
