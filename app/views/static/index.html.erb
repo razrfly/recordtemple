@@ -1,0 +1,20 @@
+<!-- app/views/static/index.html.erb-->
+<div class="max-w-2xl p-8 rounded-xl mx-auto text-center my-16 bg-gray-50">
+  <h1 class="font-black text-3xl">Super-mega Passwordless App</h1>
+
+  <% if current_user.present? %>
+    <p class="py-3">
+      You are signed in as
+      <span class="font-semibold text-sky-800">
+        <%= current_user.username %>(<%= current_user.email %>)
+      </span>
+    </p>
+    <%= link_to "Sign out", users.sign_out_path, class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
+    <%= link_to "Admin", '/admin', class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
+  <% else %>
+    <p class="text-lg text-gray-600 my-4">Sign up for members-only access</p>
+    <div class="flex items-center space-x-3 justify-center">
+      <%= link_to "Sign in", users.sign_in_path, class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
+    </div>
+  <% end %>
+</div>

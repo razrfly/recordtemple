@@ -1,0 +1,108 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  current_sign_in_at     :datetime
+#  current_sign_in_ip     :string(255)
+#  email                  :string(255)      default(""), not null
+#  encrypted_password     :string(128)      default("")
+#  fname                  :string(255)
+#  invitation_accepted_at :datetime
+#  invitation_created_at  :datetime
+#  invitation_limit       :integer
+#  invitation_sent_at     :datetime
+#  invitation_token       :string(255)
+#  invitations_count      :integer          default(0)
+#  invited_by_type        :string(255)
+#  last_sign_in_at        :datetime
+#  last_sign_in_ip        :string(255)
+#  lname                  :string(255)
+#  password_salt          :string(255)      default("")
+#  remember_created_at    :datetime
+#  remember_token         :string(255)
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string(255)
+#  sign_in_count          :integer          default(0)
+#  slug                   :string(255)
+#  unconfirmed_email      :string(255)
+#  username               :string(255)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  avatar_id              :string(255)
+#  invited_by_id          :integer
+#
+# Indexes
+#
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_invitation_token      (invitation_token) UNIQUE
+#  index_users_on_invitations_count     (invitations_count)
+#  index_users_on_invited_by_id         (invited_by_id)
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_slug                  (slug) UNIQUE
+#
+
+one:
+  email: MyString
+  encrypted_password: MyString
+  password_salt: MyString
+  reset_password_token: MyString
+  remember_token: MyString
+  remember_created_at: 2023-03-12 18:40:43
+  sign_in_count: 1
+  current_sign_in_at: 2023-03-12 18:40:43
+  last_sign_in_at: 2023-03-12 18:40:43
+  current_sign_in_ip: MyString
+  last_sign_in_ip: MyString
+  confirmation_token: MyString
+  confirmed_at: 2023-03-12 18:40:43
+  confirmation_sent_at: 2023-03-12 18:40:43
+  username: MyString
+  fname: MyString
+  lname: MyString
+  unconfirmed_email: MyString
+  reset_password_sent_at: 2023-03-12 18:40:43
+  invitation_token: MyString
+  invitation_created_at: 2023-03-12 18:40:43
+  invitation_sent_at: 2023-03-12 18:40:43
+  invitation_accepted_at: 2023-03-12 18:40:43
+  invitation_limit: 1
+  invited_by: one
+  invited_by_type: MyString
+  invitations_count: 1
+  slug: MyString
+  avatar: one
+
+two:
+  email: MyString
+  encrypted_password: MyString
+  password_salt: MyString
+  reset_password_token: MyString
+  remember_token: MyString
+  remember_created_at: 2023-03-12 18:40:43
+  sign_in_count: 1
+  current_sign_in_at: 2023-03-12 18:40:43
+  last_sign_in_at: 2023-03-12 18:40:43
+  current_sign_in_ip: MyString
+  last_sign_in_ip: MyString
+  confirmation_token: MyString
+  confirmed_at: 2023-03-12 18:40:43
+  confirmation_sent_at: 2023-03-12 18:40:43
+  username: MyString
+  fname: MyString
+  lname: MyString
+  unconfirmed_email: MyString
+  reset_password_sent_at: 2023-03-12 18:40:43
+  invitation_token: MyString
+  invitation_created_at: 2023-03-12 18:40:43
+  invitation_sent_at: 2023-03-12 18:40:43
+  invitation_accepted_at: 2023-03-12 18:40:43
+  invitation_limit: 1
+  invited_by: two
+  invited_by_type: MyString
+  invitations_count: 1
+  slug: MyString
+  avatar: two

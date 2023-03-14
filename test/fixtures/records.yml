@@ -1,0 +1,58 @@
+# == Schema Information
+#
+# Table name: records
+#
+#  id               :integer          not null, primary key
+#  cached_artist    :string(255)
+#  cached_label     :string(255)
+#  comment          :text
+#  condition        :integer
+#  value            :integer
+#  created_at       :datetime
+#  updated_at       :datetime
+#  artist_id        :integer
+#  genre_id         :integer
+#  identifier_id    :integer
+#  label_id         :integer
+#  price_id         :integer
+#  record_format_id :integer
+#  user_id          :integer
+#
+# Indexes
+#
+#  index_records_on_artist_id         (artist_id)
+#  index_records_on_genre_id          (genre_id)
+#  index_records_on_label_id          (label_id)
+#  index_records_on_price_id          (price_id)
+#  index_records_on_record_format_id  (record_format_id)
+#  index_records_on_user_id           (user_id)
+#  records_fts_idx                    (to_tsvector('english'::regconfig, COALESCE(comment, ''::text))) USING gin
+#
+
+one:
+  genre: one
+  value: 1
+  comment: MyText
+  price: one
+  condition: 1
+  user: one
+  identifier: one
+  cached_artist: MyString
+  cached_label: MyString
+  record_format: one
+  artist: one
+  label: one
+
+two:
+  genre: two
+  value: 1
+  comment: MyText
+  price: two
+  condition: 1
+  user: two
+  identifier: two
+  cached_artist: MyString
+  cached_label: MyString
+  record_format: two
+  artist: two
+  label: two

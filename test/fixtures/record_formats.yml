@@ -1,0 +1,18 @@
+# == Schema Information
+#
+# Table name: record_formats
+#
+#  id             :integer          not null, primary key
+#  name           :string(255)
+#  created_at     :datetime
+#  updated_at     :datetime
+#  record_type_id :integer
+#
+
+one:
+  name: MyString
+  record_type: one
+
+two:
+  name: MyString
+  record_type: two
