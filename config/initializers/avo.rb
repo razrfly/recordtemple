@@ -6,6 +6,24 @@ Avo.configure do |config|
   # Where should the user be redirected when visting the `/avo` url
   # config.home_path = nil
 
+  config.branding = {
+    colors: {
+      background: "248 246 242",
+      100 => "#CEE7F8",
+      400 => "#399EE5",
+      500 => "#DA0B0F",
+      600 => "#066BB2",
+    },
+    # chart_colors: ['#FFB435', "#FFA102", "#CC8102", '#FFB435', "#FFA102", "#CC8102"],
+    # logo: "/avo-assets/logo.png",
+    # logomark: "/avo-assets/logomark.png",
+    # placeholder: "/avo-assets/placeholder.svg",
+    # favicon: "/avo-assets/favicon.ico"
+    logo: "/avo-assets/logo.png",
+    logomark: "/avo-assets/cirqus-tent.svg",
+    favicon: "/avo-assets/favicon.ico"
+  }
+
   ## == Licensing ==
   config.license = 'pro' # change this to 'pro' when you add the license key
   config.license_key = Rails.application.credentials.dig(:avo, :license_key)
@@ -95,12 +113,20 @@ Avo.configure do |config|
 
   ## == Menus ==
   config.main_menu = -> {
-  #   section "Dashboards", icon: "dashboards" do
-  #     all_dashboards
-  #   end
+    section "Dashboards", icon: "dashboards" do
+      all_dashboards
+    end
 
-  section "Resources", icon: "resources" do
-    all_resources
+  section "General", icon: "resources" do
+    resource :artists
+    resource :labels
+    resource :records
+  end
+
+  section "Settings", icon: "tools" do
+    resource :prices, label: "Price Guide"
+    resource :record_formats, label: "Record Formats"
+    resource :record_types, label: "Record Types"
   end
 
   #   section "Tools", icon: "tools" do
