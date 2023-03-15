@@ -38,8 +38,6 @@ gem "passwordless", "~> 0.11.0"
 gem "friendly_id", "~> 5.5.0"
 gem "avo", "~> 2.27.1"
 
-
-
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 

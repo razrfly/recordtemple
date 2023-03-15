@@ -28,7 +28,7 @@ class RecordResource < Avo::BaseResource
   field :identifier, as: :number
 
   #field :user, as: :belongs_to
-  field :price, as: :belongs_to, searchable: true, hide_on: :index
+  #field :price, as: :belongs_to, searchable: true, hide_on: :index
   field :genre, as: :belongs_to
   field :record_format, as: :belongs_to
 
