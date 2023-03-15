@@ -39,12 +39,12 @@ class RecordResource < Avo::BaseResource
   end
 
   panel name: "Price Guide", description: "Details from the Price Guide" do
-    field :price_low, as: :number
-    field :price_high, as: :number
-    field :yearbegin, as: :number
-    field :yearend, as: :number
-    field :details, as: :text
-    field :footnote, as: :text
+    field :price_low, as: :number, hide_on: [:new, :edit]
+    field :price_high, as: :number, hide_on: [:new, :edit]
+    field :yearbegin, as: :number, hide_on: [:new, :edit]
+    field :yearend, as: :number, hide_on: [:new, :edit]
+    field :details, as: :text, hide_on: [:new, :edit]
+    field :footnote, as: :text, hide_on: [:new, :edit]
   end
 
   grid do
