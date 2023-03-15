@@ -8,6 +8,10 @@
 #  updated_at     :datetime
 #  record_type_id :integer
 #
+# Foreign Keys
+#
+#  fk_rails_...  (record_type_id => record_types.id)
+#
 class RecordFormat < ApplicationRecord
   belongs_to :record_type
 end

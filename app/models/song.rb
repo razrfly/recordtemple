@@ -22,7 +22,6 @@
 #
 #  index_songs_on_record_id  (record_id)
 #
-# This model needs to be deleted
 class Song < ApplicationRecord
   belongs_to :record
 

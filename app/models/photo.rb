@@ -23,7 +23,6 @@
 #
 #  index_photos_on_record_id  (record_id)
 #
-# This model needs to be deleted
 class Photo < ApplicationRecord
   belongs_to :record
 end

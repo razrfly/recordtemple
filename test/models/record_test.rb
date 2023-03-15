@@ -28,6 +28,15 @@
 #  index_records_on_user_id           (user_id)
 #  records_fts_idx                    (to_tsvector('english'::regconfig, COALESCE(comment, ''::text))) USING gin
 #
+# Foreign Keys
+#
+#  fk_rails_...  (artist_id => artists.id)
+#  fk_rails_...  (genre_id => genres.id)
+#  fk_rails_...  (label_id => labels.id)
+#  fk_rails_...  (price_id => prices.id)
+#  fk_rails_...  (record_format_id => record_formats.id)
+#  fk_rails_...  (user_id => users.id)
+#
 require "test_helper"
 
 class RecordTest < ActiveSupport::TestCase

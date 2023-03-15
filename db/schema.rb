@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_12_175832) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_15_091102) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -59,60 +59,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_175832) do
 
   create_table "artists", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
-    t.string "freebase_id", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "slug", limit: 255
     t.index "to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text)", name: "artists_fts_idx", using: :gin
     t.index ["name"], name: "index_artists_on_name", unique: true
     t.index ["slug"], name: "index_artists_on_slug", unique: true
-  end
-
-  create_table "blazer_audits", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "query_id"
-    t.text "statement"
-    t.string "data_source", limit: 255
-    t.datetime "created_at", precision: nil
-  end
-
-  create_table "blazer_checks", id: :serial, force: :cascade do |t|
-    t.integer "query_id"
-    t.string "state", limit: 255
-    t.text "emails"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "creator_id"
-    t.boolean "invert"
-    t.string "schedule", limit: 255
-    t.datetime "last_run_at", precision: nil
-    t.string "check_type", limit: 255
-    t.text "message"
-  end
-
-  create_table "blazer_dashboard_queries", id: :serial, force: :cascade do |t|
-    t.integer "dashboard_id"
-    t.integer "query_id"
-    t.integer "position"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-  end
-
-  create_table "blazer_dashboards", id: :serial, force: :cascade do |t|
-    t.text "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.integer "creator_id"
-  end
-
-  create_table "blazer_queries", id: :serial, force: :cascade do |t|
-    t.integer "creator_id"
-    t.string "name", limit: 255
-    t.text "description"
-    t.text "statement"
-    t.string "data_source", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
   end
 
   create_table "genres", id: :serial, force: :cascade do |t|
@@ -125,25 +77,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_175832) do
 
   create_table "labels", id: :serial, force: :cascade do |t|
     t.string "name", limit: 255
-    t.string "freebase_id", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "slug", limit: 255
     t.index "to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text)", name: "labels_fts_idx", using: :gin
     t.index ["name"], name: "index_labels_on_name", unique: true
     t.index ["slug"], name: "index_labels_on_slug", unique: true
-  end
-
-  create_table "pages", id: :serial, force: :cascade do |t|
-    t.string "title", limit: 255
-    t.text "content"
-    t.integer "user_id"
-    t.integer "position"
-    t.string "cover_id", limit: 255
-    t.string "slug", limit: 255
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["user_id"], name: "index_pages_on_user_id"
   end
 
   create_table "passwordless_sessions", force: :cascade do |t|
@@ -194,7 +133,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_175832) do
     t.integer "artist_id"
     t.integer "label_id"
     t.integer "record_format_id"
-    t.string "freebase_id", limit: 255
     t.integer "user_id"
     t.index ["cached_artist"], name: "index_prices_on_cached_artist_trigram", opclass: :gin_trgm_ops, using: :gin
     t.index ["cached_label"], name: "index_prices_on_cached_label_trigram", opclass: :gin_trgm_ops, using: :gin
@@ -259,44 +197,24 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_12_175832) do
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", limit: 255, default: "", null: false
-    t.string "encrypted_password", limit: 128, default: ""
-    t.string "password_salt", limit: 255, default: ""
-    t.string "reset_password_token", limit: 255
     t.string "remember_token", limit: 255
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip", limit: 255
-    t.string "last_sign_in_ip", limit: 255
-    t.string "confirmation_token", limit: 255
-    t.datetime "confirmed_at", precision: nil
-    t.datetime "confirmation_sent_at", precision: nil
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "username", limit: 255
-    t.string "fname", limit: 255
-    t.string "lname", limit: 255
-    t.string "unconfirmed_email", limit: 255
-    t.datetime "reset_password_sent_at", precision: nil
-    t.string "invitation_token", limit: 255
-    t.datetime "invitation_created_at", precision: nil
-    t.datetime "invitation_sent_at", precision: nil
-    t.datetime "invitation_accepted_at", precision: nil
-    t.integer "invitation_limit"
-    t.integer "invited_by_id"
-    t.string "invited_by_type", limit: 255
-    t.integer "invitations_count", default: 0
-    t.string "slug", limit: 255
-    t.string "avatar_id", limit: 255
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
-    t.index ["invitations_count"], name: "index_users_on_invitations_count"
-    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "prices", "artists"
+  add_foreign_key "prices", "labels"
+  add_foreign_key "prices", "record_formats"
+  add_foreign_key "prices", "users"
+  add_foreign_key "record_formats", "record_types"
+  add_foreign_key "records", "artists"
+  add_foreign_key "records", "genres"
+  add_foreign_key "records", "labels"
+  add_foreign_key "records", "prices"
+  add_foreign_key "records", "record_formats"
+  add_foreign_key "records", "users"
 end

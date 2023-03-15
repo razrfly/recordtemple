@@ -2,12 +2,11 @@
 #
 # Table name: labels
 #
-#  id          :integer          not null, primary key
-#  name        :string(255)
-#  slug        :string(255)
-#  created_at  :datetime
-#  updated_at  :datetime
-#  freebase_id :string(255)
+#  id         :integer          not null, primary key
+#  name       :string(255)
+#  slug       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
 #
 # Indexes
 #

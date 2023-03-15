@@ -1,6 +1,6 @@
 class RecordResource < Avo::BaseResource
   self.title = :title
-  self.includes = []
+  self.includes = [:artist, :label, :record_format, :genre]
   self.search_query = -> do
     scope.ransack(id_eq: params[:q], comment_cont: params[:q], m: "or").result(distinct: false)
   end
@@ -15,7 +15,6 @@ class RecordResource < Avo::BaseResource
   # Fields generated from the model
   field :artist, as: :belongs_to, searchable: true#, sortable: true
   field :label, as: :belongs_to, searchable: true#, sortable: true
-
   
   field :value, as: :number
   field :comment, as: :textarea
@@ -27,17 +26,19 @@ class RecordResource < Avo::BaseResource
     placeholder: 'Choose the condition.'
   
   field :identifier, as: :number
-  #field :cached_artist, as: :text
-  #field :cached_label, as: :text
+
   #field :user, as: :belongs_to
   field :price, as: :belongs_to, searchable: true, hide_on: :index
   field :genre, as: :belongs_to
   field :record_format, as: :belongs_to
 
-  sidebar do
-    field :images, as: :files, is_image: true, link_to_resource: true
-    field :songs, as: :files, link_to_resource: true
-  end
+  field :images, as: :files, is_image: true, link_to_resource: true
+  field :songs, as: :files, link_to_resource: true
+
+  # sidebar do
+  #   field :images, as: :files, is_image: true, link_to_resource: true
+  #   field :songs, as: :files, link_to_resource: true
+  # end
 
   panel name: "Price Guide", description: "Details from the Price Guide" do
     field :price_low, as: :number

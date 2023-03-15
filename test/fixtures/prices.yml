@@ -15,7 +15,6 @@
 #  created_at       :datetime
 #  updated_at       :datetime
 #  artist_id        :integer
-#  freebase_id      :string(255)
 #  label_id         :integer
 #  record_format_id :integer
 #  user_id          :integer
@@ -26,6 +25,13 @@
 #  index_prices_on_cached_label_trigram   (cached_label) USING gin
 #  index_prices_on_detail_trigram         (detail) USING gin
 #  index_prices_on_media_type_trigram     (media_type) USING gin
+#
+# Foreign Keys
+#
+#  fk_rails_...  (artist_id => artists.id)
+#  fk_rails_...  (label_id => labels.id)
+#  fk_rails_...  (record_format_id => record_formats.id)
+#  fk_rails_...  (user_id => users.id)
 #
 
 one:
