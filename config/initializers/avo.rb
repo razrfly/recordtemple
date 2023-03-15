@@ -21,7 +21,8 @@ Avo.configure do |config|
     # favicon: "/avo-assets/favicon.ico"
     logo: "/avo-assets/logo.png",
     logomark: "/avo-assets/cirqus-tent.svg",
-    favicon: "/avo-assets/favicon.ico"
+    favicon: "/avo-assets/favicon.ico",
+    placeholder: "/avo-assets/placeholder.png"
   }
 
   ## == Licensing ==

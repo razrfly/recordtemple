@@ -57,8 +57,8 @@ class Record < ApplicationRecord
 
   delegate :price_high, :price_low, :yearbegin, :yearend, :detail, :footnote, to: :price, prefix: false, allow_nil: true
 
-  scope :has_images, -> { joins(:images_attachments) }
-  scope :has_songs, -> { joins(:songs_attachments) }
+  scope :has_images, -> { joins(:images_attachments).distinct }
+  scope :has_songs, -> { joins(:songs_attachments).distinct }
 
   def cover
     images.first unless images.empty?
