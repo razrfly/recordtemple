@@ -45,8 +45,8 @@ class Record < ApplicationRecord
   belongs_to :artist
   belongs_to :label
 
-  enum condition: { mint: 1, near_mint: 2, very_good_plusplus: 3,
-    very_good_plus: 4, very_good: 5, good: 6, poor: 7 }
+  enum condition: { mint: 1, "near mint": 2, "vg++": 3,
+    "vg+": 4, "very good": 5, good: 6, poor: 7 }
 
   has_many_attached :images
   has_many_attached :songs
