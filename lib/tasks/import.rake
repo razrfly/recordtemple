@@ -9,8 +9,12 @@ namespace :import do
       if record.present? && record.images.blank?
         puts "Importing photo for #{record.title}"
         #record.images.attach(photo.file)
-        file = URI.open(photo.url)
-				record.images.attach(io: file, filename: photo.image_filename)
+        begin
+          file = URI.open(photo.url)
+          record.images.attach(io: file, filename: photo.image_filename)
+        rescue => exception
+          puts "Error #{exception} importing photo for #{record.id}"
+        end
       end
     end
   end
