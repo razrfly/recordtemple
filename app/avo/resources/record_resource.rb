@@ -1,6 +1,6 @@
 class RecordResource < Avo::BaseResource
   self.title = :title
-  self.includes = [:artist, :label, :record_format, :genre]
+  self.includes = [:artist, :label, :record_format, :genre, :price]
   self.search_query = -> do
     scope.ransack(id_eq: params[:q], comment_cont: params[:q], m: "or").result(distinct: false)
   end
@@ -13,8 +13,8 @@ class RecordResource < Avo::BaseResource
     model.images.first.url if model.images.any?
   end
   # Fields generated from the model
-  field :artist, as: :belongs_to, searchable: true#, sortable: true
-  field :label, as: :belongs_to, searchable: true#, sortable: true
+  field :artist, as: :belongs_to, attach_scope: -> { query.with_records }, searchable: true
+  #field :label, as: :belongs_to, searchable: true#, sortable: true
   
   field :value, as: :number
   field :comment, as: :textarea

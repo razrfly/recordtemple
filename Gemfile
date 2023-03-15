@@ -36,7 +36,10 @@ gem "redis", "~> 4.0"
 gem "ransack", "~> 3.2"
 gem "passwordless", "~> 0.11.0"
 gem "friendly_id", "~> 5.5.0"
-gem "avo", "~> 2.27.1"
+gem "avo", "~> 2.28"
+
+gem "sentry-ruby"
+gem "sentry-rails"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"

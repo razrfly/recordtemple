@@ -76,7 +76,7 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
-    avo (2.27.1)
+    avo (2.28.0)
       actionview (>= 6.0)
       active_link_to
       activerecord (>= 6.0)
@@ -246,6 +246,11 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sentry-rails (5.8.0)
+      railties (>= 5.0)
+      sentry-ruby (~> 5.8.0)
+    sentry-ruby (5.8.0)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -298,7 +303,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_doctor
   annotate
-  avo (~> 2.27.1)
+  avo (~> 2.28)
   aws-sdk-s3
   bootsnap
   capybara
@@ -315,6 +320,8 @@ DEPENDENCIES
   ransack (~> 3.2)
   redis (~> 4.0)
   selenium-webdriver
+  sentry-rails
+  sentry-ruby
   sprockets-rails
   stimulus-rails
   tailwindcss-rails
