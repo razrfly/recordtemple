@@ -9,13 +9,12 @@ class RecordResource < Avo::BaseResource
   end
 
   field :id, as: :id
+  field :artist, as: :belongs_to, searchable: true, only_on: :index
+  field :label, as: :belongs_to, searchable: true, only_on: :index 
+  field :images, as: :files, is_image: true, link_to_resource: true
   field 'cover', as: :external_image, link_to_resource: true, only_on: :index do |model|
     model.images.first.url if model.images.any?
   end
-  # Fields generated from the model
-  field :artist, as: :belongs_to, searchable: true
-  field :label, as: :belongs_to, searchable: true
-  
   field :value, as: :number
   field :comment, as: :textarea
 
@@ -26,7 +25,6 @@ class RecordResource < Avo::BaseResource
     placeholder: 'Choose the condition.'
   
   field :identifier, as: :number
-
   #field :user, as: :belongs_to
   field :price, as: :belongs_to, searchable: true, hide_on: :index
   field :genre, as: :belongs_to
@@ -34,17 +32,22 @@ class RecordResource < Avo::BaseResource
 
 
   sidebar do
-    field :images, as: :files, is_image: true, link_to_resource: true
-    field :songs, as: :files, link_to_resource: true
-  end
-
-  panel name: "Price Guide", description: "Details from the Price Guide" do
+    # heading "Record Details"
+    heading "Record Details"
+    field :artist, as: :belongs_to, searchable: true
+    field :label, as: :belongs_to, searchable: true
+    # price guide
+    heading "Price Guide"
     field :price_low, as: :number, hide_on: [:new, :edit]
     field :price_high, as: :number, hide_on: [:new, :edit]
     field :yearbegin, as: :number, hide_on: [:new, :edit]
     field :yearend, as: :number, hide_on: [:new, :edit]
     field :details, as: :text, hide_on: [:new, :edit]
     field :footnote, as: :text, hide_on: [:new, :edit]
+  end
+
+  panel name: "Tracks", description: "Songs" do
+    field :songs, as: :files, link_to_resource: true
   end
 
   grid do

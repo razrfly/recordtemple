@@ -64,8 +64,13 @@ class Record < ApplicationRecord
     images.first unless images.empty?
   end
 
-  def title
-    [artist_name, label_name, record_format_name].compact.join(' - ')
+  def song_titles
+    songs.map { |blob| blob.filename.to_s.gsub(/\.mp3$/, '') }
   end
-  
+
+  def title
+    [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact.join(' - ')
+  end
+
+
 end
