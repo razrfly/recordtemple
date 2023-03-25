@@ -4,9 +4,13 @@ app = "recordtemple"
 kill_signal = "SIGINT"
 kill_timeout = 5
 primary_region = "dfw"
-processes = []
+#processes = []
 
 [env]
+
+[processes]
+  web = "bin/rails server"
+  worker = "bundle exec sidekiq"
 
 [experimental]
   auto_rollback = true
@@ -14,7 +18,7 @@ processes = []
 [[services]]
   http_checks = []
   internal_port = 3000
-  processes = ["app"]
+  processes = ["web"]
   protocol = "tcp"
   script_checks = []
   [services.concurrency]

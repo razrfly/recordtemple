@@ -35,5 +35,5 @@ class LabelResource < Avo::BaseResource
     # end
   end
 
-  filter PublishedFilter
+  #filter PublishedFilter
 end
