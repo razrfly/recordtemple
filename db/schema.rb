@@ -183,7 +183,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_15_093243) do
 
   create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", limit: 255, default: "", null: false
-    t.string "remember_token", limit: 255
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "username", limit: 255

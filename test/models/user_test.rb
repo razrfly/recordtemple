@@ -2,12 +2,11 @@
 #
 # Table name: users
 #
-#  id             :integer          not null, primary key
-#  email          :string(255)      default(""), not null
-#  remember_token :string(255)
-#  username       :string(255)
-#  created_at     :datetime
-#  updated_at     :datetime
+#  id         :integer          not null, primary key
+#  email      :string(255)      default(""), not null
+#  username   :string(255)
+#  created_at :datetime
+#  updated_at :datetime
 #
 # Indexes
 #
