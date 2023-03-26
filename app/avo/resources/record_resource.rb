@@ -12,9 +12,9 @@ class RecordResource < Avo::BaseResource
   field :artist, as: :belongs_to, searchable: true, only_on: :index
   field :label, as: :belongs_to, searchable: true, only_on: :index 
   field :images, as: :files, is_image: true, link_to_resource: true
-  field 'cover', as: :external_image, link_to_resource: true, only_on: :index do |model|
-    model.images.first.url if model.images.any?
-  end
+  # field 'cover', as: :external_image, link_to_resource: true, only_on: :index do |model|
+  #   model.images.first.url if model.images.any?
+  # end
   field :value, as: :number
   field :comment, as: :textarea
 
