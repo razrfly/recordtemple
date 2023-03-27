@@ -9,8 +9,8 @@ class RecordResource < Avo::BaseResource
   end
 
   field :id, as: :id
-  field :artist, as: :belongs_to, searchable: true, only_on: :index
-  field :label, as: :belongs_to, searchable: true, only_on: :index 
+  field :artist, as: :belongs_to, searchable: true
+  field :label, as: :belongs_to, searchable: true
   field :images, as: :files, is_image: true, link_to_resource: true
   # field 'cover', as: :external_image, link_to_resource: true, only_on: :index do |model|
   #   model.images.first.url if model.images.any?
@@ -32,10 +32,6 @@ class RecordResource < Avo::BaseResource
 
 
   sidebar do
-    # heading "Record Details"
-    heading "Record Details"
-    field :artist, as: :belongs_to, searchable: true
-    field :label, as: :belongs_to, searchable: true
     # price guide
     heading "Price Guide"
     field :price_low, as: :number, hide_on: [:new, :edit]

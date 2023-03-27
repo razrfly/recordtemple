@@ -30,5 +30,5 @@ class ArtistResource < Avo::BaseResource
     # end
   end
 
-  #filter PublishedFilter
+  filter PublishedFilter
 end

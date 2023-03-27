@@ -39,11 +39,15 @@
 #
 class Record < ApplicationRecord
   belongs_to :genre
-  belongs_to :price
+  belongs_to :price, optional: true
   belongs_to :user
   belongs_to :record_format
-  belongs_to :artist
-  belongs_to :label
+  belongs_to :artist, optional: true # remove this!!!!
+  belongs_to :label, optional: true # remove this!!!!
+
+  # remove eventually
+  has_many :photos
+  has_many :songs
 
   enum condition: { mint: 1, "near mint": 2, "vg++": 3,
     "vg+": 4, "very good": 5, good: 6, poor: 7 }

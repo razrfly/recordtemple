@@ -9,10 +9,12 @@ namespace :import do
       if record.present?
         # enure there are no images or the image is not already present
         if record.images.blank? || record.images.map { |blob| blob.filename.to_s }.exclude?(photo.image_filename)
-          puts "Queuing photo for #{record.title}"
-          MigrateAssetJob.perform_later('photo',photo.id)
+          if photo.url.present?
+            puts "#{record.id}, #{record.title}, #{photo.url}, #{photo.image_filename}"
+            MigrateAssetJob.perform_later('photo',photo.id)
+          end
         else
-          puts "Skipping photo for #{record.title} - already present as #{photo.image_filename}"
+          #puts "Skipping photo for #{record.title} - already present as #{photo.image_filename}"
         end
       end
     end
@@ -25,10 +27,28 @@ namespace :import do
       record = song.record
       if record.present?
         if record.songs.blank? || record.songs.map { |blob| blob.filename.to_s }.exclude?(song.audio_filename)
-          puts "Queuing audio for #{record.title}"
-          MigrateAssetJob.perform_later('song',song.id)
+          if song.url.present?
+            puts "#{record.id}, #{record.title}, #{song.url}, #{song.audio_filename}"
+            MigrateAssetJob.perform_later('song',song.id)
+          end
         else
-          puts "Skipping audio for #{record.title} - already present as #{song.audio_filename}"
+          #puts "Skipping audio for #{record.title} - already present as #{song.audio_filename}"
+        end
+      end
+    end
+  end
+
+  desc "Import record images from cache"
+  task photos_inline: :environment do
+    Photo.where.not(url: nil).each do |photo|
+      # find the record and without images
+      record = photo.record
+      if record.present?
+        # enure there are no images or the image is not already present
+        if record.images.blank? || record.images.map { |blob| blob.filename.to_s }.exclude?(photo.image_filename)
+          puts "#{record.id} - #{record.title} - #{photo.url} - #{photo.image_filename}"
+          file = URI.open(photo.url)
+          record.images.attach(io: file, filename: photo.image_filename)
         end
       end
     end
