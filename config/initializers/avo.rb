@@ -1,4 +1,8 @@
 # For more information regarding these settings check out our docs https://docs.avohq.io
+Rails.configuration.to_prepare do
+  Avo::ApplicationController.include AvoCurrentUser
+end
+
 Avo.configure do |config|
   ## == Routing ==
   config.root_path = '/admin'
@@ -36,10 +40,10 @@ Avo.configure do |config|
   end
 
   ## == Authentication ==
-  #config.current_user_method = :current_user
-  config.current_user_method do
-    :current_user
-  end
+  config.current_user_method = :current_user
+  # config.current_user_method do
+  #   :current_user
+  # end
   # config.current_user_method = {}
   # config.authenticate_with do
   # end
