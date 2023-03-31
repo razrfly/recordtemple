@@ -42,8 +42,8 @@ class Record < ApplicationRecord
   belongs_to :price, optional: true
   belongs_to :user
   belongs_to :record_format
-  belongs_to :artist, optional: true # remove this!!!!
-  belongs_to :label, optional: true # remove this!!!!
+  belongs_to :artist
+  belongs_to :label
 
   # remove eventually
   has_many :photos
