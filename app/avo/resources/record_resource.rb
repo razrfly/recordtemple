@@ -12,6 +12,8 @@ class RecordResource < Avo::BaseResource
   field :artist, as: :belongs_to, searchable: true
   field :label, as: :belongs_to, searchable: true
   field :images, as: :files, is_image: true, link_to_resource: true
+  #field :user, as: :belongs_to, default: -> { current_user.id }
+  field :user_id, as: :hidden, default: -> { current_user.id }
   # field 'cover', as: :external_image, link_to_resource: true, only_on: :index do |model|
   #   model.images.first.url if model.images.any?
   # end

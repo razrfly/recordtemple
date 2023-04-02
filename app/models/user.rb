@@ -13,6 +13,9 @@
 #  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
+  #include Passwordless::ModelHelpers
+
+  has_many :records
 
   validates :email,
             presence: true,
