@@ -3,7 +3,7 @@ class LabelResource < Avo::BaseResource
   self.includes = []
   self.default_view_type = :grid
   self.search_query = -> do
-    scope.ransack(id_eq: params[:q], name_cont: params[:q], m: "or").result(distinct: false).order(name: :asc)
+    scope.ransack(id_eq: params[:q], name_matches: params[:q], m: "or").result(distinct: false).order(name: :asc)
   end
   self.resolve_query_scope = ->(model_class:) do
     model_class.order(name: :asc)
