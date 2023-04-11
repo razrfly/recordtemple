@@ -55,6 +55,8 @@ class Record < ApplicationRecord
   has_many_attached :images
   has_many_attached :songs
 
+  validates :condition, presence: true
+
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true

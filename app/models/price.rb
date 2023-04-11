@@ -39,6 +39,8 @@ class Price < ApplicationRecord
   belongs_to :record_format
   belongs_to :user
 
+  has_many :records
+
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true

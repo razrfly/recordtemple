@@ -5,6 +5,8 @@ class PriceResource < Avo::BaseResource
     scope.ransack(id_eq: params[:q], artist_name_cont: params[:q], m: "or").result(distinct: false)
   end
 
+  action CreateRecord
+
   field :id, as: :id
   # Fields generated from the model
   # field :cached_artist, as: :text
