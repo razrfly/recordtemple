@@ -2,7 +2,7 @@ class PriceResource < Avo::BaseResource
   self.title = :title
   self.includes = [:artist, :label, :record_format]
   self.search_query = -> do
-    scope.ransack(id_eq: params[:q], artist_name_cont: params[:q], m: "or").result(distinct: false)
+    scope.ransack(id_eq: params[:q], artist_name_cont: params[:q], label_name_cont: params[:q], detail_cont: params[:q], m: "or").result(distinct: false)
   end
 
   action CreateRecord

@@ -37,7 +37,7 @@ gem "sidekiq", "~> 7"
 gem "ransack", "~> 3.2"
 gem "passwordless", "~> 0.11.0"
 gem "friendly_id", "~> 5.5.0"
-gem "avo", "~> 2.28"
+gem "avo", "~> 2.29.1"
 gem "chartkick", "~> 5"
 gem "pundit", "~> 2.3"
 

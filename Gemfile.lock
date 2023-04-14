@@ -76,7 +76,7 @@ GEM
     annotate (3.2.0)
       activerecord (>= 3.2, < 8.0)
       rake (>= 10.4, < 14.0)
-    avo (2.28.0)
+    avo (2.29.1)
       actionview (>= 6.0)
       active_link_to
       activerecord (>= 6.0)
@@ -149,7 +149,7 @@ GEM
     importmap-rails (1.1.5)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
-    inline_svg (1.8.0)
+    inline_svg (1.9.0)
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
     io-console (0.6.0)
@@ -193,7 +193,7 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
-    pagy (6.0.2)
+    pagy (6.0.3)
     passwordless (0.11.0)
       bcrypt (~> 3.1.11)
       rails (>= 5.1.4)
@@ -314,7 +314,7 @@ PLATFORMS
 DEPENDENCIES
   active_record_doctor
   annotate
-  avo (~> 2.28)
+  avo (~> 2.29.1)
   aws-sdk-s3
   bootsnap
   capybara

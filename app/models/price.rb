@@ -46,6 +46,6 @@ class Price < ApplicationRecord
   delegate :name, to: :record_format, prefix: true, allow_nil: true
 
   def title
-    [artist_name, label_name, record_format_name].compact.join(' - ')
+    [artist_name, label_name, record_format_name, detail].compact.join(' - ')
   end
 end

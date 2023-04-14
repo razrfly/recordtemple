@@ -8,12 +8,13 @@ class CreateRecord < Avo::BaseAction
     end
   end
 
-  #field :artist, as: :belongs_to, default: -> { resource.artist_id }
-  field :genre_id, as: :select, options: Genre.all.map { |genre| [genre.name, genre.id] }.to_h
+  #field :genre_id, as: :select, options: ::Genre.all.map { |g| [g.name, g.id] }
+  field :genre_id, as: :select, options: ->(model:, resource:, view:, field:) do
+    ::Genre.all.map { |g| [g.name, g.id] }
+  end
   field :comment, as: :textarea
   field :value, as: :number
   field :condition, as: :select, enum: ::Record.conditions
-  #field :user, as: :belongs_to, default: -> { current_user.id }
 
   def handle(**args)
     models, fields, current_user, resource = args.values_at(:models, :fields, :current_user, :resource)
