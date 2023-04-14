@@ -6,6 +6,9 @@ class PriceResource < Avo::BaseResource
   end
 
   action CreateRecord
+  filter ArtistFilter
+  filter LabelFilter
+  filter RecordFormatFilter
 
   field :id, as: :id
   # Fields generated from the model

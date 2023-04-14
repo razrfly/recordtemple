@@ -8,6 +8,12 @@ class RecordResource < Avo::BaseResource
     model_class.order(created_at: :desc)
   end
 
+  filter ArtistFilter
+  filter LabelFilter
+  filter RecordFormatFilter
+  filter GenreFilter
+  filter ConditionFilter
+
   field :id, as: :id
   field :artist, as: :belongs_to, searchable: true
   field :label, as: :belongs_to, searchable: true
@@ -26,7 +32,7 @@ class RecordResource < Avo::BaseResource
     display_with_value: true,
     placeholder: 'Choose the condition.'
   
-  field :identifier, as: :number
+  field :identifier, as: :number, hide_on: [:index]
   #field :user, as: :belongs_to
   field :price, as: :belongs_to, searchable: true, hide_on: :index
   field :genre, as: :belongs_to
