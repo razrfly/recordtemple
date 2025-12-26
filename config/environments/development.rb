@@ -36,8 +36,9 @@ Rails.application.configure do
   # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
 
-  # Don't care if the mailer can't send.
-  config.action_mailer.raise_delivery_errors = false
+  # Use Resend for email delivery in development
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.delivery_method = :resend
 
   config.action_mailer.perform_caching = false
 

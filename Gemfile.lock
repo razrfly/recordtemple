@@ -244,6 +244,8 @@ GEM
     regexp_parser (2.7.0)
     reline (0.3.2)
       io-console (~> 0.5)
+    resend (1.0.0)
+      httparty (>= 0.21.0)
     rexml (3.2.5)
     ruby-vips (2.1.4)
       ffi (~> 1.12)
@@ -332,6 +334,7 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.2)
   ransack (~> 3.2)
   redis (~> 4.0)
+  resend
   selenium-webdriver
   sentry-rails
   sentry-ruby
