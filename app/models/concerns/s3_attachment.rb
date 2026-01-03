@@ -25,6 +25,8 @@ module S3Attachment
   def file_data
     return nil unless attachment_id.present?
     s3_client.get_object(bucket: BUCKET, key: s3_key).body.read
+  rescue Aws::S3::Errors::NotFound, Aws::S3::Errors::NoSuchKey
+    nil
   end
 
   def s3_key
