@@ -26,16 +26,26 @@ namespace :storage do
       )
     )
 
-    # Track migrated blobs for deduplication (many photos share same file)
+    # Pre-populate migrated_blobs from existing blobs (for idempotency/resume)
+    # We store refile_id in blob metadata to track what's already migrated
     migrated_blobs = {}
+    puts "\nChecking for previously migrated blobs..."
+    ActiveStorage::Blob.where.not(metadata: nil).find_each do |blob|
+      refile_id = blob.metadata["refile_id"]
+      migrated_blobs[refile_id] = blob if refile_id.present?
+    end
+    puts "Found #{migrated_blobs.size} previously migrated blobs (will reuse)"
+
     errors = []
     stats = {
       photos_processed: 0,
       photos_skipped: 0,
+      photos_already_migrated: 0,
       photos_attached: 0,
       photos_reused: 0,
       songs_processed: 0,
       songs_skipped: 0,
+      songs_already_migrated: 0,
       songs_attached: 0,
       songs_reused: 0
     }
@@ -61,21 +71,28 @@ namespace :storage do
 
       begin
         if migrated_blobs[refile_id]
-          # Reuse existing blob for duplicate file
-          photo.record.images.attach(migrated_blobs[refile_id])
-          stats[:photos_reused] += 1
+          # Check if this record already has this blob attached (true idempotency)
+          existing_blob = migrated_blobs[refile_id]
+          if photo.record.images.blobs.exists?(existing_blob.id)
+            stats[:photos_already_migrated] += 1
+          else
+            # Reuse existing blob for duplicate file
+            photo.record.images.attach(existing_blob)
+            stats[:photos_reused] += 1
+          end
         else
           # Download from old CDN
           s3_key = "store/#{refile_id}"
           response = s3.get_object(bucket: OLD_BUCKET, key: s3_key)
           file_data = response.body.read
 
-          # Attach to Record via Active Storage
+          # Attach to Record via Active Storage with refile_id in metadata for idempotency
           photo.record.images.attach(
             io: StringIO.new(file_data),
             filename: photo.image_filename || "image.jpg",
             content_type: photo.image_content_type || "image/jpeg",
-            identify: false
+            identify: false,
+            metadata: { refile_id: refile_id }
           )
 
           # Cache blob for reuse
@@ -103,7 +120,7 @@ namespace :storage do
       end
     end
 
-    puts "\n[PHASE 1 COMPLETE] Photos: #{stats[:photos_attached]} new, #{stats[:photos_reused]} reused, #{stats[:photos_skipped]} skipped"
+    puts "\n[PHASE 1 COMPLETE] Photos: #{stats[:photos_attached]} new, #{stats[:photos_reused]} reused, #{stats[:photos_already_migrated]} already migrated, #{stats[:photos_skipped]} skipped"
 
     # =======================================================================
     # PHASE 2: MIGRATE SONGS → Record.songs
@@ -125,8 +142,14 @@ namespace :storage do
 
       begin
         if migrated_blobs[refile_id]
-          song.record.songs.attach(migrated_blobs[refile_id])
-          stats[:songs_reused] += 1
+          # Check if this record already has this blob attached (true idempotency)
+          existing_blob = migrated_blobs[refile_id]
+          if song.record.songs.blobs.exists?(existing_blob.id)
+            stats[:songs_already_migrated] += 1
+          else
+            song.record.songs.attach(existing_blob)
+            stats[:songs_reused] += 1
+          end
         else
           s3_key = "store/#{refile_id}"
           response = s3.get_object(bucket: OLD_BUCKET, key: s3_key)
@@ -136,7 +159,8 @@ namespace :storage do
             io: StringIO.new(file_data),
             filename: song.audio_filename || "audio.mp3",
             content_type: song.audio_content_type || "audio/mpeg",
-            identify: false
+            identify: false,
+            metadata: { refile_id: refile_id }
           )
 
           migrated_blobs[refile_id] = song.record.songs.blobs.order(:created_at).last
@@ -162,7 +186,7 @@ namespace :storage do
       end
     end
 
-    puts "\n[PHASE 2 COMPLETE] Songs: #{stats[:songs_attached]} new, #{stats[:songs_reused]} reused, #{stats[:songs_skipped]} skipped"
+    puts "\n[PHASE 2 COMPLETE] Songs: #{stats[:songs_attached]} new, #{stats[:songs_reused]} reused, #{stats[:songs_already_migrated]} already migrated, #{stats[:songs_skipped]} skipped"
 
     # =======================================================================
     # SUMMARY
@@ -184,12 +208,14 @@ namespace :storage do
     puts "  Processed:               #{stats[:photos_processed]}"
     puts "  New uploads:             #{stats[:photos_attached]}"
     puts "  Blob reused:             #{stats[:photos_reused]}"
+    puts "  Already migrated:        #{stats[:photos_already_migrated]}"
     puts "  Skipped/Errors:          #{stats[:photos_skipped]}"
     puts ""
     puts "SONGS:"
     puts "  Processed:               #{stats[:songs_processed]}"
     puts "  New uploads:             #{stats[:songs_attached]}"
     puts "  Blob reused:             #{stats[:songs_reused]}"
+    puts "  Already migrated:        #{stats[:songs_already_migrated]}"
     puts "  Skipped/Errors:          #{stats[:songs_skipped]}"
     puts ""
     puts "ERRORS: #{errors.size}"
@@ -293,6 +319,8 @@ namespace :storage do
         puts "  Photo #{photo.id}: #{photo.image_filename} (#{(head.content_length / 1024.0).round(1)} KB) ✓"
       rescue Aws::S3::Errors::NotFound
         puts "  Photo #{photo.id}: #{photo.image_filename} - FILE MISSING ✗"
+      rescue Aws::S3::Errors::ServiceError => e
+        puts "  Photo #{photo.id}: #{photo.image_filename} - S3 ERROR: #{e.message} ✗"
       end
     end
 
@@ -305,6 +333,8 @@ namespace :storage do
         puts "  Song #{song.id}: #{song.audio_filename} (#{(head.content_length / 1024.0 / 1024.0).round(2)} MB) ✓"
       rescue Aws::S3::Errors::NotFound
         puts "  Song #{song.id}: #{song.audio_filename} - FILE MISSING ✗"
+      rescue Aws::S3::Errors::ServiceError => e
+        puts "  Song #{song.id}: #{song.audio_filename} - S3 ERROR: #{e.message} ✗"
       end
     end
 
