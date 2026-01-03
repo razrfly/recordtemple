@@ -2,7 +2,7 @@ class DevSessionsController < ApplicationController
   def create
     raise "Dev login only available in development!" unless Rails.env.development?
 
-    user = User.first || User.create!(email: "dev@example.com")
+    user = User.order(:id).first || User.create!(email: "dev@example.com")
     session = Passwordless::Session.create!(
       authenticatable: user,
       user_agent: request.user_agent || "DevLogin",
