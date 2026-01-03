@@ -6,5 +6,14 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
   passwordless_for :users
 
+  # Dev-only auto-login bypass
+  if Rails.env.development?
+    get "dev_login", to: "dev_sessions#create"
+  end
+
+  # Legacy file serving (Refile -> S3)
+  get "files/photos/:id", to: "files#photo", as: :photo_file
+  get "files/songs/:id", to: "files#song", as: :song_file
+
   root to: 'static#index'
 end
