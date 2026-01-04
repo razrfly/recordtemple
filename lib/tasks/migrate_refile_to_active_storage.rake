@@ -5,6 +5,9 @@ namespace :storage do
   task migrate_refile: :environment do
     require "aws-sdk-s3"
 
+    # Disable output buffering so progress dots appear immediately
+    $stdout.sync = true
+
     OLD_BUCKET = "cdn.recordtemple.com"
     REGION = "us-east-1"
     BATCH_LOG_INTERVAL = 500
@@ -53,11 +56,14 @@ namespace :storage do
     # =======================================================================
     # PHASE 1: MIGRATE PHOTOS → Record.images
     # =======================================================================
-    total_photos = Photo.where.not(image_id: nil).count
+    # Use pluck + find to avoid find_each primary key detection issues
+    photo_ids = Photo.where.not(image_id: nil).order(:id).pluck(:id)
+    total_photos = photo_ids.size
     puts "\n[PHASE 1] Migrating #{total_photos} photos to Record.images..."
     puts "-" * 70
 
-    Photo.where.not(image_id: nil).includes(:record).find_each.with_index do |photo, i|
+    photo_ids.each_with_index do |photo_id, i|
+      photo = Photo.includes(:record).find(photo_id)
       stats[:photos_processed] += 1
 
       # Skip if no associated record
@@ -125,11 +131,14 @@ namespace :storage do
     # =======================================================================
     # PHASE 2: MIGRATE SONGS → Record.songs
     # =======================================================================
-    total_songs = Song.where.not(audio_id: nil).count
+    # Use pluck + find to avoid find_each primary key detection issues
+    song_ids = Song.where.not(audio_id: nil).order(:id).pluck(:id)
+    total_songs = song_ids.size
     puts "\n[PHASE 2] Migrating #{total_songs} songs to Record.songs..."
     puts "-" * 70
 
-    Song.where.not(audio_id: nil).includes(:record).find_each.with_index do |song, i|
+    song_ids.each_with_index do |song_id, i|
+      song = Song.includes(:record).find(song_id)
       stats[:songs_processed] += 1
 
       unless song.record
