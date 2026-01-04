@@ -45,9 +45,10 @@ class Record < ApplicationRecord
   belongs_to :artist
   belongs_to :label
 
-  # remove eventually
+  # Legacy Photo/Song models - kept for backwards compatible URLs
+  # Actual files are served via Active Storage (images/songs attachments)
   has_many :photos
-  has_many :songs
+  has_many :legacy_songs, class_name: "Song", foreign_key: "record_id"
 
   enum condition: { mint: 1, "near mint": 2, "vg++": 3,
     "vg+": 4, "very good": 5, good: 6, poor: 7 }
