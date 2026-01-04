@@ -10,7 +10,7 @@ primary_region = "dfw"
 
 [processes]
   web = "bin/rails server"
-  worker = "bundle exec sidekiq"
+  worker = "bundle exec sidekiq -C config/sidekiq.yml"
 
 [experimental]
   auto_rollback = true

@@ -1,0 +1,16 @@
+# Sidekiq configuration
+# See: https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
+
+# Default concurrency (can be overridden via -c flag)
+:concurrency: 25
+
+# Queues to process (order = priority, weight format)
+:queues:
+  - [critical, 3]
+  - [default, 2]
+  - [migration, 2]
+  - [mailers, 1]
+  - [low, 1]
+
+# Limit retries for migration jobs
+:max_retries: 3
