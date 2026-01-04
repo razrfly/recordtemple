@@ -50,7 +50,7 @@ class Record < ApplicationRecord
   has_many :photos
   has_many :legacy_songs, class_name: "Song", foreign_key: "record_id"
 
-  enum condition: { mint: 1, "near mint": 2, "vg++": 3,
+  enum :condition, { mint: 1, "near mint": 2, "vg++": 3,
     "vg+": 4, "very good": 5, good: 6, poor: 7 }
 
   has_many_attached :images

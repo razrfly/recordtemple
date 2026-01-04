@@ -2,7 +2,7 @@ require 'admin_constraint'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  mount Avo::Engine, at: Avo.configuration.root_path, constraints: AdminConstraint.new
+  # mount Avo::Engine, at: Avo.configuration.root_path, constraints: AdminConstraint.new  # Disabled - planned for removal
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
   passwordless_for :users
 
