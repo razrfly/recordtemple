@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@config "../../../config/tailwind.config.js";
+
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/aspect-ratio";
+@plugin "@tailwindcss/typography";
+
+/*
+ * Custom component styles can be added here using @layer
+ *
+ * @layer components {
+ *   .btn-primary {
+ *     @apply py-2 px-4 bg-blue-200;
+ *   }
+ * }
+ */
