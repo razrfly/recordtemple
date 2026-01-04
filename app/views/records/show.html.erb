@@ -8,14 +8,23 @@
     <% end %>
   </div>
 
-  <div class="bg-white rounded-3xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden">
+  <% images_data = @record.images.attached? ? @record.images.map { |img| { url: url_for(img.variant(resize_to_limit: [1200, 1200])), alt: @record.title } } : [] %>
+
+  <div class="bg-white rounded-3xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden"
+       data-controller="lightbox"
+       data-lightbox-images-value="<%= images_data.to_json %>">
     <div class="md:flex">
       <div class="md:w-96 md:shrink-0">
         <div class="aspect-square bg-olive-100">
           <% if @record.images.attached? && @record.images.any? %>
-            <%= image_tag @record.images.first.variant(resize_to_fill: [600, 600]),
-                class: "w-full h-full object-cover",
-                alt: @record.title %>
+            <button type="button"
+                    data-action="click->lightbox#open"
+                    data-index="0"
+                    class="w-full h-full cursor-zoom-in group">
+              <%= image_tag @record.images.first.variant(resize_to_fill: [600, 600]),
+                  class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity",
+                  alt: @record.title %>
+            </button>
           <% else %>
             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
               <svg class="w-24 h-24 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,7 +101,10 @@
       <div class="border-t border-olive-100 p-6 bg-olive-50/50">
         <div class="flex gap-3 overflow-x-auto pb-2">
           <% @record.images.each_with_index do |image, index| %>
-            <button class="shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-2 <%= index == 0 ? 'ring-olive-950' : 'ring-olive-200 hover:ring-olive-400' %> transition-all">
+            <button type="button"
+                    data-action="click->lightbox#open"
+                    data-index="<%= index %>"
+                    class="shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-2 <%= index == 0 ? 'ring-olive-950' : 'ring-olive-200 hover:ring-olive-400' %> transition-all cursor-zoom-in">
               <%= image_tag image.variant(resize_to_fill: [160, 160]), class: "w-full h-full object-cover", alt: "Image #{index + 1}" %>
             </button>
           <% end %>
@@ -155,6 +167,78 @@
             </div>
           <% end %>
         </div>
+      </div>
+    <% end %>
+
+    <!-- Lightbox Modal -->
+    <% if @record.images.attached? && @record.images.any? %>
+      <div data-lightbox-target="modal"
+           data-action="click->lightbox#close"
+           role="dialog"
+           aria-modal="true"
+           aria-label="Image gallery"
+           class="fixed inset-0 z-50 bg-olive-950/95 opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center">
+
+        <!-- Close button -->
+        <button type="button"
+                data-action="click->lightbox#close"
+                data-lightbox-target="closeButton"
+                class="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-10"
+                aria-label="Close lightbox">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+
+        <!-- Counter -->
+        <div class="absolute top-4 left-4 text-white/70 text-sm" data-lightbox-target="counter">
+          1 / <%= @record.images.count %>
+        </div>
+
+        <!-- Previous button -->
+        <% if @record.images.count > 1 %>
+          <button type="button"
+                  data-action="click->lightbox#previous"
+                  class="absolute left-4 top-1/2 -translate-y-1/2 p-3 text-white/70 hover:text-white transition-colors"
+                  aria-label="Previous image">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+
+          <!-- Next button -->
+          <button type="button"
+                  data-action="click->lightbox#next"
+                  class="absolute right-4 top-1/2 -translate-y-1/2 p-3 text-white/70 hover:text-white transition-colors"
+                  aria-label="Next image">
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+        <% end %>
+
+        <!-- Main image -->
+        <div class="max-w-5xl max-h-[80vh] px-16" data-action="click->lightbox#stopPropagation">
+          <img data-lightbox-target="image"
+               src=""
+               alt=""
+               class="max-w-full max-h-[80vh] object-contain rounded-lg shadow-2xl">
+        </div>
+
+        <!-- Thumbnails -->
+        <% if @record.images.count > 1 %>
+          <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-olive-900/50 rounded-xl">
+            <% @record.images.each_with_index do |image, index| %>
+              <button type="button"
+                      data-action="click->lightbox#goTo"
+                      data-index="<%= index %>"
+                      data-lightbox-target="thumbnail"
+                      class="w-12 h-12 rounded-lg overflow-hidden transition-all <%= index == 0 ? 'ring-white ring-2' : 'ring-olive-200 opacity-60' %>">
+                <%= image_tag image.variant(resize_to_fill: [96, 96]), class: "w-full h-full object-cover", alt: "Thumbnail #{index + 1}" %>
+              </button>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     <% end %>
   </div>
