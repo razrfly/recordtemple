@@ -70,7 +70,9 @@
         <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
           <div class="flex flex-wrap gap-2 mb-6">
             <% if params.dig(:q, :artist_name_or_label_name_or_comment_cont).present? %>
-              <%= link_to records_path(params.except(:q).merge(q: params[:q].except(:artist_name_or_label_name_or_comment_cont))),
+              <% clear_search_params = request.query_parameters.deep_dup %>
+              <% clear_search_params[:q]&.delete(:artist_name_or_label_name_or_comment_cont) %>
+              <%= link_to records_path(clear_search_params),
                   class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
                   data: { turbo_frame: "records_list" } do %>
                 Search: "<%= params.dig(:q, :artist_name_or_label_name_or_comment_cont) %>"
@@ -80,7 +82,7 @@
               <% end %>
             <% end %>
             <% if params[:has_images] == "1" %>
-              <%= link_to records_path(params.except(:has_images)),
+              <%= link_to records_path(request.query_parameters.except(:has_images)),
                   class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
                   data: { turbo_frame: "records_list" } do %>
                 Has Images
@@ -90,7 +92,7 @@
               <% end %>
             <% end %>
             <% if params[:has_audio] == "1" %>
-              <%= link_to records_path(params.except(:has_audio)),
+              <%= link_to records_path(request.query_parameters.except(:has_audio)),
                   class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
                   data: { turbo_frame: "records_list" } do %>
                 Has Audio
