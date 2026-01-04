@@ -23,22 +23,32 @@
 #
 #  index_photos_on_record_id  (record_id)
 #
+# Note: Legacy Refile columns (image_id, image_filename, etc.) are preserved
+# as backup but no longer used. Files are served via Active Storage.
+#
 class Photo < ApplicationRecord
-  include S3Attachment
-
   belongs_to :record
 
-  s3_attachment(
-    id_field: :image_id,
-    filename_field: :image_filename,
-    content_type_field: :image_content_type,
-    default_content_type: "image/jpeg",
-    default_filename: "image.jpg"
-  )
+  # Find the corresponding Active Storage attachment on the parent Record
+  # Matches by filename since that's how files were migrated from Refile
+  def active_storage_attachment
+    return nil unless record&.images&.attached?
 
-  private
+    record.images.find { |img| img.filename.to_s == image_filename }
+  end
 
-  def url_helper_method
+  # URL for serving this photo (backwards compatible route)
+  def url
     Rails.application.routes.url_helpers.photo_file_path(id)
+  end
+
+  # Delegate to Active Storage blob for content type
+  def content_type
+    active_storage_attachment&.content_type || image_content_type || "image/jpeg"
+  end
+
+  # Delegate to Active Storage blob for filename
+  def filename
+    active_storage_attachment&.filename&.to_s || image_filename || "image.jpg"
   end
 end

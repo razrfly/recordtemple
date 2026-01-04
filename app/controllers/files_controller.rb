@@ -1,33 +1,29 @@
+# Serves photo and song files via Active Storage
+# Legacy Refile routes maintained for backwards compatibility
 class FilesController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:photo, :song]
+  include ActiveStorage::SetCurrent
 
   def photo
     @photo = Photo.find(params[:id])
 
-    if @photo.image_id.present?
-      send_data @photo.file_data,
-                type: @photo.content_type,
-                filename: @photo.filename,
-                disposition: "inline"
+    if (attachment = @photo.active_storage_attachment)
+      redirect_to rails_blob_url(attachment, disposition: "inline"), allow_other_host: true
     else
       head :not_found
     end
-  rescue Aws::S3::Errors::NoSuchKey
+  rescue ActiveStorage::FileNotFoundError
     head :not_found
   end
 
   def song
     @song = Song.find(params[:id])
 
-    if @song.audio_id.present?
-      send_data @song.file_data,
-                type: @song.content_type,
-                filename: @song.filename,
-                disposition: "inline"
+    if (attachment = @song.active_storage_attachment)
+      redirect_to rails_blob_url(attachment, disposition: "inline"), allow_other_host: true
     else
       head :not_found
     end
-  rescue Aws::S3::Errors::NoSuchKey
+  rescue ActiveStorage::FileNotFoundError
     head :not_found
   end
 end

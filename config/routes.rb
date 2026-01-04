@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     get "dev_login", to: "dev_sessions#create"
   end
 
-  # Legacy file serving (Refile -> S3)
+  # File serving via Active Storage (redirects to signed S3 URLs)
   get "files/photos/:id", to: "files#photo", as: :photo_file
   get "files/songs/:id", to: "files#song", as: :song_file
 
