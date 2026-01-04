@@ -15,5 +15,8 @@ Rails.application.routes.draw do
   get "files/photos/:id", to: "files#photo", as: :photo_file
   get "files/songs/:id", to: "files#song", as: :song_file
 
+  # Public record catalog
+  resources :records, only: [:index, :show]
+
   root to: 'static#index'
 end

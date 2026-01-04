@@ -1,0 +1,58 @@
+<%= link_to record_path(record),
+    class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden",
+    data: { turbo_frame: "_top" } do %>
+
+  <div class="relative aspect-square bg-olive-100">
+    <% if record.images.attached? && record.images.any? %>
+      <%= image_tag record.images.first.variant(resize_to_fill: [400, 400]),
+          class: "w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500",
+          alt: record.title,
+          loading: "lazy" %>
+    <% else %>
+      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
+        <svg class="w-20 h-20 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+        </svg>
+      </div>
+    <% end %>
+
+    <% if record.songs.attached? && record.songs.any? %>
+      <div class="absolute bottom-3 right-3 bg-olive-950/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-lg">
+        <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+        </svg>
+        <%= record.songs.count %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="p-4">
+    <h3 class="font-display text-lg text-olive-950 truncate group-hover:text-olive-700 transition-colors">
+      <%= record.artist_name || "Unknown Artist" %>
+    </h3>
+
+    <p class="text-sm text-olive-600 truncate mt-1">
+      <%= record.label_name.presence || "Unknown Label" %>
+      <% if record.record_format_name.present? %>
+        <span class="text-olive-400 mx-1">&middot;</span>
+        <span class="text-olive-500"><%= record.record_format_name %></span>
+      <% end %>
+    </p>
+
+    <div class="flex items-center justify-between mt-3 pt-3 border-t border-olive-100">
+      <%= render 'records/condition_badge', condition: record.condition %>
+
+      <% if record.price_low.present? || record.price_high.present? %>
+        <span class="text-sm font-semibold text-olive-800">
+          <% if record.price_low.present? && record.price_high.present? && record.price_low != record.price_high %>
+            $<%= record.price_low %>–<%= record.price_high %>
+          <% elsif record.price_high.present? %>
+            $<%= record.price_high %>
+          <% elsif record.price_low.present? %>
+            $<%= record.price_low %>
+          <% end %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

@@ -1,21 +1,101 @@
-<!-- app/views/static/index.html.erb-->
-<div class="max-w-2xl p-8 rounded-xl mx-auto text-center my-16 bg-gray-50">
-  <h1 class="font-black text-3xl">RecordTemple</h1>
-  <%= image_tag 'logo.png', class: 'mx-auto' %>
-
-  <% if current_user.present? %>
-    <p class="py-3">
-      You are signed in as
-      <span class="font-semibold text-sky-800">
-        <%= current_user.username %>(<%= current_user.email %>)
-      </span>
-    </p>
-    <%= link_to "Sign out", users.sign_out_path, class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
-    <%= link_to "Admin", '/admin', class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
-  <% else %>
-    <p class="text-lg text-gray-600 my-4">Sign up for members-only access</p>
-    <div class="flex items-center space-x-3 justify-center">
-      <%= link_to "Sign in", users.sign_in_path, class: "bg-sky-500 text-white px-3 py-2 font-semibold rounded" %>
+<!-- Hero Section -->
+<%= ui_section padding: :lg do %>
+  <%= ui_container do %>
+    <div class="text-center">
+      <h1 class="font-display text-5xl tracking-tight text-olive-950 sm:text-6xl lg:text-7xl dark:text-white">
+        Discover Rare Vinyl
+      </h1>
+      <p class="mx-auto mt-6 max-w-2xl text-lg text-olive-600 dark:text-olive-400">
+        RecordTemple is your destination for curated vinyl records. Browse our collection of rare finds,
+        classic albums, and hidden gems from every genre.
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <% if current_user.present? %>
+          <%= ui_button "Browse Collection", href: "#", variant: :primary, size: :lg %>
+          <%= ui_button "My Dashboard", href: static_members_only_path, variant: :soft, size: :lg %>
+        <% else %>
+          <%= ui_button "Start Browsing", href: "#", variant: :primary, size: :lg %>
+          <%= ui_button "Sign In", href: users.sign_in_path, variant: :soft, size: :lg %>
+        <% end %>
+      </div>
     </div>
   <% end %>
-</div>
+<% end %>
+
+<!-- Features Section -->
+<%= ui_section do %>
+  <%= ui_container do %>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      <%= ui_card do %>
+        <div class="mb-4 inline-flex size-12 items-center justify-center rounded-full bg-olive-100 dark:bg-olive-800">
+          <svg class="size-6 text-olive-600 dark:text-olive-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+          </svg>
+        </div>
+        <h3 class="font-display text-xl text-olive-950 dark:text-white">Curated Selection</h3>
+        <p class="mt-2 text-olive-600 dark:text-olive-400">
+          Every record in our collection is hand-picked for quality and authenticity.
+        </p>
+      <% end %>
+
+      <%= ui_card do %>
+        <div class="mb-4 inline-flex size-12 items-center justify-center rounded-full bg-olive-100 dark:bg-olive-800">
+          <svg class="size-6 text-olive-600 dark:text-olive-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
+          </svg>
+        </div>
+        <h3 class="font-display text-xl text-olive-950 dark:text-white">Verified Condition</h3>
+        <p class="mt-2 text-olive-600 dark:text-olive-400">
+          Detailed condition grading so you know exactly what you're getting.
+        </p>
+      <% end %>
+
+      <%= ui_card do %>
+        <div class="mb-4 inline-flex size-12 items-center justify-center rounded-full bg-olive-100 dark:bg-olive-800">
+          <svg class="size-6 text-olive-600 dark:text-olive-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+          </svg>
+        </div>
+        <h3 class="font-display text-xl text-olive-950 dark:text-white">Secure Shipping</h3>
+        <p class="mt-2 text-olive-600 dark:text-olive-400">
+          Carefully packaged and insured shipping to protect your new treasures.
+        </p>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<!-- User Status Section -->
+<% if current_user.present? %>
+  <%= ui_section padding: :sm do %>
+    <%= ui_container do %>
+      <%= ui_card padding: :lg, shadow: true do %>
+        <div class="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p class="text-sm text-olive-500 dark:text-olive-400">Signed in as</p>
+            <p class="font-display text-xl text-olive-950 dark:text-white">
+              <%= current_user.username %>
+            </p>
+            <p class="text-sm text-olive-600 dark:text-olive-400"><%= current_user.email %></p>
+          </div>
+          <div class="flex gap-3">
+            <%= ui_button "Dashboard", href: static_members_only_path, variant: :primary %>
+            <%= ui_button "Sign Out", href: users.sign_out_path, variant: :soft %>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<!-- Badges Preview (showcasing the component) -->
+<%= ui_section padding: :sm do %>
+  <%= ui_container do %>
+    <div class="flex flex-wrap items-center justify-center gap-2">
+      <%= ui_badge "New Arrivals", variant: :success %>
+      <%= ui_badge "Vinyl LP" %>
+      <%= ui_badge "Limited Edition", variant: :warning %>
+      <%= ui_badge "Rare Find", variant: :info %>
+    </div>
+  <% end %>
+<% end %>

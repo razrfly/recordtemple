@@ -79,5 +79,12 @@ class Record < ApplicationRecord
     [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact.join(' - ')
   end
 
+  # Ransack configuration
+  def self.ransackable_attributes(auth_object = nil)
+    %w[artist_id label_id genre_id record_format_id condition comment created_at updated_at]
+  end
 
+  def self.ransackable_associations(auth_object = nil)
+    %w[artist label genre record_format]
+  end
 end

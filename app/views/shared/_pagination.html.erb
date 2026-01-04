@@ -1,0 +1,63 @@
+<% if pagy.pages > 1 %>
+  <nav class="flex items-center justify-center gap-2" aria-label="Pagination">
+    <% if pagy.prev %>
+      <%= link_to pagy_url_for(pagy, pagy.prev),
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10 hover:bg-olive-50 transition-colors",
+          aria: { label: "Previous page" },
+          data: { turbo_frame: "records_list" } do %>
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Prev
+      <% end %>
+    <% else %>
+      <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-olive-400 bg-olive-100 rounded-xl cursor-not-allowed">
+        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+        </svg>
+        Prev
+      </span>
+    <% end %>
+
+    <div class="hidden sm:flex items-center gap-1">
+      <% pagy.series.each do |item| %>
+        <% if item.is_a?(Integer) %>
+          <% if item == pagy.page %>
+            <span class="inline-flex items-center justify-center w-10 h-10 text-sm font-semibold text-white bg-olive-950 rounded-xl">
+              <%= item %>
+            </span>
+          <% else %>
+            <%= link_to item, pagy_url_for(pagy, item),
+                class: "inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10 hover:bg-olive-50 transition-colors",
+                data: { turbo_frame: "records_list" } %>
+          <% end %>
+        <% elsif item == :gap %>
+          <span class="inline-flex items-center justify-center w-10 h-10 text-sm text-olive-400">&hellip;</span>
+        <% end %>
+      <% end %>
+    </div>
+
+    <span class="sm:hidden inline-flex items-center px-4 py-2 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10">
+      Page <%= pagy.page %> of <%= pagy.pages %>
+    </span>
+
+    <% if pagy.next %>
+      <%= link_to pagy_url_for(pagy, pagy.next),
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10 hover:bg-olive-50 transition-colors",
+          aria: { label: "Next page" },
+          data: { turbo_frame: "records_list" } do %>
+        Next
+        <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      <% end %>
+    <% else %>
+      <span class="inline-flex items-center px-4 py-2 text-sm font-medium text-olive-400 bg-olive-100 rounded-xl cursor-not-allowed">
+        Next
+        <svg class="w-4 h-4 ml-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </span>
+    <% end %>
+  </nav>
+<% end %>

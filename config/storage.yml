@@ -6,10 +6,15 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use bin/rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
+# Production S3 - use in dev with STORAGE_SERVICE=amazon to view prod files
+# WARNING: This is read-write, be careful not to upload/delete in dev!
 amazon:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   region: us-east-1
   bucket: cdn4.recordtemple.com
+
+# For dev with prod data, just use amazon directly:
+#   STORAGE_SERVICE=amazon bin/dev
+# The app is read-only in practice (viewing records), uploads are rare
