@@ -11,4 +11,5 @@
 
 class RecordFormat < ApplicationRecord
   belongs_to :record_type
+  has_many :records
 end

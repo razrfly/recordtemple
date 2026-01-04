@@ -1,0 +1,83 @@
+<header class="sticky top-0 z-10 bg-olive-100 dark:bg-olive-950" data-controller="mobile-menu">
+  <style>:root { --scroll-padding-top: 5.25rem }</style>
+  <nav>
+    <div class="mx-auto flex h-[5.25rem] max-w-7xl items-center gap-4 px-6 lg:px-10">
+      <div class="flex flex-1 items-center gap-12">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <%= link_to root_path, class: "inline-flex items-center" do %>
+            <%= image_tag "logo.png", alt: "RecordTemple", style: "height: 67px; width: auto;" %>
+          <% end %>
+        </div>
+
+        <!-- Desktop Navigation Links -->
+        <div class="flex gap-8 max-lg:hidden">
+          <%= link_to "Browse Records", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Artists", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Genres", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Labels", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+        </div>
+      </div>
+
+      <div class="flex flex-1 items-center justify-end gap-4">
+        <!-- Auth Actions -->
+        <div class="flex shrink-0 items-center gap-5">
+          <% if current_user.present? %>
+            <%= link_to "Dashboard", static_members_only_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium text-olive-950 hover:bg-olive-950/10 dark:text-white dark:hover:bg-white/10 px-3 py-1" %>
+            <%= link_to "Sign out", users.sign_out_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium bg-olive-950 text-white hover:bg-olive-800 dark:bg-olive-300 dark:text-olive-950 dark:hover:bg-olive-200 px-3 py-1" %>
+          <% else %>
+            <%= link_to "Sign in", users.sign_in_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium bg-olive-950 text-white hover:bg-olive-800 dark:bg-olive-300 dark:text-olive-950 dark:hover:bg-olive-200 px-3 py-1" %>
+          <% end %>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button
+          type="button"
+          data-action="mobile-menu#toggle"
+          aria-label="Toggle menu"
+          class="inline-flex rounded-full p-1.5 text-olive-950 hover:bg-olive-950/10 lg:hidden dark:text-white dark:hover:bg-white/10"
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path
+              fill-rule="evenodd"
+              d="M3.748 8.248a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75ZM3.748 15.75a.75.75 0 0 1 .75-.751h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Panel -->
+    <div
+      data-mobile-menu-target="panel"
+      class="fixed inset-0 z-50 bg-olive-100 px-6 py-6 lg:hidden dark:bg-olive-950 hidden"
+    >
+      <div class="flex justify-end">
+        <button
+          type="button"
+          data-action="mobile-menu#close"
+          aria-label="Close menu"
+          class="inline-flex rounded-full p-1.5 text-olive-950 hover:bg-olive-950/10 dark:text-white dark:hover:bg-white/10"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="mt-6 flex flex-col gap-6">
+        <%= link_to "Browse Records", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Artists", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Genres", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Labels", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <hr class="border-olive-200 dark:border-olive-800">
+        <% if current_user.present? %>
+          <%= link_to "Dashboard", static_members_only_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Sign out", users.sign_out_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <% else %>
+          <%= link_to "Sign in", users.sign_in_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <% end %>
+      </div>
+    </div>
+  </nav>
+</header>

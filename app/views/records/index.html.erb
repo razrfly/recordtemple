@@ -1,0 +1,121 @@
+<div class="mx-auto w-full max-w-2xl px-6 py-12 md:max-w-3xl lg:max-w-7xl lg:px-10">
+  <header class="mb-10">
+    <h1 class="font-display text-4xl tracking-tight text-olive-950 sm:text-5xl">Record Collection</h1>
+    <p class="mt-3 text-lg text-olive-600">Browse <%= number_with_delimiter(@total_count) %> vinyl records</p>
+  </header>
+
+  <div class="flex flex-col lg:flex-row gap-10">
+    <aside class="max-lg:hidden w-72 shrink-0">
+      <%= render 'records/filter_sidebar' %>
+    </aside>
+
+    <button type="button"
+            data-action="click->mobile-menu#openFilters"
+            class="lg:hidden flex items-center justify-center gap-2 py-3 px-4 bg-white rounded-xl shadow-sm ring-1 ring-olive-900/5 text-sm font-medium text-olive-700 hover:bg-olive-50 mb-6">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/>
+      </svg>
+      Filters
+      <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
+        <span class="inline-flex items-center justify-center w-5 h-5 text-xs bg-olive-950 text-white rounded-full">!</span>
+      <% end %>
+    </button>
+
+    <main class="flex-1">
+      <%= turbo_frame_tag "records_list" do %>
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-olive-200">
+          <p class="text-olive-700">
+            <% if @filtered_count != @total_count %>
+              Showing <span class="font-semibold text-olive-950"><%= number_with_delimiter(@filtered_count) %></span>
+              of <span class="font-semibold text-olive-950"><%= number_with_delimiter(@total_count) %></span> records
+            <% elsif @pagy.pages > 1 %>
+              Showing <span class="font-semibold text-olive-950"><%= @pagy.from %>–<%= @pagy.to %></span>
+              of <span class="font-semibold text-olive-950"><%= number_with_delimiter(@total_count) %></span>
+            <% else %>
+              <span class="font-semibold text-olive-950"><%= number_with_delimiter(@total_count) %></span> records
+            <% end %>
+          </p>
+
+          <div class="flex items-center gap-3">
+            <label for="sort" class="text-sm text-olive-600">Sort:</label>
+            <%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "auto-submit" } do %>
+              <% params[:q]&.each do |key, value| %>
+                <% if value.is_a?(Array) %>
+                  <% value.each do |v| %>
+                    <input type="hidden" name="q[<%= key %>][]" value="<%= v %>">
+                  <% end %>
+                <% else %>
+                  <input type="hidden" name="q[<%= key %>]" value="<%= value %>">
+                <% end %>
+              <% end %>
+              <input type="hidden" name="has_images" value="<%= params[:has_images] %>" <% if params[:has_images].blank? %>disabled<% end %>>
+              <input type="hidden" name="has_audio" value="<%= params[:has_audio] %>" <% if params[:has_audio].blank? %>disabled<% end %>>
+
+              <select name="sort"
+                      data-action="change->auto-submit#submit"
+                      class="text-sm font-medium text-olive-950 bg-white border-0 rounded-lg py-1.5 pl-3 pr-8 ring-1 ring-olive-200 focus:ring-2 focus:ring-olive-500 cursor-pointer">
+                <option value="" <%= "selected" if params[:sort].blank? %>>Latest Added</option>
+                <option value="oldest" <%= "selected" if params[:sort] == "oldest" %>>Oldest First</option>
+                <option value="artist_asc" <%= "selected" if params[:sort] == "artist_asc" %>>Artist A-Z</option>
+                <option value="artist_desc" <%= "selected" if params[:sort] == "artist_desc" %>>Artist Z-A</option>
+                <option value="label_asc" <%= "selected" if params[:sort] == "label_asc" %>>Label A-Z</option>
+                <option value="label_desc" <%= "selected" if params[:sort] == "label_desc" %>>Label Z-A</option>
+                <option value="condition_best" <%= "selected" if params[:sort] == "condition_best" %>>Best Condition</option>
+                <option value="condition_worst" <%= "selected" if params[:sort] == "condition_worst" %>>Worst Condition</option>
+              </select>
+            <% end %>
+          </div>
+        </div>
+
+        <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <% if params.dig(:q, :artist_name_or_label_name_or_comment_cont).present? %>
+              <%= link_to records_path(params.except(:q).merge(q: params[:q].except(:artist_name_or_label_name_or_comment_cont))),
+                  class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+                  data: { turbo_frame: "records_list" } do %>
+                Search: "<%= params.dig(:q, :artist_name_or_label_name_or_comment_cont) %>"
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              <% end %>
+            <% end %>
+            <% if params[:has_images] == "1" %>
+              <%= link_to records_path(params.except(:has_images)),
+                  class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+                  data: { turbo_frame: "records_list" } do %>
+                Has Images
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              <% end %>
+            <% end %>
+            <% if params[:has_audio] == "1" %>
+              <%= link_to records_path(params.except(:has_audio)),
+                  class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+                  data: { turbo_frame: "records_list" } do %>
+                Has Audio
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @records.any? %>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-5">
+            <% @records.each do |record| %>
+              <%= render 'records/record_card', record: record %>
+            <% end %>
+          </div>
+
+          <div class="mt-12">
+            <%= render 'shared/pagination', pagy: @pagy %>
+          </div>
+        <% else %>
+          <%= render 'records/empty_state' %>
+        <% end %>
+      <% end %>
+    </main>
+  </div>
+</div>

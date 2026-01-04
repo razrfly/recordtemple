@@ -1,0 +1,82 @@
+<footer class="pt-16">
+  <div class="bg-olive-950/[0.025] py-16 text-olive-950 dark:bg-white/5 dark:text-white">
+    <div class="mx-auto w-full max-w-2xl px-6 md:max-w-3xl lg:max-w-7xl lg:px-10">
+      <div class="flex flex-col gap-16">
+        <!-- Footer Navigation -->
+        <nav class="grid grid-cols-2 gap-8 text-sm/7 sm:grid-cols-4 lg:grid-cols-4">
+          <!-- Logo Column -->
+          <div class="col-span-2 sm:col-span-4 lg:col-span-1">
+            <%= link_to root_path, class: "inline-flex items-center" do %>
+              <%= image_tag "logo.png", alt: "RecordTemple", style: "height: 50px; width: auto;" %>
+            <% end %>
+            <p class="mt-4 text-sm text-olive-600 dark:text-olive-400">
+              Your destination for curated vinyl records.
+            </p>
+          </div>
+
+          <!-- Browse -->
+          <div>
+            <h3 class="font-medium">Browse</h3>
+            <ul role="list" class="mt-2 flex flex-col gap-2">
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "All Records", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Artists", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Genres", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Labels", "#" %>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Formats -->
+          <div>
+            <h3 class="font-medium">Formats</h3>
+            <ul role="list" class="mt-2 flex flex-col gap-2">
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Vinyl LP", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "7\" Singles", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "12\" Singles", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Box Sets", "#" %>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Company -->
+          <div>
+            <h3 class="font-medium">Company</h3>
+            <ul role="list" class="mt-2 flex flex-col gap-2">
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "About", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Contact", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Privacy Policy", "#" %>
+              </li>
+              <li class="text-olive-700 dark:text-olive-400">
+                <%= link_to "Terms of Service", "#" %>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        <!-- Fineprint -->
+        <div class="text-sm/7 text-olive-600 dark:text-olive-500">
+          <p>&copy; <%= Date.current.year %> RecordTemple. All rights reserved.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

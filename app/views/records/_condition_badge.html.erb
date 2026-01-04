@@ -1,0 +1,15 @@
+<%
+  badge_config = case condition
+    when 'mint'       then { bg: 'bg-amber-50', text: 'text-amber-700', ring: 'ring-amber-600/20', label: 'M' }
+    when 'near mint'  then { bg: 'bg-emerald-50', text: 'text-emerald-700', ring: 'ring-emerald-600/20', label: 'NM' }
+    when 'vg++'       then { bg: 'bg-teal-50', text: 'text-teal-700', ring: 'ring-teal-600/20', label: 'VG++' }
+    when 'vg+'        then { bg: 'bg-cyan-50', text: 'text-cyan-700', ring: 'ring-cyan-600/20', label: 'VG+' }
+    when 'very good'  then { bg: 'bg-sky-50', text: 'text-sky-700', ring: 'ring-sky-600/20', label: 'VG' }
+    when 'good'       then { bg: 'bg-orange-50', text: 'text-orange-700', ring: 'ring-orange-600/20', label: 'G' }
+    when 'poor'       then { bg: 'bg-red-50', text: 'text-red-700', ring: 'ring-red-600/20', label: 'P' }
+    else { bg: 'bg-olive-100', text: 'text-olive-600', ring: 'ring-olive-600/20', label: condition&.upcase || '—' }
+  end
+%>
+<span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-lg ring-1 ring-inset <%= badge_config[:bg] %> <%= badge_config[:text] %> <%= badge_config[:ring] %>">
+  <%= badge_config[:label] %>
+</span>

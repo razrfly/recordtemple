@@ -1,0 +1,14 @@
+<div class="py-16 text-center">
+  <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-olive-100 mb-6">
+    <svg class="w-8 h-8 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+    </svg>
+  </div>
+  <h3 class="font-display text-xl text-olive-950 mb-2">No records found</h3>
+  <p class="text-olive-600 mb-6">Try adjusting your filters or search terms</p>
+  <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
+    <%= link_to "Clear all filters", records_path,
+        class: "inline-flex items-center gap-2 px-4 py-2 bg-olive-950 text-white text-sm font-medium rounded-xl hover:bg-olive-800 transition-colors",
+        data: { turbo_frame: "records_list" } %>
+  <% end %>
+</div>

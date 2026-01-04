@@ -35,6 +35,7 @@ gem "redis", "~> 4.0"
 gem "sidekiq", "~> 7"
 
 gem "ransack", "~> 4.0"
+gem "pagy", "~> 9.0"
 gem "passwordless", "~> 0.11.0"
 gem "friendly_id", "~> 5.5.0"
 # gem "avo", ">= 3.0"  # Disabled - planned for removal, incompatible with Pagy 43.x

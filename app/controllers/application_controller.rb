@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Passwordless::ControllerHelpers
+  include Pagy::Backend
 
   helper_method :current_user
 

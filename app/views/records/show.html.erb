@@ -1,0 +1,199 @@
+<div class="mx-auto w-full max-w-4xl px-6 py-12">
+  <div class="mb-8">
+    <%= link_to records_path, class: "inline-flex items-center gap-2 text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back to Collection
+    <% end %>
+  </div>
+
+  <div class="bg-white rounded-3xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden">
+    <div class="md:flex">
+      <div class="md:w-96 md:shrink-0">
+        <div class="aspect-square bg-olive-100">
+          <% if @record.images.attached? && @record.images.any? %>
+            <%= image_tag @record.images.first.variant(resize_to_fill: [600, 600]),
+                class: "w-full h-full object-cover",
+                alt: @record.title %>
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
+              <svg class="w-24 h-24 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="0.75" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+              </svg>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="p-8 md:p-10 flex-1">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl sm:text-3xl tracking-tight text-olive-950">
+              <%= @record.artist_name || "Unknown Artist" %>
+            </h1>
+            <p class="mt-1 text-olive-600">
+              <%= @record.label_name.presence || "Unknown Label" %>
+              <% if @record.record_format_name.present? %>
+                <span class="text-olive-400 mx-1.5">&middot;</span>
+                <%= @record.record_format_name %>
+              <% end %>
+            </p>
+          </div>
+          <% if @record.condition.present? %>
+            <%= render 'records/condition_badge', condition: @record.condition %>
+          <% end %>
+        </div>
+
+        <% if @record.genre&.name.present? %>
+          <div class="mt-4">
+            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-olive-100 text-olive-700">
+              <%= @record.genre.name %>
+            </span>
+          </div>
+        <% end %>
+
+        <% if @record.price_low.present? || @record.price_high.present? %>
+          <div class="mt-6 pt-6 border-t border-olive-100">
+            <p class="text-sm text-olive-500 mb-1">Estimated Value</p>
+            <p class="text-2xl font-semibold text-olive-950">
+              <% if @record.price_low.present? && @record.price_high.present? && @record.price_low != @record.price_high %>
+                $<%= @record.price_low %> – $<%= @record.price_high %>
+              <% elsif @record.price_high.present? %>
+                $<%= @record.price_high %>
+              <% elsif @record.price_low.present? %>
+                $<%= @record.price_low %>
+              <% end %>
+            </p>
+            <% if @record.yearbegin.present? || @record.yearend.present? %>
+              <p class="text-sm text-olive-500 mt-1">
+                <% if @record.yearbegin.present? && @record.yearend.present? && @record.yearbegin != @record.yearend %>
+                  Years: <%= @record.yearbegin %> – <%= @record.yearend %>
+                <% elsif @record.yearbegin.present? %>
+                  Year: <%= @record.yearbegin %>
+                <% elsif @record.yearend.present? %>
+                  Year: <%= @record.yearend %>
+                <% end %>
+              </p>
+            <% end %>
+          </div>
+        <% end %>
+
+        <% if @record.comment.present? %>
+          <div class="mt-6 pt-6 border-t border-olive-100">
+            <h2 class="text-sm font-medium text-olive-500 mb-2">Notes</h2>
+            <p class="text-olive-800 whitespace-pre-wrap"><%= @record.comment %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <% if @record.images.attached? && @record.images.count > 1 %>
+      <div class="border-t border-olive-100 p-6 bg-olive-50/50">
+        <div class="flex gap-3 overflow-x-auto pb-2">
+          <% @record.images.each_with_index do |image, index| %>
+            <button class="shrink-0 w-20 h-20 rounded-xl overflow-hidden ring-2 <%= index == 0 ? 'ring-olive-950' : 'ring-olive-200 hover:ring-olive-400' %> transition-all">
+              <%= image_tag image.variant(resize_to_fill: [160, 160]), class: "w-full h-full object-cover", alt: "Image #{index + 1}" %>
+            </button>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
+    <% if @record.songs.attached? && @record.songs.any? %>
+      <div class="border-t border-olive-100 p-8 md:p-10 bg-olive-50/50" data-controller="audio-player">
+        <audio data-audio-player-target="audio"
+               data-action="timeupdate->audio-player#timeUpdate loadedmetadata->audio-player#loadedMetadata ended->audio-player#ended"
+               class="hidden"></audio>
+
+        <h2 class="font-display text-lg text-olive-950 mb-4">
+          Tracks
+          <span class="ml-2 text-sm font-normal text-olive-500">(<%= @record.songs.count %>)</span>
+        </h2>
+
+        <div class="space-y-2">
+          <% @record.songs.each_with_index do |song, index| %>
+            <div data-audio-player-target="track"
+                 class="flex items-center gap-4 p-4 bg-white rounded-xl ring-1 ring-olive-900/5 transition-colors">
+              <button type="button"
+                      data-audio-player-target="playButton"
+                      data-action="click->audio-player#play"
+                      data-track-index="<%= index %>"
+                      data-audio-url="<%= rails_blob_url(song) %>"
+                      class="flex items-center justify-center w-10 h-10 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors shrink-0">
+                <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+              <button type="button"
+                      data-audio-player-target="pauseButton"
+                      data-action="click->audio-player#pause"
+                      class="hidden flex items-center justify-center w-10 h-10 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors shrink-0">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+              </button>
+
+              <div class="flex-1 min-w-0">
+                <p class="text-olive-900 font-medium truncate">
+                  <%= song.filename.to_s.gsub(/\.mp3$/i, '') %>
+                </p>
+                <div class="mt-2 flex items-center gap-3">
+                  <div class="flex-1 h-1.5 bg-olive-200 rounded-full overflow-hidden progress-bar cursor-pointer"
+                       data-action="click->audio-player#seek">
+                    <div data-audio-player-target="progress"
+                         class="h-full bg-olive-600 rounded-full transition-all"
+                         style="width: 0%"></div>
+                  </div>
+                  <span class="text-xs text-olive-500 tabular-nums">
+                    <span data-audio-player-target="currentTime">0:00</span>
+                    /
+                    <span data-audio-player-target="duration">--:--</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @artist_records.any? %>
+    <div class="mt-10">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-xl text-olive-950">More from <%= @record.artist_name %></h2>
+        <% if @artist_records.count >= 5 %>
+          <%= link_to records_path(q: { artist_id_eq: @record.artist_id }),
+              class: "text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors" do %>
+            View all →
+          <% end %>
+        <% end %>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <% @artist_records.each do |record| %>
+          <%= render 'records/record_card', record: record %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @label_records.any? %>
+    <div class="mt-10">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="font-display text-xl text-olive-950">More from <%= @record.label_name %></h2>
+        <% if @label_records.count >= 5 %>
+          <%= link_to records_path(q: { label_id_eq: @record.label_id }),
+              class: "text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors" do %>
+            View all →
+          <% end %>
+        <% end %>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+        <% @label_records.each do |record| %>
+          <%= render 'records/record_card', record: record %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
