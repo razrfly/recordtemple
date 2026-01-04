@@ -3,28 +3,26 @@
 # Table name: songs
 #
 #  id                 :integer          not null, primary key
-#  audio_content_type :string(255)
-#  audio_filename     :string(255)
-#  audio_size         :integer
-#  mp3_content_type   :string(255)
+#  record_id          :integer
+#  created_at         :datetime
+#  updated_at         :datetime
 #  mp3_file_name      :string(255)
+#  mp3_content_type   :string(255)
 #  mp3_file_size      :integer
 #  mp3_updated_at     :datetime
 #  title              :string(255)
-#  url                :string
-#  created_at         :datetime
-#  updated_at         :datetime
-#  audio_id           :string(255)
 #  panda_id           :string(255)
-#  record_id          :integer
+#  audio_id           :string(255)
+#  audio_content_type :string(255)
+#  audio_filename     :string(255)
+#  audio_size         :integer
+#  url                :string
 #
 # Indexes
 #
 #  index_songs_on_record_id  (record_id)
 #
-# Note: Legacy Refile columns (audio_id, audio_filename, etc.) are preserved
-# as backup but no longer used. Files are served via Active Storage.
-#
+
 class Song < ApplicationRecord
   belongs_to :record
 
@@ -32,7 +30,7 @@ class Song < ApplicationRecord
   # Matches by filename since that's how files were migrated from Refile
   # Note: record.songs is Active Storage (has_many_attached), not Song models
   def active_storage_attachment
-    return nil unless record&.songs_attachments&.any?
+    return nil unless record&.songs&.attached?
 
     record.songs.find { |s| s.filename.to_s == audio_filename }
   end
