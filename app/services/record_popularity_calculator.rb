@@ -19,6 +19,7 @@ class RecordPopularityCalculator
     def reload_config!
       @config = nil
       @catalog_counts = nil
+      @attachment_counts = nil
       config
     end
 
@@ -34,6 +35,8 @@ class RecordPopularityCalculator
 
     # Recalculate all records with progress reporting
     def recalculate_all!(dry_run: false, verbose: false)
+      # Clear cached counts to ensure fresh data
+      @attachment_counts = nil
       preload_catalog_counts!
 
       total = Record.count
