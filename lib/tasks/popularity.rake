@@ -107,19 +107,32 @@ namespace :records do
     puts "  Unscored (0): #{unscored} (#{(unscored.to_f / total * 100).round(1)}%)"
     puts
 
-    # Score statistics
-    stats = Record.pluck(
-      Arel.sql("MIN(popularity_score)"),
-      Arel.sql("MAX(popularity_score)"),
-      Arel.sql("AVG(popularity_score)"),
-      Arel.sql("PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY popularity_score)")
-    ).first
+    # Score statistics - using PostgreSQL-specific functions with fallback
+    begin
+      stats = Record.pluck(
+        Arel.sql("MIN(popularity_score)"),
+        Arel.sql("MAX(popularity_score)"),
+        Arel.sql("AVG(popularity_score)"),
+        Arel.sql("PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY popularity_score)")
+      ).first
+      median = stats[3]&.round(1)
+    rescue ActiveRecord::StatementInvalid
+      # Fallback for non-PostgreSQL databases
+      stats = Record.pluck(
+        Arel.sql("MIN(popularity_score)"),
+        Arel.sql("MAX(popularity_score)"),
+        Arel.sql("AVG(popularity_score)")
+      ).first
+      # Calculate median in Ruby
+      scores = Record.order(:popularity_score).pluck(:popularity_score)
+      median = scores.any? ? scores[scores.size / 2] : nil
+    end
 
     puts "Score Distribution:"
     puts "  Min: #{stats[0]}"
     puts "  Max: #{stats[1]}"
     puts "  Average: #{stats[2]&.round(1)}"
-    puts "  Median: #{stats[3]&.round(1)}"
+    puts "  Median: #{median}"
     puts
 
     # Distribution by decile
