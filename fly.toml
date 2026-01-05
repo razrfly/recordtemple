@@ -8,6 +8,9 @@ primary_region = "dfw"
 
 [env]
 
+[deploy]
+  release_command = "bin/rails db:migrate"
+
 [processes]
   web = "bin/rails server"
   worker = "bundle exec sidekiq -C config/sidekiq.yml"

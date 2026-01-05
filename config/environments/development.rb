@@ -28,9 +28,9 @@ Rails.application.configure do
   # Change to :null_store to avoid any caching.
   config.cache_store = :memory_store
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  # Use STORAGE_SERVICE=amazon to view production files from S3
-  config.active_storage.service = ENV.fetch("STORAGE_SERVICE", "local").to_sym
+  # Store uploaded files on S3 by default to view production images
+  # Use STORAGE_SERVICE=local when testing file uploads locally
+  config.active_storage.service = ENV.fetch("STORAGE_SERVICE", "amazon").to_sym
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false

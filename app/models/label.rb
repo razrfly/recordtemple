@@ -55,7 +55,7 @@ class Label < ApplicationRecord
       .group("labels.id")
       .select("labels.*, COUNT(records.id) as records_count")
       .having("COUNT(records.id) BETWEEN 2 AND 5")
-      .order(Arel.sql(sanitize_sql_for_order(["MD5(CONCAT(labels.id::text, ?))", daily_seed])))
+      .order(Arel.sql("MD5(CONCAT(labels.id::text, '#{daily_seed}'))"))
       .limit(limit)
   }
 
