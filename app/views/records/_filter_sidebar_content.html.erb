@@ -1,8 +1,13 @@
 <%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "sort-sync" } do |f| %>
   <input type="hidden" name="q[s]" value="<%= params.dig(:q, :s) %>" data-sort-sync-target="input">
+  <%# Preserve search query when applying filters %>
+  <% if params[:search].present? %>
+    <input type="hidden" name="search" value="<%= params[:search] %>">
+  <% end %>
 
-  <div class="flex items-center justify-between mb-6">
-    <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
+  <div class="flex items-center justify-between mb-4">
+    <h2 class="font-display text-lg text-olive-950">Filters</h2>
+    <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? || params[:search].present? %>
       <%= link_to records_path, class: "text-sm text-olive-500 hover:text-olive-700" do %>
         Clear all
       <% end %>
@@ -10,19 +15,6 @@
   </div>
 
   <div class="space-y-6">
-    <div>
-      <label for="search" class="block text-sm font-medium text-olive-700 mb-2">Search</label>
-      <div class="relative">
-        <input type="text"
-               name="q[artist_name_or_label_name_or_comment_cont]"
-               value="<%= params.dig(:q, :artist_name_or_label_name_or_comment_cont) %>"
-               placeholder="Artist, label, notes..."
-               class="w-full pl-9 pr-4 py-2.5 text-sm bg-olive-50 border-0 rounded-xl text-olive-900 placeholder-olive-400 focus:ring-2 focus:ring-olive-500 focus:bg-white transition-colors">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-        </svg>
-      </div>
-    </div>
 
     <%# Artist Autocomplete %>
     <div class="border-t border-olive-100 pt-6"

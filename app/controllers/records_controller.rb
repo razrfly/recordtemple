@@ -6,14 +6,25 @@ class RecordsController < ApplicationController
   def index
     add_breadcrumb("Collection")
 
-    @q = base_scope.ransack(params[:q])
+    # Start with base scope
+    scope = base_scope
+
+    # Apply wide-net search if search query present (pg_search)
+    if params[:search].present?
+      scope = scope.wide_search(params[:search])
+      @search_query = params[:search]
+    end
+
+    # Apply Ransack filters on top of search results
+    @q = scope.ransack(params[:q])
 
     # Apply Ransack native sorting with default (Popular = highest popularity_score first)
-    @q.sorts = "popularity_score desc" if @q.sorts.empty?
+    # Skip default sort when using wide_search as it has its own relevance ranking
+    @q.sorts = "popularity_score desc" if @q.sorts.empty? && params[:search].blank?
 
     # PostgreSQL requires ORDER BY columns in SELECT for DISTINCT
     # Skip distinct when sorting by associations to avoid this conflict
-    use_distinct = !sorting_by_association?
+    use_distinct = !sorting_by_association? && params[:search].blank?
 
     records = @q.result(distinct: use_distinct)
                 .includes(:artist, :label, :genre, :record_format, :price)
