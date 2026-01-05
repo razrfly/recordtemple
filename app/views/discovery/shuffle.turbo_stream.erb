@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "shuffle-grid" do %>
+  <div id="shuffle-grid" data-shuffle-machine-target="grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <% @shuffle_records.each do |record| %>
+      <%= render "discovery/shuffle_card", record: record %>
+    <% end %>
+  </div>
+<% end %>

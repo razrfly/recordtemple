@@ -1,0 +1,25 @@
+<%# Shuffle Machine Component - Full width 4-record row %>
+<div data-controller="shuffle-machine">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h2 class="font-display text-2xl text-olive-950">Shuffle Machine</h2>
+      <p class="text-olive-600 mt-1">4 random discoveries</p>
+    </div>
+    <button type="button"
+            data-action="click->shuffle-machine#spin"
+            data-shuffle-machine-target="spinButton"
+            class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-olive-950 text-white font-medium hover:bg-olive-800 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Shuffle
+    </button>
+  </div>
+
+  <%# Full width 4-column grid %>
+  <div id="shuffle-grid" data-shuffle-machine-target="grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+    <% @shuffle_records.each do |record| %>
+      <%= render "discovery/shuffle_card", record: record %>
+    <% end %>
+  </div>
+</div>

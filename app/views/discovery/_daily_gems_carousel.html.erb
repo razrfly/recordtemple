@@ -1,0 +1,31 @@
+<%# Daily Gems Carousel - Horizontal scrolling cards with audio preview %>
+<div class="relative">
+  <%# Left scroll button %>
+  <button type="button"
+          onclick="this.closest('.relative').querySelector('.overflow-x-auto').scrollBy({left: -280, behavior: 'smooth'})"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-60 hover:opacity-100"
+          aria-label="Scroll left">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+    </svg>
+  </button>
+
+  <%# Carousel %>
+  <div class="flex items-start gap-4 overflow-x-auto scroll-smooth scrollbar-hide snap-x snap-mandatory pb-4 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-0">
+    <% records.each do |record| %>
+      <div class="flex-none snap-start" style="width: 17rem; min-width: 17rem;">
+        <%= render "discovery/gem_card", record: record %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Right scroll button %>
+  <button type="button"
+          onclick="this.closest('.relative').querySelector('.overflow-x-auto').scrollBy({left: 280, behavior: 'smooth'})"
+          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-60 hover:opacity-100"
+          aria-label="Scroll right">
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+    </svg>
+  </button>
+</div>

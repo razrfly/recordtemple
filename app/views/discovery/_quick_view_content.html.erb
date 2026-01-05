@@ -1,0 +1,84 @@
+<%# Quick View Content - Loaded into modal via Turbo Stream %>
+<div class="md:flex" data-controller="audio-player">
+  <audio data-audio-player-target="audio" class="hidden"
+         data-action="timeupdate->audio-player#timeUpdate loadedmetadata->audio-player#loadedMetadata ended->audio-player#ended"></audio>
+
+  <div class="md:w-72 md:shrink-0">
+    <div class="aspect-square bg-olive-100">
+      <% if @record.images.attached? && @record.images.any? %>
+        <%= image_tag cdn_image_url(@record.images.first.variant(resize_to_fill: [400, 400])),
+            class: "w-full h-full object-cover",
+            alt: @record.artist_name || "Album cover" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="p-6 flex-1">
+    <h2 class="font-display text-2xl text-olive-950">
+      <%= @record.artist_name || "Unknown Artist" %>
+    </h2>
+    <p class="text-olive-600 mt-1">
+      <%= @record.label_name.presence || "Unknown Label" %>
+      <% if @record.record_format_name.present? %>
+        <span class="text-olive-400 mx-1.5">&middot;</span>
+        <%= @record.record_format_name %>
+      <% end %>
+    </p>
+
+    <% if @record.genre&.name.present? %>
+      <p class="text-sm text-olive-500 mt-2">
+        <%= @record.genre.name %>
+      </p>
+    <% end %>
+
+    <% if @record.condition.present? %>
+      <div class="mt-4">
+        <%= render 'records/condition_badge', condition: @record.condition %>
+      </div>
+    <% end %>
+
+    <% if @record.songs.attached? && @record.songs.any? %>
+      <div class="mt-6 pt-6 border-t border-olive-100">
+        <h3 class="text-sm font-medium text-olive-500 mb-3">Preview Track</h3>
+        <div data-audio-player-target="track" class="flex items-center gap-3">
+          <button type="button"
+                  data-audio-player-target="playButton"
+                  data-action="click->audio-player#play"
+                  data-track-index="0"
+                  data-audio-url="<%= rails_blob_url(@record.songs.first) %>"
+                  class="flex items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0">
+            <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <button type="button"
+                  data-audio-player-target="pauseButton"
+                  data-action="click->audio-player#pause"
+                  class="hidden items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+            </svg>
+          </button>
+          <div class="flex-1 min-w-0">
+            <p class="text-olive-900 font-medium truncate text-sm">
+              <%= @record.songs.first.filename.to_s.gsub(/\.mp3$/i, '') %>
+            </p>
+            <div class="mt-1.5 h-1.5 bg-olive-200 rounded-full overflow-hidden">
+              <div data-audio-player-target="progress" class="h-full bg-olive-600 rounded-full transition-all" style="width: 0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+    <div class="mt-6 pt-6 border-t border-olive-100">
+      <%= link_to record_path(@record),
+          class: "w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-olive-950 text-white font-medium hover:bg-olive-800 transition-colors" do %>
+        View Full Details
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      <% end %>
+    </div>
+  </div>
+</div>

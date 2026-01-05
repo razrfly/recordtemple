@@ -1,0 +1,29 @@
+<%# Wall Cover Component - Minimal cover tile for the masonry wall %>
+<button type="button"
+        data-action="click->cover-wall#openQuickView"
+        data-record-id="<%= record.id %>"
+        class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 bg-olive-200">
+  <% if record.images.attached? && record.images.any? %>
+    <%= image_tag cdn_image_url(record.images.first.variant(resize_to_fill: [200, 200])),
+        class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+        alt: record.artist_name || "Album cover",
+        loading: "lazy",
+        decoding: "async" %>
+  <% end %>
+
+  <%# Hover overlay %>
+  <div class="absolute inset-0 bg-olive-950/0 group-hover:bg-olive-950/40 transition-colors duration-300 flex items-center justify-center">
+    <div class="opacity-0 group-hover:opacity-100 transform scale-75 group-hover:scale-100 transition-all duration-300">
+      <% if record.songs.attached? && record.songs.any? %>
+        <svg class="w-10 h-10 text-white drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      <% else %>
+        <svg class="w-8 h-8 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+        </svg>
+      <% end %>
+    </div>
+  </div>
+</button>
