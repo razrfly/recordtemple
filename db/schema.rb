@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_174606) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_200000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -156,6 +156,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_174606) do
     t.integer "popularity_score", default: 0, null: false
     t.integer "price_id"
     t.integer "record_format_id"
+    t.tsvector "searchable"
     t.integer "songs_count", default: 0, null: false
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
@@ -167,6 +168,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_174606) do
     t.index ["popularity_score"], name: "index_records_on_popularity_score"
     t.index ["price_id"], name: "index_records_on_price_id"
     t.index ["record_format_id"], name: "index_records_on_record_format_id"
+    t.index ["searchable"], name: "index_records_on_searchable", using: :gin
     t.index ["user_id", "artist_id"], name: "index_records_on_user_and_artist"
     t.index ["user_id", "created_at"], name: "index_records_on_user_and_created_at"
     t.index ["user_id", "genre_id"], name: "index_records_on_user_and_genre"

@@ -47,27 +47,23 @@ class Record < ApplicationRecord
   belongs_to :artist
   belongs_to :label
 
-  # Wide-net search across all record fields and associations
+  # Wide-net search using pre-computed tsvector column for performance
+  # The searchable column is populated by a database trigger and includes:
+  # - Weight A: cached_artist, artist.name
+  # - Weight B: cached_label, label.name
+  # - Weight C: genre.name, record_format.name, comment
+  # - Weight D: price.detail, price.footnote, price.yearbegin, price.yearend
   pg_search_scope :wide_search,
-    against: {
-      cached_artist: "A",
-      cached_label: "B",
-      comment: "C"
-    },
-    associated_against: {
-      artist: :name,
-      label: :name,
-      genre: :name,
-      record_format: :name,
-      price: [ :detail, :footnote ]
-    },
+    against: :cached_artist, # Required but not used when tsvector_column is set
     using: {
       tsearch: {
         prefix: true,
         dictionary: "english",
-        any_word: true
+        any_word: true,
+        tsvector_column: "searchable"
       },
       trigram: {
+        only: [ :cached_artist, :cached_label ],
         threshold: 0.3
       }
     },
