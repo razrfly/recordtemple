@@ -32,7 +32,7 @@ gem "jbuilder"
 
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
-gem "sidekiq", "~> 7"
+gem "sidekiq", "~> 8.0"
 
 gem "ransack", "~> 4.0"
 gem "pagy", "~> 9.0"
