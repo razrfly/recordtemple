@@ -12,7 +12,10 @@ export default class extends Controller {
   submit() {
     clearTimeout(this.timeout)
     this.timeout = setTimeout(() => {
-      this.element.closest("form").requestSubmit()
+      const form = this.element.closest("form")
+      if (form) {
+        form.requestSubmit()
+      }
     }, this.waitValue)
   }
 
