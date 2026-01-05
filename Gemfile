@@ -43,9 +43,6 @@ gem "friendly_id", "~> 5.5.0"
 gem "chartkick", "~> 5"
 gem "pundit", "~> 2.3"
 
-gem "sentry-ruby"
-gem "sentry-rails"
-
 gem "resend"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
