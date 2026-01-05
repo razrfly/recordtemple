@@ -2,6 +2,24 @@ require 'admin_constraint'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  # CDN URL helpers for Active Storage
+  # These generate direct URLs to cdn4.recordtemple.com instead of going through Rails
+  direct :cdn_blob do |blob, options|
+    if Rails.env.production?
+      "https://cdn4.recordtemple.com/#{blob.key}"
+    else
+      route_for(:rails_blob, blob, options)
+    end
+  end
+
+  direct :cdn_variant do |variant, options|
+    if Rails.env.production?
+      "https://cdn4.recordtemple.com/#{variant.key}"
+    else
+      route_for(:rails_representation, variant, options)
+    end
+  end
+
   # mount Avo::Engine, at: Avo.configuration.root_path, constraints: AdminConstraint.new  # Disabled - planned for removal
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
   passwordless_for :users

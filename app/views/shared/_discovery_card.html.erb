@@ -24,7 +24,7 @@
       <div class="grid grid-cols-2 grid-rows-2 w-full h-full">
         <% sample_covers.first(4).each_with_index do |cover, index| %>
           <div class="relative overflow-hidden">
-            <%= image_tag cover.variant(resize_to_fill: [200, 200]),
+            <%= image_tag cdn_image_url(cover.variant(resize_to_fill: [200, 200])),
                 class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
                 style: "transition-delay: #{index * 50}ms",
                 alt: "#{item.name} record #{index + 1}",
@@ -38,7 +38,7 @@
       <div class="grid grid-cols-2 w-full h-full">
         <% sample_covers.first(2).each_with_index do |cover, index| %>
           <div class="relative overflow-hidden">
-            <%= image_tag cover.variant(resize_to_fill: [200, 400]),
+            <%= image_tag cdn_image_url(cover.variant(resize_to_fill: [200, 400])),
                 class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
                 style: "transition-delay: #{index * 75}ms",
                 alt: "#{item.name} record #{index + 1}",
@@ -49,7 +49,7 @@
       </div>
     <% elsif item.cover.present? %>
       <%# Single cover %>
-      <%= image_tag item.cover.variant(resize_to_fill: [400, 400]),
+      <%= image_tag cdn_image_url(item.cover.variant(resize_to_fill: [400, 400])),
           class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
           alt: item.name,
           loading: "lazy",
