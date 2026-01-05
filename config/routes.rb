@@ -24,5 +24,9 @@ Rails.application.routes.draw do
   # Public record catalog
   resources :records, only: [:index, :show]
 
+  # Discovery pages for artists and labels
+  resources :artists, only: [:index, :show]
+  resources :labels, only: [:index, :show]
+
   root to: 'static#index'
 end

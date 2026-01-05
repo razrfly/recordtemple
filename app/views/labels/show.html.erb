@@ -1,0 +1,91 @@
+<div class="mx-auto w-full max-w-2xl px-6 py-12 md:max-w-3xl lg:max-w-7xl lg:px-10">
+  <%# Breadcrumb Navigation %>
+  <nav class="mb-6">
+    <ol class="flex items-center gap-2 text-sm text-olive-500">
+      <li>
+        <%= link_to "Labels", labels_path, class: "hover:text-olive-700 transition-colors" %>
+      </li>
+      <li>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </li>
+      <li class="text-olive-900 font-medium"><%= @label.name %></li>
+    </ol>
+  </nav>
+
+  <%# Hero Section %>
+  <header class="mb-10">
+    <div class="flex flex-col sm:flex-row gap-6 items-start">
+      <%# Label Cover Art Collage %>
+      <div class="shrink-0 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-olive-100 shadow-lg ring-1 ring-olive-900/10">
+        <% cover_record = @records.find { |r| r.images.attached? && r.images.any? } %>
+        <% if cover_record %>
+          <%= image_tag cover_record.images.first.variant(resize_to_fill: [320, 320]),
+              class: "w-full h-full object-cover",
+              alt: @label.name %>
+        <% else %>
+          <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
+            <svg class="w-16 h-16 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="flex-1">
+        <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl tracking-tight text-olive-950">
+          <%= @label.name %>
+        </h1>
+
+        <%# Stats %>
+        <div class="mt-4 flex flex-wrap items-center gap-4 text-sm text-olive-600">
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+            </svg>
+            <span><strong class="text-olive-900"><%= @total_count %></strong> records</span>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <svg class="w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+            <span><strong class="text-olive-900"><%= @artists_count %></strong> artists</span>
+          </div>
+
+          <% if @genres.any? %>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+              </svg>
+              <span><%= @genres.join(", ") %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <%# Back to records link %>
+        <div class="mt-6">
+          <%= link_to records_path(q: { label_id_in: [@label.id] }),
+              class: "inline-flex items-center gap-2 text-sm font-medium text-olive-600 hover:text-olive-900 transition-colors" do %>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            View in full collection
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <%# Records Collection %>
+  <div class="border-t border-olive-200 pt-8">
+    <%= render 'records/record_collection',
+        records: @records,
+        pagy: @pagy,
+        filtered_count: @filtered_count,
+        total_count: @total_count,
+        form_url: label_path(@label),
+        show_filter_chips: false %>
+  </div>
+</div>
