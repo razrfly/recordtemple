@@ -38,12 +38,40 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Record < ApplicationRecord
+  include PgSearch::Model
+
   belongs_to :genre
   belongs_to :price, optional: true
   belongs_to :user
   belongs_to :record_format
   belongs_to :artist
   belongs_to :label
+
+  # Wide-net search across all record fields and associations
+  pg_search_scope :wide_search,
+    against: {
+      cached_artist: "A",
+      cached_label: "B",
+      comment: "C"
+    },
+    associated_against: {
+      artist: :name,
+      label: :name,
+      genre: :name,
+      record_format: :name,
+      price: [ :detail, :footnote ]
+    },
+    using: {
+      tsearch: {
+        prefix: true,
+        dictionary: "english",
+        any_word: true
+      },
+      trigram: {
+        threshold: 0.3
+      }
+    },
+    ignoring: :accents
 
   # Legacy Photo/Song models - kept for backwards compatible URLs
   # Actual files are served via Active Storage (images/songs attachments)

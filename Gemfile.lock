@@ -224,6 +224,9 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    pg_search (2.3.7)
+      activerecord (>= 6.1)
+      activesupport (>= 6.1)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -390,6 +393,7 @@ DEPENDENCIES
   pagy (~> 9.0)
   passwordless (~> 1.8)
   pg (~> 1.1)
+  pg_search (~> 2.3)
   puma (~> 6.0)
   pundit (~> 2.3)
   rails (~> 8.1.0)

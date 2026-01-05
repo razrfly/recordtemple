@@ -36,6 +36,7 @@ gem "sidekiq", "~> 7"
 
 gem "ransack", "~> 4.0"
 gem "pagy", "~> 9.0"
+gem "pg_search", "~> 2.3"
 gem "passwordless", "~> 1.8"
 gem "friendly_id", "~> 5.5.0"
 # gem "avo", ">= 3.0"  # Disabled - planned for removal, incompatible with Pagy 43.x

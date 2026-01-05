@@ -52,11 +52,11 @@
                   <%= link_to "Dashboard", static_members_only_path %>
                 </li>
                 <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
-                  <%= link_to "Sign out", users.sign_out_path %>
+                  <%= link_to "Sign out", users_sign_out_path %>
                 </li>
               <% else %>
                 <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
-                  <%= link_to "Sign in", users.sign_in_path %>
+                  <%= link_to "Sign in", users_sign_in_path %>
                 </li>
               <% end %>
             </ul>
