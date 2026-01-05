@@ -1,9 +1,8 @@
 <%# Optional navigation context: pass from: "artist", from_id: @artist.id %>
 <%
-  record_url = if defined?(from) && from.present? && defined?(from_id) && from_id.present?
-                 # Build params hash with dynamic key (artist_id or label_id)
-                 context_params = { from: from }
-                 context_params["#{from}_id"] = from_id
+  valid_contexts = %w[artist label]
+  record_url = if defined?(from) && valid_contexts.include?(from) && defined?(from_id) && from_id.present?
+                 context_params = { from: from, "#{from}_id" => from_id }
                  record_path(record, context_params)
                else
                  record_path(record)

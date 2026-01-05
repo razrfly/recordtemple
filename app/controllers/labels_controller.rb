@@ -13,8 +13,10 @@ class LabelsController < ApplicationController
                        .group("labels.id")
                        .select("labels.*, COUNT(records.id) as records_count")
 
-    # Top labels (most records)
-    @top_labels = base_labels.order("records_count DESC").limit(6)
+    # Discovery curation collections for tabs
+    @popular_labels = Label.most_collected(COLLECTION_USER_ID, 12)
+    @recent_labels = Label.recently_added(COLLECTION_USER_ID, 12)
+    @hidden_gem_labels = Label.hidden_gems(COLLECTION_USER_ID, 12)
 
     # All labels for browsing, optionally filtered by letter
     @current_letter = params[:letter]&.upcase

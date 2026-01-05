@@ -25,6 +25,38 @@ class Label < ApplicationRecord
   scope :with_records, -> { joins(:records).distinct }
   scope :with_records_and_images, -> { joins(records: :images_attachments).distinct }
 
+  # Discovery curation scopes - all require user_id parameter for scoping
+  # Most collected: labels with the most records
+  scope :most_collected, ->(user_id, limit = 12) {
+    joins(:records)
+      .where(records: { user_id: user_id })
+      .group("labels.id")
+      .select("labels.*, COUNT(records.id) as records_count")
+      .order("records_count DESC")
+      .limit(limit)
+  }
+
+  # Recently added: labels with most recently added records to the collection
+  scope :recently_added, ->(user_id, limit = 12) {
+    joins(:records)
+      .where(records: { user_id: user_id })
+      .group("labels.id")
+      .select("labels.*, COUNT(records.id) as records_count, MAX(records.created_at) as latest_record_at")
+      .order("latest_record_at DESC")
+      .limit(limit)
+  }
+
+  # Hidden gems: labels with 2-5 records (enough to be interesting, but not heavily collected)
+  scope :hidden_gems, ->(user_id, limit = 12) {
+    joins(:records)
+      .where(records: { user_id: user_id })
+      .group("labels.id")
+      .select("labels.*, COUNT(records.id) as records_count")
+      .having("COUNT(records.id) BETWEEN 2 AND 5")
+      .order(Arel.sql("RANDOM()"))
+      .limit(limit)
+  }
+
   def cover
     if records.has_images.present?
       records.has_images.first.cover
