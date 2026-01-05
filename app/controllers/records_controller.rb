@@ -4,6 +4,8 @@ class RecordsController < ApplicationController
   COLLECTION_USER_ID = 1
 
   def index
+    add_breadcrumb("Collection")
+
     @q = base_scope.ransack(params[:q])
 
     # Apply Ransack native sorting with default
@@ -32,6 +34,9 @@ class RecordsController < ApplicationController
     @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
                         .find(params[:id])
 
+    # Build contextual breadcrumbs based on navigation source
+    build_record_breadcrumbs(@record)
+
     # Load related records
     @artist_records = base_scope.where(artist_id: @record.artist_id)
                                 .where.not(id: @record.id)
@@ -48,6 +53,37 @@ class RecordsController < ApplicationController
 
   def base_scope
     Record.where(user_id: COLLECTION_USER_ID)
+  end
+
+  # Build contextual breadcrumbs based on how user navigated to this record
+  # Uses multiple detection strategies: URL params, session, referer
+  def build_record_breadcrumbs(record)
+    context = breadcrumb_context_for(record)
+
+    case context
+    when :artist
+      # Use context_artist helper which checks params and session
+      artist = context_artist || record.artist
+      if artist
+        add_breadcrumb("Artists", artists_path)
+        add_breadcrumb(artist.name, artist_path(artist))
+      else
+        add_breadcrumb("Collection", records_path)
+      end
+    when :label
+      # Use context_label helper which checks params and session
+      label = context_label || record.label
+      if label
+        add_breadcrumb("Labels", labels_path)
+        add_breadcrumb(label.name, label_path(label))
+      else
+        add_breadcrumb("Collection", records_path)
+      end
+    else
+      add_breadcrumb("Collection", records_path)
+    end
+
+    add_breadcrumb(record.title.presence || "Untitled")
   end
 
   def sorting_by_association?

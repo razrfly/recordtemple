@@ -1,12 +1,5 @@
 <div class="mx-auto w-full max-w-4xl px-6 py-12">
-  <div class="mb-8">
-    <%= link_to records_path, class: "inline-flex items-center gap-2 text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors" do %>
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
-      </svg>
-      Back to Collection
-    <% end %>
-  </div>
+  <%= render "shared/breadcrumbs" %>
 
   <% images_data = @record.images.attached? ? @record.images.map { |img| { url: url_for(img.variant(resize_to_limit: [1200, 1200])), alt: @record.title } } : [] %>
 
@@ -39,10 +32,20 @@
         <div class="flex items-start justify-between gap-4">
           <div>
             <h1 class="font-display text-2xl sm:text-3xl tracking-tight text-olive-950">
-              <%= @record.artist_name || "Unknown Artist" %>
+              <% if @record.artist.present? %>
+                <%= link_to @record.artist_name, artist_path(@record.artist),
+                    class: "hover:text-olive-700 transition-colors" %>
+              <% else %>
+                Unknown Artist
+              <% end %>
             </h1>
             <p class="mt-1 text-olive-600">
-              <%= @record.label_name.presence || "Unknown Label" %>
+              <% if @record.label.present? %>
+                <%= link_to @record.label_name, label_path(@record.label),
+                    class: "hover:text-olive-800 transition-colors" %>
+              <% else %>
+                Unknown Label
+              <% end %>
               <% if @record.record_format_name.present? %>
                 <span class="text-olive-400 mx-1.5">&middot;</span>
                 <%= @record.record_format_name %>
@@ -56,9 +59,10 @@
 
         <% if @record.genre&.name.present? %>
           <div class="mt-4">
-            <span class="inline-flex items-center px-3 py-1 rounded-full text-sm bg-olive-100 text-olive-700">
+            <%= link_to records_path(q: { genre_id_eq: @record.genre_id }),
+                class: "inline-flex items-center px-3 py-1 rounded-full text-sm bg-olive-100 text-olive-700 hover:bg-olive-200 transition-colors" do %>
               <%= @record.genre.name %>
-            </span>
+            <% end %>
           </div>
         <% end %>
 
@@ -256,7 +260,7 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <% @artist_records.each do |record| %>
-          <%= render 'records/record_card', record: record %>
+          <%= render 'records/record_card', record: record, from: "artist", from_id: @record.artist_id %>
         <% end %>
       </div>
     </div>
@@ -275,7 +279,7 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <% @label_records.each do |record| %>
-          <%= render 'records/record_card', record: record %>
+          <%= render 'records/record_card', record: record, from: "label", from_id: @record.label_id %>
         <% end %>
       </div>
     </div>

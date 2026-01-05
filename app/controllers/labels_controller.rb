@@ -5,6 +5,8 @@ class LabelsController < ApplicationController
   COLLECTION_USER_ID = 1
 
   def index
+    add_breadcrumb("Labels")
+
     # Base query for all labels with records
     base_labels = Label.joins(:records)
                        .where(records: { user_id: COLLECTION_USER_ID })
@@ -44,11 +46,19 @@ class LabelsController < ApplicationController
                         .where(records: { user_id: COLLECTION_USER_ID })
                         .order(Arel.sql("RANDOM()"))
                         .first
-    redirect_to label_path(random_label)
+
+    if random_label
+      redirect_to label_path(random_label)
+    else
+      redirect_to labels_path, alert: "No labels found in the collection."
+    end
   end
 
   def show
     @label = Label.friendly.find(params[:id])
+
+    add_breadcrumb("Labels", labels_path)
+    add_breadcrumb(@label.name)
 
     # Get records for this label (scoped to user's collection)
     @q = records_scope.ransack(params[:q])

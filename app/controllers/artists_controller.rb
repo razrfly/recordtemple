@@ -5,6 +5,8 @@ class ArtistsController < ApplicationController
   COLLECTION_USER_ID = 1
 
   def index
+    add_breadcrumb("Artists")
+
     # Base query for all artists with records
     base_artists = Artist.joins(:records)
                          .where(records: { user_id: COLLECTION_USER_ID })
@@ -44,11 +46,19 @@ class ArtistsController < ApplicationController
                           .where(records: { user_id: COLLECTION_USER_ID })
                           .order(Arel.sql("RANDOM()"))
                           .first
-    redirect_to artist_path(random_artist)
+
+    if random_artist
+      redirect_to artist_path(random_artist)
+    else
+      redirect_to artists_path, alert: "No artists found in the collection."
+    end
   end
 
   def show
     @artist = Artist.friendly.find(params[:id])
+
+    add_breadcrumb("Artists", artists_path)
+    add_breadcrumb(@artist.name)
 
     # Get records for this artist (scoped to user's collection)
     @q = records_scope.ransack(params[:q])

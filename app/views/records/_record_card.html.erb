@@ -1,4 +1,15 @@
-<%= link_to record_path(record),
+<%# Optional navigation context: pass from: "artist", from_id: @artist.id %>
+<%
+  record_url = if defined?(from) && from.present? && defined?(from_id) && from_id.present?
+                 # Build params hash with dynamic key (artist_id or label_id)
+                 context_params = { from: from }
+                 context_params["#{from}_id"] = from_id
+                 record_path(record, context_params)
+               else
+                 record_path(record)
+               end
+%>
+<%= link_to record_url,
     class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden",
     data: { turbo_frame: "_top" } do %>
 
