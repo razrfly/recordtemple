@@ -97,6 +97,49 @@ class Record < ApplicationRecord
   scope :has_images, -> { joins(:images_attachments).distinct }
   scope :has_songs, -> { joins(:songs_attachments).distinct }
 
+  # Discovery scopes use EXISTS subqueries to avoid DISTINCT + ORDER BY conflicts
+  HAS_IMAGES_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'images')".freeze
+  HAS_SONGS_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'songs')".freeze
+
+  # Discovery: Cover wall with deterministic daily ordering
+  scope :cover_wall, ->(user_id, limit = 60) {
+    daily_seed = Date.current.to_s
+    where(user_id: user_id)
+      .where(HAS_IMAGES_SQL)
+      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
+      .limit(limit)
+  }
+
+  # Discovery: Daily gems - records with both images and songs
+  scope :daily_gems, ->(user_id, limit = 10) {
+    daily_seed = Date.current.to_s
+    where(user_id: user_id)
+      .where(HAS_IMAGES_SQL)
+      .where(HAS_SONGS_SQL)
+      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
+      .limit(limit)
+  }
+
+  # Discovery: Random record for shuffle machine
+  scope :random_with_media, ->(user_id) {
+    where(user_id: user_id)
+      .where(HAS_IMAGES_SQL)
+      .order(Arel.sql("RANDOM()"))
+  }
+
+  # Discovery: Cursor pagination for infinite scroll
+  scope :after_cursor, ->(cursor_id, user_id) {
+    daily_seed = Date.current.to_s
+    cursor_record = find_by(id: cursor_id)
+    return none unless cursor_record
+
+    cursor_hash = Digest::MD5.hexdigest("#{cursor_id}#{daily_seed}")
+    where(user_id: user_id)
+      .where(HAS_IMAGES_SQL)
+      .where("MD5(CONCAT(records.id::text, ?)) > ?", daily_seed, cursor_hash)
+      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
+  }
+
   def cover
     images.first unless images.empty?
   end

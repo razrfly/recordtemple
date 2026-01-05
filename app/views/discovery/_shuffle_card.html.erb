@@ -1,0 +1,25 @@
+<%# Shuffle Card - Record display for full-width grid %>
+<a href="<%= record_path(record) %>"
+   class="group block rounded-xl overflow-hidden bg-olive-200 hover:ring-2 hover:ring-olive-400 transition-all">
+  <div class="aspect-square relative">
+    <% if record.images.attached? && record.images.any? %>
+      <%= image_tag cdn_image_url(record.images.first.variant(resize_to_fill: [400, 400])),
+          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
+          alt: record.artist_name || "Album cover",
+          loading: "lazy" %>
+    <% else %>
+      <%# Placeholder for records without images %>
+      <div class="w-full h-full flex items-center justify-center bg-olive-200">
+        <svg class="w-16 h-16 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
+        </svg>
+      </div>
+    <% end %>
+    <%# Label badge %>
+    <% if record.label %>
+      <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+        <p class="text-white text-sm font-medium truncate"><%= record.label.name %></p>
+      </div>
+    <% end %>
+  </div>
+</a>

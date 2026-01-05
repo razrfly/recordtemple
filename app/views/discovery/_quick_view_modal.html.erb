@@ -1,0 +1,28 @@
+<%# Quick View Modal - Overlay modal for record preview %>
+<div data-cover-wall-target="modal"
+     data-action="keydown.escape->cover-wall#closeModal"
+     role="dialog"
+     aria-modal="true"
+     aria-label="Record quick view"
+     class="fixed inset-0 z-50 bg-olive-950/80 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 flex items-center justify-center p-4">
+
+  <%# Backdrop click to close %>
+  <div class="absolute inset-0" data-action="click->cover-wall#closeModal"></div>
+
+  <%# Close button %>
+  <button type="button"
+          data-action="click->cover-wall#closeModal"
+          class="absolute top-4 right-4 p-2 text-white/70 hover:text-white transition-colors z-10"
+          aria-label="Close">
+    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+
+  <%# Modal content container %>
+  <div id="quick-view-content"
+       data-cover-wall-target="modalContent"
+       class="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <%# Content loaded via Turbo Stream %>
+  </div>
+</div>

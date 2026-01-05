@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "quick-view-content" do %>
+  <div id="quick-view-content"
+       data-cover-wall-target="modalContent"
+       class="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+    <%= render "discovery/quick_view_content" %>
+  </div>
+<% end %>

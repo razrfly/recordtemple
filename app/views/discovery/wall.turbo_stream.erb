@@ -1,0 +1,12 @@
+<%= turbo_stream.append "cover-wall-grid" do %>
+  <% @wall_records.each do |record| %>
+    <%= render "discovery/wall_cover", record: record %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "cover-wall-meta" do %>
+  <div id="cover-wall-meta"
+       data-cursor="<%= @wall_cursor %>"
+       data-has-more="<%= @has_more %>"
+       class="hidden"></div>
+<% end %>
