@@ -11,8 +11,9 @@
         </div>
 
         <!-- Desktop Navigation Links -->
-        <div class="flex gap-8 max-lg:hidden">
+        <div class="flex gap-8 max-lg:hidden whitespace-nowrap">
           <%= link_to "Browse Records", records_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Discover", discovery_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
           <%= link_to "Artists", artists_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
           <%= link_to "Labels", labels_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
           <%= link_to "Genres", genres_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
@@ -67,6 +68,7 @@
       </div>
       <div class="mt-6 flex flex-col gap-6">
         <%= link_to "Browse Records", records_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Discover", discovery_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <%= link_to "Artists", artists_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <%= link_to "Labels", labels_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <%= link_to "Genres", genres_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>

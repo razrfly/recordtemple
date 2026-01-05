@@ -1,95 +1,27 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Handles the cover wall masonry grid with infinite scroll and quick-view modal
+// Handles the cover wall grid and quick-view modal
 export default class extends Controller {
-  static targets = ["grid", "loading", "sentinel", "modal", "modalContent"]
-  static values = {
-    cursor: String,
-    loading: { type: Boolean, default: false },
-    hasMore: { type: Boolean, default: true }
-  }
+  static targets = ["grid", "modal", "modalContent"]
 
   connect() {
-    this.setupIntersectionObserver()
     this.boundHandleKeydown = this.handleKeydown.bind(this)
     document.addEventListener("keydown", this.boundHandleKeydown)
   }
 
   disconnect() {
-    if (this.observer) {
-      this.observer.disconnect()
-    }
     document.removeEventListener("keydown", this.boundHandleKeydown)
-  }
-
-  setupIntersectionObserver() {
-    if (!this.hasSentinelTarget) return
-
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !this.loadingValue && this.hasMoreValue) {
-            this.loadMore()
-          }
-        })
-      },
-      { rootMargin: "400px" }
-    )
-
-    this.observer.observe(this.sentinelTarget)
-  }
-
-  async loadMore() {
-    if (this.loadingValue || !this.hasMoreValue || !this.cursorValue) return
-
-    this.loadingValue = true
-    this.showLoading()
-
-    try {
-      const response = await fetch(`/discovery/wall?cursor=${this.cursorValue}`, {
-        headers: {
-          "Accept": "text/vnd.turbo-stream.html",
-          "X-Requested-With": "XMLHttpRequest"
-        }
-      })
-
-      if (response.ok) {
-        const html = await response.text()
-        Turbo.renderStreamMessage(html)
-
-        // Update cursor and hasMore from the meta element after render
-        requestAnimationFrame(() => {
-          const meta = document.getElementById("cover-wall-meta")
-          if (meta) {
-            this.cursorValue = meta.dataset.cursor || ""
-            this.hasMoreValue = meta.dataset.hasMore === "true"
-          }
-        })
-      }
-    } catch (error) {
-      console.error("Error loading more covers:", error)
-    } finally {
-      this.loadingValue = false
-      this.hideLoading()
-    }
-  }
-
-  showLoading() {
-    if (this.hasLoadingTarget) {
-      this.loadingTarget.classList.remove("hidden")
-    }
-  }
-
-  hideLoading() {
-    if (this.hasLoadingTarget) {
-      this.loadingTarget.classList.add("hidden")
-    }
   }
 
   // Quick view modal
   async openQuickView(event) {
     event.preventDefault()
     const recordId = event.currentTarget.dataset.recordId
+
+    if (!recordId) {
+      console.error("No record ID provided for quick view")
+      return
+    }
 
     try {
       const response = await fetch(`/discovery/quick_view/${recordId}`, {
@@ -103,6 +35,8 @@ export default class extends Controller {
         const html = await response.text()
         Turbo.renderStreamMessage(html)
         this.showModal()
+      } else {
+        console.error("Quick view failed:", response.status, response.statusText)
       }
     } catch (error) {
       console.error("Error loading quick view:", error)

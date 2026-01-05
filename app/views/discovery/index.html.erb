@@ -7,7 +7,7 @@
           Discover
         </h1>
         <p class="mt-2 text-olive-600 max-w-2xl mx-auto">
-          Explore <%= number_with_delimiter(@total_with_images) %> records with covers.
+          Explore <%= number_with_delimiter(@total_with_images || 0) %> records with covers.
           New discoveries every day.
         </p>
       </div>
@@ -22,7 +22,7 @@
   </section>
 
   <%# Daily Gems Carousel %>
-  <% if @daily_gems.any? %>
+  <% if @daily_gems&.any? %>
     <section class="py-8">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between mb-6">
@@ -45,41 +45,27 @@
   <% end %>
 
   <%# Cover Wall %>
-  <section class="py-12" data-controller="cover-wall"
-           data-cover-wall-cursor-value="<%= @wall_cursor %>"
-           data-cover-wall-has-more-value="true">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <h2 class="font-display text-2xl text-olive-950">Cover Wall</h2>
-          <p class="text-olive-600 mt-1">Click any cover to explore</p>
+  <% if @wall_records&.any? %>
+    <section class="py-12" data-controller="cover-wall">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="font-display text-2xl text-olive-950">Cover Wall</h2>
+            <p class="text-olive-600 mt-1">Click any cover to explore</p>
+          </div>
+        </div>
+
+        <div id="cover-wall-grid"
+             data-cover-wall-target="grid"
+             class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1 sm:gap-2">
+          <% @wall_records.each do |record| %>
+            <%= render "discovery/wall_cover", record: record %>
+          <% end %>
         </div>
       </div>
 
-      <div id="cover-wall-grid"
-           data-cover-wall-target="grid"
-           class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-1 sm:gap-2">
-        <% @wall_records.each do |record| %>
-          <%= render "discovery/wall_cover", record: record %>
-        <% end %>
-      </div>
-
-      <%# Infinite scroll sentinel %>
-      <div data-cover-wall-target="sentinel" class="h-20"></div>
-
-      <%# Loading indicator %>
-      <div data-cover-wall-target="loading" class="hidden flex justify-center py-8">
-        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-olive-900"></div>
-      </div>
-
-      <%# Meta element for cursor tracking (updated via Turbo Stream) %>
-      <div id="cover-wall-meta"
-           data-cursor="<%= @wall_cursor %>"
-           data-has-more="true"
-           class="hidden"></div>
-    </div>
-
-    <%# Quick View Modal - inside controller scope %>
-    <%= render "discovery/quick_view_modal" %>
-  </section>
+      <%# Quick View Modal - inside controller scope %>
+      <%= render "discovery/quick_view_modal" %>
+    </section>
+  <% end %>
 </div>

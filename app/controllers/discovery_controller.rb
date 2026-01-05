@@ -24,26 +24,6 @@ class DiscoveryController < ApplicationController
     @total_with_songs = base_scope.has_songs.count
   end
 
-  # Turbo Stream endpoint for infinite scroll
-  def wall
-    cursor = params[:cursor]
-
-    @wall_records = if cursor.present?
-      Record.after_cursor(cursor, COLLECTION_USER_ID).limit(WALL_PAGE_SIZE)
-    else
-      Record.cover_wall(COLLECTION_USER_ID, WALL_PAGE_SIZE)
-    end
-    @wall_records = @wall_records.includes(:artist, :label)
-
-    @wall_cursor = @wall_records.last&.id
-    @has_more = @wall_records.size == WALL_PAGE_SIZE
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html { redirect_to discovery_path }
-    end
-  end
-
   # Turbo Stream endpoint for shuffle machine - returns 4 random records
   def shuffle
     @shuffle_records = Record.random_with_media(COLLECTION_USER_ID)
