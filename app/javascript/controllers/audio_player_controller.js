@@ -106,7 +106,11 @@ export default class extends Controller {
 
   seek(event) {
     const track = event.currentTarget.closest('[data-audio-player-target="track"]')
+    if (!track) return
+
     const progressBar = track.querySelector('.progress-bar')
+    if (!progressBar) return
+
     const rect = progressBar.getBoundingClientRect()
     const percent = (event.clientX - rect.left) / rect.width
     this.audioTarget.currentTime = percent * this.audioTarget.duration

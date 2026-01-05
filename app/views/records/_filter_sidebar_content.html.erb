@@ -1,5 +1,5 @@
-<%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance" } do |f| %>
-  <input type="hidden" name="sort" value="<%= params[:sort] %>">
+<%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "sort-sync" } do |f| %>
+  <input type="hidden" name="q[s]" value="<%= params.dig(:q, :s) %>" data-sort-sync-target="input">
 
   <div class="flex items-center justify-between mb-6">
     <% if params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
@@ -46,14 +46,23 @@
       </div>
       <div data-autocomplete-target="selected" class="hidden flex flex-wrap gap-2 mt-3"></div>
       <div data-autocomplete-target="hiddenInputs">
-        <% Array(params.dig(:q, :artist_id_in)).each do |artist_id| %>
-          <% artist = Artist.find_by(id: artist_id) %>
-          <% if artist %>
-            <input type="hidden"
-                   name="q[artist_id_in][]"
-                   value="<%= artist.id %>"
-                   data-name="<%= artist.name %>"
-                   data-count="<%= artist.records.where(user_id: 1).count %>">
+        <%# Batch load artists with record counts to avoid N+1 %>
+        <% artist_ids = Array(params.dig(:q, :artist_id_in)) %>
+        <% if artist_ids.any? %>
+          <% selected_artists = Artist.joins(:records)
+               .where(id: artist_ids, records: { user_id: 1 })
+               .group("artists.id")
+               .select("artists.id, artists.name, COUNT(records.id) AS record_count")
+               .index_by { |a| a.id.to_s } %>
+          <% artist_ids.each do |artist_id| %>
+            <% artist = selected_artists[artist_id.to_s] %>
+            <% if artist %>
+              <input type="hidden"
+                     name="q[artist_id_in][]"
+                     value="<%= artist.id %>"
+                     data-name="<%= artist.name %>"
+                     data-count="<%= artist.record_count %>">
+            <% end %>
           <% end %>
         <% end %>
       </div>
@@ -81,14 +90,23 @@
       </div>
       <div data-autocomplete-target="selected" class="hidden flex flex-wrap gap-2 mt-3"></div>
       <div data-autocomplete-target="hiddenInputs">
-        <% Array(params.dig(:q, :label_id_in)).each do |label_id| %>
-          <% label = Label.find_by(id: label_id) %>
-          <% if label %>
-            <input type="hidden"
-                   name="q[label_id_in][]"
-                   value="<%= label.id %>"
-                   data-name="<%= label.name %>"
-                   data-count="<%= label.records.where(user_id: 1).count %>">
+        <%# Batch load labels with record counts to avoid N+1 %>
+        <% label_ids = Array(params.dig(:q, :label_id_in)) %>
+        <% if label_ids.any? %>
+          <% selected_labels = Label.joins(:records)
+               .where(id: label_ids, records: { user_id: 1 })
+               .group("labels.id")
+               .select("labels.id, labels.name, COUNT(records.id) AS record_count")
+               .index_by { |l| l.id.to_s } %>
+          <% label_ids.each do |label_id| %>
+            <% label = selected_labels[label_id.to_s] %>
+            <% if label %>
+              <input type="hidden"
+                     name="q[label_id_in][]"
+                     value="<%= label.id %>"
+                     data-name="<%= label.name %>"
+                     data-count="<%= label.record_count %>">
+            <% end %>
           <% end %>
         <% end %>
       </div>
@@ -148,7 +166,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
       </button>
-      <div data-filter-toggle-target="content" class="space-y-2">
+      <div data-filter-toggle-target="content" class="space-y-2 hidden">
         <% @formats.each do |format| %>
           <label class="flex items-center gap-3 cursor-pointer group">
             <input type="checkbox"
@@ -172,7 +190,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
       </button>
-      <div data-filter-toggle-target="content" class="space-y-2">
+      <div data-filter-toggle-target="content" class="space-y-2 hidden">
         <% @conditions.each do |cond| %>
           <label class="flex items-center gap-3 cursor-pointer group">
             <input type="checkbox"

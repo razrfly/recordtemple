@@ -41,3 +41,6 @@
 
 # Tailwind Plus licensed templates (do not commit)
 /vendor/tailwind-plus/
+
+# Test artifacts
+/test-results/

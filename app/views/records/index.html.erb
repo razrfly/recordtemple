@@ -38,8 +38,10 @@
 
           <div class="flex items-center gap-3">
             <label for="sort" class="text-sm text-olive-600">Sort:</label>
+            <% current_sort = params.dig(:q, :s) %>
             <%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "auto-submit" } do %>
               <% params[:q]&.each do |key, value| %>
+                <% next if key.to_s == "s" %>
                 <% if value.is_a?(Array) %>
                   <% value.each do |v| %>
                     <input type="hidden" name="q[<%= key %>][]" value="<%= v %>">
@@ -51,17 +53,17 @@
               <input type="hidden" name="has_images" value="<%= params[:has_images] %>" <% if params[:has_images].blank? %>disabled<% end %>>
               <input type="hidden" name="has_audio" value="<%= params[:has_audio] %>" <% if params[:has_audio].blank? %>disabled<% end %>>
 
-              <select name="sort"
+              <select name="q[s]"
                       data-action="change->auto-submit#submit"
                       class="text-sm font-medium text-olive-950 bg-white border-0 rounded-lg py-1.5 pl-3 pr-8 ring-1 ring-olive-200 focus:ring-2 focus:ring-olive-500 cursor-pointer">
-                <option value="" <%= "selected" if params[:sort].blank? %>>Latest Added</option>
-                <option value="oldest" <%= "selected" if params[:sort] == "oldest" %>>Oldest First</option>
-                <option value="artist_asc" <%= "selected" if params[:sort] == "artist_asc" %>>Artist A-Z</option>
-                <option value="artist_desc" <%= "selected" if params[:sort] == "artist_desc" %>>Artist Z-A</option>
-                <option value="label_asc" <%= "selected" if params[:sort] == "label_asc" %>>Label A-Z</option>
-                <option value="label_desc" <%= "selected" if params[:sort] == "label_desc" %>>Label Z-A</option>
-                <option value="condition_best" <%= "selected" if params[:sort] == "condition_best" %>>Best Condition</option>
-                <option value="condition_worst" <%= "selected" if params[:sort] == "condition_worst" %>>Worst Condition</option>
+                <option value="created_at desc" <%= "selected" if current_sort.blank? || current_sort == "created_at desc" %>>Latest Added</option>
+                <option value="created_at asc" <%= "selected" if current_sort == "created_at asc" %>>Oldest First</option>
+                <option value="artist_name asc" <%= "selected" if current_sort == "artist_name asc" %>>Artist A-Z</option>
+                <option value="artist_name desc" <%= "selected" if current_sort == "artist_name desc" %>>Artist Z-A</option>
+                <option value="label_name asc" <%= "selected" if current_sort == "label_name asc" %>>Label A-Z</option>
+                <option value="label_name desc" <%= "selected" if current_sort == "label_name desc" %>>Label Z-A</option>
+                <option value="condition asc" <%= "selected" if current_sort == "condition asc" %>>Best Condition</option>
+                <option value="condition desc" <%= "selected" if current_sort == "condition desc" %>>Worst Condition</option>
               </select>
             <% end %>
           </div>
@@ -81,9 +83,11 @@
                 </svg>
               <% end %>
             <% end %>
-            <%# Artist filter chips %>
-            <% Array(params.dig(:q, :artist_id_in)).each do |artist_id| %>
-              <% artist = Artist.find_by(id: artist_id) %>
+            <%# Artist filter chips - batch load to avoid N+1 %>
+            <% artist_ids = Array(params.dig(:q, :artist_id_in)) %>
+            <% selected_artists = artist_ids.any? ? Artist.where(id: artist_ids).index_by { |a| a.id.to_s } : {} %>
+            <% artist_ids.each do |artist_id| %>
+              <% artist = selected_artists[artist_id.to_s] %>
               <% if artist %>
                 <% clear_params = request.query_parameters.deep_dup %>
                 <% clear_params[:q][:artist_id_in] = clear_params[:q][:artist_id_in] - [artist_id.to_s] %>
@@ -98,9 +102,11 @@
                 <% end %>
               <% end %>
             <% end %>
-            <%# Label filter chips %>
-            <% Array(params.dig(:q, :label_id_in)).each do |label_id| %>
-              <% label = Label.find_by(id: label_id) %>
+            <%# Label filter chips - batch load to avoid N+1 %>
+            <% label_ids = Array(params.dig(:q, :label_id_in)) %>
+            <% selected_labels = label_ids.any? ? Label.where(id: label_ids).index_by { |l| l.id.to_s } : {} %>
+            <% label_ids.each do |label_id| %>
+              <% label = selected_labels[label_id.to_s] %>
               <% if label %>
                 <% clear_params = request.query_parameters.deep_dup %>
                 <% clear_params[:q][:label_id_in] = clear_params[:q][:label_id_in] - [label_id.to_s] %>

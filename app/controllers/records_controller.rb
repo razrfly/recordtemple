@@ -5,11 +5,16 @@ class RecordsController < ApplicationController
 
   def index
     @q = base_scope.ransack(params[:q])
-    records = @q.result(distinct: true)
-                .includes(:artist, :label, :genre, :record_format, :price)
 
-    # Apply sorting
-    records = apply_sorting(records)
+    # Apply Ransack native sorting with default
+    @q.sorts = "created_at desc" if @q.sorts.empty?
+
+    # PostgreSQL requires ORDER BY columns in SELECT for DISTINCT
+    # Skip distinct when sorting by associations to avoid this conflict
+    use_distinct = !sorting_by_association?
+
+    records = @q.result(distinct: use_distinct)
+                .includes(:artist, :label, :genre, :record_format, :price)
 
     # Apply media filters
     records = records.has_images if params[:has_images] == "1"
@@ -17,7 +22,7 @@ class RecordsController < ApplicationController
 
     @pagy, @records = pagy(records)
     @total_count = base_scope.count
-    @filtered_count = @q.result(distinct: true).count
+    @filtered_count = @q.result(distinct: use_distinct).count
 
     # Load filter options with counts (scoped to user's collection)
     load_filter_options
@@ -45,25 +50,9 @@ class RecordsController < ApplicationController
     Record.where(user_id: COLLECTION_USER_ID)
   end
 
-  def apply_sorting(records)
-    case params[:sort]
-    when "artist_asc"
-      records.joins(:artist).order(Arel.sql("artists.name ASC"))
-    when "artist_desc"
-      records.joins(:artist).order(Arel.sql("artists.name DESC"))
-    when "label_asc"
-      records.joins(:label).order(Arel.sql("labels.name ASC"))
-    when "label_desc"
-      records.joins(:label).order(Arel.sql("labels.name DESC"))
-    when "oldest"
-      records.order(created_at: :asc)
-    when "condition_best"
-      records.order(condition: :asc)
-    when "condition_worst"
-      records.order(condition: :desc)
-    else
-      records.order(created_at: :desc) # Default: newest first
-    end
+  def sorting_by_association?
+    sort_param = params.dig(:q, :s).to_s
+    sort_param.match?(/^(artist|label|genre|record_format)_/)
   end
 
   def load_filter_options
