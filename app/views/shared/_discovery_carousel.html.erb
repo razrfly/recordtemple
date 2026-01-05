@@ -18,11 +18,14 @@
 <% recent_label ||= "Recently Added" %>
 <% hidden_gem_label ||= "Hidden Gems" %>
 
+<%# Determine first available tab dynamically %>
+<% default_tab = popular_items.any? ? "popular" : (recent_items.any? ? "recent" : "gems") %>
+
 <% if popular_items.any? || recent_items.any? || hidden_gem_items.any? %>
-  <section class="mb-12" data-controller="discovery-tabs" data-discovery-tabs-active-tab-value="popular">
-    <%# Tab Navigation %>
-    <div class="flex items-center justify-between mb-6">
-      <nav class="flex gap-2" role="tablist" aria-label="Discovery categories">
+  <section class="mb-12" data-controller="discovery-tabs" data-discovery-tabs-active-tab-value="<%= default_tab %>">
+    <%# Tab Navigation - horizontally scrollable on mobile %>
+    <div class="mb-6 -mx-6 px-6 lg:mx-0 lg:px-0">
+      <nav class="flex gap-2 overflow-x-auto scrollbar-hide pb-2" role="tablist" aria-label="Discovery categories">
         <% if popular_items.any? %>
           <button
             type="button"
@@ -30,10 +33,11 @@
             data-discovery-tabs-target="tab"
             data-tab="popular"
             data-action="click->discovery-tabs#switch"
-            aria-selected="true"
-            class="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 bg-olive-900 text-white"
+            aria-selected="<%= default_tab == 'popular' %>"
+            class="flex-none px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2"
+            style="background-color: var(--color-olive-<%= default_tab == 'popular' ? '900' : '200' %>); color: <%= default_tab == 'popular' ? 'white' : 'var(--color-olive-900)' %>;"
           >
-            <span class="flex items-center gap-2">
+            <span class="flex items-center gap-2 whitespace-nowrap">
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
               </svg>
@@ -49,10 +53,11 @@
             data-discovery-tabs-target="tab"
             data-tab="recent"
             data-action="click->discovery-tabs#switch"
-            aria-selected="false"
-            class="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 bg-olive-100 text-olive-700 hover:bg-olive-200"
+            aria-selected="<%= default_tab == 'recent' %>"
+            class="flex-none px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2"
+            style="background-color: var(--color-olive-<%= default_tab == 'recent' ? '900' : '200' %>); color: <%= default_tab == 'recent' ? 'white' : 'var(--color-olive-900)' %>;"
           >
-            <span class="flex items-center gap-2">
+            <span class="flex items-center gap-2 whitespace-nowrap">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
               </svg>
@@ -68,10 +73,11 @@
             data-discovery-tabs-target="tab"
             data-tab="gems"
             data-action="click->discovery-tabs#switch"
-            aria-selected="false"
-            class="px-4 py-2 text-sm font-medium rounded-full transition-all duration-200 bg-olive-100 text-olive-700 hover:bg-olive-200"
+            aria-selected="<%= default_tab == 'gems' %>"
+            class="flex-none px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2"
+            style="background-color: var(--color-olive-<%= default_tab == 'gems' ? '900' : '200' %>); color: <%= default_tab == 'gems' ? 'white' : 'var(--color-olive-900)' %>;"
           >
-            <span class="flex items-center gap-2">
+            <span class="flex items-center gap-2 whitespace-nowrap">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
               </svg>
@@ -90,14 +96,14 @@
         role="tabpanel"
         data-discovery-tabs-target="panel"
         data-tab="popular"
-        aria-hidden="false"
-        class="relative"
+        aria-hidden="<%= default_tab != 'popular' %>"
+        class="relative min-h-[220px]<%= ' hidden' unless default_tab == 'popular' %>"
       >
-        <%# Left scroll button %>
+        <%# Left scroll button - hidden on mobile, visible on desktop %>
         <button
           type="button"
           data-action="click->discovery-tabs#scrollLeft"
-          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll left"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -105,13 +111,13 @@
           </svg>
         </button>
 
-        <%# Carousel %>
+        <%# Carousel - edge-to-edge on mobile %>
         <div
           data-discovery-tabs-target="carousel"
-          class="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-2 px-2"
+          class="flex items-start gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-6 px-6 lg:mx-0 lg:px-0"
         >
           <% popular_items.each do |item| %>
-            <div class="flex-none w-44 sm:w-48 scroll-snap-start">
+            <div class="flex-none scroll-snap-start" style="width: 10rem; min-width: 10rem;">
               <%= render 'shared/discovery_card',
                   item: item,
                   path: item_path_helper.call(item),
@@ -121,11 +127,11 @@
           <% end %>
         </div>
 
-        <%# Right scroll button %>
+        <%# Right scroll button - hidden on mobile, visible on desktop %>
         <button
           type="button"
           data-action="click->discovery-tabs#scrollRight"
-          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll right"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,13 +147,13 @@
         role="tabpanel"
         data-discovery-tabs-target="panel"
         data-tab="recent"
-        aria-hidden="true"
-        class="relative hidden"
+        aria-hidden="<%= default_tab != 'recent' %>"
+        class="relative min-h-[220px]<%= ' hidden' unless default_tab == 'recent' %>"
       >
         <button
           type="button"
           data-action="click->discovery-tabs#scrollLeft"
-          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll left"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -157,10 +163,10 @@
 
         <div
           data-discovery-tabs-target="carousel"
-          class="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-2 px-2"
+          class="flex items-start gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-6 px-6 lg:mx-0 lg:px-0"
         >
           <% recent_items.each do |item| %>
-            <div class="flex-none w-44 sm:w-48 scroll-snap-start">
+            <div class="flex-none scroll-snap-start" style="width: 10rem; min-width: 10rem;">
               <%= render 'shared/discovery_card',
                   item: item,
                   path: item_path_helper.call(item),
@@ -172,7 +178,7 @@
         <button
           type="button"
           data-action="click->discovery-tabs#scrollRight"
-          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll right"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,13 +194,13 @@
         role="tabpanel"
         data-discovery-tabs-target="panel"
         data-tab="gems"
-        aria-hidden="true"
-        class="relative hidden"
+        aria-hidden="<%= default_tab != 'gems' %>"
+        class="relative min-h-[220px]<%= ' hidden' unless default_tab == 'gems' %>"
       >
         <button
           type="button"
           data-action="click->discovery-tabs#scrollLeft"
-          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -ml-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll left"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -204,10 +210,10 @@
 
         <div
           data-discovery-tabs-target="carousel"
-          class="flex gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-2 px-2"
+          class="flex items-start gap-4 overflow-x-auto scroll-smooth scrollbar-hide scroll-snap-x pb-4 -mx-6 px-6 lg:mx-0 lg:px-0"
         >
           <% hidden_gem_items.each do |item| %>
-            <div class="flex-none w-44 sm:w-48 scroll-snap-start">
+            <div class="flex-none scroll-snap-start" style="width: 10rem; min-width: 10rem;">
               <%= render 'shared/discovery_card',
                   item: item,
                   path: item_path_helper.call(item),
@@ -219,7 +225,7 @@
         <button
           type="button"
           data-action="click->discovery-tabs#scrollRight"
-          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-0 hover:opacity-100 focus:opacity-100"
+          class="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hidden lg:flex items-center justify-center text-olive-700 hover:bg-white hover:text-olive-900 transition-all duration-200 -mr-5 opacity-40 hover:opacity-100 focus:opacity-100"
           aria-label="Scroll right"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

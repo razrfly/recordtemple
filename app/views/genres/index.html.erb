@@ -1,0 +1,90 @@
+<div class="mx-auto w-full max-w-2xl px-6 py-12 md:max-w-3xl lg:max-w-7xl lg:px-10">
+  <%# Header %>
+  <header class="mb-10 text-center">
+    <h1 class="font-display text-4xl tracking-tight text-olive-950 sm:text-5xl">Browse Genres</h1>
+    <p class="mt-3 text-lg text-olive-600">
+      Explore <%= number_with_delimiter(@total_count) %> genres in the collection
+    </p>
+    <%= link_to random_genres_path,
+        class: "inline-flex items-center gap-2 mt-5 px-4 py-2 text-sm font-medium text-olive-700 bg-olive-50 rounded-full border border-olive-200 hover:bg-olive-100 hover:border-olive-300 hover:text-olive-900 transition-all duration-200" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Surprise Me
+    <% end %>
+  </header>
+
+  <%# Discovery Carousel Section (only show when viewing all) %>
+  <% if @current_letter.blank? %>
+    <%= render 'shared/discovery_carousel',
+        popular_items: @popular_genres,
+        recent_items: @recent_genres,
+        hidden_gem_items: [],
+        item_path_helper: ->(item) { genre_path(item) },
+        type: :genre,
+        popular_label: "Top Genres",
+        recent_label: "Recently Added" %>
+  <% end %>
+
+  <%# A-Z Navigation %>
+  <%= render 'shared/az_navigation',
+      base_path: ->(opts = {}) { genres_path(opts) },
+      available_letters: @available_letters,
+      current_letter: @current_letter %>
+
+  <%# Current filter indicator %>
+  <% if @current_letter.present? %>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-display text-xl text-olive-950">
+        <% if @current_letter == "#" %>
+          Genres starting with numbers or symbols
+        <% else %>
+          Genres starting with "<%= @current_letter %>"
+        <% end %>
+      </h2>
+      <p class="text-sm text-olive-600">
+        <%= number_with_delimiter(@pagy.count) %> genres
+      </p>
+    </div>
+  <% else %>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="font-display text-xl text-olive-950">Browse All Genres</h2>
+      <p class="text-sm text-olive-600">
+        Sorted A-Z
+      </p>
+    </div>
+  <% end %>
+
+  <%# Genres Grid %>
+  <% if @genres.any? %>
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+      <% @genres.each do |genre| %>
+        <%= render 'shared/discovery_card',
+            item: genre,
+            path: genre_path(genre),
+            type: :genre,
+            show_collage: true %>
+      <% end %>
+    </div>
+
+    <%# Pagination %>
+    <div class="mt-12">
+      <%= render 'shared/pagination', pagy: @pagy %>
+    </div>
+  <% else %>
+    <div class="text-center py-16">
+      <svg class="mx-auto w-16 h-16 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+      </svg>
+      <h3 class="mt-4 font-display text-lg text-olive-950">No genres found</h3>
+      <p class="mt-2 text-olive-600">
+        <% if @current_letter.present? %>
+          No genres start with "<%= @current_letter == "#" ? "numbers or symbols" : @current_letter %>".
+          <%= link_to "View all genres", genres_path, class: "text-olive-700 underline hover:text-olive-900" %>
+        <% else %>
+          No genres in the collection yet.
+        <% end %>
+      </p>
+    </div>
+  <% end %>
+</div>

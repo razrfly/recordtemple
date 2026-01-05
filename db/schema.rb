@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_233359) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_153406) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -162,6 +162,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_233359) do
     t.index ["label_id"], name: "index_records_on_label_id"
     t.index ["price_id"], name: "index_records_on_price_id"
     t.index ["record_format_id"], name: "index_records_on_record_format_id"
+    t.index ["user_id", "artist_id"], name: "index_records_on_user_and_artist"
+    t.index ["user_id", "created_at"], name: "index_records_on_user_and_created_at"
+    t.index ["user_id", "genre_id"], name: "index_records_on_user_and_genre"
+    t.index ["user_id", "label_id"], name: "index_records_on_user_and_label"
     t.index ["user_id"], name: "index_records_on_user_id"
   end
 

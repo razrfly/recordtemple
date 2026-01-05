@@ -47,13 +47,15 @@ class Label < ApplicationRecord
   }
 
   # Hidden gems: labels with 2-5 records (enough to be interesting, but not heavily collected)
+  # Uses daily seed for deterministic pseudo-random ordering (consistent within a day, changes daily)
   scope :hidden_gems, ->(user_id, limit = 12) {
+    daily_seed = Date.current.to_s
     joins(:records)
       .where(records: { user_id: user_id })
       .group("labels.id")
       .select("labels.*, COUNT(records.id) as records_count")
       .having("COUNT(records.id) BETWEEN 2 AND 5")
-      .order(Arel.sql("RANDOM()"))
+      .order(Arel.sql("MD5(CONCAT(labels.id::text, '#{daily_seed}'))"))
       .limit(limit)
   }
 
