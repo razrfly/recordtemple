@@ -81,6 +81,40 @@
                 </svg>
               <% end %>
             <% end %>
+            <%# Artist filter chips %>
+            <% Array(params.dig(:q, :artist_id_in)).each do |artist_id| %>
+              <% artist = Artist.find_by(id: artist_id) %>
+              <% if artist %>
+                <% clear_params = request.query_parameters.deep_dup %>
+                <% clear_params[:q][:artist_id_in] = clear_params[:q][:artist_id_in] - [artist_id.to_s] %>
+                <% clear_params[:q].delete(:artist_id_in) if clear_params[:q][:artist_id_in].empty? %>
+                <%= link_to records_path(clear_params),
+                    class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+                    data: { turbo_frame: "records_list" } do %>
+                  Artist: "<%= artist.name %>"
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%# Label filter chips %>
+            <% Array(params.dig(:q, :label_id_in)).each do |label_id| %>
+              <% label = Label.find_by(id: label_id) %>
+              <% if label %>
+                <% clear_params = request.query_parameters.deep_dup %>
+                <% clear_params[:q][:label_id_in] = clear_params[:q][:label_id_in] - [label_id.to_s] %>
+                <% clear_params[:q].delete(:label_id_in) if clear_params[:q][:label_id_in].empty? %>
+                <%= link_to records_path(clear_params),
+                    class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+                    data: { turbo_frame: "records_list" } do %>
+                  Label: "<%= label.name %>"
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                <% end %>
+              <% end %>
+            <% end %>
             <% if params[:has_images] == "1" %>
               <%= link_to records_path(request.query_parameters.except(:has_images)),
                   class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",

@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   get "files/photos/:id", to: "files#photo", as: :photo_file
   get "files/songs/:id", to: "files#song", as: :song_file
 
+  # API endpoints for autocomplete
+  namespace :api do
+    resources :artists, only: [:index]
+    resources :labels, only: [:index]
+  end
+
   # Public record catalog
   resources :records, only: [:index, :show]
 
