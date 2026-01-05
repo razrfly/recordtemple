@@ -24,6 +24,76 @@
       </div>
     </div>
 
+    <%# Artist Autocomplete %>
+    <div class="border-t border-olive-100 pt-6"
+         data-controller="autocomplete"
+         data-autocomplete-url-value="<%= api_artists_path %>"
+         data-autocomplete-param-name-value="artist_id_in">
+      <label class="block text-sm font-medium text-olive-700 dark:text-olive-300 mb-2">Artist</label>
+      <div class="relative">
+        <input type="text"
+               data-autocomplete-target="input"
+               data-action="input->autocomplete#search"
+               placeholder="Search artists..."
+               autocomplete="off"
+               class="w-full pl-9 pr-4 py-2.5 text-sm bg-olive-50 dark:bg-olive-900 border-0 rounded-xl text-olive-900 dark:text-olive-100 placeholder-olive-400 dark:placeholder-olive-500 focus:ring-2 focus:ring-olive-500 focus:bg-white dark:focus:bg-olive-800 transition-colors">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        <div data-autocomplete-target="results"
+             class="hidden absolute z-50 mt-1 w-full bg-white dark:bg-olive-900 rounded-xl shadow-lg ring-1 ring-olive-900/5 dark:ring-olive-700 max-h-60 overflow-y-auto">
+        </div>
+      </div>
+      <div data-autocomplete-target="selected" class="hidden flex flex-wrap gap-2 mt-3"></div>
+      <div data-autocomplete-target="hiddenInputs">
+        <% Array(params.dig(:q, :artist_id_in)).each do |artist_id| %>
+          <% artist = Artist.find_by(id: artist_id) %>
+          <% if artist %>
+            <input type="hidden"
+                   name="q[artist_id_in][]"
+                   value="<%= artist.id %>"
+                   data-name="<%= artist.name %>"
+                   data-count="<%= artist.records.where(user_id: 1).count %>">
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Label Autocomplete %>
+    <div class="border-t border-olive-100 pt-6"
+         data-controller="autocomplete"
+         data-autocomplete-url-value="<%= api_labels_path %>"
+         data-autocomplete-param-name-value="label_id_in">
+      <label class="block text-sm font-medium text-olive-700 dark:text-olive-300 mb-2">Label</label>
+      <div class="relative">
+        <input type="text"
+               data-autocomplete-target="input"
+               data-action="input->autocomplete#search"
+               placeholder="Search labels..."
+               autocomplete="off"
+               class="w-full pl-9 pr-4 py-2.5 text-sm bg-olive-50 dark:bg-olive-900 border-0 rounded-xl text-olive-900 dark:text-olive-100 placeholder-olive-400 dark:placeholder-olive-500 focus:ring-2 focus:ring-olive-500 focus:bg-white dark:focus:bg-olive-800 transition-colors">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+        </svg>
+        <div data-autocomplete-target="results"
+             class="hidden absolute z-50 mt-1 w-full bg-white dark:bg-olive-900 rounded-xl shadow-lg ring-1 ring-olive-900/5 dark:ring-olive-700 max-h-60 overflow-y-auto">
+        </div>
+      </div>
+      <div data-autocomplete-target="selected" class="hidden flex flex-wrap gap-2 mt-3"></div>
+      <div data-autocomplete-target="hiddenInputs">
+        <% Array(params.dig(:q, :label_id_in)).each do |label_id| %>
+          <% label = Label.find_by(id: label_id) %>
+          <% if label %>
+            <input type="hidden"
+                   name="q[label_id_in][]"
+                   value="<%= label.id %>"
+                   data-name="<%= label.name %>"
+                   data-count="<%= label.records.where(user_id: 1).count %>">
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
     <div data-controller="filter-toggle">
       <button type="button"
               data-action="click->filter-toggle#toggle"
