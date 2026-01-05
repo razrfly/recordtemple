@@ -58,6 +58,9 @@ class Record < ApplicationRecord
 
   validates :condition, presence: true
 
+  # Update popularity score when relevant fields change
+  after_commit :schedule_popularity_update, if: :popularity_affecting_change?
+
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
@@ -89,6 +92,19 @@ class Record < ApplicationRecord
   end
 
   def self.ransortable_attributes(auth_object = nil)
-    %w[created_at condition]
+    %w[created_at condition popularity_score]
+  end
+
+  private
+
+  # Fields that affect popularity score calculation
+  POPULARITY_FIELDS = %w[comment price_id identifier_id record_format_id].freeze
+
+  def popularity_affecting_change?
+    (previous_changes.keys & POPULARITY_FIELDS).any?
+  end
+
+  def schedule_popularity_update
+    RecordPopularityJob.perform_later(id)
   end
 end

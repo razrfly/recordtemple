@@ -1,0 +1,103 @@
+# Popularity Scoring Configuration
+# Regenerate scores: rake records:recalculate_popularity
+# Validate config: rake records:validate_popularity_config
+#
+# This configuration defines how records are scored for "popularity" sorting.
+# Popularity here means "content richness" - records with more media, from
+# notable artists/labels, and with higher collector value score higher.
+#
+# Total maximum score: ~100 points
+
+default: &default
+  version: 2
+
+  # Base boolean factors (0 or full points)
+  boolean_factors:
+    has_images:
+      points: 12
+      description: "Record has at least one image"
+
+    has_songs:
+      points: 15
+      description: "Record has at least one audio file"
+
+    has_comment:
+      points: 3
+      description: "Record has description"
+
+    has_price_guide:
+      points: 5
+      description: "Record has linked price guide data"
+
+    has_identifier:
+      points: 3
+      description: "Record has catalog number"
+
+  # Graduated factors (scales with count)
+  graduated_factors:
+    images_count_bonus:
+      points_per_unit: 2
+      max_points: 8
+      start_from: 2  # Bonus starts from 2nd image
+      description: "Bonus for multiple images (2pts each after first, max 8)"
+
+    songs_count_bonus:
+      points_per_unit: 3
+      max_points: 9
+      start_from: 2  # Bonus starts from 2nd song
+      description: "Bonus for multiple songs (3pts each after first, max 9)"
+
+    comment_length_bonus:
+      points_per_100_chars: 1
+      max_points: 4
+      description: "Longer descriptions (1pt per 100 chars, max 4)"
+
+  # Logarithmic factors (LOG scale, capped)
+  logarithmic_factors:
+    artist_catalog_depth:
+      multiplier: 4
+      max_points: 12
+      description: "LN(artist_record_count + 1) * multiplier"
+
+    label_catalog_depth:
+      multiplier: 3
+      max_points: 8
+      description: "LN(label_record_count + 1) * multiplier"
+
+    price_guide_value:
+      source: "prices.price_high"
+      multiplier: 2
+      max_points: 12
+      description: "LN(price_high + 1) * multiplier - higher collector value = more interesting"
+
+  # Format rarity lookup (by record_format name)
+  format_rarity:
+    default_points: 0
+    bonuses:
+      "Picture Disc Singles": 9
+      "Picture Sleeves": 5
+      "Gold Standard Picture Sleeves": 5
+      "Promotional Singles": 4
+      "Promotional 12-inch Singles": 4
+      "Promotional LPs": 4
+      "Promotional Singles: 12-inch": 4
+      "LPs: 10/12-inch": 3
+      "LPs 10/12-inch": 3
+      "EPs: 7-inch": 2
+      "EPs: 7-inch 45 rpm": 2
+      "EPs: 7-inch 33/45": 2
+      "EPs: 10-inch": 2
+      "EPs: 12-inch": 2
+      "Singles: 78 rpm": 2
+      "Albums: 78 rpm": 2
+      "Plastic Soundsheets/Flexi-Discs": 3
+      "Sound postcard": 3
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

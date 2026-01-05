@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_153406) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_161153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -150,9 +150,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_153406) do
     t.datetime "created_at", precision: nil
     t.integer "genre_id"
     t.integer "identifier_id"
+    t.integer "images_count", default: 0, null: false
     t.integer "label_id"
+    t.integer "popularity_score", default: 0, null: false
     t.integer "price_id"
     t.integer "record_format_id"
+    t.integer "songs_count", default: 0, null: false
     t.datetime "updated_at", precision: nil
     t.integer "user_id"
     t.integer "value"
@@ -160,6 +163,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_153406) do
     t.index ["artist_id"], name: "index_records_on_artist_id"
     t.index ["genre_id"], name: "index_records_on_genre_id"
     t.index ["label_id"], name: "index_records_on_label_id"
+    t.index ["popularity_score"], name: "index_records_on_popularity_score"
     t.index ["price_id"], name: "index_records_on_price_id"
     t.index ["record_format_id"], name: "index_records_on_record_format_id"
     t.index ["user_id", "artist_id"], name: "index_records_on_user_and_artist"

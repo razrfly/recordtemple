@@ -8,8 +8,8 @@ class RecordsController < ApplicationController
 
     @q = base_scope.ransack(params[:q])
 
-    # Apply Ransack native sorting with default
-    @q.sorts = "created_at desc" if @q.sorts.empty?
+    # Apply Ransack native sorting with default (Popular = highest popularity_score first)
+    @q.sorts = "popularity_score desc" if @q.sorts.empty?
 
     # PostgreSQL requires ORDER BY columns in SELECT for DISTINCT
     # Skip distinct when sorting by associations to avoid this conflict
