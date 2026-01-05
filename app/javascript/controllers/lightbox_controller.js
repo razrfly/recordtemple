@@ -17,7 +17,11 @@ export default class extends Controller {
 
   open(event) {
     const index = parseInt(event.currentTarget.dataset.index, 10)
-    this.currentIndexValue = index
+    if (isNaN(index) || index < 0 || index >= this.imagesValue.length) {
+      this.currentIndexValue = 0
+    } else {
+      this.currentIndexValue = index
+    }
     this.showImage()
     this.modalTarget.classList.remove("opacity-0", "pointer-events-none")
     this.modalTarget.classList.add("opacity-100")
@@ -72,6 +76,9 @@ export default class extends Controller {
   goTo(event) {
     event.stopPropagation()
     const index = parseInt(event.currentTarget.dataset.index, 10)
+    if (isNaN(index) || index < 0 || index >= this.imagesValue.length) {
+      return
+    }
     this.currentIndexValue = index
     this.showImage()
     this.updateThumbnails()

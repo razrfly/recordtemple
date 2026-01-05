@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_195143) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_04_233359) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -77,12 +77,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_195143) do
     t.datetime "claimed_at", precision: nil
     t.datetime "created_at", precision: nil, null: false
     t.datetime "expires_at", precision: nil, null: false
-    t.string "remote_addr", null: false
+    t.string "identifier"
+    t.string "remote_addr"
     t.datetime "timeout_at", precision: nil, null: false
     t.string "token", null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.text "user_agent", null: false
+    t.text "user_agent"
     t.index ["authenticatable_type", "authenticatable_id"], name: "authenticatable"
+    t.index ["identifier"], name: "index_passwordless_sessions_on_identifier", unique: true
   end
 
   create_table "photos", id: :serial, force: :cascade do |t|
