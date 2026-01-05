@@ -18,56 +18,47 @@
           <div>
             <h3 class="font-medium">Browse</h3>
             <ul role="list" class="mt-2 flex flex-col gap-2">
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "All Records", "#" %>
+              <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                <%= link_to "All Records", records_path %>
               </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Artists", "#" %>
+              <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                <%= link_to "Artists", artists_path %>
               </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Genres", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Labels", "#" %>
+              <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                <%= link_to "Labels", labels_path %>
               </li>
             </ul>
           </div>
 
-          <!-- Formats -->
+          <!-- Discovery -->
           <div>
-            <h3 class="font-medium">Formats</h3>
+            <h3 class="font-medium">Discover</h3>
             <ul role="list" class="mt-2 flex flex-col gap-2">
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Vinyl LP", "#" %>
+              <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                <%= link_to "Random Artist", random_artists_path %>
               </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "7\" Singles", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "12\" Singles", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Box Sets", "#" %>
+              <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                <%= link_to "Random Label", random_labels_path %>
               </li>
             </ul>
           </div>
 
-          <!-- Company -->
+          <!-- Account -->
           <div>
-            <h3 class="font-medium">Company</h3>
+            <h3 class="font-medium">Account</h3>
             <ul role="list" class="mt-2 flex flex-col gap-2">
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "About", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Contact", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Privacy Policy", "#" %>
-              </li>
-              <li class="text-olive-700 dark:text-olive-400">
-                <%= link_to "Terms of Service", "#" %>
-              </li>
+              <% if current_user.present? %>
+                <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                  <%= link_to "Dashboard", static_members_only_path %>
+                </li>
+                <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                  <%= link_to "Sign out", users.sign_out_path %>
+                </li>
+              <% else %>
+                <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
+                  <%= link_to "Sign in", users.sign_in_path %>
+                </li>
+              <% end %>
             </ul>
           </div>
         </nav>

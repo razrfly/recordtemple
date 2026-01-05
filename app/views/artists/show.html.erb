@@ -17,11 +17,11 @@
   <%# Hero Section %>
   <header class="mb-10">
     <div class="flex flex-col sm:flex-row gap-6 items-start">
-      <%# Artist Cover Art Collage %>
+      <%# Artist Cover Art - uses model method for consistent display across pagination %>
       <div class="shrink-0 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-olive-100 shadow-lg ring-1 ring-olive-900/10">
-        <% cover_record = @records.find { |r| r.images.attached? && r.images.any? } %>
-        <% if cover_record %>
-          <%= image_tag cover_record.images.first.variant(resize_to_fill: [320, 320]),
+        <% cover = @artist.cover %>
+        <% if cover %>
+          <%= image_tag cover.variant(resize_to_fill: [320, 320]),
               class: "w-full h-full object-cover",
               alt: @artist.name %>
         <% else %>

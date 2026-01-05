@@ -3,6 +3,7 @@
 
    Optional locals:
      - base_path: URL helper for building clear-filter links (default: records_path)
+                  Can be a String, Symbol, or Proc/Lambda that accepts params
      - turbo_frame: Turbo frame to target (default: "records_list")
      - show_search: Show search text filter chip (default: true)
      - show_artists: Show artist filter chips (default: true)
@@ -10,12 +11,21 @@
      - show_media: Show media filter chips (default: true)
 %>
 
-<% base_path ||= records_path %>
+<% base_path ||= :records_path %>
 <% turbo_frame ||= "records_list" %>
 <% show_search = true if local_assigns[:show_search].nil? %>
 <% show_artists = true if local_assigns[:show_artists].nil? %>
 <% show_labels = true if local_assigns[:show_labels].nil? %>
 <% show_media = true if local_assigns[:show_media].nil? %>
+
+<%# Helper to build path with params consistently %>
+<% build_path = ->(params) {
+  case base_path
+  when Proc then base_path.call(params)
+  when Symbol then send(base_path, params)
+  else "#{base_path}?#{params.to_query}"
+  end
+} %>
 
 <% has_filters = params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
 
@@ -25,7 +35,7 @@
     <% if show_search && params.dig(:q, :artist_name_or_label_name_or_comment_cont).present? %>
       <% clear_search_params = request.query_parameters.deep_dup %>
       <% clear_search_params[:q]&.delete(:artist_name_or_label_name_or_comment_cont) %>
-      <%= link_to base_path.is_a?(String) ? base_path : send(base_path, clear_search_params),
+      <%= link_to build_path.call(clear_search_params),
           class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
           data: { turbo_frame: turbo_frame } do %>
         Search: "<%= params.dig(:q, :artist_name_or_label_name_or_comment_cont) %>"
@@ -45,7 +55,7 @@
           <% clear_params = request.query_parameters.deep_dup %>
           <% clear_params[:q][:artist_id_in] = clear_params[:q][:artist_id_in] - [artist_id.to_s] %>
           <% clear_params[:q].delete(:artist_id_in) if clear_params[:q][:artist_id_in].empty? %>
-          <%= link_to records_path(clear_params),
+          <%= link_to build_path.call(clear_params),
               class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
               data: { turbo_frame: turbo_frame } do %>
             Artist: "<%= artist.name %>"
@@ -67,7 +77,7 @@
           <% clear_params = request.query_parameters.deep_dup %>
           <% clear_params[:q][:label_id_in] = clear_params[:q][:label_id_in] - [label_id.to_s] %>
           <% clear_params[:q].delete(:label_id_in) if clear_params[:q][:label_id_in].empty? %>
-          <%= link_to records_path(clear_params),
+          <%= link_to build_path.call(clear_params),
               class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
               data: { turbo_frame: turbo_frame } do %>
             Label: "<%= label.name %>"
@@ -82,7 +92,7 @@
     <%# Media filter chips %>
     <% if show_media %>
       <% if params[:has_images] == "1" %>
-        <%= link_to records_path(request.query_parameters.except(:has_images)),
+        <%= link_to build_path.call(request.query_parameters.except(:has_images)),
             class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
             data: { turbo_frame: turbo_frame } do %>
           Has Images
@@ -93,7 +103,7 @@
       <% end %>
 
       <% if params[:has_audio] == "1" %>
-        <%= link_to records_path(request.query_parameters.except(:has_audio)),
+        <%= link_to build_path.call(request.query_parameters.except(:has_audio)),
             class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
             data: { turbo_frame: turbo_frame } do %>
           Has Audio

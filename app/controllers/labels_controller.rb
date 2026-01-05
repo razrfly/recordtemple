@@ -38,6 +38,15 @@ class LabelsController < ApplicationController
                               .sort
   end
 
+  def random
+    # Get a random label that has records in the collection
+    random_label = Label.joins(:records)
+                        .where(records: { user_id: COLLECTION_USER_ID })
+                        .order(Arel.sql("RANDOM()"))
+                        .first
+    redirect_to label_path(random_label)
+  end
+
   def show
     @label = Label.friendly.find(params[:id])
 

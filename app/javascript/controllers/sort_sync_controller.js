@@ -6,15 +6,16 @@ export default class extends Controller {
   static targets = ["input"]
 
   connect() {
-    this.syncFromUrl()
+    this.boundSyncFromUrl = this.syncFromUrl.bind(this)
+    this.boundSyncFromUrl()
     // Listen for Turbo navigation to keep in sync
-    document.addEventListener("turbo:load", this.syncFromUrl.bind(this))
-    document.addEventListener("turbo:frame-load", this.syncFromUrl.bind(this))
+    document.addEventListener("turbo:load", this.boundSyncFromUrl)
+    document.addEventListener("turbo:frame-load", this.boundSyncFromUrl)
   }
 
   disconnect() {
-    document.removeEventListener("turbo:load", this.syncFromUrl.bind(this))
-    document.removeEventListener("turbo:frame-load", this.syncFromUrl.bind(this))
+    document.removeEventListener("turbo:load", this.boundSyncFromUrl)
+    document.removeEventListener("turbo:frame-load", this.boundSyncFromUrl)
   }
 
   syncFromUrl() {

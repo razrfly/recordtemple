@@ -38,6 +38,15 @@ class ArtistsController < ApplicationController
                                .sort
   end
 
+  def random
+    # Get a random artist that has records in the collection
+    random_artist = Artist.joins(:records)
+                          .where(records: { user_id: COLLECTION_USER_ID })
+                          .order(Arel.sql("RANDOM()"))
+                          .first
+    redirect_to artist_path(random_artist)
+  end
+
   def show
     @artist = Artist.friendly.find(params[:id])
 
