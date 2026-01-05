@@ -24,6 +24,9 @@ class RecordsController < ApplicationController
 
     # PostgreSQL requires ORDER BY columns in SELECT for DISTINCT
     # Skip distinct when sorting by associations to avoid this conflict
+    # Also skip during pg_search as it adds ranking columns to ORDER BY
+    # Note: belongs_to associations (artist, label, genre, etc.) don't produce
+    # duplicate records, so skipping DISTINCT is safe here
     use_distinct = !sorting_by_association? && params[:search].blank?
 
     records = @q.result(distinct: use_distinct)
