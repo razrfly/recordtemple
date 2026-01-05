@@ -50,7 +50,8 @@
         <select name="q[s]"
                 data-action="change->auto-submit#submit"
                 class="text-sm font-medium text-olive-950 bg-white border-0 rounded-lg py-1.5 pl-3 pr-8 ring-1 ring-olive-200 focus:ring-2 focus:ring-olive-500 cursor-pointer">
-          <option value="created_at desc" <%= "selected" if current_sort.blank? || current_sort == "created_at desc" %>>Latest Added</option>
+          <option value="popularity_score desc" <%= "selected" if current_sort.blank? || current_sort == "popularity_score desc" %>>Popular</option>
+          <option value="created_at desc" <%= "selected" if current_sort == "created_at desc" %>>Latest Added</option>
           <option value="created_at asc" <%= "selected" if current_sort == "created_at asc" %>>Oldest First</option>
           <option value="artist_name asc" <%= "selected" if current_sort == "artist_name asc" %>>Artist A-Z</option>
           <option value="artist_name desc" <%= "selected" if current_sort == "artist_name desc" %>>Artist Z-A</option>
