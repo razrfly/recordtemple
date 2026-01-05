@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   include Passwordless::ControllerHelpers
   include Pagy::Backend
+  include Breadcrumbable
 
   helper_method :current_user
 

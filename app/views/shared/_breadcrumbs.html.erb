@@ -1,0 +1,49 @@
+<%# Breadcrumb Navigation Component - renders accessible trail with schema.org SEO markup %>
+<% if breadcrumbs.any? %>
+  <nav aria-label="Breadcrumb" class="mb-6">
+    <ol class="flex flex-wrap items-center gap-2 text-sm text-olive-500"
+        itemscope
+        itemtype="https://schema.org/BreadcrumbList">
+      <% breadcrumbs.each_with_index do |crumb, index| %>
+        <li class="flex items-center gap-2"
+            itemprop="itemListElement"
+            itemscope
+            itemtype="https://schema.org/ListItem">
+          <% if crumb.link? %>
+            <%= link_to crumb.path,
+                class: "hover:text-olive-700 transition-colors",
+                itemprop: "item" do %>
+              <span itemprop="name"><%= crumb.name %></span>
+            <% end %>
+          <% else %>
+            <span class="text-olive-900 font-medium" itemprop="name"><%= crumb.name %></span>
+          <% end %>
+          <meta itemprop="position" content="<%= index + 1 %>" />
+
+          <% unless crumb == breadcrumbs.last %>
+            <svg class="w-4 h-4 text-olive-400 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  </nav>
+
+  <%# JSON-LD structured data for enhanced SEO %>
+  <script type="application/ld+json">
+    <%= raw({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbs.each_with_index.map do |crumb, index|
+        {
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": crumb.name
+        }.tap do |item|
+          item["item"] = crumb.path if crumb.link?
+        end
+      end
+    }.to_json) %>
+  </script>
+<% end %>
