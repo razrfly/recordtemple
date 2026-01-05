@@ -87,4 +87,8 @@ class Record < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     %w[artist label genre record_format]
   end
+
+  def self.ransortable_attributes(auth_object = nil)
+    %w[created_at condition]
+  end
 end

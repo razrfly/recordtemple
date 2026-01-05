@@ -14,6 +14,7 @@ export default class extends Controller {
     this.highlightedIndex = -1
     this.abortController = null
     this.debounceTimer = null
+    this.announcerId = `autocomplete-announcer-${this.element.id || Math.random().toString(36).slice(2, 9)}`
 
     this.restoreSelections()
 
@@ -32,6 +33,11 @@ export default class extends Controller {
     }
     if (this.debounceTimer) {
       clearTimeout(this.debounceTimer)
+    }
+    // Clean up instance-scoped announcer
+    const announcer = document.getElementById(this.announcerId)
+    if (announcer) {
+      announcer.remove()
     }
   }
 
@@ -248,10 +254,10 @@ export default class extends Controller {
   }
 
   announceToScreenReader(message) {
-    let announcer = document.getElementById("autocomplete-announcer")
+    let announcer = document.getElementById(this.announcerId)
     if (!announcer) {
       announcer = document.createElement("div")
-      announcer.id = "autocomplete-announcer"
+      announcer.id = this.announcerId
       announcer.setAttribute("aria-live", "polite")
       announcer.setAttribute("aria-atomic", "true")
       announcer.className = "sr-only"

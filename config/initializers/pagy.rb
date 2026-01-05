@@ -4,6 +4,6 @@
 # Default items per page
 Pagy::DEFAULT[:limit] = 40
 
-# Use Tailwind CSS styling
+# Handle out-of-range page requests gracefully
 require 'pagy/extras/overflow'
 Pagy::DEFAULT[:overflow] = :last_page

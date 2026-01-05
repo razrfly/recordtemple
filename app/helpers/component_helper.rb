@@ -44,8 +44,8 @@ module ComponentHelper
       "inline-flex shrink-0 items-center justify-center gap-1 rounded-full font-medium",
       "focus:outline-none focus:ring-2 focus:ring-olive-500 focus:ring-offset-2",
       "transition-colors duration-150",
-      BUTTON_SIZES[size],
-      BUTTON_VARIANTS[variant]
+      BUTTON_SIZES.fetch(size),
+      BUTTON_VARIANTS.fetch(variant)
     ]
 
     base_classes << "cursor-not-allowed opacity-50" if disabled
@@ -96,8 +96,8 @@ module ComponentHelper
   def ui_badge(text, variant: :default, size: :md, **options)
     classes = [
       "inline-flex items-center rounded-full font-medium",
-      BADGE_SIZES[size],
-      BADGE_VARIANTS[variant],
+      BADGE_SIZES.fetch(size),
+      BADGE_VARIANTS.fetch(variant),
       options.delete(:class)
     ].compact.join(" ")
 
