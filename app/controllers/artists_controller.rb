@@ -13,8 +13,10 @@ class ArtistsController < ApplicationController
                          .group("artists.id")
                          .select("artists.*, COUNT(records.id) as records_count")
 
-    # Top artists (most records)
-    @top_artists = base_artists.order("records_count DESC").limit(6)
+    # Discovery curation collections for tabs
+    @popular_artists = Artist.most_collected(COLLECTION_USER_ID, 12)
+    @recent_artists = Artist.recently_added(COLLECTION_USER_ID, 12)
+    @hidden_gem_artists = Artist.hidden_gems(COLLECTION_USER_ID, 12)
 
     # All artists for browsing, optionally filtered by letter
     @current_letter = params[:letter]&.upcase
