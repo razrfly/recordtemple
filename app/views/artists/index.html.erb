@@ -5,6 +5,13 @@
     <p class="mt-3 text-lg text-olive-600">
       Explore <%= number_with_delimiter(@total_count) %> artists in the collection
     </p>
+    <%= link_to random_artists_path,
+        class: "inline-flex items-center gap-2 mt-5 px-4 py-2 text-sm font-medium text-olive-700 bg-olive-50 rounded-full border border-olive-200 hover:bg-olive-100 hover:border-olive-300 hover:text-olive-900 transition-all duration-200" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+      </svg>
+      Surprise Me
+    <% end %>
   </header>
 
   <%# Top Artists Section (only show when viewing all) %>
@@ -69,7 +76,8 @@
         <%= render 'shared/discovery_card',
             item: artist,
             path: artist_path(artist),
-            type: :artist %>
+            type: :artist,
+            show_collage: true %>
       <% end %>
     </div>
 

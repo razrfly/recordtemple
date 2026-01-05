@@ -33,6 +33,11 @@ class Artist < ApplicationRecord
     end
   end
 
+  # Returns up to 4 sample covers for collage display
+  def sample_covers(limit = 4)
+    records.has_images.limit(limit).map(&:cover)
+  end
+
   def self.ransackable_attributes(auth_object = nil)
     %w[name]
   end

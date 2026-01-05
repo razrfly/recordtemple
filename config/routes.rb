@@ -25,8 +25,16 @@ Rails.application.routes.draw do
   resources :records, only: [:index, :show]
 
   # Discovery pages for artists and labels
-  resources :artists, only: [:index, :show]
-  resources :labels, only: [:index, :show]
+  resources :artists, only: [:index, :show] do
+    collection do
+      get :random
+    end
+  end
+  resources :labels, only: [:index, :show] do
+    collection do
+      get :random
+    end
+  end
 
   root to: 'static#index'
 end

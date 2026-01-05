@@ -1,5 +1,5 @@
 <%# Discovery Card Component
-   A card for artist or label discovery pages.
+   A card for artist or label discovery pages with collage support.
 
    Required locals:
      - item: Artist or Label object with records_count attribute
@@ -8,35 +8,69 @@
 
    Optional locals:
      - featured: Boolean, whether to show as a featured/top card (larger)
+     - show_collage: Boolean, whether to show a 2x2 collage instead of single cover
 %>
 
 <% featured ||= false %>
+<% show_collage ||= false %>
+<% sample_covers = show_collage ? item.sample_covers(4) : [] %>
 
 <%= link_to path,
-    class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden" do %>
+    class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden" do %>
 
-  <div class="relative aspect-square bg-olive-100">
-    <% if item.cover.present? %>
+  <div class="relative aspect-square bg-olive-100 overflow-hidden">
+    <% if show_collage && sample_covers.length >= 4 %>
+      <%# 2x2 Collage Grid %>
+      <div class="grid grid-cols-2 grid-rows-2 w-full h-full">
+        <% sample_covers.first(4).each_with_index do |cover, index| %>
+          <div class="relative overflow-hidden">
+            <%= image_tag cover.variant(resize_to_fill: [200, 200]),
+                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+                style: "transition-delay: #{index * 50}ms",
+                alt: "#{item.name} record #{index + 1}",
+                loading: "lazy" %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif show_collage && sample_covers.length >= 2 %>
+      <%# 2-image split %>
+      <div class="grid grid-cols-2 w-full h-full">
+        <% sample_covers.first(2).each_with_index do |cover, index| %>
+          <div class="relative overflow-hidden">
+            <%= image_tag cover.variant(resize_to_fill: [200, 400]),
+                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+                style: "transition-delay: #{index * 75}ms",
+                alt: "#{item.name} record #{index + 1}",
+                loading: "lazy" %>
+          </div>
+        <% end %>
+      </div>
+    <% elsif item.cover.present? %>
+      <%# Single cover %>
       <%= image_tag item.cover.variant(resize_to_fill: [400, 400]),
-          class: "w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500",
+          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
           alt: item.name,
           loading: "lazy" %>
     <% else %>
-      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
+      <%# Placeholder %>
+      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200 group-hover:from-olive-150 group-hover:to-olive-250 transition-colors duration-300">
         <% if type == :artist %>
-          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300 group-hover:text-olive-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
           </svg>
         <% else %>
-          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300 group-hover:text-olive-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
           </svg>
         <% end %>
       </div>
     <% end %>
 
+    <%# Hover overlay %>
+    <div class="absolute inset-0 bg-gradient-to-t from-olive-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
     <%# Record count badge %>
-    <div class="absolute bottom-3 right-3 bg-olive-950/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-lg">
+    <div class="absolute bottom-3 right-3 bg-olive-950/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-lg group-hover:bg-olive-950 transition-colors duration-300">
       <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
       </svg>
@@ -44,17 +78,26 @@
     </div>
 
     <% if featured %>
-      <div class="absolute top-3 left-3 bg-amber-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide shadow-lg">
+      <div class="absolute top-3 left-3 bg-amber-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wide shadow-lg animate-pulse-subtle">
         Top
       </div>
     <% end %>
+
+    <%# View indicator on hover %>
+    <div class="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm text-olive-950 px-3 py-1.5 rounded-full text-xs font-medium opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5">
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+      </svg>
+      View
+    </div>
   </div>
 
   <div class="p-4">
-    <h3 class="font-display text-lg text-olive-950 truncate group-hover:text-olive-700 transition-colors">
+    <h3 class="font-display text-lg text-olive-950 truncate group-hover:text-olive-700 transition-colors duration-200">
       <%= item.name %>
     </h3>
-    <p class="text-sm text-olive-600 mt-1">
+    <p class="text-sm text-olive-600 mt-1 group-hover:text-olive-500 transition-colors duration-200">
       <%= pluralize(item.records_count, 'record') %>
     </p>
   </div>
