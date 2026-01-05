@@ -12,10 +12,10 @@
 
         <!-- Desktop Navigation Links -->
         <div class="flex gap-8 max-lg:hidden">
-          <%= link_to "Browse Records", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Artists", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Genres", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Labels", "#", class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Browse Records", main_app.records_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Artists", main_app.records_path(filter: "artists"), class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Genres", main_app.records_path(filter: "genres"), class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Labels", main_app.records_path(filter: "labels"), class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
         </div>
       </div>
 
@@ -66,10 +66,10 @@
         </button>
       </div>
       <div class="mt-6 flex flex-col gap-6">
-        <%= link_to "Browse Records", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
-        <%= link_to "Artists", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
-        <%= link_to "Genres", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
-        <%= link_to "Labels", "#", class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Browse Records", main_app.records_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Artists", main_app.records_path(filter: "artists"), class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Genres", main_app.records_path(filter: "genres"), class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <%= link_to "Labels", main_app.records_path(filter: "labels"), class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <hr class="border-olive-200 dark:border-olive-800">
         <% if current_user.present? %>
           <%= link_to "Dashboard", static_members_only_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>

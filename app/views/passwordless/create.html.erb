@@ -1,5 +1,33 @@
-<div class="max-w-xl p-8 rounded-xl mx-auto text-center my-16 bg-gray-50">
-  <p>
-    <%= I18n.t('passwordless.sessions.create.email_sent_if_record_found') %>
-  </p>
-</div>
+<%= ui_section padding: :lg do %>
+  <%= ui_container do %>
+    <div class="mx-auto max-w-md">
+      <%= ui_card padding: :lg, shadow: true do %>
+        <div class="text-center">
+          <%= link_to root_path do %>
+            <%= image_tag "logo.png", alt: "RecordTemple", style: "height: 50px; width: auto;", class: "mx-auto" %>
+          <% end %>
+
+          <div class="mt-8 mb-6 inline-flex size-16 items-center justify-center rounded-full bg-olive-100 dark:bg-olive-800">
+            <svg class="size-8 text-olive-600 dark:text-olive-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
+            </svg>
+          </div>
+
+          <h1 class="font-display text-2xl text-olive-950 dark:text-white">
+            Check your email
+          </h1>
+          <p class="mt-4 text-olive-600 dark:text-olive-400">
+            <%= I18n.t('passwordless.sessions.create.email_sent_if_record_found') %>
+          </p>
+          <p class="mt-2 text-sm text-olive-500 dark:text-olive-500">
+            The link will expire in 10 minutes.
+          </p>
+
+          <div class="mt-8">
+            <%= link_to "Back to sign in", users.sign_in_path, class: "text-sm font-medium text-olive-700 hover:text-olive-900 dark:text-olive-300 dark:hover:text-olive-100" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
