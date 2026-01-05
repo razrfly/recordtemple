@@ -1,0 +1,53 @@
+<%# Record Collection Component
+   A complete, reusable record browsing experience with sorting, filtering, and pagination.
+   Used on: records index, artist show, label show pages.
+
+   Required locals:
+     - records: ActiveRecord collection of records to display
+     - pagy: Pagy pagination object
+     - filtered_count: Number of records matching current filters
+     - total_count: Total number of records in scope
+
+   Optional locals:
+     - turbo_frame: Turbo frame ID (default: "records_list")
+     - form_url: URL for form submissions (default: records_path)
+     - show_sort: Show sort dropdown (default: true)
+     - show_filter_chips: Show active filter chips (default: true)
+     - show_pagination: Show pagination (default: true)
+     - grid_cols: Tailwind grid classes for record grid
+%>
+
+<% turbo_frame ||= "records_list" %>
+<% form_url ||= records_path %>
+<% show_sort = true if local_assigns[:show_sort].nil? %>
+<% show_filter_chips = true if local_assigns[:show_filter_chips].nil? %>
+<% show_pagination = true if local_assigns[:show_pagination].nil? %>
+
+<%= turbo_frame_tag turbo_frame do %>
+  <%# Sort bar with count and dropdown %>
+  <%= render 'records/record_sort_bar',
+      pagy: pagy,
+      filtered_count: filtered_count,
+      total_count: total_count,
+      form_url: form_url,
+      turbo_frame: turbo_frame,
+      show_sort: show_sort %>
+
+  <%# Active filter chips %>
+  <% if show_filter_chips %>
+    <%= render 'records/active_filter_chips',
+        turbo_frame: turbo_frame %>
+  <% end %>
+
+  <%# Record grid %>
+  <% grid_options = { records: records } %>
+  <% grid_options[:grid_cols] = grid_cols if local_assigns[:grid_cols] %>
+  <%= render 'records/record_grid', **grid_options %>
+
+  <%# Pagination %>
+  <% if show_pagination && records.any? %>
+    <div class="mt-12">
+      <%= render 'shared/pagination', pagy: pagy %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,107 @@
+<%# Active Filter Chips Component
+   Displays removable chips for currently active filters.
+
+   Optional locals:
+     - base_path: URL helper for building clear-filter links (default: records_path)
+     - turbo_frame: Turbo frame to target (default: "records_list")
+     - show_search: Show search text filter chip (default: true)
+     - show_artists: Show artist filter chips (default: true)
+     - show_labels: Show label filter chips (default: true)
+     - show_media: Show media filter chips (default: true)
+%>
+
+<% base_path ||= records_path %>
+<% turbo_frame ||= "records_list" %>
+<% show_search = true if local_assigns[:show_search].nil? %>
+<% show_artists = true if local_assigns[:show_artists].nil? %>
+<% show_labels = true if local_assigns[:show_labels].nil? %>
+<% show_media = true if local_assigns[:show_media].nil? %>
+
+<% has_filters = params[:q].present? || params[:has_images].present? || params[:has_audio].present? %>
+
+<% if has_filters %>
+  <div class="flex flex-wrap gap-2 mb-6">
+    <%# Search text chip %>
+    <% if show_search && params.dig(:q, :artist_name_or_label_name_or_comment_cont).present? %>
+      <% clear_search_params = request.query_parameters.deep_dup %>
+      <% clear_search_params[:q]&.delete(:artist_name_or_label_name_or_comment_cont) %>
+      <%= link_to base_path.is_a?(String) ? base_path : send(base_path, clear_search_params),
+          class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+          data: { turbo_frame: turbo_frame } do %>
+        Search: "<%= params.dig(:q, :artist_name_or_label_name_or_comment_cont) %>"
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      <% end %>
+    <% end %>
+
+    <%# Artist filter chips - batch load to avoid N+1 %>
+    <% if show_artists %>
+      <% artist_ids = Array(params.dig(:q, :artist_id_in)) %>
+      <% selected_artists = artist_ids.any? ? Artist.where(id: artist_ids).index_by { |a| a.id.to_s } : {} %>
+      <% artist_ids.each do |artist_id| %>
+        <% artist = selected_artists[artist_id.to_s] %>
+        <% if artist %>
+          <% clear_params = request.query_parameters.deep_dup %>
+          <% clear_params[:q][:artist_id_in] = clear_params[:q][:artist_id_in] - [artist_id.to_s] %>
+          <% clear_params[:q].delete(:artist_id_in) if clear_params[:q][:artist_id_in].empty? %>
+          <%= link_to records_path(clear_params),
+              class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+              data: { turbo_frame: turbo_frame } do %>
+            Artist: "<%= artist.name %>"
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# Label filter chips - batch load to avoid N+1 %>
+    <% if show_labels %>
+      <% label_ids = Array(params.dig(:q, :label_id_in)) %>
+      <% selected_labels = label_ids.any? ? Label.where(id: label_ids).index_by { |l| l.id.to_s } : {} %>
+      <% label_ids.each do |label_id| %>
+        <% label = selected_labels[label_id.to_s] %>
+        <% if label %>
+          <% clear_params = request.query_parameters.deep_dup %>
+          <% clear_params[:q][:label_id_in] = clear_params[:q][:label_id_in] - [label_id.to_s] %>
+          <% clear_params[:q].delete(:label_id_in) if clear_params[:q][:label_id_in].empty? %>
+          <%= link_to records_path(clear_params),
+              class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+              data: { turbo_frame: turbo_frame } do %>
+            Label: "<%= label.name %>"
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%# Media filter chips %>
+    <% if show_media %>
+      <% if params[:has_images] == "1" %>
+        <%= link_to records_path(request.query_parameters.except(:has_images)),
+            class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+            data: { turbo_frame: turbo_frame } do %>
+          Has Images
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        <% end %>
+      <% end %>
+
+      <% if params[:has_audio] == "1" %>
+        <%= link_to records_path(request.query_parameters.except(:has_audio)),
+            class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+            data: { turbo_frame: turbo_frame } do %>
+          Has Audio
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

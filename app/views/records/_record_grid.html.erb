@@ -1,0 +1,23 @@
+<%# Record Grid Component
+   Displays a responsive grid of record cards.
+
+   Required locals:
+     - records: ActiveRecord collection of records to display
+
+   Optional locals:
+     - grid_cols: Tailwind grid classes (default: responsive 2-5 columns)
+     - gap: Tailwind gap class (default: gap-5)
+%>
+
+<% grid_cols ||= "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" %>
+<% gap ||= "gap-5" %>
+
+<% if records.any? %>
+  <div class="grid <%= grid_cols %> <%= gap %>">
+    <% records.each do |record| %>
+      <%= render 'records/record_card', record: record %>
+    <% end %>
+  </div>
+<% else %>
+  <%= render 'records/empty_state' %>
+<% end %>
