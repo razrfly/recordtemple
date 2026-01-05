@@ -9,12 +9,13 @@ export default class extends Controller {
 
   connect() {
     this.showTab(this.activeTabValue)
-    // Add keyboard navigation
-    this.element.addEventListener("keydown", this.handleKeydown.bind(this))
+    // Add keyboard navigation - store bound reference to allow proper removal
+    this.boundHandleKeydown = this.handleKeydown.bind(this)
+    this.element.addEventListener("keydown", this.boundHandleKeydown)
   }
 
   disconnect() {
-    this.element.removeEventListener("keydown", this.handleKeydown.bind(this))
+    this.element.removeEventListener("keydown", this.boundHandleKeydown)
   }
 
   // Handle keyboard navigation for tabs

@@ -54,7 +54,7 @@ class Genre < ApplicationRecord
       .group("genres.id")
       .select("genres.*, COUNT(records.id) as records_count")
       .having("COUNT(records.id) BETWEEN 5 AND 20")
-      .order(Arel.sql("MD5(CONCAT(genres.id::text, '#{daily_seed}'))"))
+      .order(Arel.sql(sanitize_sql_for_order(["MD5(CONCAT(genres.id::text, ?))", daily_seed])))
       .limit(limit)
   }
 

@@ -57,7 +57,7 @@ class Artist < ApplicationRecord
       .group("artists.id")
       .select("artists.*, COUNT(records.id) as records_count")
       .having("COUNT(records.id) BETWEEN 2 AND 5")
-      .order(Arel.sql("MD5(CONCAT(artists.id::text, '#{daily_seed}'))"))
+      .order(Arel.sql(sanitize_sql_for_order(["MD5(CONCAT(artists.id::text, ?))", daily_seed])))
       .limit(limit)
   }
 

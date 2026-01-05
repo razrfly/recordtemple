@@ -31,7 +31,10 @@ class GenresController < ApplicationController
     end
 
     @pagy, @genres = pagy(genres_query, items: 30)
-    @total_count = base_genres.length
+    @total_count = Genre.joins(:records)
+                        .where(records: { user_id: COLLECTION_USER_ID })
+                        .distinct
+                        .count
 
     # Get available letters for A-Z navigation
     @available_letters = Genre.joins(:records)
