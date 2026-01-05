@@ -53,8 +53,11 @@ class Record < ApplicationRecord
   # - Weight B: cached_label, label.name
   # - Weight C: genre.name, record_format.name, comment
   # - Weight D: price.detail, price.footnote, price.yearbegin, price.yearend
+  #
+  # Note: The trigger only fires on record changes. If artist/label/genre names
+  # are edited, call Record.refresh_search_index! to update affected records.
   pg_search_scope :wide_search,
-    against: :cached_artist, # Required but not used when tsvector_column is set
+    against: { cached_artist: "A", cached_label: "B" }, # Required for trigram fuzzy matching
     using: {
       tsearch: {
         prefix: true,
@@ -104,6 +107,14 @@ class Record < ApplicationRecord
 
   def title
     [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact.join(' - ')
+  end
+
+  # Refresh search index for all records or specific scope
+  # Use when artist/label/genre names are edited since the trigger only fires on record changes
+  def self.refresh_search_index!(scope = all)
+    scope.find_each do |record|
+      record.touch # Trigger fires on UPDATE, rebuilding the searchable column
+    end
   end
 
   # Ransack configuration
