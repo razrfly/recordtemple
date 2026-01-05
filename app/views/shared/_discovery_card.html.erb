@@ -1,10 +1,10 @@
 <%# Discovery Card Component
-   A card for artist or label discovery pages with collage support.
+   A card for artist, label, or genre discovery pages with collage support.
 
    Required locals:
-     - item: Artist or Label object with records_count attribute
+     - item: Artist, Label, or Genre object with records_count attribute
      - path: Path to the show page
-     - type: :artist or :label (for icon and alt text)
+     - type: :artist, :label, or :genre (for icon and alt text)
 
    Optional locals:
      - featured: Boolean, whether to show as a featured/top card (larger)
@@ -28,7 +28,8 @@
                 class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
                 style: "transition-delay: #{index * 50}ms",
                 alt: "#{item.name} record #{index + 1}",
-                loading: "lazy" %>
+                loading: "lazy",
+                decoding: "async" %>
           </div>
         <% end %>
       </div>
@@ -41,7 +42,8 @@
                 class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
                 style: "transition-delay: #{index * 75}ms",
                 alt: "#{item.name} record #{index + 1}",
-                loading: "lazy" %>
+                loading: "lazy",
+                decoding: "async" %>
           </div>
         <% end %>
       </div>
@@ -50,13 +52,18 @@
       <%= image_tag item.cover.variant(resize_to_fill: [400, 400]),
           class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
           alt: item.name,
-          loading: "lazy" %>
+          loading: "lazy",
+          decoding: "async" %>
     <% else %>
       <%# Placeholder %>
       <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200 group-hover:from-olive-200 group-hover:to-olive-300 transition-colors duration-300">
         <% if type == :artist %>
           <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300 group-hover:text-olive-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+          </svg>
+        <% elsif type == :genre %>
+          <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300 group-hover:text-olive-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
           </svg>
         <% else %>
           <svg class="w-16 h-16 sm:w-20 sm:h-20 text-olive-300 group-hover:text-olive-400 transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

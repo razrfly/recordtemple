@@ -35,6 +35,11 @@ Rails.application.routes.draw do
       get :random
     end
   end
+  resources :genres, only: [:index, :show] do
+    collection do
+      get :random
+    end
+  end
 
   root to: 'static#index'
 end
