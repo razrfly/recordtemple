@@ -15,8 +15,6 @@
      - show_filter_chips: Show active filter chips (default: true)
      - show_pagination: Show pagination (default: true)
      - grid_cols: Tailwind grid classes for record grid
-     - from: Navigation context type ("artist" or "label") for breadcrumb tracking
-     - from_id: ID of the source artist/label for breadcrumb context
 %>
 
 <% turbo_frame ||= "records_list" %>
@@ -44,8 +42,6 @@
   <%# Record grid %>
   <% grid_options = { records: records } %>
   <% grid_options[:grid_cols] = grid_cols if local_assigns[:grid_cols] %>
-  <% grid_options[:from] = from if local_assigns[:from] %>
-  <% grid_options[:from_id] = from_id if local_assigns[:from_id] %>
   <%= render 'records/record_grid', **grid_options %>
 
   <%# Pagination %>
