@@ -7,8 +7,6 @@
    Optional locals:
      - grid_cols: Tailwind grid classes (default: responsive 2-5 columns)
      - gap: Tailwind gap class (default: gap-5)
-     - from: Navigation context type ("artist" or "label")
-     - from_id: ID of the source artist/label for breadcrumb context
 %>
 
 <% grid_cols ||= "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" %>
@@ -17,10 +15,7 @@
 <% if records.any? %>
   <div class="grid <%= grid_cols %> <%= gap %>">
     <% records.each do |record| %>
-      <%= render 'records/record_card',
-          record: record,
-          from: (defined?(from) ? from : nil),
-          from_id: (defined?(from_id) ? from_id : nil) %>
+      <%= render 'records/record_card', record: record %>
     <% end %>
   </div>
 <% else %>

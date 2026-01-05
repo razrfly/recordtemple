@@ -34,7 +34,7 @@ class RecordsController < ApplicationController
     @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
                         .find(params[:id])
 
-    # Build contextual breadcrumbs based on navigation source
+    # Build objective breadcrumbs based on record data
     build_record_breadcrumbs(@record)
 
     # Load related records
@@ -55,32 +55,17 @@ class RecordsController < ApplicationController
     Record.where(user_id: COLLECTION_USER_ID)
   end
 
-  # Build contextual breadcrumbs based on how user navigated to this record
-  # Uses multiple detection strategies: URL params, session, referer
+  # Build objective breadcrumbs based on record's data
+  # Hierarchy: Collection > Label > Artist > Title
   def build_record_breadcrumbs(record)
-    context = breadcrumb_context_for(record)
+    add_breadcrumb("Collection", records_path)
 
-    case context
-    when :artist
-      # Use context_artist helper which checks params and session
-      artist = context_artist || record.artist
-      if artist
-        add_breadcrumb("Artists", artists_path)
-        add_breadcrumb(artist.name, artist_path(artist))
-      else
-        add_breadcrumb("Collection", records_path)
-      end
-    when :label
-      # Use context_label helper which checks params and session
-      label = context_label || record.label
-      if label
-        add_breadcrumb("Labels", labels_path)
-        add_breadcrumb(label.name, label_path(label))
-      else
-        add_breadcrumb("Collection", records_path)
-      end
-    else
-      add_breadcrumb("Collection", records_path)
+    if record.label.present?
+      add_breadcrumb(record.label.name, label_path(record.label))
+    end
+
+    if record.artist.present?
+      add_breadcrumb(record.artist.name, artist_path(record.artist))
     end
 
     add_breadcrumb(record.title.presence || "Untitled")

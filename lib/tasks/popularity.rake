@@ -123,9 +123,20 @@ namespace :records do
         Arel.sql("MAX(popularity_score)"),
         Arel.sql("AVG(popularity_score)")
       ).first
-      # Calculate median in Ruby
-      scores = Record.order(:popularity_score).pluck(:popularity_score)
-      median = scores.any? ? scores[scores.size / 2] : nil
+      # Calculate median using database OFFSET/LIMIT to avoid loading all records
+      count = Record.count
+      if count.positive?
+        mid = count / 2
+        if count.even?
+          # Average the two middle values for even-length arrays
+          mid_values = Record.order(:popularity_score).offset(mid - 1).limit(2).pluck(:popularity_score)
+          median = (mid_values.sum / 2.0).round(1)
+        else
+          median = Record.order(:popularity_score).offset(mid).limit(1).pick(:popularity_score)
+        end
+      else
+        median = nil
+      end
     end
 
     puts "Score Distribution:"

@@ -260,7 +260,7 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <% @artist_records.each do |record| %>
-          <%= render 'records/record_card', record: record, from: "artist", from_id: @record.artist_id %>
+          <%= render 'records/record_card', record: record %>
         <% end %>
       </div>
     </div>
@@ -279,7 +279,7 @@
       </div>
       <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
         <% @label_records.each do |record| %>
-          <%= render 'records/record_card', record: record, from: "label", from_id: @record.label_id %>
+          <%= render 'records/record_card', record: record %>
         <% end %>
       </div>
     </div>
