@@ -10,11 +10,21 @@
    Optional locals:
      - featured: Boolean, whether to show as a featured/top card (larger)
      - show_collage: Boolean, whether to show a 2x2 collage instead of single cover
+     - preloaded_covers: Hash of entity_id => [covers] for batch-loaded covers (N+1 optimization)
 %>
 
 <% featured ||= false %>
 <% show_collage ||= false %>
-<% sample_covers = show_collage ? item.sample_covers(4, user_id) : [] %>
+<% preloaded_covers ||= nil %>
+<%# Use preloaded covers if available, otherwise fall back to querying (for backwards compatibility) %>
+<% sample_covers = if preloaded_covers
+     preloaded_covers[item.id] || []
+   elsif show_collage
+     item.sample_covers(4, user_id)
+   else
+     []
+   end %>
+<% single_cover = sample_covers.first %>
 
 <%= link_to path,
     class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden" do %>
@@ -48,9 +58,9 @@
           </div>
         <% end %>
       </div>
-    <% elsif item.cover(user_id).present? %>
+    <% elsif single_cover.present? %>
       <%# Single cover %>
-      <%= image_tag cdn_image_url(item.cover(user_id).variant(resize_to_fill: [400, 400])),
+      <%= image_tag cdn_image_url(single_cover.variant(resize_to_fill: [400, 400])),
           class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
           alt: item.name,
           loading: "lazy",
