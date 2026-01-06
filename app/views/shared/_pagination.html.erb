@@ -21,16 +21,16 @@
 
     <div class="hidden sm:flex items-center gap-1">
       <% pagy.series.each do |item| %>
-        <% if item.is_a?(Integer) %>
-          <% if item == pagy.page %>
-            <span class="inline-flex items-center justify-center w-10 h-10 text-sm font-semibold text-white bg-olive-950 rounded-xl">
-              <%= item %>
-            </span>
-          <% else %>
-            <%= link_to item, pagy_url_for(pagy, item),
-                class: "inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10 hover:bg-olive-50 transition-colors",
-                data: { turbo_frame: "records_list" } %>
-          <% end %>
+        <% if item.is_a?(String) %>
+          <%# Current page - Pagy returns it as a string %>
+          <span class="inline-flex items-center justify-center w-10 h-10 text-sm font-semibold text-white bg-olive-950 rounded-xl" aria-current="page">
+            <%= item %>
+          </span>
+        <% elsif item.is_a?(Integer) %>
+          <%# Other pages - rendered as links %>
+          <%= link_to item, pagy_url_for(pagy, item),
+              class: "inline-flex items-center justify-center w-10 h-10 text-sm font-medium text-olive-700 bg-white rounded-xl ring-1 ring-olive-900/10 hover:bg-olive-50 transition-colors",
+              data: { turbo_frame: "records_list" } %>
         <% elsif item == :gap %>
           <span class="inline-flex items-center justify-center w-10 h-10 text-sm text-olive-400">&hellip;</span>
         <% end %>
