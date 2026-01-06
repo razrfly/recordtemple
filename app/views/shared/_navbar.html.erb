@@ -24,7 +24,7 @@
         <!-- Auth Actions -->
         <div class="flex shrink-0 items-center gap-5">
           <% if current_user.present? %>
-            <%= link_to "Dashboard", static_members_only_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium text-olive-950 hover:bg-olive-950/10 dark:text-white dark:hover:bg-white/10 px-3 py-1" %>
+            <%= link_to "Dashboard", records_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium text-olive-950 hover:bg-olive-950/10 dark:text-white dark:hover:bg-white/10 px-3 py-1" %>
             <%= link_to "Sign out", users_sign_out_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium bg-olive-950 text-white hover:bg-olive-800 dark:bg-olive-300 dark:text-olive-950 dark:hover:bg-olive-200 px-3 py-1" %>
           <% else %>
             <%= link_to "Sign in", users_sign_in_path, class: "inline-flex shrink-0 items-center justify-center gap-1 rounded-full text-sm/7 font-medium bg-olive-950 text-white hover:bg-olive-800 dark:bg-olive-300 dark:text-olive-950 dark:hover:bg-olive-200 px-3 py-1" %>
@@ -74,7 +74,7 @@
         <%= link_to "Genres", genres_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <hr class="border-olive-200 dark:border-olive-800">
         <% if current_user.present? %>
-          <%= link_to "Dashboard", static_members_only_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+          <%= link_to "Dashboard", records_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
           <%= link_to "Sign out", users_sign_out_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <% else %>
           <%= link_to "Sign in", users_sign_in_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>

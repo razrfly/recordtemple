@@ -6,6 +6,17 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
   passwordless_for :users
 
+  # Admin namespace
+  namespace :admin do
+    resources :variants, only: [:index] do
+      collection do
+        post :warmup
+        post :clear_retries
+        get :stats
+      end
+    end
+  end
+
   # Dev-only auto-login bypass
   if Rails.env.development?
     get "dev_login", to: "dev_sessions#create"
