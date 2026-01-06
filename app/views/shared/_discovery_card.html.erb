@@ -5,6 +5,7 @@
      - item: Artist, Label, or Genre object with records_count attribute
      - path: Path to the show page
      - type: :artist, :label, or :genre (for icon and alt text)
+     - user_id: User ID to scope record queries to
 
    Optional locals:
      - featured: Boolean, whether to show as a featured/top card (larger)
@@ -13,7 +14,7 @@
 
 <% featured ||= false %>
 <% show_collage ||= false %>
-<% sample_covers = show_collage ? item.sample_covers(4) : [] %>
+<% sample_covers = show_collage ? item.sample_covers(4, user_id) : [] %>
 
 <%= link_to path,
     class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden" do %>
@@ -47,9 +48,9 @@
           </div>
         <% end %>
       </div>
-    <% elsif item.cover.present? %>
+    <% elsif item.cover(user_id).present? %>
       <%# Single cover %>
-      <%= image_tag cdn_image_url(item.cover.variant(resize_to_fill: [400, 400])),
+      <%= image_tag cdn_image_url(item.cover(user_id).variant(resize_to_fill: [400, 400])),
           class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
           alt: item.name,
           loading: "lazy",

@@ -2,21 +2,21 @@
   <style>:root { --scroll-padding-top: 5.25rem }</style>
   <nav>
     <div class="mx-auto flex h-[5.25rem] max-w-7xl items-center gap-4 px-6 lg:px-10">
-      <div class="flex flex-1 items-center gap-12">
+      <div class="flex items-center gap-8">
         <!-- Logo -->
-        <div class="flex items-center">
+        <div class="shrink-0">
           <%= link_to root_path, class: "inline-flex items-center" do %>
             <%= image_tag "logo.png", alt: "RecordTemple", style: "height: 67px; width: auto;" %>
           <% end %>
         </div>
 
         <!-- Desktop Navigation Links -->
-        <div class="flex gap-8 max-lg:hidden whitespace-nowrap">
-          <%= link_to "Browse Records", records_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Discover", discovery_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Artists", artists_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Labels", labels_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
-          <%= link_to "Genres", genres_path, class: "group inline-flex items-center gap-2 text-sm/7 font-medium text-olive-950 dark:text-white" %>
+        <div class="flex items-center gap-6 max-lg:hidden">
+          <%= link_to "Browse Records", records_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <%= link_to "Discover", discovery_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <%= link_to "Artists", artists_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <%= link_to "Labels", labels_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <%= link_to "Genres", genres_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
         </div>
       </div>
 

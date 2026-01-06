@@ -61,15 +61,16 @@ class Artist < ApplicationRecord
       .limit(limit)
   }
 
-  def cover
-    if records.has_images.present?
-      records.has_images.first.cover
-    end
+  # Returns the first record cover for this artist (scoped to user)
+  def cover(user_id = nil)
+    scope = user_id ? records.where(user_id: user_id) : records
+    scope.has_images.first&.cover
   end
 
-  # Returns up to 4 sample covers for collage display
-  def sample_covers(limit = 4)
-    records.has_images.limit(limit).map(&:cover)
+  # Returns up to N sample covers for collage display (scoped to user)
+  def sample_covers(limit = 4, user_id = nil)
+    scope = user_id ? records.where(user_id: user_id) : records
+    scope.has_images.limit(limit).map(&:cover)
   end
 
   def self.ransackable_attributes(auth_object = nil)

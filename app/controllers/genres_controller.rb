@@ -66,7 +66,7 @@ class GenresController < ApplicationController
 
     # Get records for this genre (scoped to user's collection)
     @q = records_scope.ransack(params[:q])
-    @q.sorts = "created_at desc" if @q.sorts.empty?
+    @q.sorts = "popularity_score desc" if @q.sorts.empty?
 
     records = @q.result(distinct: true)
                 .includes(:artist, :label, :genre, :record_format, :price)
