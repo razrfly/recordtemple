@@ -131,7 +131,8 @@ class Record < ApplicationRecord
   }
 
   def cover
-    images.first unless images.empty?
+    return nil unless images.attached? && images.any?
+    images.min_by { |img| img.filename.to_s }
   end
 
   def song_titles

@@ -9,15 +9,18 @@ class DiscoveryController < ApplicationController
     # Shuffle Machine - preload 4 random records
     @shuffle_records = Record.random_with_media(COLLECTION_USER_ID)
                              .includes(:artist, :label)
+                             .with_attached_images
                              .limit(4)
 
     # Daily Gems - records with images AND songs, refreshed daily
     @daily_gems = Record.daily_gems(COLLECTION_USER_ID, 10)
                         .includes(:artist, :label, :genre, :record_format, :price)
+                        .with_attached_images
 
     # Cover Wall - fixed size, deterministic daily ordering
     @wall_records = Record.cover_wall(COLLECTION_USER_ID, WALL_SIZE)
                           .includes(:artist, :label)
+                          .with_attached_images
 
     # Stats for display
     @total_with_images = base_scope.has_images.count
@@ -28,6 +31,7 @@ class DiscoveryController < ApplicationController
   def shuffle
     @shuffle_records = Record.random_with_media(COLLECTION_USER_ID)
                              .includes(:artist, :label)
+                             .with_attached_images
                              .limit(4)
 
     respond_to do |format|
@@ -39,6 +43,7 @@ class DiscoveryController < ApplicationController
   # Turbo Stream endpoint for quick view modal
   def quick_view
     @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
+                        .with_attached_images
                         .find(params[:id])
 
     respond_to do |format|
