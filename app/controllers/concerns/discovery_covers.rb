@@ -5,6 +5,8 @@
 module DiscoveryCovers
   extend ActiveSupport::Concern
 
+  VALID_ENTITY_TYPES = %i[artist label genre].freeze
+
   private
 
   # Batch load covers for multiple entities (artists, labels, or genres)
@@ -17,6 +19,7 @@ module DiscoveryCovers
   # @return [Hash<Integer, Array<ActiveStorage::Attachment>>]
   def batch_load_covers(entities, entity_type, user_id, limit: 4)
     return {} if entities.blank?
+    validate_entity_type!(entity_type)
 
     entity_ids = entities.map(&:id)
     foreign_key = "#{entity_type}_id"
@@ -79,6 +82,7 @@ module DiscoveryCovers
   # @param user_id [Integer] User ID to scope records
   # @return [ActiveStorage::Attachment, nil] The cover image or nil
   def load_entity_cover(entity_id, entity_type, user_id)
+    validate_entity_type!(entity_type)
     foreign_key = "#{entity_type}_id"
 
     record = Record
@@ -91,5 +95,14 @@ module DiscoveryCovers
     return nil unless record
 
     record.images.min_by { |img| img.filename.to_s }
+  end
+
+  # Validate entity_type to prevent SQL injection
+  # @param entity_type [Symbol] Must be :artist, :label, or :genre
+  # @raise [ArgumentError] if entity_type is not valid
+  def validate_entity_type!(entity_type)
+    return if VALID_ENTITY_TYPES.include?(entity_type.to_sym)
+
+    raise ArgumentError, "Invalid entity_type: #{entity_type}. Must be one of: #{VALID_ENTITY_TYPES.join(', ')}"
   end
 end

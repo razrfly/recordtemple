@@ -2,7 +2,7 @@
 # See: https://github.com/sidekiq/sidekiq/wiki/Advanced-Options
 
 # Default concurrency (can be overridden via -c flag)
-:concurrency: 5
+:concurrency: 15
 
 # Queues to process (order = priority, weight format)
 :queues:
