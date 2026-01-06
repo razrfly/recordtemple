@@ -32,6 +32,7 @@ class RecordsController < ApplicationController
     records = @q.result(distinct: use_distinct)
                 .includes(:artist, :label, :genre, :record_format, :price)
                 .with_attached_images
+                .with_attached_songs
 
     # Apply media filters
     records = records.has_images if params[:has_images] == "1"
@@ -47,6 +48,8 @@ class RecordsController < ApplicationController
 
   def show
     @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
+                        .with_attached_images
+                        .with_attached_songs
                         .find(params[:id])
 
     # Build objective breadcrumbs based on record data
@@ -57,12 +60,14 @@ class RecordsController < ApplicationController
                                 .where.not(id: @record.id)
                                 .includes(:artist, :label, :genre, :record_format)
                                 .with_attached_images
+                                .with_attached_songs
                                 .limit(5)
 
     @label_records = base_scope.where(label_id: @record.label_id)
                                .where.not(id: @record.id)
                                .includes(:artist, :label, :genre, :record_format)
                                .with_attached_images
+                               .with_attached_songs
                                .limit(5)
   end
 

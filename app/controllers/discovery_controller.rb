@@ -16,6 +16,7 @@ class DiscoveryController < ApplicationController
     @daily_gems = Record.daily_gems(COLLECTION_USER_ID, 10)
                         .includes(:artist, :label, :genre, :record_format, :price)
                         .with_attached_images
+                        .with_attached_songs
 
     # Cover Wall - fixed size, deterministic daily ordering
     @wall_records = Record.cover_wall(COLLECTION_USER_ID, WALL_SIZE)
@@ -44,6 +45,7 @@ class DiscoveryController < ApplicationController
   def quick_view
     @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
                         .with_attached_images
+                        .with_attached_songs
                         .find(params[:id])
 
     respond_to do |format|

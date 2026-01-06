@@ -1,5 +1,6 @@
 class LabelsController < ApplicationController
   include Pagy::Backend
+  include DiscoveryCovers
 
   # All records are scoped to user_id: 1 (greg2man@gmail.com)
   COLLECTION_USER_ID = 1
@@ -40,6 +41,10 @@ class LabelsController < ApplicationController
                               .distinct
                               .pluck(Arel.sql("UPPER(LEFT(labels.name, 1))"))
                               .sort
+
+    # Preload covers for all labels (carousel + grid) to eliminate N+1 queries
+    all_display_labels = [@popular_labels, @recent_labels, @hidden_gem_labels, @labels].flatten.compact.uniq(&:id)
+    @preloaded_covers = batch_load_covers(all_display_labels, :label, COLLECTION_USER_ID, limit: 4)
   end
 
   def random
@@ -62,6 +67,9 @@ class LabelsController < ApplicationController
     add_breadcrumb("Labels", labels_path)
     add_breadcrumb(@label.name)
 
+    # Preload cover image to avoid N+1 query
+    @cover = load_entity_cover(@label.id, :label, COLLECTION_USER_ID)
+
     # Get records for this label (scoped to user's collection)
     @q = records_scope.ransack(params[:q])
     @q.sorts = "popularity_score desc" if @q.sorts.empty?
@@ -69,6 +77,7 @@ class LabelsController < ApplicationController
     records = @q.result(distinct: true)
                 .includes(:artist, :label, :genre, :record_format, :price)
                 .with_attached_images
+                .with_attached_songs
 
     @pagy, @records = pagy(records)
     @total_count = records_scope.count

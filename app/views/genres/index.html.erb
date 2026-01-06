@@ -24,7 +24,8 @@
         type: :genre,
         user_id: GenresController::COLLECTION_USER_ID,
         popular_label: "Top Genres",
-        recent_label: "Recently Added" %>
+        recent_label: "Recently Added",
+        preloaded_covers: @preloaded_covers %>
   <% end %>
 
   <%# A-Z Navigation %>
@@ -65,7 +66,8 @@
             path: genre_path(genre),
             type: :genre,
             user_id: GenresController::COLLECTION_USER_ID,
-            show_collage: true %>
+            show_collage: true,
+            preloaded_covers: @preloaded_covers %>
       <% end %>
     </div>
 

@@ -25,7 +25,8 @@
         user_id: LabelsController::COLLECTION_USER_ID,
         popular_label: "Top Labels",
         recent_label: "Recently Added",
-        hidden_gem_label: "Hidden Gems" %>
+        hidden_gem_label: "Hidden Gems",
+        preloaded_covers: @preloaded_covers %>
   <% end %>
 
   <%# A-Z Navigation %>
@@ -66,7 +67,8 @@
             path: label_path(label),
             type: :label,
             user_id: LabelsController::COLLECTION_USER_ID,
-            show_collage: true %>
+            show_collage: true,
+            preloaded_covers: @preloaded_covers %>
       <% end %>
     </div>
 
