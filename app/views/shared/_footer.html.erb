@@ -49,7 +49,7 @@
             <ul role="list" class="mt-2 flex flex-col gap-2">
               <% if current_user.present? %>
                 <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
-                  <%= link_to "Dashboard", static_members_only_path %>
+                  <%= link_to "Dashboard", records_path %>
                 </li>
                 <li class="text-olive-700 hover:text-olive-900 dark:text-olive-400 dark:hover:text-olive-200 transition-colors">
                   <%= link_to "Sign out", users_sign_out_path %>

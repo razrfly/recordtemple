@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_05_200000) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_06_024053) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -81,7 +81,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_05_200000) do
     t.string "identifier"
     t.string "remote_addr"
     t.datetime "timeout_at", precision: nil, null: false
-    t.string "token", null: false
+    t.string "token_digest"
     t.datetime "updated_at", precision: nil, null: false
     t.text "user_agent"
     t.index ["authenticatable_type", "authenticatable_id"], name: "authenticatable"
