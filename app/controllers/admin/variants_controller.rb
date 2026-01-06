@@ -23,10 +23,16 @@ module Admin
 
     def clear_retries
       retry_set = Sidekiq::RetrySet.new
-      count = retry_set.size
-      retry_set.clear
+      count = 0
 
-      redirect_to admin_variants_path, notice: "Cleared #{count} retry jobs"
+      retry_set.each do |job|
+        if job.klass == "VariantWarmupJob"
+          job.delete
+          count += 1
+        end
+      end
+
+      redirect_to admin_variants_path, notice: "Cleared #{count} variant warmup retry jobs"
     end
 
     def stats
@@ -88,7 +94,6 @@ module Admin
     def calculate_processing_rate
       # Get jobs processed per second from Sidekiq stats
       # Use the last hour's processing rate
-      stats = Sidekiq::Stats.new
       history = Sidekiq::Stats::History.new(1)
 
       # Get today's processed count

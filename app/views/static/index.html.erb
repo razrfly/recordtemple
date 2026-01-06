@@ -12,7 +12,6 @@
       <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
         <% if current_user.present? %>
           <%= ui_button "Browse Collection", href: records_path, variant: :primary, size: :lg %>
-          <%= ui_button "My Dashboard", href: records_path, variant: :soft, size: :lg %>
         <% else %>
           <%= ui_button "Start Browsing", href: records_path, variant: :primary, size: :lg %>
           <%= ui_button "Sign In", href: users_sign_in_path, variant: :soft, size: :lg %>
