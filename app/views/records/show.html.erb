@@ -1,7 +1,7 @@
 <div class="mx-auto w-full max-w-4xl px-6 py-12">
   <%= render "shared/breadcrumbs" %>
 
-  <% sorted_images = @record.images.attached? ? @record.images.sort_by { |img| img.filename.to_s } : [] %>
+  <% sorted_images = @record.sorted_images %>
   <% images_data = sorted_images.map { |img| { url: cdn_image_url(img.variant(resize_to_limit: [1200, 1200])), alt: @record.title } } %>
 
   <div class="bg-white rounded-3xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden"

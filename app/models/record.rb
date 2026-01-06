@@ -130,9 +130,16 @@ class Record < ApplicationRecord
       .order(Arel.sql("RANDOM()"))
   }
 
+  # Returns images sorted by filename for consistent ordering
+  # Assumes images are eager-loaded via .with_attached_images
+  def sorted_images
+    return [] unless images.attached?
+    images.sort_by { |img| img.filename.to_s }
+  end
+
+  # Returns the first image when sorted by filename (for cover display)
   def cover
-    return nil unless images.attached? && images.any?
-    images.min_by { |img| img.filename.to_s }
+    sorted_images.first
   end
 
   def song_titles
