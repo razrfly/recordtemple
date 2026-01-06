@@ -153,13 +153,4 @@
   .cover-glow:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   }
-
-  /* Snap scroll mandatory for mobile carousel */
-  .snap-x-mandatory {
-    scroll-snap-type: x mandatory;
-  }
-
-  .snap-start {
-    scroll-snap-align: start;
-  }
 }

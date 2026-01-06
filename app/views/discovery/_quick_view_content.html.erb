@@ -46,7 +46,8 @@
                   data-action="click->audio-player#play"
                   data-track-index="0"
                   data-audio-url="<%= rails_blob_url(@record.songs.first) %>"
-                  class="flex items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0">
+                  class="flex items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0"
+                  aria-label="Play audio preview">
             <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z"/>
             </svg>
@@ -54,14 +55,15 @@
           <button type="button"
                   data-audio-player-target="pauseButton"
                   data-action="click->audio-player#pause"
-                  class="hidden items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0">
+                  class="hidden items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0"
+                  aria-label="Pause audio preview">
             <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
             </svg>
           </button>
           <div class="flex-1 min-w-0">
             <p class="text-olive-900 font-medium truncate text-sm">
-              <%= @record.songs.first.filename.to_s.gsub(/\.mp3$/i, '') %>
+              <%= @record.songs.first.filename.to_s.gsub(/\.(mp3|wav|m4a|ogg|flac)$/i, '') %>
             </p>
             <div class="mt-1.5 h-1.5 bg-olive-200 rounded-full overflow-hidden">
               <div data-audio-player-target="progress" class="h-full bg-olive-600 rounded-full transition-all" style="width: 0%"></div>

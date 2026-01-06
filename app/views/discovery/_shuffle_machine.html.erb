@@ -18,8 +18,18 @@
 
   <%# Full width 4-column grid %>
   <div id="shuffle-grid" data-shuffle-machine-target="grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-    <% @shuffle_records.each do |record| %>
-      <%= render "discovery/shuffle_card", record: record %>
+    <% if @shuffle_records&.any? %>
+      <% @shuffle_records.each do |record| %>
+        <%= render "discovery/shuffle_card", record: record %>
+      <% end %>
+    <% else %>
+      <% 4.times do %>
+        <div class="aspect-square rounded-xl bg-olive-200 flex items-center justify-center">
+          <svg class="w-12 h-12 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
+          </svg>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

@@ -82,7 +82,7 @@ class RecordsController < ApplicationController
       add_breadcrumb(record.artist.name, artist_path(record.artist))
     end
 
-    add_breadcrumb(record.title.presence || "Untitled")
+    add_breadcrumb(record.breadcrumb_title.presence || "Untitled")
   end
 
   def sorting_by_association?

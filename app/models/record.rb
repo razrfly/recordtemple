@@ -102,21 +102,24 @@ class Record < ApplicationRecord
   HAS_SONGS_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'songs')".freeze
 
   # Discovery: Cover wall with deterministic daily ordering
+  # Uses MD5 hash of record ID + date for consistent pseudo-random order per day
   scope :cover_wall, ->(user_id, limit = 60) {
     daily_seed = Date.current.to_s
+    order_sql = sanitize_sql_array(["MD5(CONCAT(records.id::text, ?))", daily_seed])
     where(user_id: user_id)
       .where(HAS_IMAGES_SQL)
-      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
+      .order(Arel.sql(order_sql))
       .limit(limit)
   }
 
   # Discovery: Daily gems - records with both images and songs
   scope :daily_gems, ->(user_id, limit = 10) {
     daily_seed = Date.current.to_s
+    order_sql = sanitize_sql_array(["MD5(CONCAT(records.id::text, ?))", daily_seed])
     where(user_id: user_id)
       .where(HAS_IMAGES_SQL)
       .where(HAS_SONGS_SQL)
-      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
+      .order(Arel.sql(order_sql))
       .limit(limit)
   }
 
@@ -125,19 +128,6 @@ class Record < ApplicationRecord
     where(user_id: user_id)
       .where(HAS_IMAGES_SQL)
       .order(Arel.sql("RANDOM()"))
-  }
-
-  # Discovery: Cursor pagination for infinite scroll
-  scope :after_cursor, ->(cursor_id, user_id) {
-    daily_seed = Date.current.to_s
-    cursor_record = find_by(id: cursor_id)
-    return none unless cursor_record
-
-    cursor_hash = Digest::MD5.hexdigest("#{cursor_id}#{daily_seed}")
-    where(user_id: user_id)
-      .where(HAS_IMAGES_SQL)
-      .where("MD5(CONCAT(records.id::text, ?)) > ?", daily_seed, cursor_hash)
-      .order(Arel.sql("MD5(CONCAT(records.id::text, '#{daily_seed}'))"))
   }
 
   def cover
@@ -150,6 +140,19 @@ class Record < ApplicationRecord
 
   def title
     [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact.join(' - ')
+  end
+
+  def breadcrumb_title(max_length: 90)
+    songs_str = song_titles.join(' - ').presence
+    full = if songs_str && yearbegin
+             "#{songs_str} (#{yearbegin})"
+           else
+             songs_str || yearbegin&.to_s
+           end
+    return nil if full.blank?
+    return full if full.length <= max_length
+
+    "#{full[0, max_length - 3]}..."
   end
 
   # Refresh search index for all records or specific scope

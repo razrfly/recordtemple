@@ -43,7 +43,6 @@ Rails.application.routes.draw do
 
   # Discovery page
   get 'discovery', to: 'discovery#index'
-  get 'discovery/wall', to: 'discovery#wall'
   get 'discovery/shuffle', to: 'discovery#shuffle'
   get 'discovery/quick_view/:id', to: 'discovery#quick_view', as: :discovery_quick_view
 

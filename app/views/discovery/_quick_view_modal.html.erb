@@ -22,7 +22,9 @@
   <%# Modal content container %>
   <div id="quick-view-content"
        data-cover-wall-target="modalContent"
-       class="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+       data-action="click->cover-wall#stopPropagation"
+       tabindex="-1"
+       class="relative bg-white rounded-3xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto focus:outline-none">
     <%# Content loaded via Turbo Stream %>
   </div>
 </div>
