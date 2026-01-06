@@ -31,6 +31,7 @@ class RecordsController < ApplicationController
 
     records = @q.result(distinct: use_distinct)
                 .includes(:artist, :label, :genre, :record_format, :price)
+                .with_attached_images
 
     # Apply media filters
     records = records.has_images if params[:has_images] == "1"
@@ -55,11 +56,13 @@ class RecordsController < ApplicationController
     @artist_records = base_scope.where(artist_id: @record.artist_id)
                                 .where.not(id: @record.id)
                                 .includes(:artist, :label, :genre, :record_format)
+                                .with_attached_images
                                 .limit(5)
 
     @label_records = base_scope.where(label_id: @record.label_id)
                                .where.not(id: @record.id)
                                .includes(:artist, :label, :genre, :record_format)
+                               .with_attached_images
                                .limit(5)
   end
 

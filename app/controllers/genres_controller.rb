@@ -70,6 +70,7 @@ class GenresController < ApplicationController
 
     records = @q.result(distinct: true)
                 .includes(:artist, :label, :genre, :record_format, :price)
+                .with_attached_images
 
     @pagy, @records = pagy(records)
     @total_count = records_scope.count

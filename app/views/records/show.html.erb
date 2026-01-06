@@ -1,7 +1,8 @@
 <div class="mx-auto w-full max-w-4xl px-6 py-12">
   <%= render "shared/breadcrumbs" %>
 
-  <% images_data = @record.images.attached? ? @record.images.map { |img| { url: cdn_image_url(img.variant(resize_to_limit: [1200, 1200])), alt: @record.title } } : [] %>
+  <% sorted_images = @record.images.attached? ? @record.images.sort_by { |img| img.filename.to_s } : [] %>
+  <% images_data = sorted_images.map { |img| { url: cdn_image_url(img.variant(resize_to_limit: [1200, 1200])), alt: @record.title } } %>
 
   <div class="bg-white rounded-3xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden"
        data-controller="lightbox"
@@ -9,12 +10,12 @@
     <div class="md:flex">
       <div class="md:w-96 md:shrink-0">
         <div class="aspect-square bg-olive-100">
-          <% if @record.images.attached? && @record.images.any? %>
+          <% if sorted_images.any? %>
             <button type="button"
                     data-action="click->lightbox#open"
                     data-index="0"
                     class="w-full h-full cursor-zoom-in group">
-              <%= image_tag cdn_image_url(@record.images.first.variant(resize_to_fill: [600, 600])),
+              <%= image_tag cdn_image_url(sorted_images.first.variant(resize_to_fill: [600, 600])),
                   class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity",
                   alt: @record.title %>
             </button>
@@ -101,10 +102,10 @@
       </div>
     </div>
 
-    <% if @record.images.attached? && @record.images.count > 1 %>
+    <% if sorted_images.count > 1 %>
       <div class="border-t border-olive-100 p-6 bg-olive-50/50">
         <div class="flex gap-3 overflow-x-auto pb-2">
-          <% @record.images.each_with_index do |image, index| %>
+          <% sorted_images.each_with_index do |image, index| %>
             <button type="button"
                     data-action="click->lightbox#open"
                     data-index="<%= index %>"
@@ -175,7 +176,7 @@
     <% end %>
 
     <!-- Lightbox Modal -->
-    <% if @record.images.attached? && @record.images.any? %>
+    <% if sorted_images.any? %>
       <div data-lightbox-target="modal"
            data-action="click->lightbox#close"
            role="dialog"
@@ -196,11 +197,11 @@
 
         <!-- Counter -->
         <div class="absolute top-4 left-4 text-white/70 text-sm" data-lightbox-target="counter">
-          1 / <%= @record.images.count %>
+          1 / <%= sorted_images.count %>
         </div>
 
         <!-- Previous button -->
-        <% if @record.images.count > 1 %>
+        <% if sorted_images.count > 1 %>
           <button type="button"
                   data-action="click->lightbox#previous"
                   class="absolute left-4 top-1/2 -translate-y-1/2 p-3 text-white/70 hover:text-white transition-colors"
@@ -230,9 +231,9 @@
         </div>
 
         <!-- Thumbnails -->
-        <% if @record.images.count > 1 %>
+        <% if sorted_images.count > 1 %>
           <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 p-2 bg-olive-900/50 rounded-xl">
-            <% @record.images.each_with_index do |image, index| %>
+            <% sorted_images.each_with_index do |image, index| %>
               <button type="button"
                       data-action="click->lightbox#goTo"
                       data-index="<%= index %>"
