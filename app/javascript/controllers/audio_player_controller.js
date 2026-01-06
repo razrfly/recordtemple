@@ -55,11 +55,15 @@ export default class extends Controller {
 
       if (i === index && playing) {
         playBtn?.classList.add('hidden')
+        playBtn?.classList.remove('flex')
         pauseBtn?.classList.remove('hidden')
+        pauseBtn?.classList.add('flex')
         track.classList.add('bg-olive-100')
       } else {
         playBtn?.classList.remove('hidden')
+        playBtn?.classList.add('flex')
         pauseBtn?.classList.add('hidden')
+        pauseBtn?.classList.remove('flex')
         track.classList.remove('bg-olive-100')
       }
     })

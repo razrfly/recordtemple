@@ -22,6 +22,7 @@
         hidden_gem_items: [],
         item_path_helper: ->(item) { genre_path(item) },
         type: :genre,
+        user_id: GenresController::COLLECTION_USER_ID,
         popular_label: "Top Genres",
         recent_label: "Recently Added" %>
   <% end %>
@@ -63,6 +64,7 @@
             item: genre,
             path: genre_path(genre),
             type: :genre,
+            user_id: GenresController::COLLECTION_USER_ID,
             show_collage: true %>
       <% end %>
     </div>

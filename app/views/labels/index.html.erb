@@ -22,6 +22,7 @@
         hidden_gem_items: @hidden_gem_labels,
         item_path_helper: ->(item) { label_path(item) },
         type: :label,
+        user_id: LabelsController::COLLECTION_USER_ID,
         popular_label: "Top Labels",
         recent_label: "Recently Added",
         hidden_gem_label: "Hidden Gems" %>
@@ -64,6 +65,7 @@
             item: label,
             path: label_path(label),
             type: :label,
+            user_id: LabelsController::COLLECTION_USER_ID,
             show_collage: true %>
       <% end %>
     </div>

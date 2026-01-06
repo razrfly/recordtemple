@@ -7,6 +7,7 @@
      - hidden_gem_items: Collection for "Hidden Gems" tab
      - item_path_helper: Lambda for generating item paths, e.g. ->(item) { artist_path(item) }
      - type: :artist or :label (for discovery_card)
+     - user_id: User ID to scope record queries to
 
    Optional locals:
      - popular_label: Custom label for popular tab (default: "Most Collected")
@@ -122,6 +123,7 @@
                   item: item,
                   path: item_path_helper.call(item),
                   type: type,
+                  user_id: user_id,
                   featured: true %>
             </div>
           <% end %>
@@ -170,7 +172,8 @@
               <%= render 'shared/discovery_card',
                   item: item,
                   path: item_path_helper.call(item),
-                  type: type %>
+                  type: type,
+                  user_id: user_id %>
             </div>
           <% end %>
         </div>
@@ -217,7 +220,8 @@
               <%= render 'shared/discovery_card',
                   item: item,
                   path: item_path_helper.call(item),
-                  type: type %>
+                  type: type,
+                  user_id: user_id %>
             </div>
           <% end %>
         </div>

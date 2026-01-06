@@ -22,6 +22,7 @@
         hidden_gem_items: @hidden_gem_artists,
         item_path_helper: ->(item) { artist_path(item) },
         type: :artist,
+        user_id: ArtistsController::COLLECTION_USER_ID,
         popular_label: "Most Collected",
         recent_label: "Recently Added",
         hidden_gem_label: "Hidden Gems" %>
@@ -64,6 +65,7 @@
             item: artist,
             path: artist_path(artist),
             type: :artist,
+            user_id: ArtistsController::COLLECTION_USER_ID,
             show_collage: true %>
       <% end %>
     </div>
