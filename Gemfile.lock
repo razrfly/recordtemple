@@ -167,6 +167,10 @@ GEM
       activesupport (>= 7.0.0)
     jmespath (1.6.2)
     json (2.18.0)
+    launchy (2.5.2)
+      addressable (~> 2.8)
+    letter_opener (1.10.0)
+      launchy (>= 2.2, < 4)
     logger (1.7.0)
     loofah (2.25.0)
       crass (~> 1.0.2)
@@ -384,6 +388,7 @@ DEPENDENCIES
   image_processing (~> 1.2)
   importmap-rails
   jbuilder
+  letter_opener
   pagy (~> 9.0)
   passwordless (~> 1.8)
   pg (~> 1.1)

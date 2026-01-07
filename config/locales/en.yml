@@ -31,3 +31,9 @@
 
 en:
   hello: "Hello world"
+  passwordless:
+    sessions:
+      new:
+        submit: "Sign in"
+      create:
+        email_sent_if_record_found: "If an account exists with that email, we've sent you a magic link to sign in."
