@@ -9,15 +9,17 @@
        data-lightbox-images-value="<%= images_data.to_json %>">
     <div class="md:flex">
       <div class="md:w-96 md:shrink-0">
-        <div class="aspect-square bg-olive-100">
+        <div class="aspect-square bg-olive-100 image-skeleton">
           <% if sorted_images.any? %>
             <button type="button"
                     data-action="click->lightbox#open"
                     data-index="0"
                     class="w-full h-full cursor-zoom-in group">
               <%= image_tag cdn_image_url(sorted_images.first.variant(ImageVariants::MAIN)),
-                  class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity",
-                  alt: @record.title %>
+                  class: "w-full h-full object-cover group-hover:opacity-90 transition-opacity image-loading",
+                  alt: @record.title,
+                  decoding: "async",
+                  data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
             </button>
           <% else %>
             <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">

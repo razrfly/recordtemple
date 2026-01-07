@@ -3,11 +3,13 @@
   <audio data-audio-player-target="audio" class="hidden"
          data-action="timeupdate->audio-player#timeUpdate loadedmetadata->audio-player#loadedMetadata ended->audio-player#ended"></audio>
 
-  <div class="md:w-72 md:shrink-0 bg-olive-100 rounded-l-3xl overflow-hidden">
+  <div class="md:w-72 md:shrink-0 bg-olive-100 rounded-l-3xl overflow-hidden image-skeleton">
     <% if @record.cover %>
       <%= image_tag cdn_image_url(@record.cover.variant(ImageVariants::CARD)),
-          class: "w-full h-full object-cover",
-          alt: @record.artist_name || "Album cover" %>
+          class: "w-full h-full object-cover image-loading",
+          alt: @record.artist_name || "Album cover",
+          decoding: "async",
+          data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
     <% end %>
   </div>
 
