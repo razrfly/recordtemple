@@ -14,16 +14,15 @@
           </p>
         </div>
 
-        <%= form_for @session, url: send(Passwordless.mounted_as).sign_in_path, data: { turbo: false } do |f| %>
-          <% email_field_name = :"passwordless[#{@email_field}]" %>
+        <%= form_with(model: @session, url: url_for(action: 'new'), data: { turbo: false }) do |f| %>
+          <% email_field_name = :"passwordless[#{email_field}]" %>
 
           <div class="space-y-1 mb-4">
-            <%= label_tag email_field_name, "Email address", class: "block text-sm/6 font-medium text-olive-950 dark:text-white" %>
-            <%= text_field_tag email_field_name,
+            <%= label_tag email_field_name, "Email address", class: "block text-sm/6 font-medium text-olive-950 dark:text-white", for: "passwordless_#{email_field}" %>
+            <%= email_field_tag email_field_name,
                 params.fetch(email_field_name, nil),
-                type: :email,
-                autocomplete: "email",
                 required: true,
+                autocomplete: "email",
                 placeholder: "you@example.com",
                 class: "block w-full rounded-lg px-3 py-1.5 text-sm bg-white dark:bg-white/5 border border-olive-300 dark:border-white/10 text-olive-950 dark:text-white placeholder:text-olive-400 dark:placeholder:text-olive-500 shadow-sm focus:outline-none focus:ring-2 focus:ring-olive-500 focus:border-olive-500" %>
           </div>
