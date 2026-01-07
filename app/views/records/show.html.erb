@@ -120,7 +120,10 @@
     <% end %>
 
     <% if @record.songs.attached? && @record.songs.any? %>
-      <div class="border-t border-olive-100 p-8 md:p-10 bg-olive-50/50" data-controller="audio-player">
+      <div class="border-t border-olive-100 p-8 md:p-10 bg-olive-50/50"
+           data-controller="audio-player"
+           data-audio-player-authenticated-value="<%= current_user.present? %>"
+           data-audio-player-preview-duration-value="30">
         <audio data-audio-player-target="audio"
                data-action="timeupdate->audio-player#timeUpdate loadedmetadata->audio-player#loadedMetadata ended->audio-player#ended"
                class="hidden"></audio>
@@ -128,6 +131,9 @@
         <h2 class="font-display text-lg text-olive-950 mb-4">
           Selected Tracks
           <span class="ml-2 text-sm font-normal text-olive-500">(<%= @record.songs.size %>)</span>
+          <% unless current_user %>
+            <span class="ml-2 text-xs font-normal text-olive-400">(30-second previews)</span>
+          <% end %>
         </h2>
 
         <div class="space-y-2">
@@ -138,7 +144,7 @@
                       data-audio-player-target="playButton"
                       data-action="click->audio-player#play"
                       data-track-index="<%= index %>"
-                      data-audio-url="<%= rails_blob_url(song) %>"
+                      data-song-signed-id="<%= song.signed_id %>"
                       class="flex items-center justify-center w-10 h-10 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors shrink-0">
                 <svg class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z"/>

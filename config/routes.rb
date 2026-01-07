@@ -6,17 +6,6 @@ Rails.application.routes.draw do
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
   passwordless_for :users
 
-  # Admin namespace
-  namespace :admin do
-    resources :variants, only: [:index] do
-      collection do
-        post :warmup
-        post :clear_retries
-        get :stats
-      end
-    end
-  end
-
   # Dev-only auto-login bypass
   if Rails.env.development?
     get "dev_login", to: "dev_sessions#create"
@@ -25,6 +14,10 @@ Rails.application.routes.draw do
   # File serving via Active Storage (redirects to signed S3 URLs)
   get "files/photos/:id", to: "files#photo", as: :photo_file
   get "files/songs/:id", to: "files#song", as: :song_file
+
+  # Song streaming URL endpoint (returns signed URL via JSON)
+  # Uses signed_id to prevent enumeration attacks
+  get "songs/stream_url/:signed_id", to: "songs#stream_url", as: :song_stream_url
 
   # API endpoints for autocomplete
   namespace :api do
