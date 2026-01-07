@@ -3,7 +3,7 @@
    class="group block rounded-xl overflow-hidden bg-olive-200 hover:ring-2 hover:ring-olive-400 transition-all">
   <div class="aspect-square relative">
     <% if record.cover %>
-      <%= image_tag cdn_image_url(record.cover.variant(resize_to_fill: [400, 400])),
+      <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::CARD)),
           class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
           alt: record.artist_name || "Album cover",
           loading: "lazy" %>
