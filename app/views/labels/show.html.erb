@@ -5,11 +5,14 @@
   <header class="mb-10">
     <div class="flex flex-col sm:flex-row gap-6 items-start">
       <%# Label Cover Art - uses preloaded cover from controller %>
-      <div class="shrink-0 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-olive-100 shadow-lg ring-1 ring-olive-900/10">
+      <div class="shrink-0 w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-olive-100 shadow-lg ring-1 ring-olive-900/10 image-skeleton">
         <% if @cover %>
           <%= image_tag cdn_image_url(@cover.variant(ImageVariants::COVER)),
-              class: "w-full h-full object-cover",
-              alt: @label.name %>
+              class: "w-full h-full object-cover image-loading",
+              alt: @label.name,
+              loading: "lazy",
+              decoding: "async",
+              data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
         <% else %>
           <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
             <svg class="w-16 h-16 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

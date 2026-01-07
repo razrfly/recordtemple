@@ -8,9 +8,14 @@ import { Controller } from "@hotwired/stimulus"
 //
 export default class extends Controller {
   connect() {
-    // If image is already cached/loaded, remove loading state immediately
-    if (this.element.complete && this.element.naturalHeight !== 0) {
-      this.loaded()
+    // If image already finished loading/erroring before controller connected
+    if (this.element.complete) {
+      if (this.element.naturalHeight !== 0) {
+        this.loaded()
+      } else {
+        // Image failed to load (complete but no dimensions)
+        this.error()
+      }
     }
   }
 
