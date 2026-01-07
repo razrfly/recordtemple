@@ -74,6 +74,7 @@ group :development do
   gem "web-console"
   gem "annotate"
   gem "active_record_doctor"
+  gem "letter_opener"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
