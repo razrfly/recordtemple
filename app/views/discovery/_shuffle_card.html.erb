@@ -1,12 +1,14 @@
 <%# Shuffle Card - Record display for full-width grid %>
 <a href="<%= record_path(record) %>"
    class="group block rounded-xl overflow-hidden bg-olive-200 hover:ring-2 hover:ring-olive-400 transition-all">
-  <div class="aspect-square relative">
+  <div class="aspect-square relative image-skeleton">
     <% if record.cover %>
       <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::CARD)),
-          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300",
+          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 image-loading",
           alt: record.artist_name || "Album cover",
-          loading: "lazy" %>
+          loading: "lazy",
+          decoding: "async",
+          data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
     <% else %>
       <%# Placeholder for records without images %>
       <div class="w-full h-full flex items-center justify-center bg-olive-200">

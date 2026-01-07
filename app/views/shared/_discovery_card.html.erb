@@ -30,18 +30,19 @@
 <%= link_to path,
     class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 hover:-translate-y-1 transition-all duration-300 overflow-hidden" do %>
 
-  <div class="relative aspect-square bg-olive-100 overflow-hidden">
+  <div class="relative aspect-square bg-olive-100 overflow-hidden image-skeleton">
     <% if show_collage && sample_covers.length >= 4 %>
       <%# 2x2 Collage Grid %>
       <div class="grid grid-cols-2 grid-rows-2 w-full h-full">
         <% sample_covers.first(4).each_with_index do |cover, index| %>
           <div class="relative overflow-hidden">
             <%= image_tag cdn_image_url(cover.variant(ImageVariants::THUMBNAIL)),
-                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 image-loading",
                 style: "transition-delay: #{index * 50}ms",
                 alt: "#{item.name} record #{index + 1}",
                 loading: "lazy",
-                decoding: "async" %>
+                decoding: "async",
+                data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
           </div>
         <% end %>
       </div>
@@ -51,21 +52,23 @@
         <% sample_covers.first(2).each_with_index do |cover, index| %>
           <div class="relative overflow-hidden">
             <%= image_tag cdn_image_url(cover.variant(ImageVariants::TALL)),
-                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+                class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 image-loading",
                 style: "transition-delay: #{index * 75}ms",
                 alt: "#{item.name} record #{index + 1}",
                 loading: "lazy",
-                decoding: "async" %>
+                decoding: "async",
+                data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
           </div>
         <% end %>
       </div>
     <% elsif single_cover.present? %>
       <%# Single cover %>
       <%= image_tag cdn_image_url(single_cover.variant(ImageVariants::CARD)),
-          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500",
+          class: "w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 image-loading",
           alt: item.name,
           loading: "lazy",
-          decoding: "async" %>
+          decoding: "async",
+          data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
     <% else %>
       <%# Placeholder - Vinyl Record Icon %>
       <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200 group-hover:from-olive-200 group-hover:to-olive-300 transition-colors duration-300">
