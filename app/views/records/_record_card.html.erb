@@ -2,12 +2,14 @@
     class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden",
     data: { turbo_frame: "_top" } do %>
 
-  <div class="relative aspect-square bg-olive-100">
+  <div class="relative aspect-square bg-olive-100 image-skeleton">
     <% if record.cover %>
       <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::CARD)),
-          class: "w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500",
+          class: "w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-500 image-loading",
           alt: record.title,
-          loading: "lazy" %>
+          loading: "lazy",
+          decoding: "async",
+          data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
     <% else %>
       <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200">
         <svg class="w-20 h-20 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

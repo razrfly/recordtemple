@@ -2,13 +2,14 @@
 <button type="button"
         data-action="click->cover-wall#openQuickView"
         data-record-id="<%= record.id %>"
-        class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 bg-olive-200">
+        class="group relative aspect-square overflow-hidden rounded-lg cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 bg-olive-200 image-skeleton">
   <% if record.cover %>
     <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::THUMBNAIL)),
-        class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500",
+        class: "w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 image-loading",
         alt: record.artist_name || "Album cover",
         loading: "lazy",
-        decoding: "async" %>
+        decoding: "async",
+        data: { controller: "image-loader", action: "load->image-loader#loaded error->image-loader#error" } %>
   <% end %>
 
   <%# Hover overlay %>

@@ -153,4 +153,43 @@
   .cover-glow:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   }
+
+  /* Image loading states */
+  .image-loading {
+    opacity: 0;
+  }
+
+  .image-loaded {
+    animation: image-fade-in 0.3s ease-out forwards;
+  }
+
+  @keyframes image-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Skeleton placeholder for image containers */
+  .image-skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-olive-200) 0%,
+      var(--color-olive-100) 50%,
+      var(--color-olive-200) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes skeleton-pulse {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 }
