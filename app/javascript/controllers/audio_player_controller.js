@@ -10,6 +10,7 @@ export default class extends Controller {
   connect() {
     this.currentTrackIndex = null
     this.urlCache = new Map()
+    this.fetchId = 0 // Track fetch requests to handle race conditions
   }
 
   async play(event) {
@@ -35,12 +36,24 @@ export default class extends Controller {
     let audioUrl = this.urlCache.get(signedId)
 
     if (!audioUrl) {
+      // Increment fetch ID to track this request
+      const thisFetchId = ++this.fetchId
+
       try {
         audioUrl = await this.fetchStreamUrl(signedId)
+
+        // Check if user clicked a different track while we were fetching
+        if (this.fetchId !== thisFetchId) {
+          return // Stale fetch, ignore result
+        }
+
         this.urlCache.set(signedId, audioUrl)
       } catch (error) {
-        console.error("Failed to load audio:", error)
-        this.updateTrackUI(trackIndex, false)
+        // Only handle error if this is still the current fetch
+        if (this.fetchId === thisFetchId) {
+          console.error("Failed to load audio:", error)
+          this.updateTrackUI(trackIndex, false)
+        }
         return
       }
     }
