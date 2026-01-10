@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_06_030806) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_162713) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -52,6 +52,33 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_030806) do
     t.index "to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text)", name: "artists_fts_idx", using: :gin
     t.index ["name"], name: "index_artists_on_name", unique: true
     t.index ["slug"], name: "index_artists_on_slug", unique: true
+  end
+
+  create_table "discogs_releases", force: :cascade do |t|
+    t.jsonb "artists", default: []
+    t.string "catno"
+    t.integer "community_have"
+    t.integer "community_want"
+    t.string "country"
+    t.datetime "created_at", null: false
+    t.bigint "discogs_id", null: false
+    t.datetime "fetched_at", null: false
+    t.jsonb "formats", default: []
+    t.jsonb "genres", default: []
+    t.jsonb "images", default: []
+    t.jsonb "labels", default: []
+    t.decimal "lowest_price", precision: 10, scale: 2
+    t.bigint "master_id"
+    t.jsonb "raw_response", default: {}
+    t.jsonb "styles", default: []
+    t.string "title", null: false
+    t.jsonb "tracklist", default: []
+    t.datetime "updated_at", null: false
+    t.integer "year"
+    t.index ["artists"], name: "index_discogs_releases_on_artists", using: :gin
+    t.index ["catno"], name: "index_discogs_releases_on_catno"
+    t.index ["discogs_id"], name: "index_discogs_releases_on_discogs_id", unique: true
+    t.index ["master_id"], name: "index_discogs_releases_on_master_id"
   end
 
   create_table "genres", id: :serial, force: :cascade do |t|
@@ -150,6 +177,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_030806) do
     t.text "comment"
     t.integer "condition"
     t.datetime "created_at", precision: nil
+    t.decimal "discogs_confidence", precision: 5, scale: 2
+    t.string "discogs_match_method"
+    t.datetime "discogs_matched_at"
+    t.bigint "discogs_release_id"
     t.integer "genre_id"
     t.integer "identifier_id"
     t.integer "images_count", default: 0, null: false
@@ -164,6 +195,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_030806) do
     t.integer "value"
     t.index "to_tsvector('english'::regconfig, COALESCE(comment, ''::text))", name: "records_fts_idx", using: :gin
     t.index ["artist_id"], name: "index_records_on_artist_id"
+    t.index ["discogs_confidence"], name: "index_records_on_discogs_confidence"
+    t.index ["discogs_release_id"], name: "index_records_on_discogs_release_id"
     t.index ["genre_id"], name: "index_records_on_genre_id"
     t.index ["label_id"], name: "index_records_on_label_id"
     t.index ["popularity_score"], name: "index_records_on_popularity_score"
@@ -211,6 +244,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_030806) do
   add_foreign_key "prices", "users"
   add_foreign_key "record_formats", "record_types"
   add_foreign_key "records", "artists"
+  add_foreign_key "records", "discogs_releases"
   add_foreign_key "records", "genres"
   add_foreign_key "records", "labels"
   add_foreign_key "records", "prices"
