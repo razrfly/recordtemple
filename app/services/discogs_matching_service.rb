@@ -73,8 +73,14 @@ class DiscogsMatchingService
 
   # Auto-match record to best candidate if confidence is high enough
   # Returns the DiscogsRelease if matched, nil otherwise
-  def match!
-    candidates = find_candidates(limit: 3)
+  # Can optionally pass pre-fetched candidates to avoid redundant API calls
+  def match!(candidates: nil)
+    # Skip if record already has a manual match
+    if @record.discogs_release_id.present? && @record.discogs_match_method == "manual"
+      return nil
+    end
+
+    candidates ||= find_candidates(limit: 3)
     return nil if candidates.empty?
 
     best = candidates.first
@@ -118,7 +124,8 @@ class DiscogsMatchingService
   def search_discogs
     artist = @record.artist&.name || @record.cached_artist
     label = @record.label&.name || @record.cached_label
-    year = @record.yearbegin
+    # Use positive? to avoid passing year=0 to API (0.present? is true in Ruby)
+    year = @record.yearbegin.to_i.positive? ? @record.yearbegin : nil
 
     return [] if artist.blank?
 
@@ -131,7 +138,7 @@ class DiscogsMatchingService
     return results["results"] if results["results"].any?
 
     # Try just artist + year
-    if year.present?
+    if year
       results = @api.search(artist: artist, year: year, per_page: 10)
       return results["results"] if results["results"].any?
     end

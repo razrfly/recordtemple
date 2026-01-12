@@ -49,23 +49,24 @@ class DiscogsMatchingJob < ApplicationJob
     def match_all!(limit: nil, skip_low_confidence: false, user_id: nil, dry_run: false)
       scope = Record.discogs_unmatched.includes(:artist, :label, :record_format, :price)
       scope = scope.where(user_id: user_id) if user_id
-      scope = scope.limit(limit) if limit
 
-      total = scope.count
+      # Note: find_each ignores limit, so we use each with limit instead
+      records = limit ? scope.limit(limit).to_a : scope.to_a
+      total = records.size
       matched = 0
       skipped = 0
       no_match = 0
 
       Rails.logger.info { "[DiscogsMatchingJob] Starting batch match for #{total} records" }
 
-      scope.find_each.with_index do |record, index|
+      records.each_with_index do |record, index|
         if index > 0 && (index % 100).zero?
           Rails.logger.info { "[DiscogsMatchingJob] Progress: #{index}/#{total} (matched: #{matched}, skipped: #{skipped}, no_match: #{no_match})" }
         end
 
         begin
           service = DiscogsMatchingService.new(record)
-          candidates = service.find_candidates(limit: 1)
+          candidates = service.find_candidates(limit: 3)
 
           if candidates.empty?
             no_match += 1
@@ -85,7 +86,8 @@ class DiscogsMatchingJob < ApplicationJob
             Rails.logger.info { "[DiscogsMatchingJob] DRY RUN - Would match record ##{record.id} to #{best[:candidate]['id']} (score: #{best[:score]})" }
             matched += 1
           else
-            release = service.match!
+            # Pass pre-fetched candidates to avoid redundant API calls
+            release = service.match!(candidates: candidates)
             if release
               matched += 1
             else
@@ -119,16 +121,16 @@ class DiscogsMatchingJob < ApplicationJob
     def enqueue_all!(limit: nil, user_id: nil)
       scope = Record.discogs_unmatched
       scope = scope.where(user_id: user_id) if user_id
-      scope = scope.limit(limit) if limit
 
-      count = 0
-      scope.find_each do |record|
-        perform_later(record.id)
-        count += 1
+      # Note: find_each ignores limit, so we use find_in_batches with take
+      record_ids = limit ? scope.limit(limit).pluck(:id) : scope.pluck(:id)
+
+      record_ids.each do |id|
+        perform_later(id)
       end
 
-      Rails.logger.info { "[DiscogsMatchingJob] Enqueued #{count} records for matching" }
-      count
+      Rails.logger.info { "[DiscogsMatchingJob] Enqueued #{record_ids.size} records for matching" }
+      record_ids.size
     end
   end
 end

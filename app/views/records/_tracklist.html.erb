@@ -38,6 +38,11 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
       </svg>
       <h2 class="font-display text-lg text-olive-950">Tracklist</h2>
+      <%= image_tag "https://cdn.simpleicons.org/discogs/9CA3AF",
+          alt: "via Discogs",
+          class: "w-4 h-4 opacity-60",
+          title: "Tracklist from Discogs",
+          loading: "lazy" %>
       <span class="text-sm text-olive-500">
         <%= track_count %> <%= 'track'.pluralize(track_count) %><% if total_duration %> &middot; <%= total_duration %><% end %>
       </span>
@@ -93,7 +98,11 @@
       <a href="<%= discogs_release.discogs_url %>"
          target="_blank"
          rel="noopener noreferrer"
-         class="text-sm text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
+         class="text-sm text-teal-600 hover:text-teal-700 transition-colors inline-flex items-center gap-1.5">
+        <%= image_tag "https://cdn.simpleicons.org/discogs/0D9488",
+            alt: "Discogs",
+            class: "w-3.5 h-3.5",
+            loading: "lazy" %>
         View full details on Discogs
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>

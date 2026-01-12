@@ -54,7 +54,8 @@ namespace :discogs do
 
     puts "Records:"
     puts "  Total: #{total_records}"
-    puts "  Matched: #{matched} (#{(matched.to_f / total_records * 100).round(1)}%)"
+    match_percent = total_records.positive? ? (matched.to_f / total_records * 100).round(1) : 0
+    puts "  Matched: #{matched} (#{match_percent}%)"
     puts "  Unmatched: #{unmatched}"
     puts ""
     puts "Match Quality:"
