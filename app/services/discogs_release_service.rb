@@ -14,12 +14,17 @@ class DiscogsReleaseService
   end
 
   # Find existing DiscogsRelease or fetch from API and create
+  # Handles race condition when concurrent calls create the same release
   def find_or_fetch(discogs_id)
     DiscogsRelease.find_by(discogs_id: discogs_id) || fetch_and_create(discogs_id)
+  rescue ActiveRecord::RecordNotUnique
+    # Another process created it first - find and return it
+    DiscogsRelease.find_by!(discogs_id: discogs_id)
   end
 
   # Create DiscogsRelease from a search result (partial data)
   # Will fetch full release details if needed for complete data
+  # Handles race condition when concurrent calls create the same release
   def find_or_fetch_from_search_result(result, fetch_full: false)
     discogs_id = result["id"]
     existing = DiscogsRelease.find_by(discogs_id: discogs_id)
@@ -30,6 +35,9 @@ class DiscogsReleaseService
     else
       create_from_search_result(result)
     end
+  rescue ActiveRecord::RecordNotUnique
+    # Another process created it first - find and return it
+    DiscogsRelease.find_by!(discogs_id: discogs_id)
   end
 
   # Refresh an existing DiscogsRelease with latest API data

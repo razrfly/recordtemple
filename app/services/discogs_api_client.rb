@@ -105,7 +105,11 @@ class DiscogsApiClient
 
     case response.code.to_i
     when 200
-      JSON.parse(response.body)
+      begin
+        JSON.parse(response.body)
+      rescue JSON::ParserError => e
+        raise Error, "Invalid JSON response: #{e.message}"
+      end
     when 401
       raise AuthenticationError, "Invalid Discogs token"
     when 404
