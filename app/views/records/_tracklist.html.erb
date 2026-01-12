@@ -1,0 +1,104 @@
+<%# Discogs tracklist accordion %>
+<%
+  tracklist = discogs_release.tracklist
+  track_count = tracklist.size
+
+  # Calculate total duration if available
+  total_seconds = tracklist.sum do |track|
+    duration = track["duration"].to_s
+    if duration.match?(/^\d+:\d+$/)
+      parts = duration.split(":")
+      parts[0].to_i * 60 + parts[1].to_i
+    else
+      0
+    end
+  end
+
+  total_duration = if total_seconds > 0
+    minutes = total_seconds / 60
+    seconds = total_seconds % 60
+    "#{minutes}:#{seconds.to_s.rjust(2, '0')}"
+  end
+
+  # Group tracks by side (A, B, C, D, etc.)
+  current_side = nil
+%>
+
+<div class="border-t border-olive-100 bg-olive-50/50"
+     data-controller="accordion"
+     data-accordion-open-value="false">
+  <%# Header - always visible %>
+  <button type="button"
+          data-action="click->accordion#toggle"
+          class="w-full flex items-center justify-between p-6 hover:bg-olive-100/50 transition-colors">
+    <div class="flex items-center gap-2">
+      <svg data-accordion-target="icon"
+           class="w-5 h-5 text-olive-500 transition-transform duration-200"
+           fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+      </svg>
+      <h2 class="font-display text-lg text-olive-950">Tracklist</h2>
+      <span class="text-sm text-olive-500">
+        <%= track_count %> <%= 'track'.pluralize(track_count) %><% if total_duration %> &middot; <%= total_duration %><% end %>
+      </span>
+    </div>
+    <span class="text-xs text-olive-400" data-accordion-target="label">Show</span>
+  </button>
+
+  <%# Expandable content %>
+  <div data-accordion-target="content"
+       class="hidden border-t border-olive-100">
+    <div class="divide-y divide-olive-100">
+      <% tracklist.each do |track| %>
+        <%
+          position = track["position"].to_s
+          title = track["title"].to_s
+          duration = track["duration"].to_s
+
+          # Detect side changes (A1 -> B1, etc.)
+          side = position.match(/^([A-Z])/i)&.[](1)&.upcase
+          show_side_header = side.present? && side != current_side
+          current_side = side if side.present?
+        %>
+
+        <% if show_side_header && current_side %>
+          <div class="px-6 py-2 bg-olive-100/50">
+            <span class="text-xs font-medium text-olive-500 uppercase tracking-wide">Side <%= current_side %></span>
+          </div>
+        <% end %>
+
+        <div class="flex items-center gap-4 px-6 py-3 hover:bg-white/50 transition-colors">
+          <%# Position %>
+          <span class="w-8 text-sm font-medium text-olive-500 tabular-nums">
+            <%= position.presence || "—" %>
+          </span>
+
+          <%# Title %>
+          <span class="flex-1 text-olive-900 truncate">
+            <%= title.presence || "Untitled" %>
+          </span>
+
+          <%# Duration %>
+          <% if duration.present? %>
+            <span class="text-sm text-olive-500 tabular-nums">
+              <%= duration %>
+            </span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Link to full Discogs page %>
+    <div class="px-6 py-4 border-t border-olive-100 bg-white/50">
+      <a href="<%= discogs_release.discogs_url %>"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="text-sm text-teal-600 hover:text-teal-700 transition-colors flex items-center gap-1">
+        View full details on Discogs
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

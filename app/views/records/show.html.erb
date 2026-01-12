@@ -55,9 +55,14 @@
               <% end %>
             </p>
           </div>
-          <% if @record.condition.present? %>
-            <%= render 'records/condition_badge', condition: @record.condition %>
-          <% end %>
+          <div class="flex items-center gap-2">
+            <% if @record.discogs_release.present? %>
+              <%= render 'records/discogs_badge', record: @record %>
+            <% end %>
+            <% if @record.condition.present? %>
+              <%= render 'records/condition_badge', condition: @record.condition %>
+            <% end %>
+          </div>
         </div>
 
         <% if @record.genre&.name.present? %>
@@ -66,7 +71,27 @@
                 class: "inline-flex items-center px-3 py-1 rounded-full text-sm bg-olive-100 text-olive-700 hover:bg-olive-200 transition-colors" do %>
               <%= @record.genre.name %>
             <% end %>
+            <%# Discogs style tags (sub-genres) %>
+            <% if @record.discogs_release&.styles&.any? %>
+              <div class="mt-2 flex flex-wrap gap-1.5">
+                <% @record.discogs_release.styles.first(5).each do |style| %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-olive-50 text-olive-600">
+                    <%= style %>
+                  </span>
+                <% end %>
+                <% if @record.discogs_release.styles.size > 5 %>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs bg-olive-50 text-olive-500">
+                    +<%= @record.discogs_release.styles.size - 5 %> more
+                  </span>
+                <% end %>
+              </div>
+            <% end %>
           </div>
+        <% end %>
+
+        <%# Discogs pressing details %>
+        <% if @record.discogs_release.present? %>
+          <%= render 'records/pressing_details', discogs_release: @record.discogs_release %>
         <% end %>
 
         <% if @record.price_low.present? || @record.price_high.present? %>
@@ -95,6 +120,11 @@
           </div>
         <% end %>
 
+        <%# Discogs collector demand meter %>
+        <% if @record.discogs_release.present? && (@record.discogs_release.community_have.to_i > 0 || @record.discogs_release.community_want.to_i > 0) %>
+          <%= render 'records/collector_demand', discogs_release: @record.discogs_release %>
+        <% end %>
+
         <% if @record.comment.present? %>
           <div class="mt-6 pt-6 border-t border-olive-100">
             <h2 class="text-sm font-medium text-olive-500 mb-2">Notes</h2>
@@ -117,6 +147,11 @@
           <% end %>
         </div>
       </div>
+    <% end %>
+
+    <%# Discogs tracklist accordion %>
+    <% if @record.discogs_release&.tracklist&.any? %>
+      <%= render 'records/tracklist', discogs_release: @record.discogs_release %>
     <% end %>
 
     <% if @record.songs.attached? && @record.songs.any? %>

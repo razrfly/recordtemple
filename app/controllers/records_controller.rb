@@ -47,7 +47,7 @@ class RecordsController < ApplicationController
   end
 
   def show
-    @record = base_scope.includes(:artist, :label, :genre, :record_format, :price)
+    @record = base_scope.includes(:artist, :label, :genre, :record_format, :price, :discogs_release)
                         .with_attached_images
                         .with_attached_songs
                         .find(params[:id])
