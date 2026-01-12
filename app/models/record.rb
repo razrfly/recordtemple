@@ -46,6 +46,7 @@ class Record < ApplicationRecord
   belongs_to :record_format
   belongs_to :artist
   belongs_to :label
+  belongs_to :discogs_release, optional: true
 
   # Wide-net search using pre-computed tsvector column for performance
   # The searchable column is populated by a database trigger and includes:
@@ -96,6 +97,12 @@ class Record < ApplicationRecord
 
   scope :has_images, -> { joins(:images_attachments).distinct }
   scope :has_songs, -> { joins(:songs_attachments).distinct }
+
+  # Discogs matching scopes
+  scope :discogs_matched, -> { where.not(discogs_release_id: nil) }
+  scope :discogs_unmatched, -> { where(discogs_release_id: nil) }
+  scope :discogs_high_confidence, -> { where("discogs_confidence >= ?", 85) }
+  scope :discogs_low_confidence, -> { discogs_matched.where("discogs_confidence < ?", 85) }
 
   # Discovery scopes use EXISTS subqueries to avoid DISTINCT + ORDER BY conflicts
   HAS_IMAGES_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'images')".freeze
