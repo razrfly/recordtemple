@@ -1,0 +1,55 @@
+<%# Collector demand meter from Discogs community data %>
+<%
+  have = discogs_release.community_have.to_i
+  want = discogs_release.community_want.to_i
+  ratio = have > 0 ? (want.to_f / have) : 0
+
+  # Determine demand level and styling
+  demand_level, demand_color, bar_color = case ratio
+    when 1.0.. then ["Rare", "text-red-700", "bg-red-500"]
+    when 0.3..1.0 then ["High Demand", "text-amber-700", "bg-amber-500"]
+    when 0.1..0.3 then ["Collectible", "text-teal-700", "bg-teal-500"]
+    else ["Common", "text-olive-600", "bg-olive-400"]
+  end
+
+  # Bar width percentage (capped at 100%)
+  bar_width = [ratio * 100, 100].min
+%>
+
+<div class="mt-6 pt-6 border-t border-olive-100">
+  <div class="flex items-center justify-between mb-2">
+    <p class="text-sm text-olive-500">Collector Demand</p>
+    <span class="text-xs font-medium <%= demand_color %>"><%= demand_level %></span>
+  </div>
+
+  <%# Demand bar %>
+  <div class="h-2 bg-olive-100 rounded-full overflow-hidden mb-2">
+    <div class="h-full <%= bar_color %> rounded-full transition-all duration-500"
+         style="width: <%= bar_width %>%"></div>
+  </div>
+
+  <%# Stats row %>
+  <div class="flex items-center justify-between text-xs text-olive-600">
+    <div class="flex items-center gap-3">
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+        </svg>
+        <%= number_with_delimiter(have) %> have
+      </span>
+      <span class="text-olive-300">&middot;</span>
+      <span class="flex items-center gap-1">
+        <svg class="w-3.5 h-3.5 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
+        </svg>
+        <%= number_with_delimiter(want) %> want
+      </span>
+    </div>
+
+    <% if discogs_release.lowest_price.present? && discogs_release.lowest_price > 0 %>
+      <span class="text-olive-500">
+        Discogs: $<%= number_with_precision(discogs_release.lowest_price, precision: 0) %>
+      </span>
+    <% end %>
+  </div>
+</div>
