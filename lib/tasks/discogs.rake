@@ -184,7 +184,7 @@ namespace :discogs do
     puts "High-Value 'likely_wrong' Records (needing fix):"
     high_value = Record.joins(:price)
                        .where(discogs_price_validation: "likely_wrong")
-                       .where("(prices.price_low + prices.price_high) / 2.0 >= 100")
+                       .where("(prices.price_low::numeric + prices.price_high::numeric) / 2.0 >= 100")
                        .count
     puts "  $100+ records: #{high_value}"
     puts ""
@@ -207,7 +207,7 @@ namespace :discogs do
     scope = Record.where(discogs_price_validation: "likely_wrong")
     if min_value > 0
       scope = scope.joins(:price)
-                   .where("(prices.price_low + prices.price_high) / 2.0 >= ?", min_value)
+                   .where("(prices.price_low::numeric + prices.price_high::numeric) / 2.0 >= ?", min_value)
     end
 
     count = scope.count
@@ -276,6 +276,12 @@ namespace :discogs do
     puts "Top 20 Verified Matches (sorted by guide value):"
     puts ""
     records.each do |r|
+      if r.guide_mid.to_f.zero?
+        puts "❓ #{r.cached_artist}: #{r.price_detail}"
+        puts "   Guide: $0 → Discogs: $#{r.discogs_price} (N/A)"
+        puts ""
+        next
+      end
       ratio = (r.discogs_price.to_f / r.guide_mid.to_f * 100).round(0)
       indicator = case ratio
                   when 80..120 then "✅"
@@ -301,7 +307,8 @@ namespace :discogs do
     puts "Summary for #{count} Verified/Probable Matches:"
     puts "  Total Guide Value: $#{total_guide.round(0)}"
     puts "  Total Discogs Value: $#{total_discogs.round(0)}"
-    puts "  Ratio: #{(total_discogs.to_f / total_guide * 100).round(1)}%"
+    ratio_display = total_guide.to_f.zero? ? "N/A" : "#{(total_discogs.to_f / total_guide * 100).round(1)}%"
+    puts "  Ratio: #{ratio_display}"
     puts ""
   end
 end
