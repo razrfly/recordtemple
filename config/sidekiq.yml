@@ -8,6 +8,7 @@
 :queues:
   - [critical, 3]
   - [default, 2]
+  - [discogs, 2]
   - [migration, 2]
   - [mailers, 1]
   - [low, 1]

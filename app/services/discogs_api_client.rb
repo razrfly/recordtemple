@@ -27,8 +27,8 @@ class DiscogsApiClient
   MIN_REQUEST_INTERVAL = 1.0 # seconds between requests
 
   def initialize(token: nil)
-    @token = token || Rails.application.credentials.dig(:discogs, :api_token)
-    raise AuthenticationError, "Discogs API token not configured" if @token.blank?
+    @token = token || ENV["DISCOGS_API_TOKEN"] || Rails.application.credentials.dig(:discogs, :api_token)
+    raise AuthenticationError, "Discogs API token not configured. Set DISCOGS_API_TOKEN env var or add to credentials." if @token.blank?
     @last_request_at = nil
     @rate_limit_remaining = 60
   end
