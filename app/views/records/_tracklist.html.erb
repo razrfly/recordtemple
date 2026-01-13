@@ -93,8 +93,8 @@
       <% end %>
     </div>
 
-    <%# Link to full Discogs page %>
-    <div class="px-6 py-4 border-t border-olive-100 bg-white/50">
+    <%# Links to Discogs %>
+    <div class="px-6 py-4 border-t border-olive-100 bg-white/50 flex flex-wrap items-center gap-4">
       <a href="<%= discogs_release.discogs_url %>"
          target="_blank"
          rel="noopener noreferrer"
@@ -103,11 +103,24 @@
             alt: "Discogs",
             class: "w-3.5 h-3.5",
             loading: "lazy" %>
-        View full details on Discogs
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        View this release
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
         </svg>
       </a>
+      <% if discogs_release.master_url.present? %>
+        <span class="text-olive-300">·</span>
+        <a href="<%= discogs_release.master_url %>"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="text-sm text-olive-600 hover:text-olive-700 transition-colors inline-flex items-center gap-1.5"
+           title="View all pressings of this album on Discogs">
+          View all pressings
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+          </svg>
+        </a>
+      <% end %>
     </div>
   </div>
 </div>
