@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Service for matching RecordTemple records to Discogs releases.
-# Uses weighted confidence scoring based on artist, label, year, format, and price.
+# Uses weighted confidence scoring based on artist, title, label, year, format, and price.
 #
 # Usage:
 #   service = DiscogsMatchingService.new(record)
@@ -10,18 +10,20 @@
 #   service.link!(discogs_release, confidence: 95, method: :manual)  # Manual link
 #
 # Confidence Scoring:
-#   - Artist similarity: 30%
-#   - Label similarity: 25%
-#   - Year match: 20%
-#   - Format compatibility: 15%
+#   - Artist similarity: 25%
+#   - Title similarity: 20% (extracts from prices.detail)
+#   - Label similarity: 20%
+#   - Year match: 15%
+#   - Format compatibility: 10%
 #   - Price sanity: 10%
 #
 class DiscogsMatchingService
   WEIGHTS = {
-    artist: 0.30,
-    label: 0.25,
-    year: 0.20,
-    format: 0.15,
+    artist: 0.25,
+    title: 0.20,
+    label: 0.20,
+    year: 0.15,
+    format: 0.10,
     price: 0.10
   }.freeze
 
@@ -151,6 +153,7 @@ class DiscogsMatchingService
   def score_candidate(candidate)
     factors = {
       artist: calculate_artist_score(candidate),
+      title: calculate_title_score(candidate),
       label: calculate_label_score(candidate),
       year: calculate_year_score(candidate),
       format: calculate_format_score(candidate),
@@ -176,6 +179,20 @@ class DiscogsMatchingService
     return 0 if discogs_artist.blank?
 
     similarity(record_artist, discogs_artist)
+  end
+
+  def calculate_title_score(candidate)
+    # Extract title(s) from prices.detail (format: '7410 "One Night"' or '7410 "Song1"/"Song2"')
+    record_titles = extract_titles_from_detail(@record.price&.detail)
+    return 50 if record_titles.empty?  # Neutral if no title data
+
+    # Extract title from Discogs candidate (format: "Artist - Title")
+    discogs_title = extract_release_title_from_candidate(candidate["title"])
+    return 50 if discogs_title.blank?  # Neutral if no Discogs title
+
+    # Find best matching title (handles A-side/B-side scenarios)
+    best_match = record_titles.map { |t| similarity(normalize_name(t), discogs_title) }.max
+    best_match || 0
   end
 
   def calculate_label_score(candidate)
@@ -297,5 +314,35 @@ class DiscogsMatchingService
     # Discogs titles are formatted as "Artist - Title"
     parts = title.split(" - ", 2)
     normalize_name(parts.first)
+  end
+
+  # Extract release title from Discogs candidate title (format: "Artist - Title")
+  def extract_release_title_from_candidate(title)
+    return "" if title.blank?
+    parts = title.split(" - ", 2)
+    return "" if parts.length < 2
+    normalize_name(parts.last)
+  end
+
+  # Extract song title(s) from prices.detail
+  # Formats handled:
+  #   '7410 "One Night"'              -> ["One Night"]
+  #   '7410 "Song1"/"Song2"'          -> ["Song1", "Song2"]
+  #   '99177/99178 "Stormy"/"Let Me"' -> ["Stormy", "Let Me"]
+  #   '992 Elvis, Vol. 1'             -> ["Elvis, Vol. 1"] (no quotes = use whole thing after catalog)
+  def extract_titles_from_detail(detail)
+    return [] if detail.blank?
+
+    # Try to extract quoted titles first (most reliable)
+    quoted_titles = detail.scan(/"([^"]+)"/).flatten
+    return quoted_titles if quoted_titles.any?
+
+    # Fallback: remove catalog number prefix and use remainder
+    # Catalog numbers START with digits, optionally followed by letters/slashes
+    # Pattern: digits at start, optionally with /, letters, or hyphens, then space
+    remainder = detail.sub(/^\d[\d\/A-Za-z-]*\s+/, "").strip
+    return [] if remainder.blank? || remainder == detail
+
+    [remainder]
   end
 end

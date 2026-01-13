@@ -45,7 +45,7 @@
                   data-audio-player-target="playButton"
                   data-action="click->audio-player#play"
                   data-track-index="0"
-                  data-audio-url="<%= rails_blob_url(@record.songs.first) %>"
+                  data-song-signed-id="<%= @record.songs.first.signed_id %>"
                   class="flex items-center justify-center w-12 h-12 rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors flex-shrink-0"
                   aria-label="Play audio preview">
             <svg class="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">

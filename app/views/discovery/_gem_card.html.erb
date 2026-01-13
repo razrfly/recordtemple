@@ -52,7 +52,7 @@
                 data-audio-player-target="playButton"
                 data-action="click->audio-player#play"
                 data-track-index="0"
-                data-audio-url="<%= rails_blob_url(record.songs.first) %>"
+                data-song-signed-id="<%= record.songs.first.signed_id %>"
                 class="w-full flex items-center gap-3 text-sm text-olive-600 hover:text-olive-900 transition-colors group/play">
           <span class="flex items-center justify-center w-9 h-9 rounded-full bg-olive-100 group-hover/play:bg-olive-200 transition-colors flex-shrink-0">
             <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
