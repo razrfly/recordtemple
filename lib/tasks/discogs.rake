@@ -153,4 +153,155 @@ namespace :discogs do
       puts ""
     end
   end
+
+  desc "Show price validation status breakdown"
+  task validation_status: :environment do
+    puts "=" * 60
+    puts "Discogs Price Validation Status"
+    puts "=" * 60
+    puts ""
+
+    # Overall status breakdown
+    statuses = Record.where.not(discogs_release_id: nil)
+                     .group(:discogs_price_validation)
+                     .count
+
+    puts "Validation Status Breakdown:"
+    statuses.each do |status, count|
+      emoji = case status
+              when "verified" then "✅"
+              when "probable" then "👍"
+              when "uncertain" then "⚠️"
+              when "likely_wrong" then "❌"
+              when "guide_undervalued" then "💰"
+              else "❓"
+              end
+      puts "  #{emoji} #{status || 'unvalidated'}: #{count}"
+    end
+    puts ""
+
+    # High-value breakdown for likely_wrong
+    puts "High-Value 'likely_wrong' Records (needing fix):"
+    high_value = Record.joins(:price)
+                       .where(discogs_price_validation: "likely_wrong")
+                       .where("(prices.price_low + prices.price_high) / 2.0 >= 100")
+                       .count
+    puts "  $100+ records: #{high_value}"
+    puts ""
+  end
+
+  desc "Clear likely_wrong Discogs matches for re-matching"
+  task clear_wrong: :environment do
+    min_value = (ENV["MIN_VALUE"] || 0).to_i
+    dry_run = ENV["DRY_RUN"] == "true"
+
+    puts "=" * 60
+    puts "Clear Likely Wrong Discogs Matches"
+    puts "=" * 60
+    puts ""
+    puts "Options:"
+    puts "  Min guide value: $#{min_value}"
+    puts "  Dry run: #{dry_run}"
+    puts ""
+
+    scope = Record.where(discogs_price_validation: "likely_wrong")
+    if min_value > 0
+      scope = scope.joins(:price)
+                   .where("(prices.price_low + prices.price_high) / 2.0 >= ?", min_value)
+    end
+
+    count = scope.count
+    puts "Found #{count} 'likely_wrong' records to clear"
+
+    if count.zero?
+      puts "Nothing to do."
+      exit 0
+    end
+
+    if dry_run
+      puts ""
+      puts "Sample records that would be cleared:"
+      scope.includes(:price, :discogs_release).limit(10).each do |record|
+        guide_mid = record.price ? (record.price.price_low.to_f + record.price.price_high.to_f) / 2 : 0
+        puts "  ##{record.id}: #{record.cached_artist} - #{record.price&.detail}"
+        puts "    Guide: $#{guide_mid.round(0)} → Discogs: $#{record.discogs_release&.lowest_price}"
+        puts "    Matched to: #{record.discogs_release&.title}"
+      end
+      puts ""
+      puts "Run without DRY_RUN=true to actually clear these matches."
+    else
+      unless ENV["CONFIRM"] == "yes"
+        puts ""
+        puts "This will clear #{count} Discogs matches."
+        puts "Run with CONFIRM=yes to proceed."
+        exit 1
+      end
+
+      puts "Clearing #{count} matches..."
+      cleared = scope.update_all(
+        discogs_release_id: nil,
+        discogs_confidence: nil,
+        discogs_match_method: nil,
+        discogs_matched_at: nil,
+        discogs_price_validation: nil
+      )
+      puts "Cleared #{cleared} records"
+      puts ""
+      puts "Run 'bin/rails discogs:match' to re-match these records."
+    end
+  end
+
+  desc "Show comparison: Price Guide vs Discogs for validated matches"
+  task compare_prices: :environment do
+    puts "=" * 60
+    puts "Price Guide vs Discogs Comparison (Verified Matches)"
+    puts "=" * 60
+    puts ""
+
+    # Get verified and probable matches with prices
+    records = Record.joins(:price, :discogs_release)
+                    .where(discogs_price_validation: %w[verified probable])
+                    .where.not("discogs_releases.lowest_price" => nil)
+                    .select(
+                      "records.id",
+                      "records.cached_artist",
+                      "prices.detail as price_detail",
+                      "(prices.price_low + prices.price_high) / 2.0 as guide_mid",
+                      "discogs_releases.lowest_price as discogs_price",
+                      "discogs_releases.title as discogs_title"
+                    )
+                    .order("guide_mid DESC")
+                    .limit(20)
+
+    puts "Top 20 Verified Matches (sorted by guide value):"
+    puts ""
+    records.each do |r|
+      ratio = (r.discogs_price.to_f / r.guide_mid.to_f * 100).round(0)
+      indicator = case ratio
+                  when 80..120 then "✅"
+                  when 50..80 then "⬇️"
+                  when 120..150 then "⬆️"
+                  else "❓"
+                  end
+      puts "#{indicator} #{r.cached_artist}: #{r.price_detail}"
+      puts "   Guide: $#{r.guide_mid.round(0)} → Discogs: $#{r.discogs_price} (#{ratio}%)"
+      puts ""
+    end
+
+    # Summary stats
+    stats = Record.joins(:price, :discogs_release)
+                  .where(discogs_price_validation: %w[verified probable])
+                  .where.not("discogs_releases.lowest_price" => nil)
+
+    total_guide = stats.sum("(prices.price_low + prices.price_high) / 2.0")
+    total_discogs = stats.sum("discogs_releases.lowest_price")
+    count = stats.count
+
+    puts "=" * 60
+    puts "Summary for #{count} Verified/Probable Matches:"
+    puts "  Total Guide Value: $#{total_guide.round(0)}"
+    puts "  Total Discogs Value: $#{total_discogs.round(0)}"
+    puts "  Ratio: #{(total_discogs.to_f / total_guide * 100).round(1)}%"
+    puts ""
+  end
 end

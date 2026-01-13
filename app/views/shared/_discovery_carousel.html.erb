@@ -14,12 +14,14 @@
      - recent_label: Custom label for recent tab (default: "Recently Added")
      - hidden_gem_label: Custom label for hidden gems tab (default: "Hidden Gems")
      - preloaded_covers: Hash of entity_id => [covers] for N+1 optimization
+     - show_collage: Boolean, whether to show 2x2 collage instead of single cover
 %>
 
 <% popular_label ||= "Most Collected" %>
 <% recent_label ||= "Recently Added" %>
 <% hidden_gem_label ||= "Hidden Gems" %>
 <% preloaded_covers ||= nil %>
+<% show_collage ||= false %>
 
 <%# Determine first available tab dynamically %>
 <% default_tab = popular_items.any? ? "popular" : (recent_items.any? ? "recent" : "gems") %>
@@ -127,7 +129,8 @@
                   type: type,
                   user_id: user_id,
                   featured: true,
-                  preloaded_covers: preloaded_covers %>
+                  preloaded_covers: preloaded_covers,
+                  show_collage: show_collage %>
             </div>
           <% end %>
         </div>
@@ -177,7 +180,8 @@
                   path: item_path_helper.call(item),
                   type: type,
                   user_id: user_id,
-                  preloaded_covers: preloaded_covers %>
+                  preloaded_covers: preloaded_covers,
+                  show_collage: show_collage %>
             </div>
           <% end %>
         </div>
@@ -226,7 +230,8 @@
                   path: item_path_helper.call(item),
                   type: type,
                   user_id: user_id,
-                  preloaded_covers: preloaded_covers %>
+                  preloaded_covers: preloaded_covers,
+                  show_collage: show_collage %>
             </div>
           <% end %>
         </div>
