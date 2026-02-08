@@ -35,13 +35,28 @@ class DiscogsApiClient
 
   # Search for releases matching criteria
   # Returns hash with :pagination and :results keys
-  def search(artist: nil, label: nil, year: nil, catno: nil, barcode: nil, per_page: 10, page: 1)
+  #
+  # Parameters:
+  #   artist: Artist name
+  #   label: Record label name
+  #   year: Release year
+  #   catno: Catalog number (e.g., "7410", "47-7410")
+  #   barcode: Barcode number
+  #   track: Track/song title (searches within tracklist)
+  #   release_title: Release/album title
+  #   query: Free-form search query
+  #
+  def search(artist: nil, label: nil, year: nil, catno: nil, barcode: nil,
+             track: nil, release_title: nil, query: nil, per_page: 10, page: 1)
     params = { per_page: per_page, page: page, type: "release" }
     params[:artist] = artist if artist.present?
     params[:label] = label if label.present?
     params[:year] = year if year.present?
     params[:catno] = catno if catno.present?
     params[:barcode] = barcode if barcode.present?
+    params[:track] = track if track.present?
+    params[:release_title] = release_title if release_title.present?
+    params[:q] = query if query.present?
 
     get("/database/search", params)
   end

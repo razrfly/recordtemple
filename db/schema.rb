@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_13_151912) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_08_193155) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
@@ -182,6 +182,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_13_151912) do
     t.datetime "discogs_matched_at"
     t.string "discogs_price_validation"
     t.bigint "discogs_release_id"
+    t.string "discogs_skip_reason"
+    t.boolean "discogs_skip_review"
     t.integer "genre_id"
     t.integer "identifier_id"
     t.integer "images_count", default: 0, null: false

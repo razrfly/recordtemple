@@ -1,0 +1,126 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="mb-8">
+      <h1 class="text-2xl font-bold text-gray-900">Discogs Review Queue</h1>
+      <p class="mt-1 text-sm text-gray-500">
+        Manually link high-value records to Discogs releases
+      </p>
+    </div>
+
+    <%# Stats cards %>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="text-sm font-medium text-gray-500">High Value ($100+)</div>
+        <div class="mt-1 text-2xl font-semibold text-red-600"><%= @stats[:high_value] %></div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="text-sm font-medium text-gray-500">Medium Value ($25-99)</div>
+        <div class="mt-1 text-2xl font-semibold text-amber-600"><%= @stats[:medium_value] %></div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="text-sm font-medium text-gray-500">Skipped</div>
+        <div class="mt-1 text-2xl font-semibold text-gray-400"><%= @stats[:skipped] %></div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="text-sm font-medium text-gray-500">Current Queue</div>
+        <div class="mt-1 text-2xl font-semibold text-teal-600"><%= @stats[:total] %></div>
+      </div>
+    </div>
+
+    <%# Scope tabs %>
+    <div class="border-b border-gray-200 mb-6">
+      <nav class="-mb-px flex space-x-8">
+        <%= link_to "High Value ($100+)",
+            admin_discogs_review_index_path(scope: "high_value"),
+            class: "#{@scope == 'high_value' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" %>
+        <%= link_to "Medium Value ($25-99)",
+            admin_discogs_review_index_path(scope: "medium_value"),
+            class: "#{@scope == 'medium_value' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" %>
+        <%= link_to "Skipped",
+            admin_discogs_review_index_path(scope: "skipped"),
+            class: "#{@scope == 'skipped' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" %>
+      </nav>
+    </div>
+
+    <%# Records table %>
+    <div class="bg-white shadow rounded-lg overflow-hidden">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Record</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Artist</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Label</th>
+            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Format</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+            <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <% @records.each do |record| %>
+            <tr class="hover:bg-gray-50">
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <% if record.photos.attached? %>
+                    <%= image_tag record.photos.first.variant(resize_to_fill: [48, 48]),
+                        class: "h-12 w-12 rounded object-cover mr-3",
+                        loading: "lazy" %>
+                  <% else %>
+                    <div class="h-12 w-12 rounded bg-gray-200 mr-3 flex items-center justify-center">
+                      <svg class="h-6 w-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                      </svg>
+                    </div>
+                  <% end %>
+                  <div>
+                    <div class="text-sm font-medium text-gray-900"><%= record.title %></div>
+                    <div class="text-xs text-gray-500">ID: <%= record.id %></div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= record.artist&.name || "—" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= record.label&.name || "—" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <%= record.format || "—" %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
+                <% if record.price %>
+                  <span class="font-medium text-gray-900">
+                    $<%= number_with_precision(record.price.price_high, precision: 0) %>
+                  </span>
+                <% else %>
+                  <span class="text-gray-400">—</span>
+                <% end %>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                <%= link_to "Review",
+                    admin_discogs_review_path(record),
+                    class: "text-teal-600 hover:text-teal-900" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <% if @records.empty? %>
+        <div class="text-center py-12">
+          <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <h3 class="mt-2 text-sm font-medium text-gray-900">No records to review</h3>
+          <p class="mt-1 text-sm text-gray-500">All records in this queue have been processed.</p>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Pagination %>
+    <% if @records.respond_to?(:total_pages) && @records.total_pages > 1 %>
+      <div class="mt-6 flex justify-center">
+        <%= paginate @records, theme: 'tailwind' %>
+      </div>
+    <% end %>
+  </div>
+</div>
