@@ -8,11 +8,13 @@ module Admin
     # GET /admin/discogs_review
     def index
       @scope = params[:scope] || "high_value"
-      @records = review_queue_scope
-        .includes(:artist, :label, :price, :discogs_release)
+
+      # Cache the scope to avoid duplicate queries
+      base_scope = review_queue_scope
+        .includes(:artist, :label, :price, :discogs_release, images_attachments: :blob)
         .order("prices.price_high DESC NULLS LAST")
-        .page(params[:page])
-        .per(25)
+
+      @pagy, @records = pagy(base_scope, items: 25)
 
       @stats = {
         total: review_queue_scope.count,
@@ -33,13 +35,15 @@ module Admin
 
       begin
         client = DiscogsApiClient.new
-        @candidates = client.search(
+        response = client.search(
           query: query,
           type: "release",
           per_page: 10
         )
+        @candidates = response["results"] || []
       rescue => e
-        flash.now[:alert] = "Search failed: #{e.message}"
+        Rails.logger.error("Discogs search failed: #{e.class} - #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
+        flash.now[:alert] = "Search failed, please try again."
         @candidates = []
       end
 
@@ -67,15 +71,25 @@ module Admin
         redirect_to admin_discogs_review_index_path,
           notice: "Linked '#{@record.title}' to Discogs ##{discogs_id}"
       rescue => e
-        redirect_with_error("Link failed: #{e.message}")
+        Rails.logger.error("Discogs link failed: #{e.class} - #{e.message}")
+        redirect_with_error("Link failed, please try again.")
       end
     end
 
     # POST /admin/discogs_review/:id/skip
     def skip
-      @record.update!(discogs_skip_review: true, discogs_skip_reason: params[:reason])
-      redirect_to admin_discogs_review_index_path,
-        notice: "Marked '#{@record.title}' as skipped"
+      if @record.update(discogs_skip_review: true, discogs_skip_reason: params[:reason])
+        redirect_to admin_discogs_review_index_path,
+          notice: "Marked '#{@record.title}' as skipped"
+      else
+        Rails.logger.error("Skip failed for record #{@record.id}: #{@record.errors.full_messages.join(', ')}")
+        redirect_to admin_discogs_review_path(@record),
+          alert: "Could not skip record, please try again."
+      end
+    rescue => e
+      Rails.logger.error("Skip failed: #{e.class} - #{e.message}")
+      redirect_to admin_discogs_review_path(@record),
+        alert: "Could not skip record, please try again."
     end
 
     private
@@ -107,18 +121,20 @@ module Admin
       Record.joins(:price)
         .where(discogs_release_id: nil)
         .where("prices.price_high >= ?", 100)
-        .where(discogs_skip_review: [nil, false])
+        .where(discogs_skip_review: false)
     end
 
     def unmatched_medium_value
       Record.joins(:price)
         .where(discogs_release_id: nil)
         .where("prices.price_high >= ? AND prices.price_high < ?", 25, 100)
-        .where(discogs_skip_review: [nil, false])
+        .where(discogs_skip_review: false)
     end
 
     def skipped_records
-      Record.where(discogs_skip_review: true)
+      # Use left_outer_joins so prices.price_high is available for ordering even when nil
+      Record.left_outer_joins(:price)
+        .where(discogs_skip_review: true)
     end
 
     def build_search_query(record)
