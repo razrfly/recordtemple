@@ -4,6 +4,17 @@ require 'sidekiq/web'
 Rails.application.routes.draw do
   # mount Avo::Engine, at: Avo.configuration.root_path, constraints: AdminConstraint.new  # Disabled - planned for removal
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
+
+  # Admin area
+  namespace :admin, constraints: AdminConstraint.new do
+    resources :discogs_review, only: [:index, :show] do
+      member do
+        post :search
+        post :link
+        post :skip
+      end
+    end
+  end
   passwordless_for :users
 
   # Dev-only auto-login bypass

@@ -27,10 +27,31 @@ class DiscogsMatchingService
     price: 0.10
   }.freeze
 
+  # Default thresholds for standard records
   THRESHOLDS = {
     auto_high: 85,    # Auto-link with high confidence
-    auto_low: 60,     # Auto-link with lower confidence (lowered from 70 based on Phase 1C research)
+    auto_low: 60,     # Auto-link with lower confidence
     minimum: 50       # Below this, don't create a match
+  }.freeze
+
+  # Tiered thresholds based on record value (Phase 3)
+  # Higher value = stricter thresholds to prevent erroneous data
+  TIERED_THRESHOLDS = {
+    high_value: {     # $100+ records - quality over quantity
+      auto_high: 92,
+      auto_low: 80,
+      minimum: 70
+    },
+    medium_value: {   # $25-99 records - balanced approach
+      auto_high: 85,
+      auto_low: 65,
+      minimum: 55
+    },
+    standard: {       # <$25 records - coverage acceptable
+      auto_high: 85,
+      auto_low: 60,
+      minimum: 50
+    }
   }.freeze
 
   # Format mapping from RecordTemple to Discogs
@@ -65,10 +86,12 @@ class DiscogsMatchingService
     search_results = search_discogs
     return [] if search_results.empty?
 
+    thresholds = thresholds_for_record
+
     search_results
       .first(limit * 2)  # Get extra to filter
       .map { |result| score_candidate(result) }
-      .select { |scored| scored[:score] >= THRESHOLDS[:minimum] }
+      .select { |scored| scored[:score] >= thresholds[:minimum] }
       .sort_by { |scored| -scored[:score] }
       .first(limit)
   end
@@ -85,20 +108,38 @@ class DiscogsMatchingService
     candidates ||= find_candidates(limit: 3)
     return nil if candidates.empty?
 
+    thresholds = thresholds_for_record
     best = candidates.first
-    return nil if best[:score] < THRESHOLDS[:auto_low]
+    return nil if best[:score] < thresholds[:auto_low]
 
     # Get or create the DiscogsRelease
     discogs_release = @release_service.find_or_fetch_from_search_result(
       best[:candidate],
-      fetch_full: best[:score] >= THRESHOLDS[:auto_high]
+      fetch_full: best[:score] >= thresholds[:auto_high]
     )
     return nil unless discogs_release
 
-    method = best[:score] >= THRESHOLDS[:auto_high] ? "auto_high" : "auto_low"
+    method = best[:score] >= thresholds[:auto_high] ? "auto_high" : "auto_low"
     link!(discogs_release, confidence: best[:score], method: method)
 
     discogs_release
+  end
+
+  # Determine value tier for threshold selection
+  def value_tier
+    price_high = @record.price&.price_high.to_f
+    if price_high >= 100
+      :high_value
+    elsif price_high >= 25
+      :medium_value
+    else
+      :standard
+    end
+  end
+
+  # Get thresholds based on record value
+  def thresholds_for_record
+    TIERED_THRESHOLDS[value_tier]
   end
 
   # Manually link a record to a DiscogsRelease
@@ -123,6 +164,12 @@ class DiscogsMatchingService
 
   private
 
+  # Cascading search strategy for better match accuracy:
+  # 1. artist + track (song title) + label - most likely to find correct single
+  # 2. artist + catno (catalog number) + label - very specific
+  # 3. artist + label + year - original approach
+  # 4. artist + label - without year (year might be off)
+  # 5. artist only - broadest fallback
   def search_discogs
     artist = @record.artist&.name || @record.cached_artist
     label = @record.label&.name || @record.cached_label
@@ -131,15 +178,43 @@ class DiscogsMatchingService
 
     return [] if artist.blank?
 
-    # Try most specific search first
+    # Extract song title and catalog number from prices.detail
+    song_titles = extract_titles_from_detail(@record.price&.detail)
+    catalog_number = extract_catalog_number(@record.price&.detail)
+
+    # Strategy 1: Search with track (song title) - best for singles
+    if song_titles.any?
+      song_titles.each do |title|
+        results = @api.search(artist: artist, track: title, label: label, per_page: 10)
+        return results["results"] if results["results"].any?
+      end
+
+      # Try without label (label name might differ)
+      song_titles.each do |title|
+        results = @api.search(artist: artist, track: title, per_page: 10)
+        return results["results"] if results["results"].any?
+      end
+    end
+
+    # Strategy 2: Search with catalog number
+    if catalog_number.present?
+      results = @api.search(artist: artist, catno: catalog_number, label: label, per_page: 10)
+      return results["results"] if results["results"].any?
+
+      # Try catno without label
+      results = @api.search(artist: artist, catno: catalog_number, per_page: 10)
+      return results["results"] if results["results"].any?
+    end
+
+    # Strategy 3: Original approach - artist + label + year
     results = @api.search(artist: artist, label: label, year: year, per_page: 10)
     return results["results"] if results["results"].any?
 
-    # Try without year (year might be off)
+    # Strategy 4: Try without year (year might be off)
     results = @api.search(artist: artist, label: label, per_page: 10)
     return results["results"] if results["results"].any?
 
-    # Try just artist + year
+    # Strategy 5: Try just artist + year
     if year
       results = @api.search(artist: artist, year: year, per_page: 10)
       return results["results"] if results["results"].any?
@@ -148,6 +223,20 @@ class DiscogsMatchingService
     # Fallback to just artist
     results = @api.search(artist: artist, per_page: 10)
     results["results"] || []
+  end
+
+  # Extract catalog number from prices.detail
+  # Formats handled:
+  #   "7410 One Night"     -> "7410"
+  #   "47-7410 One Night"  -> "47-7410"
+  #   "99177/99178 Stormy" -> "99177"
+  def extract_catalog_number(detail)
+    return nil if detail.blank?
+
+    # Match catalog number at start: digits, optionally with prefix/suffix
+    # Pattern: optional prefix (letters+hyphen), digits, optional suffix (hyphen+digits or slash+digits)
+    match = detail.match(/^([A-Za-z]*-?\d+(?:[-\/]\d+)?)\s/)
+    match ? match[1] : nil
   end
 
   def score_candidate(candidate)
