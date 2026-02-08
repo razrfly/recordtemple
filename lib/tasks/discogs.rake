@@ -190,6 +190,56 @@ namespace :discogs do
     puts ""
   end
 
+  desc "Populate price validation status for all matched records"
+  task populate_validation: :environment do
+    puts "=" * 60
+    puts "Populating Discogs Price Validation Status"
+    puts "=" * 60
+    puts ""
+
+    # Get all matched records with price and discogs data
+    matched_records = Record.joins(:discogs_release)
+                            .where.not(discogs_release_id: nil)
+                            .includes(:price, :discogs_release)
+
+    total = matched_records.count
+    puts "Processing #{total} matched records..."
+    puts ""
+
+    counts = Hash.new(0)
+    processed = 0
+
+    matched_records.find_each do |record|
+      validation = calculate_validation_status(record)
+      record.update_column(:discogs_price_validation, validation)
+      counts[validation] += 1
+      processed += 1
+
+      if (processed % 1000).zero?
+        puts "  Processed #{processed}/#{total}..."
+      end
+    end
+
+    puts ""
+    puts "=" * 60
+    puts "Results:"
+    counts.sort_by { |_, v| -v }.each do |status, count|
+      emoji = case status
+              when "verified" then "✅"
+              when "probable" then "👍"
+              when "uncertain" then "⚠️"
+              when "likely_wrong" then "❌"
+              when "guide_undervalued" then "💰"
+              when "no_price" then "❓"
+              else "❓"
+              end
+      puts "  #{emoji} #{status}: #{count}"
+    end
+    puts ""
+    puts "Total processed: #{processed}"
+    puts ""
+  end
+
   desc "Clear likely_wrong Discogs matches for re-matching"
   task clear_wrong: :environment do
     min_value = (ENV["MIN_VALUE"] || 0).to_i
@@ -310,5 +360,44 @@ namespace :discogs do
     ratio_display = total_guide.to_f.zero? ? "N/A" : "#{(total_discogs.to_f / total_guide * 100).round(1)}%"
     puts "  Ratio: #{ratio_display}"
     puts ""
+  end
+
+  # Helper method to calculate validation status for a record
+  # Compares Discogs lowest_price against price guide midpoint
+  def calculate_validation_status(record)
+    price = record.price
+    discogs_release = record.discogs_release
+
+    # No price guide data
+    return "no_price" if price.nil?
+
+    guide_low = price.price_low.to_f
+    guide_high = price.price_high.to_f
+    guide_mid = (guide_low + guide_high) / 2.0
+
+    # No meaningful guide price
+    return "no_price" if guide_mid <= 0
+
+    discogs_price = discogs_release&.lowest_price.to_f
+
+    # No Discogs price available - can't validate
+    return "uncertain" if discogs_price <= 0
+
+    # Calculate ratio: Discogs price as percentage of guide midpoint
+    ratio = (discogs_price / guide_mid) * 100
+
+    # Categorize based on ratio
+    case ratio
+    when 70..130
+      "verified"        # Within 30% of guide - strong match
+    when 50...70, 130..150
+      "probable"        # Within 50% of guide - likely correct
+    when 30...50, 150..200
+      "uncertain"       # Significant difference - needs review
+    when 200..Float::INFINITY
+      "guide_undervalued"  # Discogs much higher - guide may be outdated
+    else
+      "likely_wrong"    # <30% ratio - probably wrong match
+    end
   end
 end
