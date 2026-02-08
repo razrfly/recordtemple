@@ -60,8 +60,8 @@
             <tr class="hover:bg-gray-50">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
-                  <% if record.photos.attached? %>
-                    <%= image_tag record.photos.first.variant(resize_to_fill: [48, 48]),
+                  <% if record.images.attached? %>
+                    <%= image_tag record.images.first.variant(resize_to_fill: [48, 48]),
                         class: "h-12 w-12 rounded object-cover mr-3",
                         loading: "lazy" %>
                   <% else %>
@@ -84,7 +84,7 @@
                 <%= record.label&.name || "—" %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <%= record.format || "—" %>
+                <%= record.record_format_name.presence || "—" %>
               </td>
               <td class="px-6 py-4 whitespace-nowrap text-sm text-right">
                 <% if record.price %>
@@ -117,9 +117,9 @@
     </div>
 
     <%# Pagination %>
-    <% if @records.respond_to?(:total_pages) && @records.total_pages > 1 %>
+    <% if @pagy.pages > 1 %>
       <div class="mt-6 flex justify-center">
-        <%= paginate @records, theme: 'tailwind' %>
+        <%== pagy_nav(@pagy) %>
       </div>
     <% end %>
   </div>

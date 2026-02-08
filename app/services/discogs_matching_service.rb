@@ -227,9 +227,10 @@ class DiscogsMatchingService
 
   # Extract catalog number from prices.detail
   # Formats handled:
-  #   "7410 One Night"     -> "7410"
-  #   "47-7410 One Night"  -> "47-7410"
-  #   "99177/99178 Stormy" -> "99177"
+  #   "7410 One Night"      -> "7410"
+  #   "47-7410 One Night"   -> "47-7410"
+  #   "99177/99178 Stormy"  -> "99177/99178" (captures full catalog with suffixes)
+  #   "ABC-123-45 Title"    -> "ABC-123-45"
   def extract_catalog_number(detail)
     return nil if detail.blank?
 

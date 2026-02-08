@@ -45,10 +45,11 @@ class DiscogsApiClient
   #   track: Track/song title (searches within tracklist)
   #   release_title: Release/album title
   #   query: Free-form search query
+  #   type: Search type (default: "release", also: "master", "artist", "label")
   #
   def search(artist: nil, label: nil, year: nil, catno: nil, barcode: nil,
-             track: nil, release_title: nil, query: nil, per_page: 10, page: 1)
-    params = { per_page: per_page, page: page, type: "release" }
+             track: nil, release_title: nil, query: nil, type: "release", per_page: 10, page: 1)
+    params = { per_page: per_page, page: page, type: type }
     params[:artist] = artist if artist.present?
     params[:label] = label if label.present?
     params[:year] = year if year.present?

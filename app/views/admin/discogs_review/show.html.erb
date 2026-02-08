@@ -29,8 +29,8 @@
         </div>
         <div class="p-6">
           <div class="flex items-start space-x-4">
-            <% if @record.photos.attached? %>
-              <%= image_tag @record.photos.first.variant(resize_to_fill: [150, 150]),
+            <% if @record.images.attached? %>
+              <%= image_tag @record.images.first.variant(resize_to_fill: [150, 150]),
                   class: "h-36 w-36 rounded object-cover",
                   loading: "lazy" %>
             <% else %>
@@ -51,15 +51,15 @@
                 </div>
                 <div class="flex">
                   <dt class="w-24 text-gray-500">Catalog #:</dt>
-                  <dd class="text-gray-900"><%= @record.catalog_number.presence || "—" %></dd>
+                  <dd class="text-gray-900"><%= @record.discogs_release&.catno.presence || @record.price&.detail&.split&.first.presence || "—" %></dd>
                 </div>
                 <div class="flex">
                   <dt class="w-24 text-gray-500">Format:</dt>
-                  <dd class="text-gray-900"><%= @record.format || "—" %></dd>
+                  <dd class="text-gray-900"><%= @record.record_format_name.presence || "—" %></dd>
                 </div>
                 <div class="flex">
                   <dt class="w-24 text-gray-500">Year:</dt>
-                  <dd class="text-gray-900"><%= @record.year.presence || "—" %></dd>
+                  <dd class="text-gray-900"><%= @record.yearbegin.presence || "—" %></dd>
                 </div>
                 <div class="flex">
                   <dt class="w-24 text-gray-500">Price:</dt>
@@ -79,9 +79,9 @@
           <% if @record.songs.any? %>
             <div class="mt-6 pt-6 border-t border-gray-200">
               <h4 class="text-sm font-medium text-gray-900 mb-2">Tracklist</h4>
-              <ol class="text-sm text-gray-600 space-y-1">
-                <% @record.songs.order(:position).each do |song| %>
-                  <li><%= song.position %>. <%= song.title %></li>
+              <ol class="text-sm text-gray-600 space-y-1 list-decimal list-inside">
+                <% @record.songs.order(:id).each do |song| %>
+                  <li><%= song.title %></li>
                 <% end %>
               </ol>
             </div>
