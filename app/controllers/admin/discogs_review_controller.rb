@@ -2,6 +2,8 @@
 
 module Admin
   class DiscogsReviewController < ApplicationController
+    COLLECTION_USER_ID = 1
+
     before_action :require_admin
     before_action :set_record, only: [:show, :search, :link, :skip]
 
@@ -101,7 +103,7 @@ module Admin
     end
 
     def set_record
-      @record = Record.find(params[:id])
+      @record = Record.where(user_id: COLLECTION_USER_ID).find(params[:id])
     end
 
     def review_queue_scope
@@ -119,6 +121,7 @@ module Admin
 
     def unmatched_high_value
       Record.joins(:price)
+        .where(user_id: COLLECTION_USER_ID)
         .where(discogs_release_id: nil)
         .where("prices.price_high >= ?", 100)
         .where(discogs_skip_review: false)
@@ -126,6 +129,7 @@ module Admin
 
     def unmatched_medium_value
       Record.joins(:price)
+        .where(user_id: COLLECTION_USER_ID)
         .where(discogs_release_id: nil)
         .where("prices.price_high >= ? AND prices.price_high < ?", 25, 100)
         .where(discogs_skip_review: false)
@@ -134,6 +138,7 @@ module Admin
     def skipped_records
       # Use left_outer_joins so prices.price_high is available for ordering even when nil
       Record.left_outer_joins(:price)
+        .where(user_id: COLLECTION_USER_ID)
         .where(discogs_skip_review: true)
     end
 

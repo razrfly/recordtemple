@@ -1,202 +1,205 @@
-<div class="min-h-screen bg-gray-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <%# Back link %>
-    <div class="mb-6">
-      <%= link_to "← Back to Queue", admin_discogs_review_index_path, class: "text-sm text-gray-500 hover:text-gray-700" %>
+<div class="mx-auto max-w-2xl px-6 py-12 md:max-w-3xl lg:max-w-7xl lg:px-10">
+  <%# Back link %>
+  <div class="mb-6">
+    <%= link_to admin_discogs_review_index_path, class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
+      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back to Queue
+    <% end %>
+  </div>
+
+  <%# Flash messages %>
+  <% if flash[:alert] %>
+    <div class="mb-6 rounded-xl bg-red-50 p-4 ring-1 ring-red-200">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <p class="text-sm font-medium text-red-800"><%= flash[:alert] %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <%# Left: Record details %>
+    <div class="bg-white shadow-sm rounded-xl ring-1 ring-olive-900/5 overflow-hidden">
+      <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
+        <h2 class="font-display text-lg font-medium text-olive-950">Record Details</h2>
+      </div>
+      <div class="p-6">
+        <div class="flex items-start space-x-4">
+          <% if @record.images.attached? %>
+            <%= image_tag @record.images.first.variant(resize_to_fill: [150, 150]),
+                class: "h-36 w-36 rounded-xl object-cover ring-1 ring-olive-900/10",
+                loading: "lazy" %>
+          <% else %>
+            <div class="h-36 w-36 rounded-xl bg-olive-100 flex items-center justify-center ring-1 ring-olive-900/10">
+              <svg class="h-12 w-12 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+              </svg>
+            </div>
+          <% end %>
+          <div class="flex-1">
+            <h3 class="font-display text-xl font-bold text-olive-950"><%= @record.title %></h3>
+            <p class="text-olive-600"><%= @record.artist&.name %></p>
+
+            <dl class="mt-4 space-y-2 text-sm">
+              <div class="flex">
+                <dt class="w-24 text-olive-500">Label:</dt>
+                <dd class="text-olive-950"><%= @record.label&.name || "—" %></dd>
+              </div>
+              <div class="flex">
+                <dt class="w-24 text-olive-500">Catalog #:</dt>
+                <dd class="text-olive-950"><%= @record.discogs_release&.catno.presence || @record.price&.detail&.split&.first.presence || "—" %></dd>
+              </div>
+              <div class="flex">
+                <dt class="w-24 text-olive-500">Format:</dt>
+                <dd class="text-olive-950"><%= @record.record_format_name.presence || "—" %></dd>
+              </div>
+              <div class="flex">
+                <dt class="w-24 text-olive-500">Year:</dt>
+                <dd class="text-olive-950"><%= @record.yearbegin.presence || "—" %></dd>
+              </div>
+              <div class="flex">
+                <dt class="w-24 text-olive-500">Price:</dt>
+                <dd class="text-olive-950 font-medium">
+                  <% if @record.price %>
+                    $<%= number_with_precision(@record.price.price_high, precision: 0) %>
+                  <% else %>
+                    —
+                  <% end %>
+                </dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+
+        <%# Tracklist if available %>
+        <% if @record.songs.any? %>
+          <div class="mt-6 pt-6 border-t border-olive-200">
+            <h4 class="text-sm font-medium text-olive-950 mb-2">Tracklist</h4>
+            <ol class="text-sm text-olive-600 space-y-1 list-decimal list-inside">
+              <% @record.songs.order(:id).each do |song| %>
+                <li><%= song.title %></li>
+              <% end %>
+            </ol>
+          </div>
+        <% end %>
+
+        <%# Skip button %>
+        <div class="mt-6 pt-6 border-t border-olive-200">
+          <%= form_with url: skip_admin_discogs_review_path(@record), method: :post, local: true, class: "flex items-center space-x-2" do |f| %>
+            <%= f.select :reason,
+                [["No match found", "no_match"], ["Not on Discogs", "not_on_discogs"], ["Compilation/Various", "compilation"], ["Other", "other"]],
+                {},
+                class: "block w-48 rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+            <%= f.submit "Skip This Record",
+                class: "inline-flex items-center px-3 py-2 border border-olive-300 shadow-sm text-sm font-medium rounded-xl text-olive-700 bg-white hover:bg-olive-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
+          <% end %>
+        </div>
+      </div>
     </div>
 
-    <%# Flash messages %>
-    <% if flash[:alert] %>
-      <div class="mb-6 rounded-md bg-red-50 p-4">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
-            </svg>
-          </div>
-          <div class="ml-3">
-            <p class="text-sm font-medium text-red-800"><%= flash[:alert] %></p>
-          </div>
-        </div>
+    <%# Right: Discogs search %>
+    <div class="bg-white shadow-sm rounded-xl ring-1 ring-olive-900/5 overflow-hidden">
+      <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
+        <h2 class="font-display text-lg font-medium text-olive-950">Search Discogs</h2>
       </div>
-    <% end %>
+      <div class="p-6">
+        <%# Search form %>
+        <%= form_with url: search_admin_discogs_review_path(@record), method: :post, local: true, class: "mb-6" do |f| %>
+          <div class="flex space-x-2">
+            <%= f.text_field :query,
+                value: params[:query] || "#{@record.artist&.name} - #{@record.title}",
+                placeholder: "Search Discogs...",
+                class: "flex-1 block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+            <%= f.submit "Search",
+                class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
+          </div>
+        <% end %>
 
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <%# Left: Record details %>
-      <div class="bg-white shadow rounded-lg overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">Record Details</h2>
-        </div>
-        <div class="p-6">
-          <div class="flex items-start space-x-4">
-            <% if @record.images.attached? %>
-              <%= image_tag @record.images.first.variant(resize_to_fill: [150, 150]),
-                  class: "h-36 w-36 rounded object-cover",
-                  loading: "lazy" %>
-            <% else %>
-              <div class="h-36 w-36 rounded bg-gray-200 flex items-center justify-center">
-                <svg class="h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-                </svg>
-              </div>
-            <% end %>
-            <div class="flex-1">
-              <h3 class="text-xl font-bold text-gray-900"><%= @record.title %></h3>
-              <p class="text-gray-600"><%= @record.artist&.name %></p>
-
-              <dl class="mt-4 space-y-2 text-sm">
-                <div class="flex">
-                  <dt class="w-24 text-gray-500">Label:</dt>
-                  <dd class="text-gray-900"><%= @record.label&.name || "—" %></dd>
-                </div>
-                <div class="flex">
-                  <dt class="w-24 text-gray-500">Catalog #:</dt>
-                  <dd class="text-gray-900"><%= @record.discogs_release&.catno.presence || @record.price&.detail&.split&.first.presence || "—" %></dd>
-                </div>
-                <div class="flex">
-                  <dt class="w-24 text-gray-500">Format:</dt>
-                  <dd class="text-gray-900"><%= @record.record_format_name.presence || "—" %></dd>
-                </div>
-                <div class="flex">
-                  <dt class="w-24 text-gray-500">Year:</dt>
-                  <dd class="text-gray-900"><%= @record.yearbegin.presence || "—" %></dd>
-                </div>
-                <div class="flex">
-                  <dt class="w-24 text-gray-500">Price:</dt>
-                  <dd class="text-gray-900 font-medium">
-                    <% if @record.price %>
-                      $<%= number_with_precision(@record.price.price_high, precision: 0) %>
+        <%# Search results %>
+        <% if @candidates.present? %>
+          <div class="space-y-4">
+            <% @candidates.each do |candidate| %>
+              <div class="border border-olive-200 rounded-xl p-4 hover:border-olive-400 hover:bg-olive-50/50 transition-colors">
+                <div class="flex items-start justify-between">
+                  <div class="flex items-start space-x-3">
+                    <% if candidate["thumb"].present? %>
+                      <%= image_tag candidate["thumb"],
+                          class: "h-16 w-16 rounded-lg object-cover ring-1 ring-olive-900/10",
+                          loading: "lazy" %>
                     <% else %>
-                      —
-                    <% end %>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </div>
-
-          <%# Tracklist if available %>
-          <% if @record.songs.any? %>
-            <div class="mt-6 pt-6 border-t border-gray-200">
-              <h4 class="text-sm font-medium text-gray-900 mb-2">Tracklist</h4>
-              <ol class="text-sm text-gray-600 space-y-1 list-decimal list-inside">
-                <% @record.songs.order(:id).each do |song| %>
-                  <li><%= song.title %></li>
-                <% end %>
-              </ol>
-            </div>
-          <% end %>
-
-          <%# Skip button %>
-          <div class="mt-6 pt-6 border-t border-gray-200">
-            <%= form_with url: skip_admin_discogs_review_path(@record), method: :post, local: true, class: "flex items-center space-x-2" do |f| %>
-              <%= f.select :reason,
-                  [["No match found", "no_match"], ["Not on Discogs", "not_on_discogs"], ["Compilation/Various", "compilation"], ["Other", "other"]],
-                  {},
-                  class: "block w-48 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" %>
-              <%= f.submit "Skip This Record",
-                  class: "inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
-            <% end %>
-          </div>
-        </div>
-      </div>
-
-      <%# Right: Discogs search %>
-      <div class="bg-white shadow rounded-lg overflow-hidden">
-        <div class="px-6 py-4 border-b border-gray-200">
-          <h2 class="text-lg font-medium text-gray-900">Search Discogs</h2>
-        </div>
-        <div class="p-6">
-          <%# Search form %>
-          <%= form_with url: search_admin_discogs_review_path(@record), method: :post, local: true, class: "mb-6" do |f| %>
-            <div class="flex space-x-2">
-              <%= f.text_field :query,
-                  value: params[:query] || "#{@record.artist&.name} - #{@record.title}",
-                  placeholder: "Search Discogs...",
-                  class: "flex-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" %>
-              <%= f.submit "Search",
-                  class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
-            </div>
-          <% end %>
-
-          <%# Search results %>
-          <% if @candidates.present? %>
-            <div class="space-y-4">
-              <% @candidates.each do |candidate| %>
-                <div class="border border-gray-200 rounded-lg p-4 hover:border-teal-300 transition-colors">
-                  <div class="flex items-start justify-between">
-                    <div class="flex items-start space-x-3">
-                      <% if candidate["thumb"].present? %>
-                        <%= image_tag candidate["thumb"],
-                            class: "h-16 w-16 rounded object-cover",
-                            loading: "lazy" %>
-                      <% else %>
-                        <div class="h-16 w-16 rounded bg-gray-100 flex items-center justify-center">
-                          <svg class="h-8 w-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-                          </svg>
-                        </div>
-                      <% end %>
-                      <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium text-gray-900 truncate">
-                          <%= candidate["title"] %>
-                        </p>
-                        <p class="text-xs text-gray-500">
-                          <%= candidate["label"]&.first %> • <%= candidate["catno"] %> • <%= candidate["year"] %>
-                        </p>
-                        <p class="text-xs text-gray-400 mt-1">
-                          <%= candidate["format"]&.join(", ") %>
-                        </p>
-                        <p class="text-xs text-gray-400">
-                          Discogs ID: <%= candidate["id"] %>
-                        </p>
+                      <div class="h-16 w-16 rounded-lg bg-olive-100 flex items-center justify-center ring-1 ring-olive-900/10">
+                        <svg class="h-8 w-8 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                        </svg>
                       </div>
-                    </div>
-                    <div class="flex-shrink-0 ml-4 flex flex-col space-y-2">
-                      <%= link_to "View",
-                          "https://www.discogs.com/release/#{candidate["id"]}",
-                          target: "_blank",
-                          rel: "noopener noreferrer",
-                          class: "inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50" %>
-                      <%= button_to "Link",
-                          link_admin_discogs_review_path(@record, discogs_id: candidate["id"]),
-                          method: :post,
-                          class: "inline-flex items-center px-2.5 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded text-white bg-teal-600 hover:bg-teal-700" %>
+                    <% end %>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-olive-950 truncate">
+                        <%= candidate["title"] %>
+                      </p>
+                      <p class="text-xs text-olive-600">
+                        <%= candidate["label"]&.first %> • <%= candidate["catno"] %> • <%= candidate["year"] %>
+                      </p>
+                      <p class="text-xs text-olive-500 mt-1">
+                        <%= candidate["format"]&.join(", ") %>
+                      </p>
+                      <p class="text-xs text-olive-400">
+                        Discogs ID: <%= candidate["id"] %>
+                      </p>
                     </div>
                   </div>
+                  <div class="flex-shrink-0 ml-4 flex flex-col space-y-2">
+                    <%= link_to "View",
+                        "https://www.discogs.com/release/#{candidate["id"]}",
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        class: "inline-flex items-center px-2.5 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
+                    <%= button_to "Link",
+                        link_admin_discogs_review_path(@record, discogs_id: candidate["id"]),
+                        method: :post,
+                        class: "inline-flex items-center px-2.5 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white bg-olive-950 hover:bg-olive-800 transition-colors" %>
+                  </div>
                 </div>
-              <% end %>
-            </div>
-          <% elsif params[:query].present? || request.post? %>
-            <div class="text-center py-8">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-              <h3 class="mt-2 text-sm font-medium text-gray-900">No results found</h3>
-              <p class="mt-1 text-sm text-gray-500">Try a different search query.</p>
-            </div>
-          <% else %>
-            <div class="text-center py-8">
-              <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-              <h3 class="mt-2 text-sm font-medium text-gray-900">Search Discogs</h3>
-              <p class="mt-1 text-sm text-gray-500">Click Search to find matching releases on Discogs.</p>
-            </div>
-          <% end %>
-
-          <%# Manual ID entry %>
-          <div class="mt-6 pt-6 border-t border-gray-200">
-            <h4 class="text-sm font-medium text-gray-900 mb-2">Or enter Discogs ID directly</h4>
-            <%= form_with url: link_admin_discogs_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
-              <%= f.number_field :discogs_id,
-                  placeholder: "e.g. 12345678",
-                  min: 1,
-                  class: "block w-40 rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 text-sm" %>
-              <%= f.submit "Link by ID",
-                  class: "inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500" %>
+              </div>
             <% end %>
           </div>
+        <% elsif params[:query].present? || request.post? %>
+          <div class="text-center py-8">
+            <svg class="mx-auto h-12 w-12 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-olive-950">No results found</h3>
+            <p class="mt-1 text-sm text-olive-600">Try a different search query.</p>
+          </div>
+        <% else %>
+          <div class="text-center py-8">
+            <svg class="mx-auto h-12 w-12 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <h3 class="mt-2 text-sm font-medium text-olive-950">Search Discogs</h3>
+            <p class="mt-1 text-sm text-olive-600">Click Search to find matching releases on Discogs.</p>
+          </div>
+        <% end %>
+
+        <%# Manual ID entry %>
+        <div class="mt-6 pt-6 border-t border-olive-200">
+          <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Discogs ID directly</h4>
+          <%= form_with url: link_admin_discogs_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
+            <%= f.number_field :discogs_id,
+                placeholder: "e.g. 12345678",
+                min: 1,
+                class: "block w-40 rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+            <%= f.submit "Link by ID",
+                class: "inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
+          <% end %>
         </div>
       </div>
     </div>
