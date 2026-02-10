@@ -1,0 +1,105 @@
+<%# Record List Component
+   Displays a compact list/table view of records.
+   Designed to be reusable across the app (records index, admin pages, etc.)
+
+   Required locals:
+     - records: ActiveRecord collection of records to display
+
+   Optional locals:
+     - show_actions: Show action buttons column (default: false)
+     - action_path: Lambda for generating action button path (default: nil)
+     - action_label: Text for action button (default: "View")
+%>
+
+<% show_actions = local_assigns[:show_actions] || false %>
+<% action_path = local_assigns[:action_path] %>
+<% action_label = local_assigns[:action_label] || "View" %>
+
+<% if records.any? %>
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden">
+    <table class="w-full text-left text-sm table-fixed">
+      <thead class="bg-olive-50 border-b border-olive-200">
+        <tr>
+          <th scope="col" class="w-1/2 py-4 pr-4 text-xs font-semibold uppercase tracking-wide text-olive-500" style="padding-left: 2rem;">Record</th>
+          <th scope="col" class="hidden w-36 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 lg:table-cell">Label</th>
+          <th scope="col" class="hidden w-28 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 md:table-cell">Format</th>
+          <th scope="col" class="w-24 px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-olive-500">Condition</th>
+          <th scope="col" class="w-28 pl-4 pr-10 py-4 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Price</th>
+          <% if show_actions %>
+            <th scope="col" class="w-28 py-4 pl-4 pr-10 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Action</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-olive-100">
+        <% records.each do |record| %>
+          <tr class="hover:bg-olive-50/50 transition-colors group">
+            <td class="py-5 pr-4" style="padding-left: 2rem;">
+              <%= link_to record_path(record), class: "flex items-center gap-4", data: { turbo_frame: "_top" } do %>
+                <% if record.cover %>
+                  <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::THUMB_TINY)),
+                      class: "h-14 w-14 flex-shrink-0 rounded-lg object-cover ring-1 ring-olive-900/10",
+                      alt: record.artist_name || "Record",
+                      loading: "lazy" %>
+                <% else %>
+                  <div class="h-14 w-14 flex-shrink-0 rounded-lg bg-olive-100 flex items-center justify-center ring-1 ring-olive-900/10">
+                    <svg class="h-6 w-6 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+                    </svg>
+                  </div>
+                <% end %>
+                <div class="min-w-0 flex-1">
+                  <p class="font-medium text-olive-950 truncate group-hover:text-olive-700 transition-colors">
+                    <%= record.artist_name || "Unknown Artist" %>
+                  </p>
+                  <p class="text-sm text-olive-500 truncate mt-0.5">
+                    <% if record.breadcrumb_title.present? %>
+                      <%= record.breadcrumb_title %>
+                    <% elsif record.yearbegin.present? && record.yearbegin > 0 %>
+                      <%= record.yearbegin %>
+                    <% else %>
+                      <span class="text-olive-400">No track info</span>
+                    <% end %>
+                  </p>
+                </div>
+              <% end %>
+            </td>
+            <td class="hidden px-4 py-5 lg:table-cell">
+              <span class="text-sm text-olive-600 truncate block"><%= record.label_name.presence || "—" %></span>
+            </td>
+            <td class="hidden px-4 py-5 md:table-cell">
+              <span class="text-sm text-olive-600 truncate block"><%= record.record_format_name.presence || "—" %></span>
+            </td>
+            <td class="px-4 py-5 text-center">
+              <%= render 'records/condition_badge', condition: record.condition %>
+            </td>
+            <td class="pl-4 pr-10 py-5 text-right whitespace-nowrap">
+              <% if record.price_low.present? || record.price_high.present? %>
+                <span class="text-sm font-semibold text-olive-800">
+                  <% if record.price_low.present? && record.price_high.present? && record.price_low != record.price_high %>
+                    $<%= record.price_low %>–<%= record.price_high %>
+                  <% elsif record.price_high.present? %>
+                    $<%= record.price_high %>
+                  <% elsif record.price_low.present? %>
+                    $<%= record.price_low %>
+                  <% end %>
+                </span>
+              <% else %>
+                <span class="text-olive-400">—</span>
+              <% end %>
+            </td>
+            <% if show_actions && action_path %>
+              <td class="py-5 pl-4 pr-10 text-right">
+                <%= link_to action_path.call(record),
+                    class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-olive-950 rounded-lg hover:bg-olive-800 transition-colors" do %>
+                  <%= action_label %>
+                <% end %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <%= render 'records/empty_state' %>
+<% end %>

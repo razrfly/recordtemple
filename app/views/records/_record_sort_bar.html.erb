@@ -1,5 +1,5 @@
 <%# Record Sort Bar Component
-   Displays record count and sort dropdown.
+   Displays record count, sort dropdown, and view toggle.
 
    Required locals:
      - pagy: Pagy pagination object
@@ -10,11 +10,13 @@
      - form_url: URL for form submission (default: records_path)
      - turbo_frame: Turbo frame to target (default: "records_list")
      - show_sort: Whether to show sort dropdown (default: true)
+     - show_view_toggle: Whether to show grid/list toggle (default: false)
 %>
 
 <% form_url ||= records_path %>
 <% turbo_frame ||= "records_list" %>
 <% show_sort = true if local_assigns[:show_sort].nil? %>
+<% show_view_toggle = local_assigns[:show_view_toggle] || false %>
 
 <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-olive-200">
   <p class="text-olive-700">
@@ -29,38 +31,64 @@
     <% end %>
   </p>
 
-  <% if show_sort %>
-    <div class="flex items-center gap-3">
-      <label for="sort" class="text-sm text-olive-600">Sort:</label>
-      <% current_sort = params.dig(:q, :s) %>
-      <%= form_with url: form_url, method: :get, data: { turbo_frame: turbo_frame, turbo_action: "advance", controller: "auto-submit" } do %>
-        <% params[:q]&.each do |key, value| %>
-          <% next if key.to_s == "s" %>
-          <% if value.is_a?(Array) %>
-            <% value.each do |v| %>
-              <input type="hidden" name="q[<%= key %>][]" value="<%= v %>">
-            <% end %>
-          <% else %>
-            <input type="hidden" name="q[<%= key %>]" value="<%= value %>">
-          <% end %>
-        <% end %>
-        <input type="hidden" name="has_images" value="<%= params[:has_images] %>" <% if params[:has_images].blank? %>disabled<% end %>>
-        <input type="hidden" name="has_audio" value="<%= params[:has_audio] %>" <% if params[:has_audio].blank? %>disabled<% end %>>
+  <div class="flex items-center gap-4">
+    <% if show_view_toggle %>
+      <%# View toggle buttons %>
+      <div class="flex items-center rounded-lg ring-1 ring-olive-200 overflow-hidden">
+        <button type="button"
+                data-view-toggle-target="gridButton"
+                data-action="click->view-toggle#showGrid"
+                class="p-2 bg-white text-olive-700 hover:bg-olive-50 transition-colors"
+                title="Grid view">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+          </svg>
+        </button>
+        <button type="button"
+                data-view-toggle-target="listButton"
+                data-action="click->view-toggle#showList"
+                class="p-2 bg-white text-olive-700 hover:bg-olive-50 transition-colors border-l border-olive-200"
+                title="List view">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    <% end %>
 
-        <select name="q[s]"
-                data-action="change->auto-submit#submit"
-                class="text-sm font-medium text-olive-950 bg-white border-0 rounded-lg py-1.5 pl-3 pr-8 ring-1 ring-olive-200 focus:ring-2 focus:ring-olive-500 cursor-pointer">
-          <option value="popularity_score desc" <%= "selected" if current_sort.blank? || current_sort == "popularity_score desc" %>>Popular</option>
-          <option value="created_at desc" <%= "selected" if current_sort == "created_at desc" %>>Latest Added</option>
-          <option value="created_at asc" <%= "selected" if current_sort == "created_at asc" %>>Oldest First</option>
-          <option value="artist_name asc" <%= "selected" if current_sort == "artist_name asc" %>>Artist A-Z</option>
-          <option value="artist_name desc" <%= "selected" if current_sort == "artist_name desc" %>>Artist Z-A</option>
-          <option value="label_name asc" <%= "selected" if current_sort == "label_name asc" %>>Label A-Z</option>
-          <option value="label_name desc" <%= "selected" if current_sort == "label_name desc" %>>Label Z-A</option>
-          <option value="condition asc" <%= "selected" if current_sort == "condition asc" %>>Best Condition</option>
-          <option value="condition desc" <%= "selected" if current_sort == "condition desc" %>>Worst Condition</option>
-        </select>
-      <% end %>
-    </div>
-  <% end %>
+    <% if show_sort %>
+      <div class="flex items-center gap-3">
+        <label for="sort" class="text-sm text-olive-600">Sort:</label>
+        <% current_sort = params.dig(:q, :s) %>
+        <%= form_with url: form_url, method: :get, data: { turbo_frame: turbo_frame, turbo_action: "advance", controller: "auto-submit" } do %>
+          <% params[:q]&.each do |key, value| %>
+            <% next if key.to_s == "s" %>
+            <% if value.is_a?(Array) %>
+              <% value.each do |v| %>
+                <input type="hidden" name="q[<%= key %>][]" value="<%= v %>">
+              <% end %>
+            <% else %>
+              <input type="hidden" name="q[<%= key %>]" value="<%= value %>">
+            <% end %>
+          <% end %>
+          <input type="hidden" name="has_images" value="<%= params[:has_images] %>" <% if params[:has_images].blank? %>disabled<% end %>>
+          <input type="hidden" name="has_audio" value="<%= params[:has_audio] %>" <% if params[:has_audio].blank? %>disabled<% end %>>
+
+          <select name="q[s]"
+                  data-action="change->auto-submit#submit"
+                  class="text-sm font-medium text-olive-950 bg-white border-0 rounded-lg py-1.5 pl-3 pr-8 ring-1 ring-olive-200 focus:ring-2 focus:ring-olive-500 cursor-pointer">
+            <option value="popularity_score desc" <%= "selected" if current_sort.blank? || current_sort == "popularity_score desc" %>>Popular</option>
+            <option value="created_at desc" <%= "selected" if current_sort == "created_at desc" %>>Latest Added</option>
+            <option value="created_at asc" <%= "selected" if current_sort == "created_at asc" %>>Oldest First</option>
+            <option value="artist_name asc" <%= "selected" if current_sort == "artist_name asc" %>>Artist A-Z</option>
+            <option value="artist_name desc" <%= "selected" if current_sort == "artist_name desc" %>>Artist Z-A</option>
+            <option value="label_name asc" <%= "selected" if current_sort == "label_name asc" %>>Label A-Z</option>
+            <option value="label_name desc" <%= "selected" if current_sort == "label_name desc" %>>Label Z-A</option>
+            <option value="condition asc" <%= "selected" if current_sort == "condition asc" %>>Best Condition</option>
+            <option value="condition desc" <%= "selected" if current_sort == "condition desc" %>>Worst Condition</option>
+          </select>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>
