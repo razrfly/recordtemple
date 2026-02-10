@@ -39,7 +39,7 @@
         <button type="button"
                 data-view-toggle-target="gridButton"
                 data-action="click->view-toggle#showGrid"
-                class="p-2 transition-colors bg-white text-olive-700 hover:bg-olive-50"
+                class="p-2 transition-colors <%= default_view == 'grid' ? 'bg-olive-950 text-white' : 'bg-white text-olive-700 hover:bg-olive-50' %>"
                 title="Grid view">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
@@ -48,7 +48,7 @@
         <button type="button"
                 data-view-toggle-target="listButton"
                 data-action="click->view-toggle#showList"
-                class="p-2 transition-colors bg-white text-olive-700 hover:bg-olive-50"
+                class="p-2 transition-colors <%= default_view == 'list' ? 'bg-olive-950 text-white' : 'bg-white text-olive-700 hover:bg-olive-50' %>"
                 title="List view">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>

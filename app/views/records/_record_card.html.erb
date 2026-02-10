@@ -73,7 +73,7 @@
 
   <% if show_action && action_path %>
     <%= link_to action_path.call(record),
-        class: "absolute top-3 right-3 inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-olive-950 rounded-lg hover:bg-olive-800 transition-colors shadow-lg opacity-0 group-hover:opacity-100" do %>
+        class: "absolute top-3 right-3 inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-olive-950 rounded-lg hover:bg-olive-800 transition-colors shadow-lg opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-olive-950" do %>
       <%= action_label %>
     <% end %>
   <% end %>
