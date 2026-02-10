@@ -36,8 +36,8 @@ Rails.application.routes.draw do
     resources :labels, only: [:index]
   end
 
-  # Public record catalog
-  resources :records, only: [:index, :show]
+  # Public record catalog with authenticated CRUD
+  resources :records
 
   # Discovery pages for artists and labels
   resources :artists, only: [:index, :show] do
