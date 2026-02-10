@@ -17,6 +17,9 @@
      - show_view_toggle: Show grid/list view toggle (default: true)
      - default_view: Default view mode "grid" or "list" (default: "grid")
      - grid_cols: Tailwind grid classes for record grid
+     - show_actions: Show action buttons (default: false)
+     - action_path: Lambda for generating action button path
+     - action_label: Text for action button (default: "View")
 %>
 
 <% turbo_frame ||= "records_list" %>
@@ -26,6 +29,9 @@
 <% show_pagination = true if local_assigns[:show_pagination].nil? %>
 <% show_view_toggle = true if local_assigns[:show_view_toggle].nil? %>
 <% default_view = local_assigns[:default_view] || "grid" %>
+<% show_actions = local_assigns[:show_actions] || false %>
+<% action_path = local_assigns[:action_path] %>
+<% action_label = local_assigns[:action_label] || "View" %>
 
 <%= turbo_frame_tag turbo_frame do %>
   <div data-controller="view-toggle" data-view-toggle-default-view-value="<%= default_view %>">
@@ -37,7 +43,8 @@
         form_url: form_url,
         turbo_frame: turbo_frame,
         show_sort: show_sort,
-        show_view_toggle: show_view_toggle %>
+        show_view_toggle: show_view_toggle,
+        default_view: default_view %>
 
     <%# Active filter chips %>
     <% if show_filter_chips %>
@@ -46,15 +53,15 @@
     <% end %>
 
     <%# Record grid view %>
-    <div data-view-toggle-target="gridView">
-      <% grid_options = { records: records } %>
+    <div data-view-toggle-target="gridView" class="<%= 'hidden' if default_view == 'list' %>">
+      <% grid_options = { records: records, show_actions: show_actions, action_path: action_path, action_label: action_label } %>
       <% grid_options[:grid_cols] = grid_cols if local_assigns[:grid_cols] %>
       <%= render 'records/record_grid', **grid_options %>
     </div>
 
     <%# Record list view %>
-    <div data-view-toggle-target="listView" class="hidden">
-      <%= render 'records/record_list', records: records %>
+    <div data-view-toggle-target="listView" class="<%= 'hidden' if default_view != 'list' %>">
+      <%= render 'records/record_list', records: records, show_actions: show_actions, action_path: action_path, action_label: action_label %>
     </div>
 
     <%# Pagination %>

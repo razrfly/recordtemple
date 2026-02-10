@@ -1,6 +1,18 @@
-<%= link_to record_path(record),
-    class: "group block bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden",
-    data: { turbo_frame: "_top" } do %>
+<%# Record Card Component
+   Optional locals:
+     - record: Record object (required)
+     - show_action: Show action button overlay (default: false)
+     - action_path: Lambda for generating action button path
+     - action_label: Text for action button (default: "View")
+%>
+<% show_action = local_assigns[:show_action] || false %>
+<% action_path = local_assigns[:action_path] %>
+<% action_label = local_assigns[:action_label] || "View" %>
+
+<div class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 hover:shadow-xl hover:ring-olive-900/10 transition-all duration-300 overflow-hidden">
+  <%= link_to record_path(record),
+      class: "block",
+      data: { turbo_frame: "_top" } do %>
 
   <div class="relative aspect-square bg-olive-100 image-skeleton">
     <% if record.cover %>
@@ -57,4 +69,12 @@
       <% end %>
     </div>
   </div>
-<% end %>
+  <% end %>
+
+  <% if show_action && action_path %>
+    <%= link_to action_path.call(record),
+        class: "absolute top-3 right-3 inline-flex items-center px-3 py-1.5 text-xs font-medium text-white bg-olive-950 rounded-lg hover:bg-olive-800 transition-colors shadow-lg opacity-0 group-hover:opacity-100" do %>
+      <%= action_label %>
+    <% end %>
+  <% end %>
+</div>

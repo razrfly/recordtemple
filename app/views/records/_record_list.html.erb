@@ -16,7 +16,7 @@
 <% action_label = local_assigns[:action_label] || "View" %>
 
 <% if records.any? %>
-  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden">
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 overflow-x-auto">
     <table class="w-full text-left text-sm table-fixed">
       <thead class="bg-olive-50 border-b border-olive-200">
         <tr>
@@ -25,7 +25,7 @@
           <th scope="col" class="hidden w-28 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 md:table-cell">Format</th>
           <th scope="col" class="w-24 px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-olive-500">Condition</th>
           <th scope="col" class="w-28 pl-4 pr-10 py-4 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Price</th>
-          <% if show_actions %>
+          <% if show_actions && action_path %>
             <th scope="col" class="w-28 py-4 pl-4 pr-10 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Action</th>
           <% end %>
         </tr>
@@ -33,20 +33,23 @@
       <tbody class="divide-y divide-olive-100">
         <% records.each do |record| %>
           <tr class="hover:bg-olive-50/50 transition-colors group">
-            <td class="py-5 pr-4" style="padding-left: 2rem;">
+            <td class="pr-4" style="padding-left: 2rem; padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <%= link_to record_path(record), class: "flex items-center gap-4", data: { turbo_frame: "_top" } do %>
+                <div class="flex-shrink-0 rounded-lg overflow-hidden ring-1 ring-olive-900/10 bg-olive-100" style="width: 3.5rem; height: 3.5rem;">
                 <% if record.cover %>
                   <%= image_tag cdn_image_url(record.cover.variant(ImageVariants::THUMB_TINY)),
-                      class: "h-14 w-14 flex-shrink-0 rounded-lg object-cover ring-1 ring-olive-900/10",
+                      class: "object-cover",
+                      style: "width: 100%; height: 100%;",
                       alt: record.artist_name || "Record",
                       loading: "lazy" %>
                 <% else %>
-                  <div class="h-14 w-14 flex-shrink-0 rounded-lg bg-olive-100 flex items-center justify-center ring-1 ring-olive-900/10">
-                    <svg class="h-6 w-6 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div class="flex items-center justify-center bg-gradient-to-br from-olive-100 to-olive-200" style="width: 100%; height: 100%;">
+                    <svg class="text-olive-400" style="width: 1.75rem; height: 1.75rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
                     </svg>
                   </div>
                 <% end %>
+              </div>
                 <div class="min-w-0 flex-1">
                   <p class="font-medium text-olive-950 truncate group-hover:text-olive-700 transition-colors">
                     <%= record.artist_name || "Unknown Artist" %>
@@ -63,16 +66,16 @@
                 </div>
               <% end %>
             </td>
-            <td class="hidden px-4 py-5 lg:table-cell">
+            <td class="hidden px-4 lg:table-cell" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <span class="text-sm text-olive-600 truncate block"><%= record.label_name.presence || "—" %></span>
             </td>
-            <td class="hidden px-4 py-5 md:table-cell">
+            <td class="hidden px-4 md:table-cell" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <span class="text-sm text-olive-600 truncate block"><%= record.record_format_name.presence || "—" %></span>
             </td>
-            <td class="px-4 py-5 text-center">
+            <td class="px-4 text-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <%= render 'records/condition_badge', condition: record.condition %>
             </td>
-            <td class="pl-4 pr-10 py-5 text-right whitespace-nowrap">
+            <td class="pl-4 pr-10 text-right whitespace-nowrap" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <% if record.price_low.present? || record.price_high.present? %>
                 <span class="text-sm font-semibold text-olive-800">
                   <% if record.price_low.present? && record.price_high.present? && record.price_low != record.price_high %>
@@ -88,7 +91,7 @@
               <% end %>
             </td>
             <% if show_actions && action_path %>
-              <td class="py-5 pl-4 pr-10 text-right">
+              <td class="pl-4 pr-10 text-right" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
                 <%= link_to action_path.call(record),
                     class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-olive-950 rounded-lg hover:bg-olive-800 transition-colors" do %>
                   <%= action_label %>

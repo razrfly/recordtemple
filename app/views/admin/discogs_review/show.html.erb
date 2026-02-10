@@ -79,13 +79,13 @@
           </div>
         </div>
 
-        <%# Tracklist if available %>
-        <% if @record.songs.any? %>
+        <%# Audio files if available %>
+        <% if @record.songs.attached? && @record.songs.any? %>
           <div class="mt-6 pt-6 border-t border-olive-200">
-            <h4 class="text-sm font-medium text-olive-950 mb-2">Tracklist</h4>
+            <h4 class="text-sm font-medium text-olive-950 mb-2">Audio Files (<%= @record.songs.size %>)</h4>
             <ol class="text-sm text-olive-600 space-y-1 list-decimal list-inside">
               <% @record.songs.order(:id).each do |song| %>
-                <li><%= song.title %></li>
+                <li><%= song.blob.filename %></li>
               <% end %>
             </ol>
           </div>
