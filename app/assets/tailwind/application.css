@@ -31,6 +31,7 @@
     background-color: var(--color-olive-100);
     --scroll-padding-top: 0;
     scroll-padding-top: var(--scroll-padding-top);
+    scrollbar-gutter: stable; /* Reserve space for scrollbar to prevent layout shift */
 
     @variant dark {
       background-color: var(--color-olive-950);

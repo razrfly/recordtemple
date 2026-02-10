@@ -7,15 +7,25 @@
    Optional locals:
      - grid_cols: Tailwind grid classes (default: responsive 2-5 columns)
      - gap: Tailwind gap class (default: gap-5)
+     - show_actions: Show action buttons on cards (default: false)
+     - action_path: Lambda for generating action button path
+     - action_label: Text for action button (default: "View")
 %>
 
 <% grid_cols ||= "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" %>
 <% gap ||= "gap-5" %>
+<% show_actions = local_assigns[:show_actions] || false %>
+<% action_path = local_assigns[:action_path] %>
+<% action_label = local_assigns[:action_label] || "View" %>
 
 <% if records.any? %>
   <div class="grid <%= grid_cols %> <%= gap %>">
     <% records.each do |record| %>
-      <%= render 'records/record_card', record: record %>
+      <%= render 'records/record_card',
+          record: record,
+          show_action: show_actions,
+          action_path: action_path,
+          action_label: action_label %>
     <% end %>
   </div>
 <% else %>

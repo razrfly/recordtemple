@@ -28,53 +28,39 @@
   <div class="mb-8">
     <nav class="flex gap-2 flex-wrap" role="tablist">
       <%= link_to admin_discogs_review_index_path(scope: "high_value"),
+          role: "tab",
+          aria: { selected: @scope == 'high_value' },
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'high_value' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         High Value ($100+)
       <% end %>
       <%= link_to admin_discogs_review_index_path(scope: "medium_value"),
+          role: "tab",
+          aria: { selected: @scope == 'medium_value' },
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'medium_value' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         Medium Value ($25-99)
       <% end %>
       <%= link_to admin_discogs_review_index_path(scope: "skipped"),
+          role: "tab",
+          aria: { selected: @scope == 'skipped' },
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'skipped' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         Skipped
       <% end %>
     </nav>
   </div>
 
-  <%# Sort bar matching records page style %>
-  <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-4 border-b border-olive-200">
-    <p class="text-olive-700">
-      <% if @pagy.pages > 1 %>
-        Showing <span class="font-semibold text-olive-950"><%= @pagy.from %>–<%= @pagy.to %></span>
-        of <span class="font-semibold text-olive-950"><%= number_with_delimiter(@stats[:total]) %></span>
-      <% else %>
-        <span class="font-semibold text-olive-950"><%= number_with_delimiter(@records.size) %></span> records
-      <% end %>
-    </p>
-  </div>
-
-  <% if @records.any? %>
-    <%# Reuse _record_list partial with action buttons %>
-    <%= render 'records/record_list',
-        records: @records,
-        show_actions: true,
-        action_path: ->(record) { admin_discogs_review_path(record) },
-        action_label: "Review" %>
-  <% else %>
-    <div class="text-center py-12 bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5">
-      <svg class="mx-auto h-12 w-12 text-olive-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-      </svg>
-      <h3 class="mt-2 text-sm font-medium text-olive-950">No records to review</h3>
-      <p class="mt-1 text-sm text-olive-600">All records in this queue have been processed.</p>
-    </div>
-  <% end %>
-
-  <%# Pagination %>
-  <% if @pagy.pages > 1 %>
-    <div class="mt-12">
-      <%= render 'shared/pagination', pagy: @pagy %>
-    </div>
-  <% end %>
+  <%# Reuse full record collection component with both grid and list views %>
+  <%= render 'records/record_collection',
+      records: @records,
+      pagy: @pagy,
+      filtered_count: @stats[:total],
+      total_count: @stats[:total],
+      form_url: admin_discogs_review_index_path(scope: @scope),
+      turbo_frame: "discogs_review_list",
+      show_sort: false,
+      show_filter_chips: false,
+      show_view_toggle: true,
+      show_actions: true,
+      action_path: ->(record) { admin_discogs_review_path(record) },
+      action_label: "Review",
+      grid_cols: "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5" %>
 </div>
