@@ -24,24 +24,21 @@
     </div>
   </div>
 
-  <%# Pill-style tabs %>
+  <%# Pill-style navigation %>
   <div class="mb-8">
-    <nav class="flex gap-2 flex-wrap" role="tablist">
+    <nav class="flex gap-2 flex-wrap">
       <%= link_to admin_discogs_review_index_path(scope: "high_value"),
-          role: "tab",
-          aria: { selected: @scope == 'high_value' },
+          aria: @scope == 'high_value' ? { current: "page" } : {},
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'high_value' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         High Value ($100+)
       <% end %>
       <%= link_to admin_discogs_review_index_path(scope: "medium_value"),
-          role: "tab",
-          aria: { selected: @scope == 'medium_value' },
+          aria: @scope == 'medium_value' ? { current: "page" } : {},
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'medium_value' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         Medium Value ($25-99)
       <% end %>
       <%= link_to admin_discogs_review_index_path(scope: "skipped"),
-          role: "tab",
-          aria: { selected: @scope == 'skipped' },
+          aria: @scope == 'skipped' ? { current: "page" } : {},
           class: "px-4 py-2.5 text-sm font-medium rounded-full transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-olive-600 focus-visible:ring-offset-2 #{@scope == 'skipped' ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" do %>
         Skipped
       <% end %>
