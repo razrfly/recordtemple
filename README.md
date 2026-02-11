@@ -201,6 +201,24 @@ app/
     └── component_helper.rb    # UI component helpers
 ```
 
+## Discogs Integration
+
+Records are automatically matched to Discogs releases for price validation and metadata enrichment.
+
+### Quick Commands
+
+```bash
+bin/rails discogs:stats              # View matching statistics
+bin/rails discogs:validation_status  # Check validation breakdown
+bin/rails discogs:match              # Match unmatched records
+```
+
+### Admin Review Queue
+
+High-value records ($100+) with uncertain matches can be manually reviewed at `/admin/discogs_review`.
+
+For detailed documentation on the matching system, validation tiers, and re-matching workflows, see [docs/DISCOGS.md](docs/DISCOGS.md).
+
 ## Key Features
 
 - **Full-text Search**: Fast PostgreSQL-based search with fuzzy matching

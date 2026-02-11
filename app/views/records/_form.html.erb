@@ -1,0 +1,126 @@
+<%# Record Form Partial
+   Used by: new.html.erb, edit.html.erb
+
+   Phase 1: Core fields (associations, condition, notes)
+   - No title field: title is computed from artist + label + format + songs
+   - No year fields: years belong to Price model, not Record
+   Phase 2: Will add searchable dropdowns with create-on-the-fly for artists/labels
+   Phase 3: Will add image/audio uploads
+%>
+
+<%= form_with model: record, class: "space-y-6" do |f| %>
+  <% if record.errors.any? %>
+    <div class="rounded-xl bg-red-50 p-4 ring-1 ring-red-200">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-red-800">
+            <%= pluralize(record.errors.count, "error") %> prevented this record from being saved:
+          </h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% record.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <%# Associations - these define the "title" of the record %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <%# Artist - Searchable Autocomplete %>
+    <div>
+      <%= f.label :artist_id, "Artist", class: "block text-sm font-medium text-olive-700 mb-1" %>
+      <div data-controller="form-autocomplete"
+           data-form-autocomplete-url-value="/api/artists"
+           class="relative">
+        <%= f.hidden_field :artist_id, data: { form_autocomplete_target: "hidden" } %>
+        <input type="text"
+               value="<%= record.artist&.name %>"
+               placeholder="Search artists..."
+               autocomplete="off"
+               data-form-autocomplete-target="input"
+               data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+               class="block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+        <div data-form-autocomplete-target="results"
+             class="hidden absolute z-50 w-full mt-1 bg-white rounded-xl shadow-lg ring-1 ring-olive-900/5 max-h-60 overflow-auto">
+        </div>
+      </div>
+    </div>
+
+    <%# Label - Searchable Autocomplete %>
+    <div>
+      <%= f.label :label_id, "Label", class: "block text-sm font-medium text-olive-700 mb-1" %>
+      <div data-controller="form-autocomplete"
+           data-form-autocomplete-url-value="/api/labels"
+           class="relative">
+        <%= f.hidden_field :label_id, data: { form_autocomplete_target: "hidden" } %>
+        <input type="text"
+               value="<%= record.label&.name %>"
+               placeholder="Search labels..."
+               autocomplete="off"
+               data-form-autocomplete-target="input"
+               data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+               class="block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+        <div data-form-autocomplete-target="results"
+             class="hidden absolute z-50 w-full mt-1 bg-white rounded-xl shadow-lg ring-1 ring-olive-900/5 max-h-60 overflow-auto">
+        </div>
+      </div>
+    </div>
+
+    <%# Genre - Standard dropdown (manageable size) %>
+    <div>
+      <%= f.label :genre_id, "Genre", class: "block text-sm font-medium text-olive-700 mb-1" %>
+      <%= f.select :genre_id,
+          options_for_select(@genres, record.genre_id),
+          { include_blank: "Select genre..." },
+          class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+    </div>
+
+    <%# Format - Standard dropdown (manageable size) %>
+    <div>
+      <%= f.label :record_format_id, "Format", class: "block text-sm font-medium text-olive-700 mb-1" %>
+      <%= f.select :record_format_id,
+          options_for_select(@formats, record.record_format_id),
+          { include_blank: "Select format..." },
+          class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+    </div>
+  </div>
+
+  <p class="text-xs text-olive-500">
+    The record title is generated from Artist + Label + Format + Songs.
+  </p>
+
+  <%# Condition %>
+  <div>
+    <%= f.label :condition, class: "block text-sm font-medium text-olive-700 mb-1" %>
+    <%= f.select :condition,
+        options_for_select(@conditions.map { |c| [c.titleize, c] }, record.condition),
+        { include_blank: "Select condition..." },
+        class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+    <p class="mt-1 text-xs text-olive-500">Required field</p>
+  </div>
+
+  <%# Comments/Notes %>
+  <div>
+    <%= f.label :comment, "Notes", class: "block text-sm font-medium text-olive-700 mb-1" %>
+    <%= f.text_area :comment,
+        rows: 4,
+        class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm",
+        placeholder: "Additional notes about condition, pressing, provenance, etc." %>
+  </div>
+
+  <%# Submit %>
+  <div class="flex items-center justify-end gap-3 pt-4 border-t border-olive-200">
+    <%= link_to "Cancel",
+        record.persisted? ? record_path(record) : records_path,
+        class: "inline-flex items-center px-4 py-2 border border-olive-300 shadow-sm text-sm font-medium rounded-xl text-olive-700 bg-white hover:bg-olive-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
+    <%= f.submit record.persisted? ? "Update Record" : "Create Record",
+        class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors cursor-pointer" %>
+  </div>
+<% end %>

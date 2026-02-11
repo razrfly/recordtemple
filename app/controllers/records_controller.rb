@@ -3,6 +3,9 @@ class RecordsController < ApplicationController
   # This is a single-user collection display
   COLLECTION_USER_ID = 1
 
+  before_action :require_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :set_record, only: [:edit, :update, :destroy]
+
   def index
     add_breadcrumb("Collection")
 
@@ -71,7 +74,61 @@ class RecordsController < ApplicationController
                                .limit(5)
   end
 
+  def new
+    @record = Record.new(user_id: COLLECTION_USER_ID)
+    load_form_options
+  end
+
+  def create
+    @record = Record.new(record_params)
+    @record.user_id = COLLECTION_USER_ID
+
+    if @record.save
+      redirect_to @record, notice: "Record created successfully."
+    else
+      load_form_options
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    load_form_options
+  end
+
+  def update
+    if @record.update(record_params)
+      redirect_to @record, notice: "Record updated successfully."
+    else
+      load_form_options
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @record.destroy
+    redirect_to records_path, notice: "Record deleted."
+  end
+
   private
+
+  def set_record
+    @record = base_scope.find(params[:id])
+  end
+
+  def record_params
+    params.require(:record).permit(
+      :condition, :comment,
+      :artist_id, :label_id, :genre_id, :record_format_id
+    )
+  end
+
+  def load_form_options
+    @conditions = Record.conditions.keys
+    # Artists and Labels use autocomplete search (via /api/artists and /api/labels)
+    # Genre and Format are small enough for standard dropdowns
+    @genres = Genre.order(:name).pluck(:name, :id)
+    @formats = RecordFormat.order(:name).pluck(:name, :id)
+  end
 
   def base_scope
     Record.where(user_id: COLLECTION_USER_ID)
