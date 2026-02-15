@@ -93,17 +93,31 @@ export default class extends Controller {
         </div>
       `
     } else {
-      this.resultsTarget.innerHTML = results.map((item, index) => `
-        <button type="button"
-                class="w-full px-4 py-2.5 text-left flex items-center justify-between hover:bg-olive-50 focus:bg-olive-50 focus:outline-none transition-colors ${index === this.highlightedIndex ? 'bg-olive-50' : ''}"
-                data-action="click->form-autocomplete#select"
-                data-id="${item.id}"
-                data-name="${this.escapeHtml(item.name)}"
-                data-index="${index}">
-          <span class="text-sm text-olive-900 truncate">${this.escapeHtml(item.name)}</span>
-          ${item.count ? `<span class="text-xs text-olive-400 ml-2 shrink-0">${item.count} records</span>` : ''}
-        </button>
-      `).join("")
+      // Build results using DOM APIs to prevent XSS
+      this.resultsTarget.innerHTML = ""
+      results.forEach((item, index) => {
+        const button = document.createElement("button")
+        button.type = "button"
+        button.className = `w-full px-4 py-2.5 text-left flex items-center justify-between hover:bg-olive-50 focus:bg-olive-50 focus:outline-none transition-colors ${index === this.highlightedIndex ? 'bg-olive-50' : ''}`
+        button.dataset.action = "click->form-autocomplete#select"
+        button.dataset.id = item.id
+        button.dataset.name = item.name
+        button.dataset.index = index
+
+        const nameSpan = document.createElement("span")
+        nameSpan.className = "text-sm text-olive-900 truncate"
+        nameSpan.textContent = item.name
+        button.appendChild(nameSpan)
+
+        if (item.count) {
+          const countSpan = document.createElement("span")
+          countSpan.className = "text-xs text-olive-400 ml-2 shrink-0"
+          countSpan.textContent = `${item.count} records`
+          button.appendChild(countSpan)
+        }
+
+        this.resultsTarget.appendChild(button)
+      })
     }
 
     this.highlightedIndex = -1
@@ -149,10 +163,12 @@ export default class extends Controller {
         break
 
       case "Enter":
-        event.preventDefault()
+        // Only prevent default and select when dropdown is active with a highlighted item
         if (this.highlightedIndex >= 0 && results[this.highlightedIndex]) {
+          event.preventDefault()
           results[this.highlightedIndex].click()
         }
+        // Otherwise, allow Enter to bubble for form submission
         break
 
       case "Escape":

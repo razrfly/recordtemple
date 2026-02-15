@@ -4,6 +4,7 @@ class RecordsController < ApplicationController
   COLLECTION_USER_ID = 1
 
   before_action :require_user!, only: [:new, :create, :edit, :update, :destroy]
+  before_action :require_collection_owner!, only: [:new, :create, :edit, :update, :destroy]
   before_action :set_record, only: [:edit, :update, :destroy]
 
   def index
@@ -113,6 +114,12 @@ class RecordsController < ApplicationController
 
   def set_record
     @record = base_scope.find(params[:id])
+  end
+
+  def require_collection_owner!
+    unless current_user&.id == COLLECTION_USER_ID
+      redirect_to records_path, alert: "Not authorized."
+    end
   end
 
   def record_params
