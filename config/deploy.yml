@@ -39,15 +39,11 @@ env:
 ssh:
   user: holden
 
-asset_path: /app/public/assets
-
-accessories:
-  redis:
-    image: redis:7-alpine
-    host: 192.168.1.205
-    port: "127.0.0.1:6379:6379"
-    volumes:
-      - redis-data:/data
+logging:
+  driver: json-file
+  options:
+    max-size: 50m
+    max-file: "3"
 
 aliases:
   shell: app exec --interactive --reuse "bash"
