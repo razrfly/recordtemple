@@ -2,6 +2,7 @@ require 'admin_constraint'
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+  get "up" => "rails/health#show", as: :rails_health_check
   # mount Avo::Engine, at: Avo.configuration.root_path, constraints: AdminConstraint.new  # Disabled - planned for removal
   mount Sidekiq::Web => "admin/sidekiq", constraints: AdminConstraint.new
 

@@ -109,6 +109,10 @@ begin
       exit_with_error "Checks failed, see #{checks.first_status_url}"
     when "pending"
       attempts += 1
+    when "error"
+      exit_with_error "Checks errored, see #{checks.first_status_url}"
+    else
+      attempts += 1
     end
 
     exit_with_error "Checks are still pending, gave up after #{MAX_ATTEMPTS * ATTEMPTS_GAP} seconds" if attempts == MAX_ATTEMPTS
