@@ -39,6 +39,9 @@
 /config/credentials/production.key
 .DS_Store
 
+# Kamal secrets
+/.kamal/secrets
+
 # Tailwind Plus licensed templates (do not commit)
 /vendor/tailwind-plus/
 
