@@ -10,7 +10,7 @@ servers:
     cmd: bundle exec sidekiq -C config/sidekiq.yml
 
 proxy:
-  ssl: true
+  ssl: false
   host: recordtemple.com
   app_port: 3000
   healthcheck:
