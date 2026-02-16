@@ -90,4 +90,6 @@ group :test do
   gem "webdrivers"
 end
 
+gem "kamal", "~> 2.0"
+
 gem "dockerfile-rails", ">= 1.2", :group => :development
