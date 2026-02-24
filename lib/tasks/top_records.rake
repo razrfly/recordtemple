@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 namespace :records do
-  desc "Export top N most valuable records as CSV (condition-adjusted). Usage: rake records:top[1000]"
+  desc "Export top N most valuable records as CSV with confidence scoring. Usage: rake records:top[2000]"
   task :top, [:limit] => :environment do |_t, args|
-    limit = (args[:limit] || ENV.fetch("LIMIT", 1000)).to_i
+    limit = (args[:limit] || ENV.fetch("LIMIT", 2000)).to_i
     output_path = ENV.fetch("OUTPUT", "tmp/top_#{limit}_records.csv")
 
     puts "=" * 70
-    puts "Top #{limit} Most Valuable Records (Condition-Adjusted)"
+    puts "Top #{limit} Most Valuable Records (Condition-Adjusted + Confidence)"
     puts "=" * 70
     puts
 
@@ -26,8 +26,11 @@ namespace :records do
       END
     SQL
 
-    # Adjusted value: use condition-adjusted price_high, fall back to record.value
     adjusted_value_sql = "COALESCE(#{condition_sql}, records.value, 0)"
+
+    # Sort by the highest value from any source so we don't miss records
+    # that rank high by personal value but low by price guide (or vice versa)
+    best_value_sql = "GREATEST(#{adjusted_value_sql}, COALESCE(records.value, 0))"
 
     user_id = ENV.fetch("USER_ID", 1).to_i
 
@@ -45,7 +48,10 @@ namespace :records do
         "prices.price_high",
         "records.value AS personal_value",
         "#{adjusted_value_sql} AS adjusted_value",
-        "discogs_releases.lowest_price AS discogs_lowest_price"
+        "#{best_value_sql} AS best_value",
+        "discogs_releases.lowest_price AS discogs_lowest_price",
+        "records.comment",
+        "prices.footnote AS price_footnote"
       )
       .joins("LEFT JOIN prices ON prices.id = records.price_id")
       .joins("LEFT JOIN artists ON artists.id = records.artist_id")
@@ -53,7 +59,7 @@ namespace :records do
       .joins("LEFT JOIN genres ON genres.id = records.genre_id")
       .joins("LEFT JOIN record_formats ON record_formats.id = records.record_format_id")
       .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
-      .order(Arel.sql("#{adjusted_value_sql} DESC"))
+      .order(Arel.sql("#{best_value_sql} DESC"))
       .limit(limit)
 
     # Collection-wide stats
@@ -65,29 +71,102 @@ namespace :records do
     total_value = total_value_result.to_f
 
     top_records = records.to_a
-    top_value = top_records.sum { |r| r[:adjusted_value].to_f }
 
+    # --- Confidence scoring ---
+    # Compare price guide adjusted value against personal value and Discogs price.
+    # Confidence levels:
+    #   High   — guide and personal value agree within 2x, OR confirmed by Discogs
+    #   Medium — only one price source, or guide/personal within 5x
+    #   Low    — guide and personal diverge 5x-10x
+    #   Suspect — guide and personal diverge >10x
+    scored = top_records.map do |r|
+      guide_adj = r[:adjusted_value].to_f
+      personal = r[:personal_value].to_f
+      discogs = r[:discogs_lowest_price].to_f
+      has_guide = r[:price_high].to_i > 0
+      has_personal = personal > 0
+      has_discogs = discogs > 0
+
+      # Ratio of guide adjusted to personal value
+      ratio = (has_guide && has_personal && personal > 0) ? guide_adj / personal : nil
+
+      # Check if Discogs corroborates (within 3x of either source)
+      discogs_corroborates = if has_discogs
+        (has_guide && guide_adj > 0 && discogs / guide_adj.clamp(1, Float::INFINITY) >= 0.15) ||
+        (has_personal && personal > 0 && discogs / personal.clamp(1, Float::INFINITY) >= 0.15)
+      else
+        false
+      end
+
+      confidence = if ratio
+        if ratio >= 0.5 && ratio <= 2.0
+          "High"
+        elsif discogs_corroborates
+          "High"
+        elsif ratio >= 0.2 && ratio <= 5.0
+          "Medium"
+        elsif ratio > 5.0 && ratio <= 10.0
+          "Low"
+        elsif ratio > 10.0
+          "Suspect"
+        else # ratio < 0.2
+          "Low"
+        end
+      elsif has_guide && !has_personal
+        has_discogs && discogs_corroborates ? "Medium" : "Medium"
+      elsif !has_guide && has_personal
+        "Medium"
+      else
+        "Low"
+      end
+
+      { record: r, confidence: confidence, ratio: ratio }
+    end
+
+    top_best_value = scored.sum { |s| s[:record][:best_value].to_f }
+
+    # Console summary
     puts "Collection: #{total_records} records, $#{total_value.round(0).to_fs(:delimited)} total adjusted value"
-    puts "Top #{top_records.size}: $#{top_value.round(0).to_fs(:delimited)} (#{(top_value / total_value * 100).round(1)}% of total)"
+    puts "Top #{scored.size}: $#{top_best_value.round(0).to_fs(:delimited)} best value"
+    puts
+
+    # Confidence breakdown
+    puts "Confidence Breakdown:"
+    puts "-" * 60
+    %w[High Medium Low Suspect].each do |level|
+      group = scored.select { |s| s[:confidence] == level }
+      group_value = group.sum { |s| s[:record][:best_value].to_f }
+      next if group.empty?
+      puts format("  %-10s %5d records   $%s (%s%%)",
+        level,
+        group.size,
+        group_value.round(0).to_fs(:delimited),
+        (group_value / top_best_value * 100).round(1)
+      )
+    end
     puts
 
     # Print top 25 to console
-    preview_count = [25, top_records.size].min
+    preview_count = [25, scored.size].min
     puts "Top #{preview_count} Preview:"
-    puts "-" * 70
-    puts format("%-4s %-30s %-20s %-10s %10s", "#", "Artist", "Label", "Condition", "Value")
-    puts "-" * 70
+    puts "-" * 85
+    puts format("%-4s %-26s %-16s %-8s %9s %9s %9s", "#", "Artist", "Label", "Confid.", "Best $", "Guide $", "My $")
+    puts "-" * 90
 
-    top_records.first(preview_count).each_with_index do |r, i|
-      condition_name = r[:condition]&.to_s&.titleize || "N/A"
-      value_str = "$#{r[:adjusted_value].to_f.round(0).to_fs(:delimited)}"
+    scored.first(preview_count).each_with_index do |s, i|
+      r = s[:record]
+      best_str = "$#{r[:best_value].to_f.round(0).to_fs(:delimited)}"
+      guide_str = r[:price_high].to_i > 0 ? "$#{r[:adjusted_value].to_f.round(0).to_fs(:delimited)}" : "-"
+      personal_str = r[:personal_value].to_i > 0 ? "$#{r[:personal_value].to_i.to_fs(:delimited)}" : "-"
       puts format(
-        "%-4s %-30s %-20s %-10s %10s",
+        "%-4s %-26s %-16s %-8s %9s %9s %9s",
         "#{i + 1}.",
-        r[:artist_name].to_s.truncate(29),
-        r[:label_name].to_s.truncate(19),
-        condition_name.truncate(9),
-        value_str
+        r[:artist_name].to_s.truncate(25),
+        r[:label_name].to_s.truncate(15),
+        s[:confidence],
+        best_str,
+        guide_str,
+        personal_str
       )
     end
     puts
@@ -101,12 +180,18 @@ namespace :records do
       csv << [
         "Rank", "Record ID", "Artist", "Label", "Genre", "Format",
         "Detail", "Condition", "Price Low", "Price High",
-        "Personal Value", "Adjusted Value",
-        "Discogs Lowest Price"
+        "Personal Value", "Adjusted Value", "Best Value",
+        "Discogs Lowest Price",
+        "Confidence", "Guide/Personal Ratio",
+        "Location", "Comment", "Footnote"
       ]
 
-      top_records.each_with_index do |r, i|
+      scored.each_with_index do |s, i|
+        r = s[:record]
         condition_name = r[:condition]&.to_s&.titleize || "N/A"
+        comment = r[:comment].to_s
+        location = comment[/\[([^\]]+)\]\s*\z/, 1]
+        ratio_str = s[:ratio] ? "#{s[:ratio].round(1)}x" : ""
         csv << [
           i + 1,
           r[:id],
@@ -120,7 +205,13 @@ namespace :records do
           r[:price_high],
           r[:personal_value],
           r[:adjusted_value].to_f.round(0),
-          r[:discogs_lowest_price]
+          r[:best_value].to_f.round(0),
+          r[:discogs_lowest_price],
+          s[:confidence],
+          ratio_str,
+          location,
+          comment,
+          r[:price_footnote]
         ]
       end
     end
@@ -134,7 +225,7 @@ namespace :records do
     # Value tier summary
     puts
     puts "Value Tier Breakdown:"
-    puts "-" * 50
+    puts "-" * 60
     tiers = [
       ["$1,000+", 1000],
       ["$500-$999", 500],
@@ -148,18 +239,20 @@ namespace :records do
 
     tiers.each_with_index do |(label, floor), idx|
       ceiling = idx > 0 ? tiers[idx - 1][1] : Float::INFINITY
-      tier_records = top_records.select do |r|
-        v = r[:adjusted_value].to_f
+      tier_scored = scored.select do |s|
+        v = s[:record][:best_value].to_f
         v >= floor && v < ceiling
       end
-      tier_value = tier_records.sum { |r| r[:adjusted_value].to_f }
-      next if tier_records.empty?
+      tier_value = tier_scored.sum { |s| s[:record][:best_value].to_f }
+      high_conf = tier_scored.count { |s| s[:confidence] == "High" }
+      next if tier_scored.empty?
 
       puts format(
-        "  %-12s %6d records   $%s",
+        "  %-12s %6d records   $%s   (High confidence: %d)",
         label,
-        tier_records.size,
-        tier_value.round(0).to_fs(:delimited)
+        tier_scored.size,
+        tier_value.round(0).to_fs(:delimited),
+        high_conf
       )
     end
   end
