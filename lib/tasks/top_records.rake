@@ -92,8 +92,8 @@ namespace :records do
 
       # Check if Discogs corroborates (within 3x of either source)
       discogs_corroborates = if has_discogs
-        (has_guide && guide_adj > 0 && discogs / guide_adj.clamp(1, Float::INFINITY) >= 0.15) ||
-        (has_personal && personal > 0 && discogs / personal.clamp(1, Float::INFINITY) >= 0.15)
+        (has_guide && guide_adj > 0 && (discogs / guide_adj).between?(1.0 / 3.0, 3.0)) ||
+        (has_personal && personal > 0 && (discogs / personal).between?(1.0 / 3.0, 3.0))
       else
         false
       end
@@ -109,11 +109,13 @@ namespace :records do
           "Low"
         elsif ratio > 10.0
           "Suspect"
-        else # ratio < 0.2
+        elsif ratio < 0.1
+          "Suspect"
+        else # ratio 0.1–0.2
           "Low"
         end
       elsif has_guide && !has_personal
-        has_discogs && discogs_corroborates ? "Medium" : "Medium"
+        has_discogs && discogs_corroborates ? "High" : "Medium"
       elsif !has_guide && has_personal
         "Medium"
       else
@@ -137,11 +139,12 @@ namespace :records do
       group = scored.select { |s| s[:confidence] == level }
       group_value = group.sum { |s| s[:record][:best_value].to_f }
       next if group.empty?
+      pct = top_best_value.zero? ? 0.0 : (group_value / top_best_value * 100).round(1)
       puts format("  %-10s %5d records   $%s (%s%%)",
         level,
         group.size,
         group_value.round(0).to_fs(:delimited),
-        (group_value / top_best_value * 100).round(1)
+        pct,
       )
     end
     puts
@@ -149,7 +152,7 @@ namespace :records do
     # Print top 25 to console
     preview_count = [25, scored.size].min
     puts "Top #{preview_count} Preview:"
-    puts "-" * 85
+    puts "-" * 90
     puts format("%-4s %-26s %-16s %-8s %9s %9s %9s", "#", "Artist", "Label", "Confid.", "Best $", "Guide $", "My $")
     puts "-" * 90
 
@@ -183,7 +186,7 @@ namespace :records do
         "Personal Value", "Adjusted Value", "Best Value",
         "Discogs Lowest Price",
         "Confidence", "Guide/Personal Ratio",
-        "Location", "Comment", "Footnote"
+        "Location", "Comment", "Footnote",
       ]
 
       scored.each_with_index do |s, i|
@@ -211,7 +214,7 @@ namespace :records do
           ratio_str,
           location,
           comment,
-          r[:price_footnote]
+          r[:price_footnote],
         ]
       end
     end
