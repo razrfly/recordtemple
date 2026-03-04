@@ -9,12 +9,25 @@ Rails.application.routes.draw do
   # Admin area
   namespace :admin, constraints: AdminConstraint.new do
     root to: "dashboard#index"
-    resources :records, only: [:index, :edit, :update]
+    resources :records, only: [:index, :show, :edit, :update] do
+      member do
+        patch :add_images
+        patch :add_songs
+        delete :destroy_attachment
+      end
+    end
     resources :discogs_review, only: [:index, :show] do
       member do
         post :search
         post :link
         post :skip
+      end
+    end
+    resources :price_review, only: [:show] do
+      member do
+        post :search
+        post :link
+        post :clear
       end
     end
   end
@@ -37,6 +50,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :artists, only: [:index]
     resources :labels, only: [:index]
+    resources :prices, only: [:index]
   end
 
   # Public record catalog with authenticated CRUD

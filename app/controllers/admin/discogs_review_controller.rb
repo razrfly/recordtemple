@@ -27,12 +27,26 @@ module Admin
 
     # GET /admin/discogs_review/:id
     def show
-      @candidates = []
+      @auto_query = [@record.artist&.name, @record.label&.name].compact.join(" ")
+      begin
+        client = DiscogsApiClient.new
+        response = client.search(
+          artist:   @record.artist&.name,
+          label:    @record.label&.name,
+          type:     "release",
+          per_page: 10
+        )
+        @candidates = response["results"] || []
+      rescue => e
+        Rails.logger.error("Discogs auto-search failed: #{e.class} - #{e.message}")
+        @candidates = []
+      end
     end
 
     # POST /admin/discogs_review/:id/search
     def search
-      query = params[:query].presence || build_search_query(@record)
+      @auto_query = build_search_query(@record)
+      query = params[:query].presence || @auto_query
 
       begin
         client = DiscogsApiClient.new
@@ -136,10 +150,7 @@ module Admin
     end
 
     def build_search_query(record)
-      parts = []
-      parts << record.artist&.name if record.artist
-      parts << record.title if record.title.present?
-      parts.join(" - ")
+      [record.artist&.name, record.label&.name].compact.join(" ")
     end
 
     def redirect_with_error(message)

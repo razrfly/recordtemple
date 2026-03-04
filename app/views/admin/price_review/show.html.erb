@@ -1,11 +1,11 @@
 <div class="mx-auto max-w-4xl px-6 py-12">
   <%# Back link %>
   <div class="mb-4">
-    <%= link_to admin_discogs_review_index_path, class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
+    <%= link_to admin_record_path(@record), class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
       <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
       </svg>
-      Back to Queue
+      Back to Record
     <% end %>
   </div>
 
@@ -47,19 +47,37 @@
         <p class="text-sm text-olive-600">
           <%= [@record.label&.name, @record.record_format_name.presence, @record.yearbegin.presence].compact.join(" · ") %>
         </p>
-        <% if @record.price %>
-          <p class="text-sm font-medium text-olive-950">Guide: $<%= number_with_precision(@record.price.price_high, precision: 0) %></p>
-        <% end %>
       </div>
+    </div>
+  </div>
 
-      <%# Skip form flush right %>
-      <%= form_with url: skip_admin_discogs_review_path(@record), method: :post, local: true, class: "flex items-center gap-2 flex-shrink-0" do |f| %>
-        <%= f.select :reason,
-            [["No match found", "no_match"], ["Not on Discogs", "not_on_discogs"], ["Compilation/Various", "compilation"], ["Other", "other"]],
-            {},
-            class: "block rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
-        <%= f.submit "Skip",
-            class: "inline-flex items-center px-3 py-2 border border-olive-300 shadow-sm text-sm font-medium rounded-xl text-olive-700 bg-white hover:bg-olive-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
+  <%# Currently Linked Price panel %>
+  <div class="mb-6 bg-white shadow-sm rounded-xl ring-1 ring-olive-900/5 overflow-hidden">
+    <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
+      <h2 class="font-display text-lg font-medium text-olive-950">Currently Linked Price</h2>
+    </div>
+    <div class="p-6">
+      <% if @record.price.present? %>
+        <p class="text-2xl font-semibold tabular-nums text-olive-950">
+          $<%= number_with_precision(@record.price.price_high, precision: 0) %>
+        </p>
+        <p class="mt-1 text-sm text-olive-600">
+          Range: $<%= @record.price.price_low %> – $<%= @record.price.price_high %>
+        </p>
+        <% if @record.price.detail.present? %>
+          <p class="mt-1 text-xs text-olive-500"><%= @record.price.detail %></p>
+        <% end %>
+        <% if @record.price.footnote.present? %>
+          <p class="mt-1 text-xs text-olive-400 italic"><%= @record.price.footnote %></p>
+        <% end %>
+        <div class="mt-4">
+          <%= button_to "Clear price link",
+              clear_admin_price_review_path(@record),
+              method: :post,
+              class: "inline-flex items-center px-3 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
+        </div>
+      <% else %>
+        <p class="text-sm text-olive-400">No price currently linked.</p>
       <% end %>
     </div>
   </div>
@@ -67,15 +85,15 @@
   <%# Search panel %>
   <div class="bg-white shadow-sm rounded-xl ring-1 ring-olive-900/5 overflow-hidden">
     <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
-      <h2 class="font-display text-lg font-medium text-olive-950">Search Discogs</h2>
+      <h2 class="font-display text-lg font-medium text-olive-950">Search Price Guide</h2>
     </div>
     <div class="p-6">
       <%# Search form %>
-      <%= form_with url: search_admin_discogs_review_path(@record), method: :post, data: { turbo: false }, class: "mb-6" do |f| %>
+      <%= form_with url: search_admin_price_review_path(@record), method: :post, data: { turbo: false }, class: "mb-6" do |f| %>
         <div class="flex space-x-2">
           <%= f.text_field :query,
               value: params[:query].presence || @auto_query,
-              placeholder: "Search Discogs...",
+              placeholder: "Search by artist, label, detail…",
               class: "flex-1 block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
           <%= f.submit "Search",
               class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
@@ -84,44 +102,35 @@
 
       <%# Search results %>
       <% if @candidates.present? %>
-        <p class="text-xs text-olive-500 mb-3"><%= @candidates.size %> results</p>
+        <p class="text-xs text-olive-500 mb-3"><%= @candidates.size %> result<%= @candidates.size == 1 ? "" : "s" %></p>
         <div class="space-y-4">
           <% @candidates.each do |candidate| %>
-            <div class="border border-olive-200 rounded-xl p-4 hover:border-olive-400 hover:bg-olive-50/50 transition-colors">
+            <% is_current = candidate.id == @record.price_id %>
+            <div class="border <%= is_current ? "border-olive-400 bg-olive-50/50" : "border-olive-200 hover:border-olive-400 hover:bg-olive-50/50" %> rounded-xl p-4 transition-colors">
               <div class="flex items-start gap-3">
-                <% if candidate["thumb"].present? %>
-                  <%= image_tag candidate["thumb"],
-                      class: "h-16 w-16 rounded-lg object-cover ring-1 ring-olive-900/10 flex-shrink-0",
-                      loading: "lazy" %>
-                <% else %>
-                  <div class="h-16 w-16 rounded-lg bg-olive-100 flex items-center justify-center ring-1 ring-olive-900/10 flex-shrink-0">
-                    <svg class="h-8 w-8 text-olive-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
-                    </svg>
-                  </div>
-                <% end %>
                 <div class="flex-1 min-w-0">
-                  <p class="text-sm font-medium text-olive-950">
-                    <%= candidate["title"] %>
+                  <p class="text-2xl font-semibold tabular-nums text-olive-950">
+                    $<%= number_with_precision(candidate.price_high, precision: 0) %>
                   </p>
-                  <p class="text-xs text-olive-600">
-                    <%= candidate["label"]&.first %> · <%= candidate["catno"] %> · <%= candidate["year"] %>
+                  <p class="mt-0.5 text-sm text-olive-600">
+                    Range: $<%= candidate.price_low %> – $<%= candidate.price_high %>
                   </p>
-                  <p class="text-xs text-olive-500 mt-0.5">
-                    <%= candidate["format"]&.join(", ") %>
-                  </p>
-                  <p class="text-xs text-olive-400">
-                    Discogs ID: <%= candidate["id"] %>
+                  <% if candidate.detail.present? %>
+                    <p class="mt-0.5 text-xs text-olive-500"><%= candidate.detail %></p>
+                  <% end %>
+                  <% if candidate.footnote.present? %>
+                    <p class="mt-0.5 text-xs text-olive-400 italic"><%= candidate.footnote %></p>
+                  <% end %>
+                  <p class="mt-1 text-xs text-olive-400">
+                    <%= [candidate.cached_label, candidate.media_type, [candidate.yearbegin, candidate.yearend].compact.join("–")].compact_blank.join(" · ") %>
                   </p>
                 </div>
                 <div class="flex-shrink-0 flex items-center gap-2">
-                  <%= link_to "View",
-                      "https://www.discogs.com/release/#{candidate["id"]}",
-                      target: "_blank",
-                      rel: "noopener noreferrer",
-                      class: "inline-flex items-center px-2.5 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
-                  <%= button_to "Link",
-                      link_admin_discogs_review_path(@record, discogs_id: candidate["id"]),
+                  <% if is_current %>
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-olive-100 text-olive-800">★ Current</span>
+                  <% end %>
+                  <%= button_to "Set as Price",
+                      link_admin_price_review_path(@record, price_id: candidate.id),
                       method: :post,
                       class: "inline-flex items-center px-2.5 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white bg-olive-950 hover:bg-olive-800 transition-colors" %>
                 </div>
@@ -135,7 +144,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
           </svg>
           <h3 class="mt-2 text-sm font-medium text-olive-950">No results found</h3>
-          <p class="mt-1 text-sm text-olive-600">Try a different search query.</p>
+          <p class="mt-1 text-sm text-olive-600">Try a different query.</p>
         </div>
       <% else %>
         <div class="text-center py-8">
@@ -145,13 +154,13 @@
 
       <%# Manual ID entry %>
       <div class="mt-6 pt-6 border-t border-olive-200">
-        <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Discogs ID directly</h4>
-        <%= form_with url: link_admin_discogs_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
-          <%= f.number_field :discogs_id,
-              placeholder: "e.g. 12345678",
+        <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Price ID directly</h4>
+        <%= form_with url: link_admin_price_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
+          <%= f.number_field :price_id,
+              placeholder: "e.g. 12345",
               min: 1,
               class: "block w-40 rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
-          <%= f.submit "Link by ID",
+          <%= f.submit "Set by ID",
               class: "inline-flex items-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-olive-500 transition-colors" %>
         <% end %>
       </div>
