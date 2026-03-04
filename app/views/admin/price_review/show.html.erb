@@ -90,6 +90,7 @@
     <div class="p-6">
       <%# Search form %>
       <%= form_with url: search_admin_price_review_path(@record), method: :post, data: { turbo: false }, class: "mb-6" do |f| %>
+        <%= f.label :query, "Search price guide", class: "sr-only" %>
         <div class="flex space-x-2">
           <%= f.text_field :query,
               value: params[:query].presence || @auto_query,
@@ -156,6 +157,7 @@
       <div class="mt-6 pt-6 border-t border-olive-200">
         <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Price ID directly</h4>
         <%= form_with url: link_admin_price_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
+          <%= f.label :price_id, "Price ID", class: "sr-only" %>
           <%= f.number_field :price_id,
               placeholder: "e.g. 12345",
               min: 1,

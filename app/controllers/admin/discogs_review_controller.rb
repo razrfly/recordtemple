@@ -28,17 +28,21 @@ module Admin
     # GET /admin/discogs_review/:id
     def show
       @auto_query = [@record.artist&.name, @record.label&.name].compact.join(" ")
-      begin
-        client = DiscogsApiClient.new
-        response = client.search(
-          artist:   @record.artist&.name,
-          label:    @record.label&.name,
-          type:     "release",
-          per_page: 10
-        )
-        @candidates = response["results"] || []
-      rescue => e
-        Rails.logger.error("Discogs auto-search failed: #{e.class} - #{e.message}")
+      if @auto_query.present?
+        begin
+          client = DiscogsApiClient.new
+          response = client.search(
+            artist:   @record.artist&.name,
+            label:    @record.label&.name,
+            type:     "release",
+            per_page: 10
+          )
+          @candidates = response["results"] || []
+        rescue => e
+          Rails.logger.error("Discogs auto-search failed: #{e.class} - #{e.message}")
+          @candidates = []
+        end
+      else
         @candidates = []
       end
     end
@@ -46,19 +50,23 @@ module Admin
     # POST /admin/discogs_review/:id/search
     def search
       @auto_query = build_search_query(@record)
-      query = params[:query].presence || @auto_query
+      query = (params[:query].presence || @auto_query).to_s.strip
 
-      begin
-        client = DiscogsApiClient.new
-        response = client.search(
-          query: query,
-          type: "release",
-          per_page: 10
-        )
-        @candidates = response["results"] || []
-      rescue => e
-        Rails.logger.error("Discogs search failed: #{e.class} - #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
-        flash.now[:alert] = "Search failed, please try again."
+      if query.present?
+        begin
+          client = DiscogsApiClient.new
+          response = client.search(
+            query: query,
+            type: "release",
+            per_page: 10
+          )
+          @candidates = response["results"] || []
+        rescue => e
+          Rails.logger.error("Discogs search failed: #{e.class} - #{e.message}\n#{e.backtrace&.first(5)&.join("\n")}")
+          flash.now[:alert] = "Search failed, please try again."
+          @candidates = []
+        end
+      else
         @candidates = []
       end
 

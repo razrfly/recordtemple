@@ -115,19 +115,33 @@ module Admin
     end
 
     def add_images
-      @record.images.attach(params[:record][:images]) if params.dig(:record, :images).present?
-      redirect_to admin_record_path(@record), notice: "Images added."
+      if params.dig(:record, :images).present?
+        @record.images.attach(params[:record][:images])
+        redirect_to admin_record_path(@record), notice: "Images added."
+      else
+        redirect_to admin_record_path(@record), alert: "No images selected."
+      end
     end
 
     def add_songs
-      @record.songs.attach(params[:record][:songs]) if params.dig(:record, :songs).present?
-      redirect_to admin_record_path(@record), notice: "Audio added."
+      if params.dig(:record, :songs).present?
+        @record.songs.attach(params[:record][:songs])
+        redirect_to admin_record_path(@record), notice: "Audio added."
+      else
+        redirect_to admin_record_path(@record), alert: "No audio files selected."
+      end
     end
 
     def destroy_attachment
       blob = ActiveStorage::Blob.find_signed(params[:blob_signed_id])
+      if blob.nil?
+        redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
+        return
+      end
       blob.attachments.where(record_type: "Record", record_id: @record.id).each(&:purge)
       redirect_to admin_record_path(@record), notice: "Attachment removed."
+    rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound
+      redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
     end
 
     private
@@ -258,8 +272,6 @@ module Admin
         type: "text/csv",
         disposition: "attachment"
     end
-
-    private
 
     def sanitize_csv_cell(value)
       return value unless value.is_a?(String)

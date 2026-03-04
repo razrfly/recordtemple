@@ -6,10 +6,9 @@ module Api
       return render json: [] if query.length < 2
 
       prices = Price
-        .joins(:artist, :label)
         .where(
           "prices.cached_artist ILIKE :q OR prices.cached_label ILIKE :q OR prices.detail ILIKE :q",
-          q: "%#{sanitize_sql_like(query)}%"
+          q: "%#{ActiveRecord::Base.sanitize_sql_like(query)}%"
         )
         .order("prices.price_high DESC NULLS LAST")
         .limit(10)
@@ -23,10 +22,5 @@ module Api
       }
     end
 
-    private
-
-    def sanitize_sql_like(string)
-      string.gsub(/[\\%_]/) { |x| "\\#{x}" }
-    end
   end
 end
