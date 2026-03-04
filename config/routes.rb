@@ -8,7 +8,7 @@ Rails.application.routes.draw do
 
   # Admin area
   namespace :admin, constraints: AdminConstraint.new do
-    root to: "records#index"
+    root to: "dashboard#index"
     resources :records, only: [:index, :edit, :update]
     resources :discogs_review, only: [:index, :show] do
       member do

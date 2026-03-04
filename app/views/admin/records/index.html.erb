@@ -17,10 +17,21 @@
       (function() {
         function syncCsvLink() {
           var link = document.getElementById('csv-export-link');
-          if (link) link.href = '<%= admin_records_path(format: :csv) %>' + window.location.search;
+          var frame = document.getElementById('admin_records_list');
+          if (!link) return;
+          var frameSrc = frame && frame.getAttribute('src');
+          if (frameSrc) {
+            var search = frameSrc.indexOf('?') !== -1 ? frameSrc.slice(frameSrc.indexOf('?')) : '';
+            link.href = '<%= admin_records_path(format: :csv) %>' + search;
+          } else {
+            link.href = '<%= admin_records_path(format: :csv) %>' + window.location.search;
+          }
         }
-        document.addEventListener('turbo:load', syncCsvLink);
-        document.addEventListener('turbo:frame-render', syncCsvLink);
+        if (!window.__adminRecordsCsvBound) {
+          window.__adminRecordsCsvBound = true;
+          document.addEventListener('turbo:load', syncCsvLink);
+          document.addEventListener('turbo:frame-render', syncCsvLink);
+        }
       })();
     </script>
   </header>
