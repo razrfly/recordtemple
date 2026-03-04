@@ -1,85 +1,124 @@
 <div class="flex flex-wrap items-center gap-3">
-  <%# Confidence pills %>
-  <div class="flex gap-1.5 flex-wrap">
-    <%
-      confidence_options = [["All", nil], ["High", "High"], ["Medium", "Medium"], ["Low", "Low"], ["Suspect", "Suspect"]]
-    %>
-    <% confidence_options.each do |label, value| %>
-      <%
-        active = params[:confidence].to_s == value.to_s
-        # Use link-based navigation instead of hidden radio for Turbo Frame compatibility
-      %>
-      <% if value.nil? %>
-        <%= link_to label,
-            admin_records_path(request.query_parameters.except("confidence", "page")),
-            data: { turbo_frame: "admin_records_list" },
-            class: "px-3 py-1.5 text-xs font-medium rounded-full transition-all #{params[:confidence].blank? ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" %>
-      <% else %>
-        <%= link_to label,
-            admin_records_path(request.query_parameters.merge(confidence: value).except("page")),
-            data: { turbo_frame: "admin_records_list" },
-            class: "px-3 py-1.5 text-xs font-medium rounded-full transition-all #{params[:confidence] == value ? 'bg-olive-950 text-white' : 'bg-olive-200 text-olive-950 hover:bg-olive-300'}" %>
+  <%# Price source + floor + top N row %>
+  <div class="flex flex-wrap items-center gap-4 w-full pb-3 mb-1 border-b border-olive-100">
+    <div class="flex items-center gap-1.5">
+      <span class="text-xs font-semibold uppercase tracking-wide text-olive-500 mr-1">Source</span>
+      <div class="relative group mr-1">
+        <span class="text-olive-300 cursor-help leading-none select-none text-xs">ⓘ</span>
+        <div class="pointer-events-none absolute bottom-full left-0 mb-2 z-50 w-72
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          <div class="rounded-xl bg-olive-950 text-white p-4 shadow-lg text-xs leading-relaxed">
+            <p class="font-semibold mb-2 text-olive-400 uppercase tracking-wide text-[10px]">Price source</p>
+            <div class="space-y-1.5 text-olive-300">
+              <p><span class="text-white font-medium">Best</span> — highest available price (Guide → My $ → Discogs)</p>
+              <p><span class="text-white font-medium">Guide</span> — condition-adjusted Goldmine guide value</p>
+              <p><span class="text-white font-medium">My $</span> — your personal valuation</p>
+              <p><span class="text-white font-medium">Discogs</span> — current Discogs lowest listing</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% [["Best", "best"], ["Guide", "guide"], ["My $", "my"], ["Discogs", "discogs"]].each do |label, value| %>
+        <% checked = (params[:price_source].blank? && value == "best") || params[:price_source] == value %>
+        <label class="flex items-center gap-1 px-2.5 py-1.5 rounded-lg cursor-pointer text-xs font-medium transition-colors
+                       bg-olive-200 text-olive-900 hover:bg-olive-300 has-[:checked]:bg-olive-950 has-[:checked]:text-white has-[:checked]:hover:bg-olive-950">
+          <input type="radio" name="price_source" value="<%= value %>"
+                 <%= "checked" if checked %>
+                 data-action="change->auto-submit#submit"
+                 class="sr-only">
+          <%= label %>
+        </label>
       <% end %>
+    </div>
+
+    <div class="flex items-center gap-1.5" data-controller="debounce" data-debounce-wait-value="400">
+      <span class="text-xs font-medium text-olive-500">Min $</span>
+      <input type="number" name="min_value" value="<%= params[:min_value] %>"
+             min="0" step="1" placeholder="0"
+             data-action="input->debounce#submit"
+             class="w-24 rounded-lg border-0 py-1.5 px-2.5 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+    </div>
+
+    <div class="flex items-center gap-1.5">
+      <span class="text-xs font-medium text-olive-500">Show</span>
+      <select name="top_n" data-action="change->auto-submit#submit"
+              class="rounded-lg border-0 py-1.5 pl-2.5 pr-7 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+        <option value="">All</option>
+        <% [100, 500, 1000, 2000].each do |n| %>
+          <option value="<%= n %>" <%= "selected" if params[:top_n].to_s == n.to_s %>><%= number_with_delimiter(n) %></option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+
+  <%# Confidence pills — radio inputs so has-[:checked] drives active state without server re-render %>
+  <div class="flex items-center gap-1.5 flex-wrap">
+    <span class="text-xs font-semibold uppercase tracking-wide text-olive-500">Confidence</span>
+    <div class="relative group mr-0.5">
+      <span class="text-olive-300 cursor-help leading-none select-none text-xs">ⓘ</span>
+      <div class="pointer-events-none absolute bottom-full left-0 mb-2 z-50 w-72
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+        <%= render "admin/records/confidence_legend" %>
+      </div>
+    </div>
+    <% [["All", ""], ["High", "High"], ["Medium", "Medium"], ["Low", "Low"], ["Suspect", "Suspect"]].each do |label, value| %>
+      <% checked = (value == "" && params[:confidence].blank?) || params[:confidence] == value %>
+      <label class="px-3 py-1.5 text-xs font-medium rounded-full cursor-pointer transition-all
+                     bg-olive-200 text-olive-950 hover:bg-olive-300 has-[:checked]:bg-olive-950 has-[:checked]:text-white has-[:checked]:hover:bg-olive-950">
+        <input type="radio" name="confidence" value="<%= value %>"
+               <%= "checked" if checked %>
+               data-action="change->auto-submit#submit"
+               class="sr-only">
+        <%= label %>
+      </label>
     <% end %>
   </div>
 
-  <div class="h-6 w-px bg-olive-200"></div>
+  <%# Dropdowns row — all four together so they never wrap apart %>
+  <div class="flex flex-wrap items-center gap-3 w-full">
+    <select name="pricing" aria-label="Pricing filter" data-action="change->auto-submit#submit"
+            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+      <option value="">All Pricing</option>
+      <option value="has_guide" <%= "selected" if params[:pricing] == "has_guide" %>>Has Guide Price</option>
+      <option value="has_personal" <%= "selected" if params[:pricing] == "has_personal" %>>Has Personal Value</option>
+      <option value="has_discogs" <%= "selected" if params[:pricing] == "has_discogs" %>>Has Discogs Price</option>
+      <option value="no_price" <%= "selected" if params[:pricing] == "no_price" %>>No Price Data</option>
+    </select>
 
-  <%# Value tier dropdown %>
-  <select name="tier" data-action="change->auto-submit#submit"
-          class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-    <option value="">All Values</option>
-    <% Admin::RecordsController::VALUE_TIERS.each do |label, _, _| %>
-      <option value="<%= label %>" <%= "selected" if params[:tier] == label %>><%= label %></option>
+    <% if @conditions.present? %>
+      <select name="condition" aria-label="Condition filter" data-action="change->auto-submit#submit"
+              class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+        <option value="">All Conditions</option>
+        <% @conditions.each do |c| %>
+          <option value="<%= c[:value] %>" <%= "selected" if params[:condition] == c[:value] %>><%= c[:value]&.titleize %> (<%= c[:count] %>)</option>
+        <% end %>
+      </select>
     <% end %>
-  </select>
 
-  <%# Pricing status dropdown %>
-  <select name="pricing" data-action="change->auto-submit#submit"
-          class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-    <option value="">All Pricing</option>
-    <option value="has_guide" <%= "selected" if params[:pricing] == "has_guide" %>>Has Guide Price</option>
-    <option value="has_personal" <%= "selected" if params[:pricing] == "has_personal" %>>Has Personal Value</option>
-    <option value="has_discogs" <%= "selected" if params[:pricing] == "has_discogs" %>>Has Discogs Price</option>
-    <option value="no_price" <%= "selected" if params[:pricing] == "no_price" %>>No Price Data</option>
-  </select>
+    <% if @genres.present? %>
+      <select name="genre_id" aria-label="Genre filter" data-action="change->auto-submit#submit"
+              class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+        <option value="">All Genres</option>
+        <% @genres.each do |g| %>
+          <option value="<%= g[:id] %>" <%= "selected" if params[:genre_id].to_s == g[:id].to_s %>><%= g[:name] %> (<%= g[:count] %>)</option>
+        <% end %>
+      </select>
+    <% end %>
 
-  <%# Condition dropdown %>
-  <% if @conditions.present? %>
-    <select name="condition" data-action="change->auto-submit#submit"
-            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-      <option value="">All Conditions</option>
-      <% @conditions.each do |c| %>
-        <option value="<%= c[:value] %>" <%= "selected" if params[:condition] == c[:value] %>><%= c[:value]&.titleize %> (<%= c[:count] %>)</option>
-      <% end %>
-    </select>
-  <% end %>
+    <% if @formats.present? %>
+      <select name="format_id" aria-label="Format filter" data-action="change->auto-submit#submit"
+              class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+        <option value="">All Formats</option>
+        <% @formats.each do |f| %>
+          <option value="<%= f[:id] %>" <%= "selected" if params[:format_id].to_s == f[:id].to_s %>><%= f[:name] %> (<%= f[:count] %>)</option>
+        <% end %>
+      </select>
+    <% end %>
 
-  <%# Genre dropdown %>
-  <% if @genres.present? %>
-    <select name="genre_id" data-action="change->auto-submit#submit"
-            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-      <option value="">All Genres</option>
-      <% @genres.each do |g| %>
-        <option value="<%= g[:id] %>" <%= "selected" if params[:genre_id].to_s == g[:id].to_s %>><%= g[:name] %> (<%= g[:count] %>)</option>
-      <% end %>
-    </select>
-  <% end %>
-
-  <%# Format dropdown %>
-  <% if @formats.present? %>
-    <select name="format_id" data-action="change->auto-submit#submit"
-            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-      <option value="">All Formats</option>
-      <% @formats.each do |f| %>
-        <option value="<%= f[:id] %>" <%= "selected" if params[:format_id].to_s == f[:id].to_s %>><%= f[:name] %> (<%= f[:count] %>)</option>
-      <% end %>
-    </select>
-  <% end %>
-
-  <%# Clear filters %>
-  <% if params.slice(:search, :confidence, :tier, :pricing, :condition, :genre_id, :format_id, :min_value, :max_value).values.any?(&:present?) %>
-    <%= link_to "Clear filters", admin_records_path,
-        class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
-  <% end %>
+    <%# Clear filters %>
+    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :format_id, :min_value, :price_source, :top_n).values.any?(&:present?) %>
+      <%= link_to "Clear filters", admin_records_path,
+          class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
+    <% end %>
+  </div>
 </div>

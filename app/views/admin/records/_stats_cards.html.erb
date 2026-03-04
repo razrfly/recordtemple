@@ -14,15 +14,15 @@
       conf = stats[:confidence][level] || { count: 0, value: 0.0 }
       pct = stats[:total_value] > 0 ? (conf[:value] / stats[:total_value] * 100).round(1) : 0
       color = case level
-              when "High"    then "emerald"
-              when "Medium"  then "amber"
-              when "Low"     then "orange"
-              when "Suspect" then "red"
+              when "High"    then "text-emerald-600"
+              when "Medium"  then "text-amber-600"
+              when "Low"     then "text-orange-600"
+              when "Suspect" then "text-red-600"
               end
     %>
     <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 p-4">
       <div class="text-sm font-medium text-olive-600"><%= level %> Confidence</div>
-      <div class="mt-1 text-2xl font-semibold text-<%= color %>-600"><%= number_with_delimiter(conf[:count]) %></div>
+      <div class="mt-1 text-2xl font-semibold <%= color %>"><%= number_with_delimiter(conf[:count]) %></div>
       <div class="mt-0.5 text-xs text-olive-500">$<%= number_with_delimiter(conf[:value].round(0)) %> (<%= pct %>%)</div>
     </div>
   <% end %>

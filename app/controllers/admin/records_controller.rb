@@ -7,17 +7,6 @@ module Admin
     before_action :require_admin
     before_action :set_record, only: [:edit, :update]
 
-    VALUE_TIERS = [
-      ["$1,000+", 1000, nil],
-      ["$500–999", 500, 1000],
-      ["$250–499", 250, 500],
-      ["$100–249", 100, 250],
-      ["$50–99", 50, 100],
-      ["$25–49", 25, 50],
-      ["$10–24", 10, 25],
-      ["Under $10", 0, 10]
-    ].freeze
-
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
     def index
@@ -35,22 +24,18 @@ module Admin
         records = records.where("(#{Record.confidence_sql}) = ?", params[:confidence])
       end
 
-      # Value tier filter
-      if params[:tier].present?
-        tier = VALUE_TIERS.find { |label, _, _| label == params[:tier] }
-        if tier
-          _, floor, ceiling = tier
-          records = records.where("(#{Record.best_value_sql}) >= ?", floor)
-          records = records.where("(#{Record.best_value_sql}) < ?", ceiling) if ceiling
-        end
-      end
+      # Price source (controls default sort + Min $ semantics)
+      price_source = %w[guide my discogs].include?(params[:price_source]) ? params[:price_source] : "best"
 
-      # Value range (manual min/max)
+      # Min value filter (source-aware)
       if params[:min_value].present?
-        records = records.where("(#{Record.best_value_sql}) >= ?", params[:min_value].to_f)
-      end
-      if params[:max_value].present?
-        records = records.where("(#{Record.best_value_sql}) <= ?", params[:max_value].to_f)
+        floor = params[:min_value].to_f
+        records = case price_source
+          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) >= ?", floor)
+          when "my"      then records.where("records.value >= ?", floor)
+          when "discogs" then records.where("discogs_releases.lowest_price >= ?", floor)
+          else                records.where("(#{Record.best_value_sql}) >= ?", floor)
+        end
       end
 
       # Pricing status filters
@@ -77,18 +62,33 @@ module Admin
       end
 
       # Sorting
-      sort_col = params[:sort] || "best_value"
+      default_sort = case price_source
+        when "guide"   then "guide_value"
+        when "my"      then "personal_value"
+        when "discogs" then "discogs_value"
+        else "best_value"
+      end
+      sort_col = params[:sort] || default_sort
       direction = params[:direction] == "asc" ? "ASC" : "DESC"
       records = records.order(Arel.sql("#{sort_sql_for(sort_col)} #{direction} NULLS LAST"))
 
+      top_n = params[:top_n].to_i
+      top_n = nil unless [100, 500, 1000, 2000].include?(top_n)
+
       respond_to do |format|
         format.html do
-          @pagy, @records = pagy(records, limit: 50)
+          if top_n
+            total = [records.count, top_n].min
+            @pagy = Pagy.new(count: total, limit: 50, page: params[:page])
+            @records = records.offset(@pagy.offset).limit(@pagy.limit)
+          else
+            @pagy, @records = pagy(records, limit: 50)
+          end
           @stats = compute_stats(base)
           load_filter_options
         end
         format.csv do
-          send_csv_export(records)
+          send_csv_export(records.limit(top_n || 10_000))
         end
       end
     end
@@ -192,7 +192,7 @@ module Admin
     def send_csv_export(records)
       require "csv"
 
-      rows = records.limit(10_000).to_a
+      rows = records.to_a
 
       csv_data = CSV.generate do |csv|
         csv << [
@@ -216,12 +216,12 @@ module Admin
           csv << [
             i + 1,
             r.id,
-            r[:artist_name],
-            r[:label_name],
-            r[:genre_name],
-            r[:format_name],
-            r[:price_detail],
-            r.condition&.titleize || "N/A",
+            sanitize_csv_cell(r[:artist_name]),
+            sanitize_csv_cell(r[:label_name]),
+            sanitize_csv_cell(r[:genre_name]),
+            sanitize_csv_cell(r[:format_name]),
+            sanitize_csv_cell(r[:price_detail]),
+            sanitize_csv_cell(r.condition&.titleize || "N/A"),
             r[:price_low],
             r[:price_high],
             r[:personal_value],
@@ -230,8 +230,8 @@ module Admin
             r[:discogs_lowest_price],
             confidence,
             ratio_str,
-            r.comment,
-            r[:price_footnote]
+            sanitize_csv_cell(r.comment),
+            sanitize_csv_cell(r[:price_footnote])
           ]
         end
       end
@@ -240,6 +240,13 @@ module Admin
         filename: "value_explorer_#{Date.current}.csv",
         type: "text/csv",
         disposition: "attachment"
+    end
+
+    private
+
+    def sanitize_csv_cell(value)
+      return value unless value.is_a?(String)
+      value.start_with?("=", "+", "-", "@", "\t", "\r", "\n") ? "'#{value}" : value
     end
   end
 end
