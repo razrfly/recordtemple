@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 module Admin
-  class DiscogsReviewController < ApplicationController
+  class DiscogsReviewController < BaseController
     COLLECTION_USER_ID = 1
 
-    before_action :require_admin
     before_action :set_record, only: [:show, :search, :link, :skip]
 
     # GET /admin/discogs_review
@@ -95,12 +94,6 @@ module Admin
     end
 
     private
-
-    def require_admin
-      unless current_user&.admin?
-        redirect_to root_path, alert: "Admin access required"
-      end
-    end
 
     def set_record
       @record = Record.where(user_id: COLLECTION_USER_ID).find(params[:id])

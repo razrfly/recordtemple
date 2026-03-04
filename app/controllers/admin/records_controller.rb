@@ -1,10 +1,8 @@
 # frozen_string_literal: true
 
 module Admin
-  class RecordsController < ApplicationController
+  class RecordsController < BaseController
     COLLECTION_USER_ID = 1
-
-    before_action :require_admin
     before_action :set_record, only: [:edit, :update]
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
@@ -118,18 +116,13 @@ module Admin
       params.require(:record).permit(:value, :condition, :comment)
     end
 
-    def require_admin
-      unless current_user&.admin?
-        redirect_to root_path, alert: "Admin access required"
-      end
-    end
-
     def compute_stats(base_scope)
       valuation_scope = base_scope.with_valuation
 
       total_count = base_scope.count
       total_value = base_scope
         .joins("LEFT JOIN prices ON prices.id = records.price_id")
+        .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
         .pick(Arel.sql("COALESCE(SUM(#{Record.best_value_sql}), 0)"))
         .to_f
 
