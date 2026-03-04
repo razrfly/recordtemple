@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   # Admin area
   namespace :admin, constraints: AdminConstraint.new do
+    resources :records, only: [:index, :edit, :update]
     resources :discogs_review, only: [:index, :show] do
       member do
         post :search

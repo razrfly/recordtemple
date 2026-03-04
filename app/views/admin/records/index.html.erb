@@ -1,0 +1,65 @@
+<div class="mx-auto max-w-2xl px-6 py-12 md:max-w-3xl lg:max-w-7xl lg:px-10">
+  <header class="mb-10 flex items-center justify-between flex-wrap gap-4">
+    <div>
+      <h1 class="font-display text-4xl tracking-tight text-olive-950 sm:text-5xl">Value Explorer</h1>
+      <p class="mt-3 text-lg text-olive-600">Collection valuation with condition-adjusted pricing and confidence scoring</p>
+    </div>
+    <%= link_to admin_records_path(format: :csv, **request.query_parameters),
+        { class: "inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors" } do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+      </svg>
+      Export CSV
+    <% end %>
+  </header>
+
+  <%# Stats cards %>
+  <%= render "admin/records/stats_cards", stats: @stats %>
+
+  <%# Search + filters %>
+  <div class="mb-6">
+    <form action="<%= admin_records_path %>" method="get" data-controller="auto-submit" data-turbo-frame="admin_records_list">
+      <%# Preserve sort params %>
+      <% if params[:sort].present? %>
+        <input type="hidden" name="sort" value="<%= params[:sort] %>">
+      <% end %>
+      <% if params[:direction].present? %>
+        <input type="hidden" name="direction" value="<%= params[:direction] %>">
+      <% end %>
+
+      <%# Search bar %>
+      <div class="mb-4">
+        <div class="relative" data-controller="debounce">
+          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
+            <svg class="h-5 w-5 text-olive-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          <input type="text" name="search" value="<%= params[:search] %>"
+                 placeholder="Search artists, labels, genres..."
+                 data-action="input->debounce#submit"
+                 data-debounce-wait-value="400"
+                 class="block w-full rounded-xl border-0 py-3 pl-11 pr-4 text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm/6 bg-white shadow-sm">
+        </div>
+      </div>
+
+      <%# Filter bar %>
+      <%= render "admin/records/filter_bar" %>
+    </form>
+  </div>
+
+  <%# Records list in turbo frame %>
+  <turbo-frame id="admin_records_list">
+    <div class="mb-4 flex items-center justify-between">
+      <p class="text-sm text-olive-600">
+        Showing <%= @pagy.from %>–<%= @pagy.to %> of <%= number_with_delimiter(@pagy.count) %> records
+      </p>
+    </div>
+
+    <%= render "admin/records/value_table", records: @records %>
+
+    <div class="mt-6">
+      <%= render "shared/pagination", pagy: @pagy, turbo_frame: "admin_records_list" %>
+    </div>
+  </turbo-frame>
+</div>

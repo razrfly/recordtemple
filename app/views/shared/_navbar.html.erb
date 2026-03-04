@@ -17,6 +17,9 @@
           <%= link_to "Artists", artists_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
           <%= link_to "Labels", labels_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
           <%= link_to "Genres", genres_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <% if current_user&.admin? %>
+            <%= link_to "Value Explorer", admin_records_path, class: "text-sm/7 font-medium text-olive-950 dark:text-white hover:text-olive-700" %>
+          <% end %>
         </div>
       </div>
 
@@ -72,6 +75,9 @@
         <%= link_to "Artists", artists_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <%= link_to "Labels", labels_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
         <%= link_to "Genres", genres_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <% if current_user&.admin? %>
+          <%= link_to "Value Explorer", admin_records_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>
+        <% end %>
         <hr class="border-olive-200 dark:border-olive-800">
         <% if current_user.present? %>
           <%= link_to "Dashboard", records_path, class: "group inline-flex items-center justify-between gap-2 text-3xl/10 font-medium text-olive-950 dark:text-white" %>

@@ -39,6 +39,7 @@
 #
 class Record < ApplicationRecord
   include PgSearch::Model
+  include RecordValuation
 
   belongs_to :genre
   belongs_to :price, optional: true
