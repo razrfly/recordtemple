@@ -1,0 +1,12 @@
+<%
+  badge_config = case level
+    when "High"    then { bg: "bg-emerald-50", text: "text-emerald-700", ring: "ring-emerald-600/20" }
+    when "Medium"  then { bg: "bg-amber-50", text: "text-amber-700", ring: "ring-amber-600/20" }
+    when "Low"     then { bg: "bg-orange-50", text: "text-orange-700", ring: "ring-orange-600/20" }
+    when "Suspect" then { bg: "bg-red-50", text: "text-red-700", ring: "ring-red-600/20" }
+    else { bg: "bg-olive-100", text: "text-olive-600", ring: "ring-olive-600/20" }
+  end
+%>
+<span class="inline-flex items-center px-2.5 py-1 text-xs font-semibold rounded-lg ring-1 ring-inset <%= badge_config[:bg] %> <%= badge_config[:text] %> <%= badge_config[:ring] %>">
+  <%= level || "—" %>
+</span>

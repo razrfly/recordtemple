@@ -1,0 +1,79 @@
+<div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="min-w-full divide-y divide-olive-100">
+      <thead class="bg-olive-50/50">
+        <tr>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-olive-500">#</th>
+          <th scope="col" class="px-4 py-3 text-left"><%= value_sort_link("artist", "Artist") %></th>
+          <th scope="col" class="px-4 py-3 text-left"><%= value_sort_link("label", "Label") %></th>
+          <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-olive-500">Format</th>
+          <th scope="col" class="px-4 py-3 text-left"><%= value_sort_link("condition", "Cond.") %></th>
+          <th scope="col" class="px-4 py-3 text-right"><%= value_sort_link("guide_value", "Guide $") %></th>
+          <th scope="col" class="px-4 py-3 text-right"><%= value_sort_link("personal_value", "My $") %></th>
+          <th scope="col" class="px-4 py-3 text-right"><%= value_sort_link("best_value", "Best $") %></th>
+          <th scope="col" class="px-4 py-3 text-right"><%= value_sort_link("discogs_value", "Discogs $") %></th>
+          <th scope="col" class="px-4 py-3 text-left"><%= value_sort_link("confidence", "Confidence") %></th>
+          <th scope="col" class="px-4 py-3"></th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-olive-100">
+        <% records.each_with_index do |record, i| %>
+          <tr class="hover:bg-olive-50/50 transition-colors">
+            <td class="px-4 py-3 text-sm text-olive-400 tabular-nums"><%= @pagy.from + i %></td>
+            <td class="px-4 py-3 text-sm font-medium text-olive-950 max-w-[200px] truncate">
+              <%= link_to record[:artist_name] || "—", record_path(record), class: "hover:text-olive-600 hover:underline underline-offset-2" %>
+            </td>
+            <td class="px-4 py-3 text-sm text-olive-700 max-w-[150px] truncate"><%= record[:label_name] || "—" %></td>
+            <td class="px-4 py-3 text-sm text-olive-500"><%= record[:format_name] || "—" %></td>
+            <td class="px-4 py-3">
+              <%= render "records/condition_badge", condition: record.condition %>
+            </td>
+            <td class="px-4 py-3 text-sm text-right tabular-nums text-olive-700">
+              <% if record[:price_high].to_i > 0 %>
+                $<%= number_with_delimiter(record[:adjusted_value].to_f.round(0)) %>
+              <% else %>
+                <span class="text-olive-300">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-sm text-right tabular-nums text-olive-700">
+              <% if record[:personal_value].to_i > 0 %>
+                $<%= number_with_delimiter(record[:personal_value].to_i) %>
+              <% else %>
+                <span class="text-olive-300">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-sm text-right tabular-nums font-semibold text-olive-950">
+              <% best = record[:best_value].to_f %>
+              <% if best > 0 %>
+                $<%= number_with_delimiter(best.round(0)) %>
+              <% else %>
+                <span class="text-olive-300">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-sm text-right tabular-nums text-olive-700">
+              <% if record[:discogs_lowest_price].present? %>
+                $<%= number_with_delimiter(record[:discogs_lowest_price].to_f.round(0)) %>
+              <% else %>
+                <span class="text-olive-300">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3">
+              <%= render "admin/records/confidence_badge", level: record[:confidence_level] || Record.compute_confidence(record) %>
+            </td>
+            <td class="px-4 py-3 text-right">
+              <%= link_to "Edit", edit_admin_record_path(record), class: "text-xs font-medium text-olive-600 hover:text-olive-950 hover:underline underline-offset-2 transition-colors" %>
+            </td>
+          </tr>
+        <% end %>
+
+        <% if records.empty? %>
+          <tr>
+            <td colspan="11" class="px-4 py-12 text-center text-sm text-olive-400">
+              No records match the current filters.
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

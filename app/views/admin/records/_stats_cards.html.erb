@@ -1,0 +1,29 @@
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 p-4">
+    <div class="text-sm font-medium text-olive-600">Total Records</div>
+    <div class="mt-1 text-2xl font-semibold text-olive-950"><%= number_with_delimiter(stats[:total_count]) %></div>
+  </div>
+
+  <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 p-4">
+    <div class="text-sm font-medium text-olive-600">Total Value</div>
+    <div class="mt-1 text-2xl font-semibold text-olive-950">$<%= number_with_delimiter(stats[:total_value].round(0)) %></div>
+  </div>
+
+  <% %w[High Medium Low Suspect].each do |level| %>
+    <%
+      conf = stats[:confidence][level] || { count: 0, value: 0.0 }
+      pct = stats[:total_value] > 0 ? (conf[:value] / stats[:total_value] * 100).round(1) : 0
+      color = case level
+              when "High"    then "emerald"
+              when "Medium"  then "amber"
+              when "Low"     then "orange"
+              when "Suspect" then "red"
+              end
+    %>
+    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-olive-900/5 p-4">
+      <div class="text-sm font-medium text-olive-600"><%= level %> Confidence</div>
+      <div class="mt-1 text-2xl font-semibold text-<%= color %>-600"><%= number_with_delimiter(conf[:count]) %></div>
+      <div class="mt-0.5 text-xs text-olive-500">$<%= number_with_delimiter(conf[:value].round(0)) %> (<%= pct %>%)</div>
+    </div>
+  <% end %>
+</div>

@@ -11,27 +11,6 @@ namespace :records do
     puts "=" * 70
     puts
 
-    # Condition multipliers against price_high (Goldmine scale)
-    # condition enum: mint=1, near_mint=2, vg++=3, vg+=4, very_good=5, good=6, poor=7
-    condition_sql = <<~SQL.squish
-      CASE records.condition
-        WHEN 1 THEN prices.price_high * 1.00
-        WHEN 2 THEN prices.price_high * 0.95
-        WHEN 3 THEN prices.price_high * 0.85
-        WHEN 4 THEN prices.price_high * 0.75
-        WHEN 5 THEN prices.price_high * 0.60
-        WHEN 6 THEN prices.price_high * 0.40
-        WHEN 7 THEN prices.price_high * 0.20
-        ELSE prices.price_high * 0.60
-      END
-    SQL
-
-    adjusted_value_sql = "COALESCE(#{condition_sql}, records.value, 0)"
-
-    # Sort by the highest value from any source so we don't miss records
-    # that rank high by personal value but low by price guide (or vice versa)
-    best_value_sql = "GREATEST(#{adjusted_value_sql}, COALESCE(records.value, 0))"
-
     user_id = ENV.fetch("USER_ID", 1).to_i
 
     records = Record
@@ -47,8 +26,8 @@ namespace :records do
         "prices.price_low",
         "prices.price_high",
         "records.value AS personal_value",
-        "#{adjusted_value_sql} AS adjusted_value",
-        "#{best_value_sql} AS best_value",
+        "#{Record.adjusted_value_sql} AS adjusted_value",
+        "#{Record.best_value_sql} AS best_value",
         "discogs_releases.lowest_price AS discogs_lowest_price",
         "records.comment",
         "prices.footnote AS price_footnote"
@@ -59,7 +38,7 @@ namespace :records do
       .joins("LEFT JOIN genres ON genres.id = records.genre_id")
       .joins("LEFT JOIN record_formats ON record_formats.id = records.record_format_id")
       .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
-      .order(Arel.sql("#{best_value_sql} DESC"))
+      .order(Arel.sql("#{Record.best_value_sql} DESC"))
       .limit(limit)
 
     # Collection-wide stats
@@ -67,60 +46,19 @@ namespace :records do
     total_value_result = Record
       .where(user_id: user_id)
       .joins("LEFT JOIN prices ON prices.id = records.price_id")
-      .pick(Arel.sql("SUM(#{adjusted_value_sql})"))
+      .pick(Arel.sql("SUM(#{Record.adjusted_value_sql})"))
     total_value = total_value_result.to_f
 
     top_records = records.to_a
 
     # --- Confidence scoring ---
-    # Compare price guide adjusted value against personal value and Discogs price.
-    # Confidence levels:
-    #   High   — guide and personal value agree within 2x, OR confirmed by Discogs
-    #   Medium — only one price source, or guide/personal within 5x
-    #   Low    — guide and personal diverge 5x-10x
-    #   Suspect — guide and personal diverge >10x
     scored = top_records.map do |r|
+      confidence = Record.compute_confidence(r)
       guide_adj = r[:adjusted_value].to_f
       personal = r[:personal_value].to_f
-      discogs = r[:discogs_lowest_price].to_f
       has_guide = r[:price_high].to_i > 0
       has_personal = personal > 0
-      has_discogs = discogs > 0
-
-      # Ratio of guide adjusted to personal value
       ratio = (has_guide && has_personal && personal > 0) ? guide_adj / personal : nil
-
-      # Check if Discogs corroborates (within 3x of either source)
-      discogs_corroborates = if has_discogs
-        (has_guide && guide_adj > 0 && (discogs / guide_adj).between?(1.0 / 3.0, 3.0)) ||
-        (has_personal && personal > 0 && (discogs / personal).between?(1.0 / 3.0, 3.0))
-      else
-        false
-      end
-
-      confidence = if ratio
-        if ratio >= 0.5 && ratio <= 2.0
-          "High"
-        elsif discogs_corroborates
-          "High"
-        elsif ratio >= 0.2 && ratio <= 5.0
-          "Medium"
-        elsif ratio > 5.0 && ratio <= 10.0
-          "Low"
-        elsif ratio > 10.0
-          "Suspect"
-        elsif ratio < 0.1
-          "Suspect"
-        else # ratio 0.1–0.2
-          "Low"
-        end
-      elsif has_guide && !has_personal
-        has_discogs && discogs_corroborates ? "High" : "Medium"
-      elsif !has_guide && has_personal
-        "Medium"
-      else
-        "Low"
-      end
 
       { record: r, confidence: confidence, ratio: ratio }
     end
