@@ -4,13 +4,25 @@
       <h1 class="font-display text-4xl tracking-tight text-olive-950 sm:text-5xl">Value Explorer</h1>
       <p class="mt-3 text-lg text-olive-600">Collection valuation with condition-adjusted pricing and confidence scoring</p>
     </div>
-    <%= link_to admin_records_path(format: :csv, **request.query_parameters),
-        { class: "inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors" } do %>
+    <a id="csv-export-link"
+       href="<%= admin_records_path(format: :csv, **request.query_parameters) %>"
+       data-turbo="false"
+       class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors">
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
       </svg>
       Export CSV
-    <% end %>
+    </a>
+    <script>
+      (function() {
+        function syncCsvLink() {
+          var link = document.getElementById('csv-export-link');
+          if (link) link.href = '<%= admin_records_path(format: :csv) %>' + window.location.search;
+        }
+        document.addEventListener('turbo:load', syncCsvLink);
+        document.addEventListener('turbo:frame-render', syncCsvLink);
+      })();
+    </script>
   </header>
 
   <%# Stats cards %>
@@ -25,6 +37,12 @@
       <% end %>
       <% if params[:direction].present? %>
         <input type="hidden" name="direction" value="<%= params[:direction] %>">
+      <% end %>
+      <% if params[:price_source].present? %>
+        <input type="hidden" name="price_source" value="<%= params[:price_source] %>">
+      <% end %>
+      <% if params[:top_n].present? %>
+        <input type="hidden" name="top_n" value="<%= params[:top_n] %>">
       <% end %>
 
       <%# Search bar %>
