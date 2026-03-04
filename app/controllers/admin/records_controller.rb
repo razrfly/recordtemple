@@ -3,7 +3,7 @@
 module Admin
   class RecordsController < BaseController
     COLLECTION_USER_ID = 1
-    before_action :set_record, only: [:edit, :update]
+    before_action :set_record, only: [:show, :edit, :update, :add_images, :add_songs, :destroy_attachment]
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
@@ -91,19 +91,43 @@ module Admin
       end
     end
 
-    def edit
+    def show
       @record_with_valuation = Record.where(id: @record.id).with_valuation.first
       @conditions = Record.conditions.keys
+      @genres = Genre.order(:name)
+      @formats = RecordFormat.order(:name)
+    end
+
+    def edit
+      redirect_to admin_record_path(@record)
     end
 
     def update
       if @record.update(admin_record_params)
-        redirect_to admin_records_path, notice: "Record updated."
+        redirect_to admin_record_path(@record), notice: "Record updated."
       else
         @record_with_valuation = Record.where(id: @record.id).with_valuation.first
         @conditions = Record.conditions.keys
-        render :edit, status: :unprocessable_entity
+        @genres = Genre.order(:name)
+        @formats = RecordFormat.order(:name)
+        render :show, status: :unprocessable_entity
       end
+    end
+
+    def add_images
+      @record.images.attach(params[:record][:images]) if params.dig(:record, :images).present?
+      redirect_to admin_record_path(@record), notice: "Images added."
+    end
+
+    def add_songs
+      @record.songs.attach(params[:record][:songs]) if params.dig(:record, :songs).present?
+      redirect_to admin_record_path(@record), notice: "Audio added."
+    end
+
+    def destroy_attachment
+      blob = ActiveStorage::Blob.find_signed(params[:blob_signed_id])
+      blob.attachments.where(record_type: "Record", record_id: @record.id).each(&:purge)
+      redirect_to admin_record_path(@record), notice: "Attachment removed."
     end
 
     private
@@ -113,7 +137,7 @@ module Admin
     end
 
     def admin_record_params
-      params.require(:record).permit(:value, :condition, :comment)
+      params.require(:record).permit(:value, :condition, :comment, :artist_id, :label_id, :genre_id, :record_format_id, :price_id)
     end
 
     def compute_stats(base_scope)

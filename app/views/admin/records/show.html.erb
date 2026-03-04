@@ -1,0 +1,283 @@
+<div class="mx-auto max-w-5xl px-6 py-12 lg:px-10">
+
+  <%# Flash notices %>
+  <% if notice.present? %>
+    <div class="mb-6 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-emerald-200">
+      <%= notice %>
+    </div>
+  <% end %>
+
+  <%# Header %>
+  <header class="mb-8">
+    <%= link_to "← Back to Value Explorer", admin_records_path, class: "text-sm text-olive-600 hover:text-olive-950 transition-colors" %>
+    <div class="mt-4 flex items-start justify-between gap-4">
+      <div>
+        <h1 class="font-display text-3xl tracking-tight text-olive-950">
+          <%= @record_with_valuation[:artist_name] || "Unknown Artist" %>
+        </h1>
+        <p class="mt-1 text-lg text-olive-600">
+          <% if @record_with_valuation[:label_name].present? %>
+            <%= @record_with_valuation[:label_name] %>
+            <span class="text-olive-400">·</span>
+          <% end %>
+          <% if @record_with_valuation[:format_name].present? %>
+            <%= @record_with_valuation[:format_name] %>
+          <% end %>
+          <% if @record.price&.yearbegin.present? %>
+            <span class="text-olive-400">·</span> <%= @record.price.yearbegin %>
+          <% end %>
+        </p>
+      </div>
+      <div class="shrink-0 pt-1">
+        <%= render "admin/records/confidence_badge", level: @record_with_valuation[:confidence_level] || Record.compute_confidence(@record_with_valuation) %>
+      </div>
+    </div>
+  </header>
+
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+
+    <%# Section A: Media %>
+    <div class="space-y-6">
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Cover Images</h2>
+
+        <% if @record.images.attached? %>
+          <div class="mb-4 grid grid-cols-2 gap-3">
+            <% @record.images.joins(:blob).order("active_storage_blobs.filename").each do |img| %>
+              <div class="relative group">
+                <%= image_tag img, class: "w-full h-32 object-cover rounded-lg ring-1 ring-olive-900/10" %>
+                <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-lg">
+                  <%= link_to "Remove",
+                      destroy_attachment_admin_record_path(@record, blob_signed_id: img.signed_id),
+                      data: { turbo_method: :delete, turbo_confirm: "Remove this image?" },
+                      class: "text-xs font-medium text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-full transition-colors" %>
+                </div>
+                <p class="mt-1 text-xs text-olive-400 truncate"><%= img.filename %></p>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p class="mb-4 text-sm text-olive-400">No images attached.</p>
+        <% end %>
+
+        <%= form_with url: add_images_admin_record_path(@record), method: :patch, multipart: true, class: "flex items-center gap-3" do |f| %>
+          <%= f.file_field :images, multiple: true, name: "record[images][]",
+              class: "text-xs text-olive-600 file:mr-3 file:rounded-full file:border-0 file:bg-olive-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-olive-700 file:cursor-pointer hover:file:bg-olive-200" %>
+          <%= f.submit "Upload", class: "shrink-0 inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Audio Files</h2>
+
+        <% if @record.songs.attached? %>
+          <ul class="mb-4 space-y-2">
+            <% @record.songs.joins(:blob).order("active_storage_blobs.filename").each do |song| %>
+              <li class="flex items-center justify-between gap-3">
+                <span class="text-sm text-olive-700 truncate"><%= song.filename %></span>
+                <%= link_to "Remove",
+                    destroy_attachment_admin_record_path(@record, blob_signed_id: song.signed_id),
+                    data: { turbo_method: :delete, turbo_confirm: "Remove this audio file?" },
+                    class: "shrink-0 text-xs text-red-600 hover:text-red-800 transition-colors" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p class="mb-4 text-sm text-olive-400">No audio files attached.</p>
+        <% end %>
+
+        <%= form_with url: add_songs_admin_record_path(@record), method: :patch, multipart: true, class: "flex items-center gap-3" do |f| %>
+          <%= f.file_field :songs, multiple: true, name: "record[songs][]",
+              class: "text-xs text-olive-600 file:mr-3 file:rounded-full file:border-0 file:bg-olive-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-olive-700 file:cursor-pointer hover:file:bg-olive-200" %>
+          <%= f.submit "Upload", class: "shrink-0 inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Section B: Pricing %>
+    <div class="space-y-6">
+
+      <%# Guide price card %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Guide Price</h2>
+
+        <% if @record_with_valuation[:price_high].to_i > 0 %>
+          <p class="text-2xl font-semibold tabular-nums text-olive-950">
+            $<%= number_with_delimiter(@record_with_valuation[:adjusted_value].to_f.round(0)) %>
+            <span class="text-sm font-normal text-olive-500">(adjusted)</span>
+          </p>
+          <p class="mt-1 text-sm text-olive-600">
+            Range: $<%= @record_with_valuation[:price_low] %> – $<%= @record_with_valuation[:price_high] %>
+          </p>
+          <% if @record_with_valuation[:price_detail].present? %>
+            <p class="mt-1 text-xs text-olive-500"><%= @record_with_valuation[:price_detail] %></p>
+          <% end %>
+          <% if @record_with_valuation[:price_footnote].present? %>
+            <p class="mt-1 text-xs text-olive-400 italic"><%= @record_with_valuation[:price_footnote] %></p>
+          <% end %>
+
+        <% else %>
+          <p class="text-sm text-olive-400">No guide price linked.</p>
+        <% end %>
+
+        <div class="mt-4">
+          <%= link_to (@record.price_id.present? ? "Review / Change Price →" : "Link a Price →"),
+              admin_price_review_path(@record),
+              class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
+        </div>
+      </div>
+
+      <%# Personal value %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Personal Value</h2>
+        <%= form_with model: @record, url: admin_record_path(@record), method: :patch, class: "flex items-center gap-3" do |f| %>
+          <div class="relative flex-1">
+            <span class="absolute inset-y-0 left-3 flex items-center text-olive-400 text-sm">$</span>
+            <%= f.number_field :value, step: 1, min: 0,
+                class: "block w-full rounded-xl border-0 py-2.5 pl-7 pr-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm" %>
+          </div>
+          <%= f.submit "Save", class: "shrink-0 inline-flex items-center px-4 py-2 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+
+      <%# Discogs %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Discogs</h2>
+        <% if @record_with_valuation[:discogs_lowest_price].present? %>
+          <p class="text-2xl font-semibold tabular-nums text-olive-950">
+            $<%= number_with_delimiter(@record_with_valuation[:discogs_lowest_price].to_f.round(0)) %>
+            <span class="text-sm font-normal text-olive-500">(lowest)</span>
+          </p>
+          <% if @record.discogs_release.present? %>
+            <p class="mt-1 text-xs text-olive-500 truncate"><%= @record.discogs_release.title %></p>
+            <% if @record.discogs_release.community_have.present? || @record.discogs_release.community_want.present? %>
+              <p class="mt-1 text-xs text-olive-400">
+                Have: <%= @record.discogs_release.community_have %> · Want: <%= @record.discogs_release.community_want %>
+              </p>
+            <% end %>
+          <% end %>
+        <% else %>
+          <p class="text-sm text-olive-400">No Discogs match.</p>
+        <% end %>
+        <div class="mt-4">
+          <%= link_to (@record.discogs_release_id? ? "Change Discogs link →" : "Search Discogs →"), admin_discogs_review_path(@record),
+              class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <%# Section C: Quick edit %>
+  <div class="mt-8 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+    <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-5">Condition &amp; Notes</h2>
+
+    <% if @record.errors.any? %>
+      <div class="mb-5 rounded-xl bg-red-50 p-4 ring-1 ring-red-200">
+        <p class="text-sm font-medium text-red-700 mb-1">Please fix the following errors:</p>
+        <ul class="list-disc list-inside text-sm text-red-600 space-y-0.5">
+          <% @record.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <%= form_with model: @record, url: admin_record_path(@record), method: :patch, class: "grid grid-cols-1 gap-5 sm:grid-cols-2" do |f| %>
+      <div>
+        <%= f.label :condition, "Condition", class: "block text-sm font-medium text-olive-700 mb-1.5" %>
+        <%= f.select :condition, @conditions.map { |c| [c.titleize, c] },
+            { include_blank: "— Select condition —" },
+            class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm bg-white" %>
+      </div>
+
+      <div class="sm:col-span-2">
+        <%= f.label :comment, "Comment", class: "block text-sm font-medium text-olive-700 mb-1.5" %>
+        <%= f.text_area :comment, rows: 3,
+            class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm resize-none" %>
+      </div>
+
+      <div class="sm:col-span-2">
+        <%= f.submit "Save Changes",
+            class: "inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+      </div>
+    <% end %>
+  </div>
+
+  <%# Section D: Record associations %>
+  <details class="mt-8">
+    <summary class="cursor-pointer select-none text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors">
+      Record associations ▸
+    </summary>
+
+    <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+      <%# Artist %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Artist</h3>
+        <p class="mb-3 text-sm text-olive-700"><%= @record.artist_name || "—" %></p>
+        <div data-controller="form-autocomplete"
+             data-form-autocomplete-url-value="/api/artists">
+          <input type="text"
+                 data-form-autocomplete-target="input"
+                 data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+                 placeholder="Search artists…"
+                 class="block w-full rounded-xl border-0 py-2 px-3 text-sm text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 shadow-sm">
+          <div data-form-autocomplete-target="results"
+               class="hidden mt-1 rounded-xl bg-white shadow-lg ring-1 ring-olive-900/10 overflow-hidden max-h-48 overflow-y-auto z-10 relative"></div>
+          <%= form_with url: admin_record_path(@record), method: :patch, class: "mt-2 flex items-center gap-2" do |f| %>
+            <%= f.hidden_field :artist_id, data: { "form-autocomplete-target": "hidden" } %>
+            <%= f.submit "Change artist", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Label %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Label</h3>
+        <p class="mb-3 text-sm text-olive-700"><%= @record.label_name || "—" %></p>
+        <div data-controller="form-autocomplete"
+             data-form-autocomplete-url-value="/api/labels">
+          <input type="text"
+                 data-form-autocomplete-target="input"
+                 data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+                 placeholder="Search labels…"
+                 class="block w-full rounded-xl border-0 py-2 px-3 text-sm text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 shadow-sm">
+          <div data-form-autocomplete-target="results"
+               class="hidden mt-1 rounded-xl bg-white shadow-lg ring-1 ring-olive-900/10 overflow-hidden max-h-48 overflow-y-auto z-10 relative"></div>
+          <%= form_with url: admin_record_path(@record), method: :patch, class: "mt-2 flex items-center gap-2" do |f| %>
+            <%= f.hidden_field :label_id, data: { "form-autocomplete-target": "hidden" } %>
+            <%= f.submit "Change label", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+          <% end %>
+        </div>
+      </div>
+
+      <%# Genre %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Genre</h3>
+        <%= form_with url: admin_record_path(@record), method: :patch do |f| %>
+          <%= f.select :genre_id, @genres.map { |g| [g.name, g.id] },
+              { selected: @record.genre_id },
+              class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm bg-white mb-3" %>
+          <%= f.submit "Change genre", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+
+      <%# Format %>
+      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
+        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Format</h3>
+        <% year = @record.price&.yearbegin %>
+        <% if year.present? %>
+          <p class="mb-3 text-xs text-olive-400">Year: <%= year %> (from linked price — read-only)</p>
+        <% end %>
+        <%= form_with url: admin_record_path(@record), method: :patch do |f| %>
+          <%= f.select :record_format_id, @formats.map { |fmt| [fmt.name, fmt.id] },
+              { selected: @record.record_format_id },
+              class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm bg-white mb-3" %>
+          <%= f.submit "Change format", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
+        <% end %>
+      </div>
+
+    </div>
+  </details>
+
+</div>

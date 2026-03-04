@@ -72,7 +72,7 @@
               <%= render "admin/records/confidence_badge", level: record[:confidence_level] || Record.compute_confidence(record) %>
             </td>
             <td class="px-4 py-3 text-right">
-              <%= link_to "Edit", edit_admin_record_path(record), class: "text-xs font-medium text-olive-600 hover:text-olive-950 hover:underline underline-offset-2 transition-colors", data: { turbo_frame: "_top" } %>
+              <%= link_to "View", admin_record_path(record), class: "text-xs font-medium text-olive-600 hover:text-olive-950 hover:underline underline-offset-2 transition-colors", data: { turbo_frame: "_top" } %>
             </td>
           </tr>
         <% end %>
