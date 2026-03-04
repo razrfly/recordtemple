@@ -14,7 +14,7 @@ module Admin
 
       link_to "#{label}#{arrow}",
         admin_records_path(request.query_parameters.merge(sort: column, direction: new_dir).except("page")),
-        data: { turbo_frame: "admin_records_list" },
+        data: { turbo_frame: "admin_records_list", turbo_action: "advance" },
         class: "group inline-flex items-center gap-1 text-xs font-semibold uppercase tracking-wide #{current_sort == column ? 'text-olive-950' : 'text-olive-500 hover:text-olive-700'}"
     end
   end

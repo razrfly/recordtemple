@@ -63,7 +63,7 @@ module Admin
 
       # Sorting
       default_sort = case price_source
-        when "guide"   then "guide_value"
+        when "guide"   then "adjusted_value"
         when "my"      then "personal_value"
         when "discogs" then "discogs_value"
         else "best_value"
@@ -79,7 +79,7 @@ module Admin
         format.html do
           if top_n
             total = [records.count, top_n].min
-            @pagy = Pagy.new(count: total, limit: 50, page: params[:page])
+            @pagy = Pagy.new(count: total, limit: 50, page: params[:page], overflow: :last_page)
             @records = records.offset(@pagy.offset).limit(@pagy.limit)
           else
             @pagy, @records = pagy(records, limit: 50)

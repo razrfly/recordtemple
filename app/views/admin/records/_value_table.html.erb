@@ -15,9 +15,11 @@
           <th scope="col" class="px-4 py-3 text-left">
             <div class="relative group inline-flex items-center gap-1">
               <%= value_sort_link("confidence", "Confidence") %>
-              <span class="text-olive-300 cursor-help leading-none select-none">ⓘ</span>
-              <div class="pointer-events-none absolute top-full right-0 mt-1 z-50 w-72
-                          opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+              <span tabindex="0" role="button" aria-label="Confidence scoring guide" aria-describedby="confidence-table-tooltip"
+                    class="text-olive-300 cursor-help leading-none select-none">ⓘ</span>
+              <div id="confidence-table-tooltip" role="tooltip"
+                   class="pointer-events-none absolute top-full right-0 mt-1 z-50 w-72
+                          opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity duration-150">
                 <%= render "admin/records/confidence_legend" %>
               </div>
             </div>

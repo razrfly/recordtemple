@@ -26,7 +26,7 @@ module RecordValuation
     end
 
     def best_value_sql
-      "GREATEST(#{adjusted_value_sql}, COALESCE(records.value, 0))"
+      "GREATEST(#{adjusted_value_sql}, COALESCE(records.value, 0), COALESCE(discogs_releases.lowest_price, 0))"
     end
 
     # SQL CASE expression for confidence — enables WHERE filtering and GROUP BY
