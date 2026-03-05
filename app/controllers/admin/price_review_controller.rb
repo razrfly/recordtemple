@@ -51,7 +51,7 @@ module Admin
     def price_search(query)
       return [] if query.blank?
 
-      tokens = query.split.map { |t| "%#{sanitize_sql_like(t)}%" }
+      tokens = query.split.map { |t| "%#{ActiveRecord::Base.sanitize_sql_like(t)}%" }
 
       scope = Price.all
       tokens.each do |token|
@@ -60,11 +60,7 @@ module Admin
           t: token
         )
       end
-      scope.order(price_high: :desc).limit(10)
-    end
-
-    def sanitize_sql_like(str)
-      str.gsub(/[\\%_]/) { |c| "\\#{c}" }
+      scope.order(Arel.sql("price_high DESC NULLS LAST")).limit(10)
     end
 
     def redirect_with_error(message)

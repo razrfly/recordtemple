@@ -10,7 +10,7 @@ module Api
       artists = Artist
         .joins(:records)
         .where(records: { user_id: COLLECTION_USER_ID })
-        .where("artists.name ILIKE ?", "%#{sanitize_sql_like(query)}%")
+        .where("artists.name ILIKE ?", "%#{ActiveRecord::Base.sanitize_sql_like(query)}%")
         .group("artists.id")
         .order(Arel.sql("COUNT(records.id) DESC"))
         .limit(10)
@@ -21,10 +21,5 @@ module Api
       }
     end
 
-    private
-
-    def sanitize_sql_like(string)
-      string.gsub(/[\\%_]/) { |x| "\\#{x}" }
-    end
   end
 end
