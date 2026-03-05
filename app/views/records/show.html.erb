@@ -116,30 +116,37 @@
           <%= render 'records/pressing_details', discogs_release: @record.discogs_release %>
         <% end %>
 
-        <% if @record.price_low.present? || @record.price_high.present? %>
-          <div class="mt-6 pt-6 border-t border-olive-100">
-            <p class="text-sm text-olive-500 mb-1">Estimated Value</p>
-            <p class="text-2xl font-semibold text-olive-950">
-              <% if @record.price_low.present? && @record.price_high.present? && @record.price_low != @record.price_high %>
-                $<%= @record.price_low %> – $<%= @record.price_high %>
-              <% elsif @record.price_high.present? %>
-                $<%= @record.price_high %>
-              <% elsif @record.price_low.present? %>
-                $<%= @record.price_low %>
-              <% end %>
-            </p>
-            <% if @record.yearbegin.present? || @record.yearend.present? %>
-              <p class="text-sm text-olive-500 mt-1">
-                <% if @record.yearbegin.present? && @record.yearend.present? && @record.yearbegin != @record.yearend %>
-                  Years: <%= @record.yearbegin %> – <%= @record.yearend %>
-                <% elsif @record.yearbegin.present? %>
-                  Year: <%= @record.yearbegin %>
-                <% elsif @record.yearend.present? %>
-                  Year: <%= @record.yearend %>
+        <%# Goldmine guide pressing description + footnote %>
+        <% if @record.detail.present? || @record.footnote.present? %>
+          <%= render 'records/price_details', record: @record %>
+        <% end %>
+
+        <% if current_user %>
+          <% if @record.price_low.present? || @record.price_high.present? %>
+            <div class="mt-6 pt-6 border-t border-olive-100">
+              <p class="text-sm text-olive-500 mb-1">Estimated Value</p>
+              <p class="text-2xl font-semibold text-olive-950">
+                <% if @record.price_low.present? && @record.price_high.present? && @record.price_low != @record.price_high %>
+                  $<%= @record.price_low %> – $<%= @record.price_high %>
+                <% elsif @record.price_high.present? %>
+                  $<%= @record.price_high %>
+                <% elsif @record.price_low.present? %>
+                  $<%= @record.price_low %>
                 <% end %>
               </p>
-            <% end %>
-          </div>
+              <% if @record.yearbegin.present? || @record.yearend.present? %>
+                <p class="text-sm text-olive-500 mt-1">
+                  <% if @record.yearbegin.present? && @record.yearend.present? && @record.yearbegin != @record.yearend %>
+                    Years: <%= @record.yearbegin %> – <%= @record.yearend %>
+                  <% elsif @record.yearbegin.present? %>
+                    Year: <%= @record.yearbegin %>
+                  <% elsif @record.yearend.present? %>
+                    Year: <%= @record.yearend %>
+                  <% end %>
+                </p>
+              <% end %>
+            </div>
+          <% end %>
         <% end %>
 
         <%# Discogs collector demand meter %>
