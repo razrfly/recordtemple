@@ -118,7 +118,7 @@
 
         <%# Goldmine guide pressing description + footnote %>
         <% if @record.detail.present? || @record.footnote.present? %>
-          <%= render 'records/price_details', record: @record %>
+          <%= render 'records/pressing_description', record: @record %>
         <% end %>
 
         <% if current_user %>
