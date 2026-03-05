@@ -24,6 +24,7 @@
               </div>
             </div>
           </th>
+          <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Updated</th>
           <th scope="col" class="px-4 py-3"></th>
         </tr>
       </thead>
@@ -74,6 +75,9 @@
             <td class="px-4 py-3">
               <%= render "admin/records/confidence_badge", level: record[:confidence_level] || Record.compute_confidence(record) %>
             </td>
+            <td class="px-4 py-3 text-right text-xs text-olive-400 whitespace-nowrap" title="<%= time_ago_in_words(record.updated_at) %> ago">
+              <%= record.updated_at.year == Time.current.year ? record.updated_at.strftime("%b %-d") : record.updated_at.strftime("%b %-d, %Y") %>
+            </td>
             <td class="px-4 py-3 text-right">
               <%= link_to "View", admin_record_path(record), class: "text-xs font-medium text-olive-600 hover:text-olive-950 hover:underline underline-offset-2 transition-colors", data: { turbo_frame: "_top" } %>
             </td>
@@ -82,7 +86,7 @@
 
         <% if records.empty? %>
           <tr>
-            <td colspan="11" class="px-4 py-12 text-center text-sm text-olive-400">
+            <td colspan="12" class="px-4 py-12 text-center text-sm text-olive-400">
               No records match the current filters.
             </td>
           </tr>
