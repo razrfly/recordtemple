@@ -31,8 +31,13 @@
           <% end %>
         </p>
       </div>
-      <div class="shrink-0 pt-1">
+      <div class="relative group shrink-0 pt-1">
         <%= render "admin/records/confidence_badge", level: @record_with_valuation[:confidence_level] || Record.compute_confidence(@record_with_valuation) %>
+        <div class="pointer-events-none absolute top-full right-0 mt-1.5 z-50 w-64 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          <div class="rounded-xl bg-olive-950 px-3.5 py-2.5 text-xs leading-relaxed text-white shadow-lg">
+            <%= confidence_reason(@record_with_valuation) %>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -40,28 +45,31 @@
   <%# Valuation card (full-width) %>
   <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5 mb-8">
     <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-5">Valuation</h2>
-    <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-olive-100">
+    <div class="flex flex-col sm:flex-row">
 
       <%# Guide Price column %>
-      <div class="pb-6 sm:pb-0 sm:pr-6">
+      <div class="flex-1 min-w-0 flex flex-col">
         <p class="text-xs font-medium text-olive-400 uppercase tracking-wide mb-3">Guide Price</p>
-        <% if @record_with_valuation[:price_high].to_i > 0 %>
-          <p class="text-2xl font-semibold tabular-nums text-olive-950">
-            $<%= number_with_delimiter(@record_with_valuation[:adjusted_value].to_f.round(0)) %>
-            <span class="text-sm font-normal text-olive-500">(adjusted)</span>
-          </p>
-          <p class="mt-1 text-sm text-olive-600">
-            Range: $<%= @record_with_valuation[:price_low] %> – $<%= @record_with_valuation[:price_high] %>
-          </p>
-          <% if @record_with_valuation[:price_detail].present? %>
-            <p class="mt-1 text-xs text-olive-500"><%= @record_with_valuation[:price_detail] %></p>
+        <div class="flex-1">
+          <% if @record_with_valuation[:price_high].to_i > 0 %>
+            <p class="text-2xl font-semibold tabular-nums text-olive-950">
+              $<%= number_with_delimiter(@record_with_valuation[:adjusted_value].to_f.round(0)) %>
+              <span class="text-sm font-normal text-olive-500">(adjusted)</span>
+            </p>
+            <p class="mt-1 text-sm text-olive-600">
+              Range: $<%= @record_with_valuation[:price_low] %> – $<%= @record_with_valuation[:price_high] %>
+            </p>
+            <% if @record_with_valuation[:price_detail].present? %>
+              <p class="mt-1 text-xs text-olive-500"><%= @record_with_valuation[:price_detail] %></p>
+            <% end %>
+            <% if @record_with_valuation[:price_footnote].present? %>
+              <p class="mt-1 text-xs text-olive-400 italic"><%= @record_with_valuation[:price_footnote] %></p>
+            <% end %>
+          <% else %>
+            <p class="text-sm text-olive-400">No guide price linked</p>
+            <p class="mt-0.5 text-xs text-olive-300">Not yet matched to a Goldmine entry</p>
           <% end %>
-          <% if @record_with_valuation[:price_footnote].present? %>
-            <p class="mt-1 text-xs text-olive-400 italic"><%= @record_with_valuation[:price_footnote] %></p>
-          <% end %>
-        <% else %>
-          <p class="text-sm text-olive-400">No guide price linked.</p>
-        <% end %>
+        </div>
         <div class="mt-4">
           <%= link_to (@record.price_id.present? ? "Review / Change Price →" : "Link a Price →"),
               admin_price_review_path(@record),
@@ -69,39 +77,48 @@
         </div>
       </div>
 
+      <%# Mobile horizontal separator %>
+      <div class="border-t border-olive-100 mt-6 mb-6 sm:hidden"></div>
+
+      <%# Desktop column gap %>
+      <div class="hidden sm:block mx-6"></div>
+
       <%# Discogs column %>
-      <div class="pt-6 sm:pt-0 sm:pl-6">
+      <div class="flex-1 min-w-0 flex flex-col">
         <p class="text-xs font-medium text-olive-400 uppercase tracking-wide mb-3">Discogs Market</p>
-        <% if @record_with_valuation[:discogs_lowest_price].present? %>
-          <p class="text-2xl font-semibold tabular-nums text-olive-950">
-            $<%= number_with_delimiter(@record_with_valuation[:discogs_lowest_price].to_f.round(0)) %>
-            <span class="text-sm font-normal text-olive-500">(lowest)</span>
-          </p>
-          <% if @record.discogs_release.present? %>
-            <p class="mt-1 text-xs text-olive-500 truncate"><%= @record.discogs_release.title %></p>
-            <% if @record.discogs_release.community_have.present? || @record.discogs_release.community_want.present? %>
-              <p class="mt-1 text-xs text-olive-400">
-                Have: <%= @record.discogs_release.community_have %> · Want: <%= @record.discogs_release.community_want %>
-              </p>
+        <div class="flex-1">
+          <% if @record_with_valuation[:discogs_lowest_price].present? %>
+            <p class="text-2xl font-semibold tabular-nums text-olive-950">
+              $<%= number_with_delimiter(@record_with_valuation[:discogs_lowest_price].to_f.round(0)) %>
+              <span class="text-sm font-normal text-olive-500">(lowest)</span>
+            </p>
+            <% if @record.discogs_release.present? %>
+              <p class="mt-1 text-xs text-olive-500 truncate"><%= @record.discogs_release.title %></p>
+              <% if @record.discogs_release.community_have.present? || @record.discogs_release.community_want.present? %>
+                <p class="mt-1 text-xs text-olive-400">
+                  Have: <%= @record.discogs_release.community_have %> · Want: <%= @record.discogs_release.community_want %>
+                </p>
+              <% end %>
+              <% country_catno = [@record.discogs_release&.country, @record.discogs_release&.catno].compact.join(" · ") %>
+              <% if country_catno.present? %>
+                <p class="mt-1 text-xs text-olive-400"><%= country_catno %></p>
+              <% end %>
             <% end %>
-            <% country_catno = [@record.discogs_release&.country, @record.discogs_release&.catno].compact.join(" · ") %>
-            <% if country_catno.present? %>
-              <p class="mt-1 text-xs text-olive-400"><%= country_catno %></p>
+            <% if @record.discogs_release_id? %>
+              <% match_parts = [
+                   @record.discogs_match_method&.humanize,
+                   (@record.discogs_confidence ? "#{@record.discogs_confidence.round}%" : nil),
+                   @record.discogs_matched_at&.strftime("%b %Y")
+                 ].compact %>
+              <% if match_parts.any? %>
+                <p class="mt-1 text-xs text-olive-400"><%= match_parts.join(" · ") %></p>
+              <% end %>
             <% end %>
+          <% else %>
+            <p class="text-sm text-olive-400">No Discogs match</p>
+            <p class="mt-0.5 text-xs text-olive-300">Not yet linked to a Discogs release</p>
           <% end %>
-          <% if @record.discogs_release_id? %>
-            <% match_parts = [
-                 @record.discogs_match_method&.humanize,
-                 (@record.discogs_confidence ? "#{@record.discogs_confidence.round}%" : nil),
-                 @record.discogs_matched_at&.strftime("%b %Y")
-               ].compact %>
-            <% if match_parts.any? %>
-              <p class="mt-1 text-xs text-olive-400"><%= match_parts.join(" · ") %></p>
-            <% end %>
-          <% end %>
-        <% else %>
-          <p class="text-sm text-olive-400">No Discogs match.</p>
-        <% end %>
+        </div>
         <div class="mt-4">
           <%= link_to (@record.discogs_release_id? ? "Change Discogs link →" : "Search Discogs →"), admin_discogs_review_path(@record),
               class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>

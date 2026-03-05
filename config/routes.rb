@@ -14,6 +14,7 @@ Rails.application.routes.draw do
         patch :add_images
         patch :add_songs
         delete :destroy_attachment
+        get :preview
       end
     end
     resources :discogs_review, only: [:index, :show] do

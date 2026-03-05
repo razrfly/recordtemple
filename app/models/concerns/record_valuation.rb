@@ -117,7 +117,9 @@ module RecordValuation
         "#{best_value_sql} AS best_value",
         "discogs_releases.lowest_price AS discogs_lowest_price",
         "prices.footnote AS price_footnote",
-        "(#{confidence_sql}) AS confidence_level"
+        "(#{confidence_sql}) AS confidence_level",
+        "(#{self::HAS_IMAGES_SQL}) AS has_images",
+        "(#{self::HAS_SONGS_SQL}) AS has_songs"
       )
       .joins("LEFT JOIN prices ON prices.id = records.price_id")
       .joins("LEFT JOIN artists ON artists.id = records.artist_id")
