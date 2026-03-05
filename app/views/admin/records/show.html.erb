@@ -138,6 +138,7 @@
         <% end %>
 
         <%= form_with url: add_images_admin_record_path(@record), method: :patch, multipart: true, class: "flex items-center gap-3" do |f| %>
+          <%= f.label :images, "Upload images", class: "sr-only" %>
           <%= f.file_field :images, multiple: true, name: "record[images][]",
               class: "text-xs text-olive-600 file:mr-3 file:rounded-full file:border-0 file:bg-olive-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-olive-700 file:cursor-pointer hover:file:bg-olive-200" %>
           <%= f.submit "Upload", class: "shrink-0 inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
@@ -146,7 +147,7 @@
 
       <details class="rounded-2xl bg-white shadow-sm ring-1 ring-olive-900/5">
         <summary class="cursor-pointer select-none px-6 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 hover:text-olive-700 transition-colors list-none flex items-center justify-between">
-          Audio Files (<%= @record.songs_count %>)
+          Audio Files (<%= @record.songs.size %>)
           <span class="text-olive-400 text-sm">▸</span>
         </summary>
         <div class="px-6 pb-6">
@@ -167,6 +168,7 @@
           <% end %>
 
           <%= form_with url: add_songs_admin_record_path(@record), method: :patch, multipart: true, class: "flex items-center gap-3" do |f| %>
+            <%= f.label :songs, "Upload audio", class: "sr-only" %>
             <%= f.file_field :songs, multiple: true, name: "record[songs][]",
                 class: "text-xs text-olive-600 file:mr-3 file:rounded-full file:border-0 file:bg-olive-100 file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-olive-700 file:cursor-pointer hover:file:bg-olive-200" %>
             <%= f.submit "Upload", class: "shrink-0 inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>

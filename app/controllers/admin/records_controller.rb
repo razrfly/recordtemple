@@ -115,8 +115,9 @@ module Admin
     end
 
     def add_images
-      if params.dig(:record, :images).present?
-        @record.images.attach(params[:record][:images])
+      cleaned_images = Array.wrap(params.dig(:record, :images)).reject(&:blank?)
+      if cleaned_images.any?
+        @record.images.attach(cleaned_images)
         redirect_to admin_record_path(@record), notice: "Images added."
       else
         redirect_to admin_record_path(@record), alert: "No images selected."
@@ -124,8 +125,9 @@ module Admin
     end
 
     def add_songs
-      if params.dig(:record, :songs).present?
-        @record.songs.attach(params[:record][:songs])
+      cleaned_songs = Array.wrap(params.dig(:record, :songs)).reject(&:blank?)
+      if cleaned_songs.any?
+        @record.songs.attach(cleaned_songs)
         redirect_to admin_record_path(@record), notice: "Audio added."
       else
         redirect_to admin_record_path(@record), alert: "No audio files selected."
@@ -138,7 +140,12 @@ module Admin
         redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
         return
       end
-      blob.attachments.where(record_type: "Record", record_id: @record.id).each(&:purge)
+      matching_attachments = blob.attachments.where(record_type: "Record", record_id: @record.id)
+      if matching_attachments.none?
+        redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
+        return
+      end
+      matching_attachments.each(&:purge)
       redirect_to admin_record_path(@record), notice: "Attachment removed."
     rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveRecord::RecordNotFound
       redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
