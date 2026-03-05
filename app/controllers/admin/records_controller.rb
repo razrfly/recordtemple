@@ -56,7 +56,7 @@ module Admin
         cat = params[:format_category]
         records = records.where(
           "record_formats.name = ? OR record_formats.name LIKE ?",
-          cat, "#{ActiveRecord::Base.sanitize_sql_like(cat)}: %"
+          cat, "#{ActiveRecord::Base.sanitize_sql_like(cat)}:%"
         )
       end
       if params[:condition].present?
