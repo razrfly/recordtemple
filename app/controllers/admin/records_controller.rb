@@ -140,8 +140,8 @@ module Admin
         redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
         return
       end
-      matching_attachments = blob.attachments.where(record_type: "Record", record_id: @record.id)
-      if matching_attachments.none?
+      matching_attachments = blob.attachments.where(record_type: "Record", record_id: @record.id).to_a
+      if matching_attachments.empty?
         redirect_to admin_record_path(@record), alert: "Invalid or expired attachment link."
         return
       end
