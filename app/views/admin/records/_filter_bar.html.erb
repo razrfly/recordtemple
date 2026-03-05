@@ -109,18 +109,18 @@
       </select>
     <% end %>
 
-    <% if @formats.present? %>
-      <select name="format_id" aria-label="Format filter" data-action="change->auto-submit#submit"
+    <% if @format_categories.present? %>
+      <select name="format_category" aria-label="Format filter" data-action="change->auto-submit#submit"
               class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
         <option value="">All Formats</option>
-        <% @formats.each do |f| %>
-          <option value="<%= f[:id] %>" <%= "selected" if params[:format_id].to_s == f[:id].to_s %>><%= f[:name] %> (<%= f[:count] %>)</option>
+        <% @format_categories.each do |f| %>
+          <option value="<%= f[:name] %>" <%= "selected" if params[:format_category] == f[:name] %>><%= f[:name] %> (<%= number_with_delimiter(f[:count]) %>)</option>
         <% end %>
       </select>
     <% end %>
 
     <%# Clear filters %>
-    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :format_id, :min_value, :price_source, :top_n).values.any?(&:present?) %>
+    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :format_category, :min_value, :price_source, :top_n).values.any?(&:present?) %>
       <%= link_to "Clear filters", admin_records_path,
           class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
     <% end %>
