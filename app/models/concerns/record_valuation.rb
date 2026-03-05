@@ -45,30 +45,28 @@ module RecordValuation
     end
 
     # SQL CASE expression for confidence — enables WHERE filtering and GROUP BY.
-    # Threshold literals below mirror the Ruby constants above; keep in sync:
-    #   AGREE_MIN=0.5, AGREE_MAX=2.0, WEAK_AGREE_MIN=0.2, SOME_DISAGREE_MAX=5.0,
-    #   SIGNIFICANT_GAP_MAX=10.0, SUSPECT_MIN=0.1,
-    #   DISCOGS_CORR_MIN≈0.333, DISCOGS_CORR_MAX=3.0
+    # All threshold values are interpolated from the module constants above,
+    # so changing a constant automatically updates both Ruby and SQL logic.
     def confidence_sql
       guide_adj = adjusted_value_sql
       <<~SQL.squish
         CASE
           WHEN prices.price_high > 0 AND records.value > 0 THEN
             CASE
-              WHEN (#{guide_adj}) / records.value >= 0.5 AND (#{guide_adj}) / records.value <= 2.0 THEN 'High'
+              WHEN (#{guide_adj}) / records.value >= #{AGREE_MIN} AND (#{guide_adj}) / records.value <= #{AGREE_MAX} THEN 'High'
               WHEN discogs_releases.lowest_price IS NOT NULL AND (
-                (prices.price_high > 0 AND (#{guide_adj}) > 0 AND discogs_releases.lowest_price / (#{guide_adj}) BETWEEN 0.333 AND 3.0)
-                OR (records.value > 0 AND discogs_releases.lowest_price / records.value BETWEEN 0.333 AND 3.0)
+                (prices.price_high > 0 AND (#{guide_adj}) > 0 AND discogs_releases.lowest_price / (#{guide_adj}) BETWEEN #{DISCOGS_CORR_MIN} AND #{DISCOGS_CORR_MAX})
+                OR (records.value > 0 AND discogs_releases.lowest_price / records.value BETWEEN #{DISCOGS_CORR_MIN} AND #{DISCOGS_CORR_MAX})
               ) THEN 'High'
-              WHEN (#{guide_adj}) / records.value >= 0.2 AND (#{guide_adj}) / records.value <= 5.0 THEN 'Medium'
-              WHEN (#{guide_adj}) / records.value > 5.0 AND (#{guide_adj}) / records.value <= 10.0 THEN 'Low'
-              WHEN (#{guide_adj}) / records.value > 10.0 THEN 'Suspect'
-              WHEN (#{guide_adj}) / records.value < 0.1 THEN 'Suspect'
+              WHEN (#{guide_adj}) / records.value >= #{WEAK_AGREE_MIN} AND (#{guide_adj}) / records.value <= #{SOME_DISAGREE_MAX} THEN 'Medium'
+              WHEN (#{guide_adj}) / records.value > #{SOME_DISAGREE_MAX} AND (#{guide_adj}) / records.value <= #{SIGNIFICANT_GAP_MAX} THEN 'Low'
+              WHEN (#{guide_adj}) / records.value > #{SIGNIFICANT_GAP_MAX} THEN 'Suspect'
+              WHEN (#{guide_adj}) / records.value < #{SUSPECT_MIN} THEN 'Suspect'
               ELSE 'Low'
             END
           WHEN prices.price_high > 0 AND (records.value IS NULL OR records.value = 0) THEN
             CASE
-              WHEN discogs_releases.lowest_price IS NOT NULL AND (#{guide_adj}) > 0 AND discogs_releases.lowest_price / (#{guide_adj}) BETWEEN 0.333 AND 3.0 THEN 'High'
+              WHEN discogs_releases.lowest_price IS NOT NULL AND (#{guide_adj}) > 0 AND discogs_releases.lowest_price / (#{guide_adj}) BETWEEN #{DISCOGS_CORR_MIN} AND #{DISCOGS_CORR_MAX} THEN 'High'
               ELSE 'Medium'
             END
           WHEN (prices.price_high IS NULL OR prices.price_high = 0) AND records.value > 0 THEN 'Medium'
