@@ -52,8 +52,12 @@ module Admin
       if params[:genre_id].present?
         records = records.where(genre_id: params[:genre_id])
       end
-      if params[:format_id].present?
-        records = records.where(record_format_id: params[:format_id])
+      if params[:format_category].present?
+        cat = params[:format_category]
+        records = records.where(
+          "record_formats.name = ? OR record_formats.name LIKE ?",
+          cat, "#{ActiveRecord::Base.sanitize_sql_like(cat)}: %"
+        )
       end
       if params[:condition].present?
         records = records.where(condition: params[:condition])
@@ -76,7 +80,7 @@ module Admin
       respond_to do |format|
         format.html do
           if top_n
-            total = [records.count, top_n].min
+            total = [records.unscope(:select, :order).count, top_n].min
             @pagy = Pagy.new(count: total, limit: 50, page: params[:page], overflow: :last_page)
             @records = records.offset(@pagy.offset).limit(@pagy.limit)
           else
@@ -203,12 +207,15 @@ module Admin
                      .pluck(Arel.sql("genres.id"), Arel.sql("genres.name"), Arel.sql("COUNT(records.id)"))
                      .map { |id, name, count| { id: id, name: name, count: count } }
 
-      @formats = RecordFormat.joins(:records)
-                              .where(records: { user_id: COLLECTION_USER_ID })
-                              .group("record_formats.id", "record_formats.name")
-                              .order(Arel.sql("COUNT(records.id) DESC"))
-                              .pluck(Arel.sql("record_formats.id"), Arel.sql("record_formats.name"), Arel.sql("COUNT(records.id)"))
-                              .map { |id, name, count| { id: id, name: name, count: count } }
+      raw_formats = RecordFormat.joins(:records)
+                                .where(records: { user_id: COLLECTION_USER_ID })
+                                .group("record_formats.name")
+                                .pluck("record_formats.name", Arel.sql("COUNT(records.id)"))
+      category_counts = raw_formats.each_with_object(Hash.new(0)) do |(name, count), h|
+        h[name.split(":").first.strip] += count
+      end
+      @format_categories = category_counts.sort_by { |_, count| -count }
+                                          .map { |name, count| { name: name, count: count } }
 
       @conditions = base.group(:condition)
                         .count
