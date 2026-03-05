@@ -8,6 +8,7 @@ module RecordValuation
   WEAK_AGREE_MIN      = 0.2
   SOME_DISAGREE_MAX   = 5.0
   SIGNIFICANT_GAP_MAX = 10.0
+  SUSPECT_MIN         = 0.1   # ratio below this → Suspect (wildly different)
   DISCOGS_CORR_MIN    = 1.0 / 3.0
   DISCOGS_CORR_MAX    = 3.0
 
@@ -43,7 +44,11 @@ module RecordValuation
       "GREATEST(#{adjusted_value_sql}, COALESCE(records.value, 0), COALESCE(discogs_releases.lowest_price, 0))"
     end
 
-    # SQL CASE expression for confidence — enables WHERE filtering and GROUP BY
+    # SQL CASE expression for confidence — enables WHERE filtering and GROUP BY.
+    # Threshold literals below mirror the Ruby constants above; keep in sync:
+    #   AGREE_MIN=0.5, AGREE_MAX=2.0, WEAK_AGREE_MIN=0.2, SOME_DISAGREE_MAX=5.0,
+    #   SIGNIFICANT_GAP_MAX=10.0, SUSPECT_MIN=0.1,
+    #   DISCOGS_CORR_MIN≈0.333, DISCOGS_CORR_MAX=3.0
     def confidence_sql
       guide_adj = adjusted_value_sql
       <<~SQL.squish
@@ -94,9 +99,9 @@ module RecordValuation
           "Low"
         elsif ratio > SIGNIFICANT_GAP_MAX
           "Suspect"
-        elsif ratio < 0.1
+        elsif ratio < SUSPECT_MIN
           "Suspect"
-        else # ratio 0.1–0.2
+        else # ratio SUSPECT_MIN–WEAK_AGREE_MIN (0.1–0.2)
           "Low"
         end
       elsif has_guide && !has_personal

@@ -19,7 +19,7 @@ module Admin
         elsif discogs_corr                                                                             then "Discogs #{fmt.(discogs)} corroborates pricing"
         elsif ratio >= RecordValuation::WEAK_AGREE_MIN && ratio <= RecordValuation::SOME_DISAGREE_MAX then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — some disagreement (#{ratio.round(1)}×)"
         elsif ratio > RecordValuation::SOME_DISAGREE_MAX && ratio <= RecordValuation::SIGNIFICANT_GAP_MAX then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — significant gap (#{ratio.round(1)}×)"
-        elsif ratio >= 0.1 && ratio < RecordValuation::WEAK_AGREE_MIN                                    then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — large gap, low confidence (#{ratio.round(1)}×)"
+        elsif ratio >= RecordValuation::SUSPECT_MIN && ratio < RecordValuation::WEAK_AGREE_MIN            then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — large gap, low confidence (#{ratio.round(1)}×)"
         else                                                                                               "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — wildly different, suspect (#{ratio.round(1)}×)"
         end
       elsif has_guide
