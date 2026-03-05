@@ -31,7 +31,10 @@
         <% records.each_with_index do |record, i| %>
           <tr class="hover:bg-olive-50/50 transition-colors">
             <td class="px-4 py-3 text-sm text-olive-400 tabular-nums"><%= @pagy.from + i %></td>
-            <td class="px-4 py-3 text-sm font-medium text-olive-950 max-w-[200px] truncate">
+            <td class="px-4 py-3 text-sm font-medium text-olive-950 max-w-[200px] truncate"
+                data-controller="record-preview"
+                data-record-preview-url-value="<%= preview_admin_record_path(record) %>"
+                data-action="mouseenter->record-preview#show mouseleave->record-preview#hide">
               <%= link_to record[:artist_name] || "—", record_path(record), class: "hover:text-olive-600 hover:underline underline-offset-2", data: { turbo_frame: "_top" } %>
             </td>
             <td class="px-4 py-3 text-sm text-olive-700 max-w-[150px] truncate"><%= record[:label_name] || "—" %></td>

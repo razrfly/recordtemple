@@ -1,0 +1,39 @@
+<div class="overflow-hidden rounded-xl bg-white shadow-xl ring-1 ring-olive-900/10 pointer-events-none" style="width: 256px">
+
+  <%# Fixed-height image slot — cover or vinyl placeholder %>
+  <% cover = @record.cover %>
+  <% if cover.present? %>
+    <%= image_tag cdn_image_url(cover.variant(ImageVariants::THUMBNAIL)),
+        class: "block w-full object-cover",
+        style: "height: 144px",
+        loading: "eager" %>
+  <% else %>
+    <div class="w-full flex items-center justify-center bg-olive-100" style="height: 144px">
+      <svg viewBox="0 0 80 80" width="56" height="56" aria-hidden="true" style="opacity: 0.22">
+        <circle cx="40" cy="40" r="38" fill="#5c5843"/>
+        <circle cx="40" cy="40" r="33" fill="none" stroke="#4a4730" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="40" cy="40" r="27" fill="none" stroke="#4a4730" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="40" cy="40" r="21" fill="none" stroke="#4a4730" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="40" cy="40" r="14" fill="#8b7e5a"/>
+        <circle cx="40" cy="40" r="4"  fill="#c8bfa0"/>
+      </svg>
+    </div>
+  <% end %>
+
+  <%# Fixed text zone %>
+  <div class="px-3.5 py-3" style="height: 84px; overflow: hidden">
+    <p class="text-xs font-semibold text-olive-950 truncate leading-snug">
+      <%= @record.artist_name || "Unknown Artist" %>
+    </p>
+    <p class="text-xs text-olive-500 truncate leading-snug mt-0.5">
+      <%= [@record.label_name, @record.price&.yearbegin, @record.genre&.name].compact.join(" · ") %>
+    </p>
+    <% detail = @record.price&.detail&.strip %>
+    <% if detail.present? %>
+      <p class="text-xs text-olive-700 truncate leading-snug mt-2 pt-2 border-t border-olive-100">
+        <%= detail %>
+      </p>
+    <% end %>
+  </div>
+
+</div>

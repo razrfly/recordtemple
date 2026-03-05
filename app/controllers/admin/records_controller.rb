@@ -3,7 +3,7 @@
 module Admin
   class RecordsController < BaseController
     COLLECTION_USER_ID = 1
-    before_action :set_record, only: [:show, :edit, :update, :add_images, :add_songs, :destroy_attachment]
+    before_action :set_record, only: [:show, :edit, :update, :add_images, :add_songs, :destroy_attachment, :preview]
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
@@ -112,6 +112,10 @@ module Admin
         @formats = RecordFormat.order(:name)
         render :show, status: :unprocessable_entity
       end
+    end
+
+    def preview
+      render partial: "preview_card", layout: false
     end
 
     def add_images
