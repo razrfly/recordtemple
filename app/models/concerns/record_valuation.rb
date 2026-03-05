@@ -3,6 +3,20 @@
 module RecordValuation
   extend ActiveSupport::Concern
 
+  AGREE_MIN           = 0.5
+  AGREE_MAX           = 2.0
+  WEAK_AGREE_MIN      = 0.2
+  SOME_DISAGREE_MAX   = 5.0
+  SIGNIFICANT_GAP_MAX = 10.0
+  DISCOGS_CORR_MIN    = 1.0 / 3.0
+  DISCOGS_CORR_MAX    = 3.0
+
+  def self.discogs_corresponds?(discogs, guide, personal)
+    return false unless discogs > 0
+    (guide > 0 && (discogs / guide).between?(DISCOGS_CORR_MIN, DISCOGS_CORR_MAX)) ||
+      (personal > 0 && (discogs / personal).between?(DISCOGS_CORR_MIN, DISCOGS_CORR_MAX))
+  end
+
   class_methods do
     # Condition multipliers against price_high (Goldmine scale)
     # condition enum: mint=1, near_mint=2, vg++=3, vg+=4, very_good=5, good=6, poor=7
@@ -65,27 +79,20 @@ module RecordValuation
       discogs   = row[:discogs_lowest_price].to_f
       has_guide    = row[:price_high].to_i > 0
       has_personal = personal > 0
-      has_discogs  = discogs > 0
 
       ratio = (has_guide && has_personal && personal > 0) ? guide_adj / personal : nil
-
-      discogs_corroborates = if has_discogs
-        (has_guide && guide_adj > 0 && (discogs / guide_adj).between?(1.0 / 3.0, 3.0)) ||
-        (has_personal && personal > 0 && (discogs / personal).between?(1.0 / 3.0, 3.0))
-      else
-        false
-      end
+      discogs_corroborates = RecordValuation.discogs_corresponds?(discogs, guide_adj, personal)
 
       if ratio
-        if ratio >= 0.5 && ratio <= 2.0
+        if ratio >= AGREE_MIN && ratio <= AGREE_MAX
           "High"
         elsif discogs_corroborates
           "High"
-        elsif ratio >= 0.2 && ratio <= 5.0
+        elsif ratio >= WEAK_AGREE_MIN && ratio <= SOME_DISAGREE_MAX
           "Medium"
-        elsif ratio > 5.0 && ratio <= 10.0
+        elsif ratio > SOME_DISAGREE_MAX && ratio <= SIGNIFICANT_GAP_MAX
           "Low"
-        elsif ratio > 10.0
+        elsif ratio > SIGNIFICANT_GAP_MAX
           "Suspect"
         elsif ratio < 0.1
           "Suspect"
@@ -93,7 +100,7 @@ module RecordValuation
           "Low"
         end
       elsif has_guide && !has_personal
-        has_discogs && discogs_corroborates ? "High" : "Medium"
+        discogs_corroborates ? "High" : "Medium"
       elsif !has_guide && has_personal
         "Medium"
       else
