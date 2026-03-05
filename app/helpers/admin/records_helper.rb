@@ -8,22 +8,19 @@ module Admin
       discogs  = record[:discogs_lowest_price].to_f
       has_guide    = record[:price_high].to_i > 0
       has_personal = personal > 0
-      has_discogs  = discogs > 0
 
       fmt = ->(v) { "$#{number_with_delimiter(v.round(0))}" }
 
-      discogs_corr = has_discogs && (
-        (has_guide && guide > 0 && (discogs / guide).between?(1.0 / 3.0, 3.0)) ||
-        (has_personal && personal > 0 && (discogs / personal).between?(1.0 / 3.0, 3.0))
-      )
+      discogs_corr = RecordValuation.discogs_corresponds?(discogs, guide, personal)
 
       if has_guide && has_personal
         ratio = guide / personal
-        if    ratio >= 0.5 && ratio <= 2.0  then "Guide #{fmt.(guide)} and personal #{fmt.(personal)} agree (#{ratio.round(1)}×)"
-        elsif discogs_corr                   then "Discogs #{fmt.(discogs)} corroborates pricing"
-        elsif ratio >= 0.2 && ratio <= 5.0  then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — some disagreement (#{ratio.round(1)}×)"
-        elsif ratio > 5.0  && ratio <= 10.0 then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — significant gap (#{ratio.round(1)}×)"
-        else                                      "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — wildly different (#{ratio.round(1)}×)"
+        if    ratio >= RecordValuation::AGREE_MIN && ratio <= RecordValuation::AGREE_MAX              then "Guide #{fmt.(guide)} and personal #{fmt.(personal)} agree (#{ratio.round(1)}×)"
+        elsif discogs_corr                                                                             then "Discogs #{fmt.(discogs)} corroborates pricing"
+        elsif ratio >= RecordValuation::WEAK_AGREE_MIN && ratio <= RecordValuation::SOME_DISAGREE_MAX then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — some disagreement (#{ratio.round(1)}×)"
+        elsif ratio > RecordValuation::SOME_DISAGREE_MAX && ratio <= RecordValuation::SIGNIFICANT_GAP_MAX then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — significant gap (#{ratio.round(1)}×)"
+        elsif ratio >= 0.1 && ratio < RecordValuation::WEAK_AGREE_MIN                                    then "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — large gap, low confidence (#{ratio.round(1)}×)"
+        else                                                                                               "Guide #{fmt.(guide)} vs personal #{fmt.(personal)} — wildly different, suspect (#{ratio.round(1)}×)"
         end
       elsif has_guide
         discogs_corr ? "Guide #{fmt.(guide)} corroborated by Discogs #{fmt.(discogs)}" : "Guide price only — set a personal value to improve confidence"
