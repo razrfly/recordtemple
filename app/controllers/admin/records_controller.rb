@@ -121,8 +121,13 @@ module Admin
     end
 
     def destroy
-      @record.destroy
-      redirect_to admin_records_path, notice: "Record deleted."
+      if @record.destroy
+        redirect_to admin_records_path, notice: "Record deleted."
+      else
+        redirect_to admin_record_path(@record), alert: "Could not delete record: #{@record.errors.full_messages.to_sentence}"
+      end
+    rescue ActiveRecord::InvalidForeignKey
+      redirect_to admin_record_path(@record), alert: "Cannot delete: record has dependent data that must be removed first."
     end
 
     def preview

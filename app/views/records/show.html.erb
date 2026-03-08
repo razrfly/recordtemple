@@ -69,7 +69,7 @@
         </div>
 
         <%# Admin actions - visible only when logged in %>
-        <% if current_user %>
+        <% if current_user&.admin? %>
           <div class="flex items-center gap-2 mt-4">
             <%= link_to admin_record_path(@record),
                 class: "inline-flex items-center px-3 py-1.5 text-sm font-medium text-olive-700 bg-olive-100 rounded-lg hover:bg-olive-200 transition-colors" do %>
