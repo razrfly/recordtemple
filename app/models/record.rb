@@ -93,6 +93,7 @@ class Record < ApplicationRecord
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
+  delegate :name, to: :genre, prefix: true, allow_nil: true
 
   delegate :price_high, :price_low, :yearbegin, :yearend, :detail, :footnote, to: :price, prefix: false, allow_nil: true
 

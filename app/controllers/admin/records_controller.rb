@@ -13,7 +13,7 @@ module Admin
       # Apply text search via subquery to avoid pg_search rank column
       # conflicting with with_valuation's explicit SELECT list
       if params[:search].present?
-        search_ids = Record.wide_search(params[:search]).select(:id)
+        search_ids = base.wide_search(params[:search]).reselect(:id)
         base = base.where(id: search_ids)
       end
 
