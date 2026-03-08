@@ -169,6 +169,7 @@ export default class extends Controller {
 
     this.selectedItems.set(item.id, item)
     this.renderSelected()
+    this.#submitWithSearch()
     this.inputTarget.value = ""
     this.hideResults()
     this.inputTarget.focus()
@@ -182,6 +183,7 @@ export default class extends Controller {
     const item = this.selectedItems.get(id)
     this.selectedItems.delete(id)
     this.renderSelected()
+    this.#submitWithSearch()
 
     if (item) {
       this.announceToScreenReader(`${item.name} removed`)
@@ -251,6 +253,22 @@ export default class extends Controller {
     const div = document.createElement("div")
     div.textContent = text
     return div.innerHTML
+  }
+
+  #submitWithSearch() {
+    const form = this.element.closest("form")
+    if (!form) return
+    form.querySelectorAll('[data-url-sync]').forEach(el => el.remove())
+    const search = new URLSearchParams(window.location.search).get('search')
+    if (search) {
+      const input = document.createElement('input')
+      input.type = 'hidden'
+      input.name = 'search'
+      input.value = search
+      input.dataset.urlSync = 'true'
+      form.appendChild(input)
+    }
+    form.requestSubmit()
   }
 
   announceToScreenReader(message) {
