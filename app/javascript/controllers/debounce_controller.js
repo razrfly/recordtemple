@@ -26,9 +26,10 @@ export default class extends Controller {
 
   #syncFilterParams(form) {
     form.querySelectorAll('[data-url-sync]').forEach(el => el.remove())
+    const transientParams = new Set(['search', 'page', 'per_page', 'sort', 'direction', 'cursor'])
     const params = new URLSearchParams(window.location.search)
     for (const [key, value] of params) {
-      if (key === 'search') continue
+      if (transientParams.has(key)) continue
       const input = document.createElement('input')
       input.type = 'hidden'
       input.name = key

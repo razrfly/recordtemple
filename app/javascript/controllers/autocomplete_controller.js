@@ -259,7 +259,8 @@ export default class extends Controller {
     const form = this.element.closest("form")
     if (!form) return
     form.querySelectorAll('[data-url-sync]').forEach(el => el.remove())
-    const search = new URLSearchParams(window.location.search).get('search')
+    const liveInput = document.querySelector('input[name="search"]')
+    const search = (liveInput && liveInput.value.trim()) || new URLSearchParams(window.location.search).get('search')
     if (search) {
       const input = document.createElement('input')
       input.type = 'hidden'
