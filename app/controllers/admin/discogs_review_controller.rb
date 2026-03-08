@@ -12,7 +12,7 @@ module Admin
 
       # Cache the scope to avoid duplicate queries
       base_scope = review_queue_scope
-        .includes(:artist, :label, :price, :discogs_release, images_attachments: :blob)
+        .includes(:artist, :label, :genre, :record_format, :price, :discogs_release, images_attachments: :blob)
         .order("prices.price_high DESC NULLS LAST")
 
       @pagy, @records = pagy(base_scope, items: 25)

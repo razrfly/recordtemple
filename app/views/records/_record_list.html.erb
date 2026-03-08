@@ -59,7 +59,7 @@
                   </p>
                   <p class="text-sm text-olive-500 truncate mt-0.5">
                     <% subtitle = record.detail.presence || record.breadcrumb_title.presence %>
-                    <% year = record.yearbegin.present? && record.yearbegin > 0 ? record.yearbegin : nil %>
+                    <% year = (record.yearbegin.present? && record.yearbegin > 0) ? record.yearbegin : (record.yearend.present? && record.yearend > 0 ? record.yearend : nil) %>
                     <% if subtitle.present? %>
                       <%= subtitle %><% if year %> · <%= year %><% end %>
                     <% elsif year %>
@@ -78,7 +78,7 @@
               <span class="text-sm text-olive-600 truncate block"><%= record.record_format_name.presence || "—" %></span>
             </td>
             <td class="hidden px-4 lg:table-cell" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
-              <span class="text-sm text-olive-600 truncate block"><%= record.genre&.name.presence || "—" %></span>
+              <span class="text-sm text-olive-600 truncate block"><%= (record[:genre_name].presence || record.genre_name).presence || "—" %></span>
             </td>
             <td class="px-4 text-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <%= render 'records/condition_badge', condition: record.condition %>
