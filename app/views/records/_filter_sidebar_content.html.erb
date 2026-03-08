@@ -1,9 +1,5 @@
-<%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "sort-sync" } do |f| %>
+<%= form_with url: records_path, method: :get, data: { turbo_frame: "records_list", turbo_action: "advance", controller: "sort-sync auto-submit" } do |f| %>
   <input type="hidden" name="q[s]" value="<%= params.dig(:q, :s) %>" data-sort-sync-target="input">
-  <%# Preserve search query when applying filters %>
-  <% if params[:search].present? %>
-    <input type="hidden" name="search" value="<%= params[:search] %>">
-  <% end %>
 
   <div class="flex items-center justify-between mb-4">
     <h2 class="font-display text-lg text-olive-950">Filters</h2>
@@ -120,6 +116,7 @@
                    name="q[genre_id_in][]"
                    value="<%= genre[:id] %>"
                    <%= "checked" if params.dig(:q, :genre_id_in)&.include?(genre[:id].to_s) %>
+                   data-action="change->auto-submit#submit"
                    class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
             <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900 truncate"><%= genre[:name] %></span>
             <span class="text-xs text-olive-400"><%= number_with_delimiter(genre[:count]) %></span>
@@ -139,6 +136,7 @@
                        name="q[genre_id_in][]"
                        value="<%= genre[:id] %>"
                        <%= "checked" if params.dig(:q, :genre_id_in)&.include?(genre[:id].to_s) %>
+                       data-action="change->auto-submit#submit"
                        class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
                 <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900 truncate"><%= genre[:name] %></span>
                 <span class="text-xs text-olive-400"><%= number_with_delimiter(genre[:count]) %></span>
@@ -165,6 +163,7 @@
                    name="q[record_format_id_in][]"
                    value="<%= format[:id] %>"
                    <%= "checked" if params.dig(:q, :record_format_id_in)&.include?(format[:id].to_s) %>
+                   data-action="change->auto-submit#submit"
                    class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
             <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900 truncate"><%= format[:name] %></span>
             <span class="text-xs text-olive-400"><%= number_with_delimiter(format[:count]) %></span>
@@ -189,6 +188,7 @@
                    name="q[condition_in][]"
                    value="<%= cond[:value] %>"
                    <%= "checked" if params.dig(:q, :condition_in)&.include?(cond[:value].to_s) %>
+                   data-action="change->auto-submit#submit"
                    class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
             <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900"><%= cond[:value]&.titleize || "Unknown" %></span>
             <span class="text-xs text-olive-400"><%= number_with_delimiter(cond[:count]) %></span>
@@ -205,6 +205,7 @@
                  name="has_images"
                  value="1"
                  <%= "checked" if params[:has_images] == "1" %>
+                 data-action="change->auto-submit#submit"
                  class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
           <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900">Has Images</span>
           <span class="text-xs text-olive-400"><%= number_with_delimiter(@has_images_count) %></span>
@@ -214,6 +215,7 @@
                  name="has_audio"
                  value="1"
                  <%= "checked" if params[:has_audio] == "1" %>
+                 data-action="change->auto-submit#submit"
                  class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
           <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900">
             Has Audio
@@ -226,11 +228,5 @@
       </div>
     </div>
 
-    <div class="pt-4">
-      <button type="submit"
-              class="w-full py-2.5 px-4 bg-olive-950 text-white text-sm font-medium rounded-xl hover:bg-olive-800 transition-colors">
-        Apply Filters
-      </button>
-    </div>
   </div>
 <% end %>

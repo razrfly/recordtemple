@@ -68,7 +68,7 @@
           </div>
         </div>
 
-        <%# Admin actions - visible only when logged in %>
+        <%# Admin actions - visible only to admins %>
         <% if current_user&.admin? %>
           <div class="flex items-center gap-2 mt-4">
             <%= link_to admin_record_path(@record),

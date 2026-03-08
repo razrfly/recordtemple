@@ -18,22 +18,6 @@
 
     <%# Wide-net search bar %>
     <%= form_with url: records_path, method: :get, class: "mt-6", data: { turbo_frame: "records_list", turbo_action: "advance" } do |f| %>
-      <%# Preserve existing filters when searching %>
-      <% if params[:q].present? %>
-        <% params[:q].each do |key, value| %>
-          <% next if key == "artist_name_or_label_name_or_comment_cont" %>
-          <% Array(value).each do |v| %>
-            <input type="hidden" name="q[<%= key %>]<%= '[]' if value.is_a?(Array) %>" value="<%= v %>">
-          <% end %>
-        <% end %>
-      <% end %>
-      <% if params[:has_images].present? %>
-        <input type="hidden" name="has_images" value="<%= params[:has_images] %>">
-      <% end %>
-      <% if params[:has_audio].present? %>
-        <input type="hidden" name="has_audio" value="<%= params[:has_audio] %>">
-      <% end %>
-
       <div class="relative max-w-2xl">
         <input type="text"
                name="search"
