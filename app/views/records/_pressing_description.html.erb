@@ -1,8 +1,5 @@
 <div class="mt-6 pt-6 border-t border-olive-100">
-  <% if record.detail.present? %>
-    <p class="text-sm text-olive-800"><%= record.detail %></p>
-  <% end %>
   <% if record.footnote.present? %>
-    <p class="mt-1.5 text-xs text-olive-500"><%= record.footnote %></p>
+    <p class="text-xs text-olive-500"><%= record.footnote %></p>
   <% end %>
 </div>

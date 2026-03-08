@@ -42,7 +42,7 @@
                 Unknown Artist
               <% end %>
             </h1>
-            <p class="mt-1 text-olive-600">
+            <p class="mt-1 text-olive-600 whitespace-nowrap">
               <% if @record.label.present? %>
                 <%= link_to @record.label_name, label_path(@record.label),
                     class: "hover:text-olive-800 transition-colors" %>
@@ -54,6 +54,9 @@
                 <%= @record.record_format_name %>
               <% end %>
             </p>
+            <% if @record.detail.present? %>
+              <p class="mt-1.5 text-sm text-olive-600"><%= @record.detail %></p>
+            <% end %>
           </div>
           <div class="flex items-center gap-2">
             <% if @record.discogs_release.present? %>
@@ -117,7 +120,7 @@
         <% end %>
 
         <%# Goldmine guide pressing description + footnote %>
-        <% if @record.detail.present? || @record.footnote.present? %>
+        <% if @record.footnote.present? %>
           <%= render 'records/pressing_description', record: @record %>
         <% end %>
 

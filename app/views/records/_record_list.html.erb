@@ -23,8 +23,11 @@
           <th scope="col" class="w-1/2 py-4 pr-4 text-xs font-semibold uppercase tracking-wide text-olive-500" style="padding-left: 2rem;">Record</th>
           <th scope="col" class="hidden w-36 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 lg:table-cell">Label</th>
           <th scope="col" class="hidden w-28 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 md:table-cell">Format</th>
+          <th scope="col" class="hidden w-28 px-4 py-4 text-xs font-semibold uppercase tracking-wide text-olive-500 lg:table-cell">Genre</th>
           <th scope="col" class="w-24 px-4 py-4 text-center text-xs font-semibold uppercase tracking-wide text-olive-500">Condition</th>
-          <th scope="col" class="w-28 pl-4 pr-10 py-4 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Price</th>
+          <% if current_user %>
+            <th scope="col" class="w-28 pl-4 pr-10 py-4 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Price</th>
+          <% end %>
           <% if show_actions && action_path %>
             <th scope="col" class="w-28 py-4 pl-4 pr-10 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Action</th>
           <% end %>
@@ -55,12 +58,14 @@
                     <%= record.artist_name || "Unknown Artist" %>
                   </p>
                   <p class="text-sm text-olive-500 truncate mt-0.5">
-                    <% if record.breadcrumb_title.present? %>
-                      <%= record.breadcrumb_title %>
-                    <% elsif record.yearbegin.present? && record.yearbegin > 0 %>
-                      <%= record.yearbegin %>
+                    <% subtitle = record.detail.presence || record.breadcrumb_title.presence %>
+                    <% year = record.yearbegin.present? && record.yearbegin > 0 ? record.yearbegin : nil %>
+                    <% if subtitle.present? %>
+                      <%= subtitle %><% if year %> · <%= year %><% end %>
+                    <% elsif year %>
+                      <%= year %>
                     <% else %>
-                      <span class="text-olive-400">No track info</span>
+                      <span class="text-olive-400 italic">—</span>
                     <% end %>
                   </p>
                 </div>
@@ -72,24 +77,29 @@
             <td class="hidden px-4 md:table-cell" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <span class="text-sm text-olive-600 truncate block"><%= record.record_format_name.presence || "—" %></span>
             </td>
+            <td class="hidden px-4 lg:table-cell" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
+              <span class="text-sm text-olive-600 truncate block"><%= record.genre&.name.presence || "—" %></span>
+            </td>
             <td class="px-4 text-center" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
               <%= render 'records/condition_badge', condition: record.condition %>
             </td>
-            <td class="pl-4 pr-10 text-right whitespace-nowrap" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
-              <% if record.price_low.present? || record.price_high.present? %>
-                <span class="text-sm font-semibold text-olive-800">
-                  <% if record.price_low.present? && record.price_high.present? && record.price_low != record.price_high %>
-                    $<%= record.price_low %>–<%= record.price_high %>
-                  <% elsif record.price_high.present? %>
-                    $<%= record.price_high %>
-                  <% elsif record.price_low.present? %>
-                    $<%= record.price_low %>
-                  <% end %>
-                </span>
-              <% else %>
-                <span class="text-olive-400">—</span>
-              <% end %>
-            </td>
+            <% if current_user %>
+              <td class="pl-4 pr-10 text-right whitespace-nowrap" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
+                <% if record.price_low.present? || record.price_high.present? %>
+                  <span class="text-sm font-semibold text-olive-800">
+                    <% if record.price_low.present? && record.price_high.present? && record.price_low != record.price_high %>
+                      $<%= record.price_low %>–<%= record.price_high %>
+                    <% elsif record.price_high.present? %>
+                      $<%= record.price_high %>
+                    <% elsif record.price_low.present? %>
+                      $<%= record.price_low %>
+                    <% end %>
+                  </span>
+                <% else %>
+                  <span class="text-olive-400">—</span>
+                <% end %>
+              </td>
+            <% end %>
             <% if show_actions && action_path %>
               <td class="pl-4 pr-10 text-right" style="padding-top: 0.75rem; padding-bottom: 0.75rem;">
                 <%= link_to action_path.call(record),
