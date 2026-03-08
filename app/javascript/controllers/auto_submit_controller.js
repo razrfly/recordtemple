@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { getSearchValue } from "./search_param_utils"
 
 export default class extends Controller {
   submit() {
@@ -8,8 +9,7 @@ export default class extends Controller {
 
   #syncSearchParam(form) {
     form.querySelectorAll('[data-url-sync]').forEach(el => el.remove())
-    const liveInput = document.querySelector('input[name="search"]')
-    const search = (liveInput && liveInput.value.trim()) || new URLSearchParams(window.location.search).get('search')
+    const search = getSearchValue()
     if (search) {
       const input = document.createElement('input')
       input.type = 'hidden'
