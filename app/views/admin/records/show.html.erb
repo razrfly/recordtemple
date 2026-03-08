@@ -323,4 +323,25 @@
     </div>
   </details>
 
+  <%# Danger Zone %>
+  <div class="mt-8 border border-red-200 rounded-xl overflow-hidden">
+    <details class="group">
+      <summary class="flex items-center justify-between px-4 py-3 bg-red-50 cursor-pointer list-none">
+        <span class="text-sm font-medium text-red-700">Danger Zone</span>
+        <svg class="w-4 h-4 text-red-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </summary>
+      <div class="px-4 py-4 bg-white">
+        <p class="text-sm text-olive-600 mb-4">Permanently delete this record and all associated data. This cannot be undone.</p>
+        <%= button_to admin_record_path(@record),
+            method: :delete,
+            form: { data: { turbo_confirm: "Permanently delete this record? This cannot be undone." } },
+            class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors" do %>
+          Delete Record Permanently
+        <% end %>
+      </div>
+    </details>
+  </div>
+
 </div>
