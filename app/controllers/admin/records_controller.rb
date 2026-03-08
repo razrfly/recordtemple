@@ -10,9 +10,11 @@ module Admin
     def index
       base = Record.where(user_id: COLLECTION_USER_ID)
 
-      # Apply text search before valuation joins (pg_search needs clean scope)
+      # Apply text search via subquery to avoid pg_search rank column
+      # conflicting with with_valuation's explicit SELECT list
       if params[:search].present?
-        base = base.wide_search(params[:search])
+        search_ids = Record.wide_search(params[:search]).select(:id)
+        base = base.where(id: search_ids)
       end
 
       records = base.with_valuation
