@@ -55,7 +55,7 @@ Rails.application.routes.draw do
   end
 
   # Public record catalog with authenticated CRUD
-  resources :records
+  resources :records, except: [:destroy]
 
   # Discovery pages for artists and labels
   resources :artists, only: [:index, :show] do
