@@ -86,6 +86,8 @@ class Record < ApplicationRecord
   has_many_attached :songs
 
   validates :condition, presence: true
+  validates :images, content_type: { in: %w[image/jpeg image/jpg image/png image/webp image/gif], message: "must be an image file" }
+  validates :songs, content_type: { in: %w[audio/mpeg audio/mp3 audio/wav audio/x-wav audio/aiff audio/x-aiff audio/flac audio/ogg], message: "must be an audio file" }
 
   # Update popularity score when relevant fields change
   after_commit :schedule_popularity_update, if: :popularity_affecting_change?
@@ -143,7 +145,7 @@ class Record < ApplicationRecord
   # Assumes images are eager-loaded via .with_attached_images
   def sorted_images
     return [] unless images.attached?
-    images.sort_by { |img| img.filename.to_s }
+    images.select { |img| img.content_type.start_with?("image/") }.sort_by { |img| img.filename.to_s }
   end
 
   # Returns the first image when sorted by filename (for cover display)
