@@ -134,15 +134,18 @@ module Admin
       render partial: "preview_card", layout: false
     end
 
+    ALLOWED_IMAGE_TYPES = %w[image/jpeg image/jpg image/png image/webp image/gif].freeze
+    ALLOWED_AUDIO_TYPES = %w[audio/mpeg audio/mp3 audio/wav audio/x-wav audio/aiff audio/x-aiff audio/flac audio/ogg].freeze
+
     def add_images
       cleaned_images = Array.wrap(params.dig(:record, :images)).reject(&:blank?)
       if cleaned_images.any?
-        @record.images.attach(cleaned_images)
-        if @record.valid?
-          redirect_to admin_record_path(@record), notice: "Images added."
+        invalid = cleaned_images.reject { |f| ALLOWED_IMAGE_TYPES.include?(f.content_type) }
+        if invalid.any?
+          redirect_to admin_record_path(@record), alert: "Invalid file type: #{invalid.map(&:original_filename).join(', ')}. Must be an image file."
         else
-          @record.images.last(cleaned_images.size).each(&:purge)
-          redirect_to admin_record_path(@record), alert: @record.errors.full_messages.to_sentence
+          @record.images.attach(cleaned_images)
+          redirect_to admin_record_path(@record), notice: "Images added."
         end
       else
         redirect_to admin_record_path(@record), alert: "No images selected."
@@ -152,12 +155,12 @@ module Admin
     def add_songs
       cleaned_songs = Array.wrap(params.dig(:record, :songs)).reject(&:blank?)
       if cleaned_songs.any?
-        @record.songs.attach(cleaned_songs)
-        if @record.valid?
-          redirect_to admin_record_path(@record), notice: "Audio added."
+        invalid = cleaned_songs.reject { |f| ALLOWED_AUDIO_TYPES.include?(f.content_type) }
+        if invalid.any?
+          redirect_to admin_record_path(@record), alert: "Invalid file type: #{invalid.map(&:original_filename).join(', ')}. Must be an audio file."
         else
-          @record.songs.last(cleaned_songs.size).each(&:purge)
-          redirect_to admin_record_path(@record), alert: @record.errors.full_messages.to_sentence
+          @record.songs.attach(cleaned_songs)
+          redirect_to admin_record_path(@record), notice: "Audio added."
         end
       else
         redirect_to admin_record_path(@record), alert: "No audio files selected."
