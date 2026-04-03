@@ -138,7 +138,12 @@ module Admin
       cleaned_images = Array.wrap(params.dig(:record, :images)).reject(&:blank?)
       if cleaned_images.any?
         @record.images.attach(cleaned_images)
-        redirect_to admin_record_path(@record), notice: "Images added."
+        if @record.valid?
+          redirect_to admin_record_path(@record), notice: "Images added."
+        else
+          @record.images.last(cleaned_images.size).each(&:purge)
+          redirect_to admin_record_path(@record), alert: @record.errors.full_messages.to_sentence
+        end
       else
         redirect_to admin_record_path(@record), alert: "No images selected."
       end
@@ -148,7 +153,12 @@ module Admin
       cleaned_songs = Array.wrap(params.dig(:record, :songs)).reject(&:blank?)
       if cleaned_songs.any?
         @record.songs.attach(cleaned_songs)
-        redirect_to admin_record_path(@record), notice: "Audio added."
+        if @record.valid?
+          redirect_to admin_record_path(@record), notice: "Audio added."
+        else
+          @record.songs.last(cleaned_songs.size).each(&:purge)
+          redirect_to admin_record_path(@record), alert: @record.errors.full_messages.to_sentence
+        end
       else
         redirect_to admin_record_path(@record), alert: "No audio files selected."
       end
