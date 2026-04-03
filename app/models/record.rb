@@ -145,7 +145,7 @@ class Record < ApplicationRecord
   # Assumes images are eager-loaded via .with_attached_images
   def sorted_images
     return [] unless images.attached?
-    images.select { |img| img.content_type.start_with?("image/") }.sort_by { |img| img.filename.to_s }
+    images.select { |img| img.content_type&.start_with?("image/") }.sort_by { |img| img.filename.to_s }
   end
 
   # Returns the first image when sorted by filename (for cover display)
