@@ -134,13 +134,10 @@ module Admin
       render partial: "preview_card", layout: false
     end
 
-    ALLOWED_IMAGE_TYPES = %w[image/jpeg image/jpg image/png image/webp image/gif].freeze
-    ALLOWED_AUDIO_TYPES = %w[audio/mpeg audio/mp3 audio/wav audio/x-wav audio/aiff audio/x-aiff audio/flac audio/ogg].freeze
-
     def add_images
       cleaned_images = Array.wrap(params.dig(:record, :images)).reject(&:blank?)
       if cleaned_images.any?
-        invalid = cleaned_images.reject { |f| ALLOWED_IMAGE_TYPES.include?(f.content_type) }
+        invalid = cleaned_images.reject { |f| valid_content_type?(f, Record::ALLOWED_IMAGE_CONTENT_TYPES) }
         if invalid.any?
           redirect_to admin_record_path(@record), alert: "Invalid file type: #{invalid.map(&:original_filename).join(', ')}. Must be an image file."
         else
@@ -155,7 +152,7 @@ module Admin
     def add_songs
       cleaned_songs = Array.wrap(params.dig(:record, :songs)).reject(&:blank?)
       if cleaned_songs.any?
-        invalid = cleaned_songs.reject { |f| ALLOWED_AUDIO_TYPES.include?(f.content_type) }
+        invalid = cleaned_songs.reject { |f| valid_content_type?(f, Record::ALLOWED_AUDIO_CONTENT_TYPES) }
         if invalid.any?
           redirect_to admin_record_path(@record), alert: "Invalid file type: #{invalid.map(&:original_filename).join(', ')}. Must be an audio file."
         else
@@ -165,6 +162,12 @@ module Admin
       else
         redirect_to admin_record_path(@record), alert: "No audio files selected."
       end
+    end
+
+    def valid_content_type?(uploaded_file, allowed_types)
+      detected = Marcel::MimeType.for(uploaded_file.tempfile, name: uploaded_file.original_filename)
+      uploaded_file.tempfile.rewind
+      allowed_types.include?(detected)
     end
 
     def destroy_attachment
