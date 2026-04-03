@@ -36,7 +36,7 @@ namespace :storage do
   desc "Recover missing S3 blobs by copying from old Refile bucket (idempotent)"
   task recover_missing_blobs: :environment do
     require "aws-sdk-s3"
-    require "cgi"
+    require "erb/util"
 
     old_bucket = "cdn.recordtemple.com"
     new_bucket = "cdn4.recordtemple.com"
@@ -71,7 +71,7 @@ namespace :storage do
           already_present += 1
         else
           content_type = blob.content_type.presence || "application/octet-stream"
-          encoded_old_key = old_key.split("/").map { |seg| CGI.escape(seg) }.join("/")
+          encoded_old_key = old_key.split("/").map { |seg| ERB::Util.url_encode(seg) }.join("/")
           s3_client.copy_object(
             copy_source: "#{old_bucket}/#{encoded_old_key}",
             bucket: new_bucket,
