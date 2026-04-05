@@ -109,13 +109,6 @@ export default class extends Controller {
         nameSpan.textContent = item.name
         button.appendChild(nameSpan)
 
-        if (item.count) {
-          const countSpan = document.createElement("span")
-          countSpan.className = "text-xs text-olive-400 ml-2 shrink-0"
-          countSpan.textContent = `${item.count} records`
-          button.appendChild(countSpan)
-        }
-
         this.resultsTarget.appendChild(button)
       })
     }

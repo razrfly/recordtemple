@@ -82,8 +82,8 @@ class Record < ApplicationRecord
   enum :condition, { mint: 1, "near mint": 2, "vg++": 3,
     "vg+": 4, "very good": 5, good: 6, poor: 7 }
 
-  ALLOWED_IMAGE_CONTENT_TYPES = %w[image/jpeg image/jpg image/png image/webp image/gif].freeze
-  ALLOWED_AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/mp3 audio/wav audio/x-wav audio/aiff audio/x-aiff audio/flac audio/ogg].freeze
+  ALLOWED_IMAGE_CONTENT_TYPES = %w[image/jpeg image/png image/webp image/gif].freeze
+  ALLOWED_AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/x-wav audio/x-aiff audio/flac audio/ogg].freeze
 
   has_many_attached :images
   has_many_attached :songs
