@@ -38,6 +38,7 @@
       <%= f.label :artist_id, "Artist", class: "block text-sm font-medium text-olive-700 mb-1" %>
       <div data-controller="form-autocomplete"
            data-form-autocomplete-url-value="/api/artists"
+           data-form-autocomplete-create-url-value="/api/artists"
            class="relative">
         <%= f.hidden_field :artist_id, data: { form_autocomplete_target: "hidden" } %>
         <input type="text"
@@ -58,6 +59,7 @@
       <%= f.label :label_id, "Label", class: "block text-sm font-medium text-olive-700 mb-1" %>
       <div data-controller="form-autocomplete"
            data-form-autocomplete-url-value="/api/labels"
+           data-form-autocomplete-create-url-value="/api/labels"
            class="relative">
         <%= f.hidden_field :label_id, data: { form_autocomplete_target: "hidden" } %>
         <input type="text"
