@@ -1,5 +1,7 @@
 module Api
   class LabelsController < ApplicationController
+    before_action :require_user!, only: [:create]
+
     def index
       query = params[:q].to_s.strip
 
@@ -28,7 +30,10 @@ module Api
     end
 
     def create
-      label = Label.find_or_create_by!(name: params[:name].to_s.strip)
+      name = params[:name].to_s.strip
+      return render json: { error: "Name can't be blank" }, status: :unprocessable_entity if name.blank?
+
+      label = Label.find_or_create_by!(name: name)
       render json: { id: label.id, name: label.name }, status: :created
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
