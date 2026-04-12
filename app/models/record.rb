@@ -92,6 +92,9 @@ class Record < ApplicationRecord
   validates :images, content_type: { in: ALLOWED_IMAGE_CONTENT_TYPES, message: "must be an image file" }
   validates :songs, content_type: { in: ALLOWED_AUDIO_CONTENT_TYPES, message: "must be an audio file" }
 
+  # Keep cached_artist/cached_label in sync with associations for trigram search
+  before_save :sync_cached_names
+
   # Update popularity score when relevant fields change
   after_commit :schedule_popularity_update, if: :popularity_affecting_change?
 
@@ -209,5 +212,10 @@ class Record < ApplicationRecord
 
   def schedule_popularity_update
     RecordPopularityJob.perform_later(id)
+  end
+
+  def sync_cached_names
+    self.cached_artist = artist&.name if artist_id_changed? || cached_artist.blank?
+    self.cached_label = label&.name if label_id_changed? || cached_label.blank?
   end
 end

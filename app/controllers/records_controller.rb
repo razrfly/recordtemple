@@ -17,6 +17,20 @@ class RecordsController < ApplicationController
     if params[:search].present?
       scope = scope.wide_search(params[:search])
       @search_query = params[:search]
+
+      # Boost exact artist/label name matches to the top of results
+      # pg_search ranks by ts_rank alone, which doesn't differentiate
+      # "MOON" (exact) from "MOONGLOWS" (prefix) or "Moon MULLICAN" (contains)
+      quoted = Record.connection.quote(ActiveRecord::Base.sanitize_sql_like(params[:search]))
+      rank_table = scope.pg_search_rank_table_alias
+      scope = scope.reorder(
+        Arel.sql("CASE " \
+          "WHEN records.cached_artist ILIKE #{quoted} THEN 0 " \
+          "WHEN records.cached_label ILIKE #{quoted} THEN 1 " \
+          "ELSE 2 END"),
+        Arel.sql("#{rank_table}.rank DESC"),
+        "records.id ASC"
+      )
     end
 
     # Apply Ransack filters on top of search results

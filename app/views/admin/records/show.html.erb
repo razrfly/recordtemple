@@ -42,6 +42,15 @@
     </div>
   </header>
 
+  <div class="mb-6 rounded-2xl bg-olive-50 px-5 py-4 ring-1 ring-olive-900/5 flex items-center justify-between">
+    <div>
+      <p class="text-sm font-medium text-olive-800">Change artist, label, genre, or format</p>
+      <p class="text-xs text-olive-500 mt-0.5">Use the record edit page to update associations</p>
+    </div>
+    <%= link_to "Edit Record →", edit_record_path(@record),
+        class: "inline-flex items-center px-5 py-2.5 text-sm font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors shrink-0" %>
+  </div>
+
   <%# Valuation card (full-width) %>
   <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5 mb-8">
     <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-5">Valuation</h2>
@@ -231,7 +240,8 @@
             <div class="relative">
               <span class="absolute inset-y-0 left-3 flex items-center text-olive-400 text-sm">$</span>
               <%= f.number_field :value, step: 1, min: 0,
-                  class: "block w-full rounded-xl border-0 py-2.5 pl-7 pr-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm" %>
+                  style: "padding-left: 1.75rem",
+                  class: "block w-full rounded-xl border-0 py-2.5 pr-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm" %>
             </div>
           </div>
 
@@ -243,87 +253,6 @@
       </div>
     </div>
   </div>
-
-  <%# Section D: Record associations %>
-  <details open class="mt-8">
-    <summary class="cursor-pointer select-none text-sm font-medium text-olive-600 hover:text-olive-950 transition-colors">
-      Record associations ▸
-    </summary>
-
-    <div class="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2">
-
-      <%# Artist %>
-      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
-        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Artist</h3>
-        <p class="mb-3 text-sm text-olive-700"><%= @record.artist_name || "—" %></p>
-        <div data-controller="form-autocomplete"
-             data-form-autocomplete-url-value="/api/artists">
-          <label for="artist-search" class="sr-only">Search artists</label>
-          <input type="text"
-                 id="artist-search"
-                 data-form-autocomplete-target="input"
-                 data-action="input->form-autocomplete#search focus->form-autocomplete#search"
-                 placeholder="Search artists…"
-                 class="block w-full rounded-xl border-0 py-2 px-3 text-sm text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 shadow-sm">
-          <div data-form-autocomplete-target="results"
-               class="hidden mt-1 rounded-xl bg-white shadow-lg ring-1 ring-olive-900/10 overflow-hidden max-h-48 overflow-y-auto z-10 relative"></div>
-          <%= form_with url: admin_record_path(@record), method: :patch, class: "mt-2 flex items-center gap-2" do |f| %>
-            <%= f.hidden_field :artist_id, data: { "form-autocomplete-target": "hidden" } %>
-            <%= f.submit "Change artist", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
-          <% end %>
-        </div>
-      </div>
-
-      <%# Label %>
-      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
-        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Label</h3>
-        <p class="mb-3 text-sm text-olive-700"><%= @record.label_name || "—" %></p>
-        <div data-controller="form-autocomplete"
-             data-form-autocomplete-url-value="/api/labels">
-          <label for="label-search" class="sr-only">Search labels</label>
-          <input type="text"
-                 id="label-search"
-                 data-form-autocomplete-target="input"
-                 data-action="input->form-autocomplete#search focus->form-autocomplete#search"
-                 placeholder="Search labels…"
-                 class="block w-full rounded-xl border-0 py-2 px-3 text-sm text-olive-900 ring-1 ring-inset ring-olive-900/10 placeholder:text-olive-400 focus:ring-2 focus:ring-inset focus:ring-olive-600 shadow-sm">
-          <div data-form-autocomplete-target="results"
-               class="hidden mt-1 rounded-xl bg-white shadow-lg ring-1 ring-olive-900/10 overflow-hidden max-h-48 overflow-y-auto z-10 relative"></div>
-          <%= form_with url: admin_record_path(@record), method: :patch, class: "mt-2 flex items-center gap-2" do |f| %>
-            <%= f.hidden_field :label_id, data: { "form-autocomplete-target": "hidden" } %>
-            <%= f.submit "Change label", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
-          <% end %>
-        </div>
-      </div>
-
-      <%# Genre %>
-      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
-        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Genre</h3>
-        <%= form_with url: admin_record_path(@record), method: :patch do |f| %>
-          <%= f.select :genre_id, @genres.map { |g| [g.name, g.id] },
-              { selected: @record.genre_id },
-              class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm bg-white mb-3" %>
-          <%= f.submit "Change genre", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
-        <% end %>
-      </div>
-
-      <%# Format %>
-      <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
-        <h3 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-3">Format</h3>
-        <% year = @record.price&.yearbegin %>
-        <% if year.present? %>
-          <p class="mb-3 text-xs text-olive-400">Year: <%= year %> (from linked price — read-only)</p>
-        <% end %>
-        <%= form_with url: admin_record_path(@record), method: :patch do |f| %>
-          <%= f.select :record_format_id, @formats.map { |fmt| [fmt.name, fmt.id] },
-              { selected: @record.record_format_id },
-              class: "block w-full rounded-xl border-0 py-2.5 px-3.5 text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-inset focus:ring-olive-600 sm:text-sm shadow-sm bg-white mb-3" %>
-          <%= f.submit "Change format", class: "inline-flex items-center px-4 py-2 text-xs font-medium rounded-full bg-olive-950 text-white hover:bg-olive-800 transition-colors cursor-pointer" %>
-        <% end %>
-      </div>
-
-    </div>
-  </details>
 
   <%# Danger Zone %>
   <div class="mt-8 border border-red-200 rounded-xl overflow-hidden">

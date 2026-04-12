@@ -4,7 +4,7 @@ import { Controller } from "@hotwired/stimulus"
 // Usage:
 //   <div data-controller="form-autocomplete"
 //        data-form-autocomplete-url-value="/api/artists"
-//        data-form-autocomplete-param-name-value="record[artist_id]">
+//        data-form-autocomplete-create-url-value="/api/artists">
 //     <input type="hidden" name="record[artist_id]" data-form-autocomplete-target="hidden">
 //     <input type="text" data-form-autocomplete-target="input" data-action="input->form-autocomplete#search focus->form-autocomplete#search">
 //     <div data-form-autocomplete-target="results" class="hidden"></div>
@@ -14,6 +14,7 @@ export default class extends Controller {
   static targets = ["input", "results", "hidden"]
   static values = {
     url: String,
+    createUrl: String,
     minLength: { type: Number, default: 2 },
     debounce: { type: Number, default: 300 }
   }
@@ -22,6 +23,7 @@ export default class extends Controller {
     this.highlightedIndex = -1
     this.abortController = null
     this.debounceTimer = null
+    this.lastQuery = ""
 
     this.boundHandleKeydown = this.handleKeydown.bind(this)
     this.inputTarget.addEventListener("keydown", this.boundHandleKeydown)
@@ -76,7 +78,8 @@ export default class extends Controller {
       if (!response.ok) throw new Error("Network response was not ok")
 
       const results = await response.json()
-      this.renderResults(results)
+      this.lastQuery = query
+      this.renderResults(results, query)
     } catch (error) {
       if (error.name !== "AbortError") {
         console.error("Autocomplete error:", error)
@@ -85,16 +88,15 @@ export default class extends Controller {
     }
   }
 
-  renderResults(results) {
-    if (results.length === 0) {
-      this.resultsTarget.innerHTML = `
-        <div class="px-4 py-3 text-sm text-olive-500 italic">
-          No results found
-        </div>
-      `
+  renderResults(results, query) {
+    this.resultsTarget.innerHTML = ""
+
+    if (results.length === 0 && !this.hasCreateUrlValue) {
+      const div = document.createElement("div")
+      div.className = "px-4 py-3 text-sm text-olive-500 italic"
+      div.textContent = "No results found"
+      this.resultsTarget.appendChild(div)
     } else {
-      // Build results using DOM APIs to prevent XSS
-      this.resultsTarget.innerHTML = ""
       results.forEach((item, index) => {
         const button = document.createElement("button")
         button.type = "button"
@@ -111,10 +113,42 @@ export default class extends Controller {
 
         this.resultsTarget.appendChild(button)
       })
+
+      // Add "Create" option when createUrl is configured and query doesn't exactly match any result
+      if (this.hasCreateUrlValue && query) {
+        const exactMatch = results.some(item => item.name.toLowerCase() === query.toLowerCase())
+        if (!exactMatch) {
+          this.appendCreateButton(query, results.length)
+        }
+      }
     }
 
     this.highlightedIndex = -1
     this.showResults()
+  }
+
+  appendCreateButton(query, index) {
+    const separator = document.createElement("div")
+    separator.className = "border-t border-olive-100"
+    this.resultsTarget.appendChild(separator)
+
+    const button = document.createElement("button")
+    button.type = "button"
+    button.className = "w-full px-4 py-2.5 text-left flex items-center gap-2 hover:bg-emerald-50 focus:bg-emerald-50 focus:outline-none transition-colors text-emerald-700"
+    button.dataset.action = "click->form-autocomplete#createNew"
+    button.dataset.index = index
+
+    const plusSpan = document.createElement("span")
+    plusSpan.className = "text-sm font-medium"
+    plusSpan.textContent = "+"
+
+    const textSpan = document.createElement("span")
+    textSpan.className = "text-sm"
+    textSpan.textContent = `Create "${query}"…`
+
+    button.appendChild(plusSpan)
+    button.appendChild(textSpan)
+    this.resultsTarget.appendChild(button)
   }
 
   select(event) {
@@ -127,6 +161,43 @@ export default class extends Controller {
     this.inputTarget.value = name
     this.hideResults()
     this.inputTarget.focus()
+  }
+
+  async createNew(event) {
+    event.preventDefault()
+
+    const query = this.lastQuery || this.inputTarget.value.trim()
+    if (!query) return
+
+    const button = event.currentTarget
+    button.disabled = true
+    button.classList.add("opacity-50")
+
+    try {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
+
+      const response = await fetch(this.createUrlValue, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "X-CSRF-Token": csrfToken
+        },
+        body: JSON.stringify({ name: query })
+      })
+
+      if (!response.ok) throw new Error("Failed to create")
+
+      const item = await response.json()
+      this.hiddenTarget.value = item.id
+      this.inputTarget.value = item.name
+      this.hideResults()
+      this.inputTarget.focus()
+    } catch (error) {
+      console.error("Create error:", error)
+      button.disabled = false
+      button.classList.remove("opacity-50")
+    }
   }
 
   clear() {
@@ -194,11 +265,5 @@ export default class extends Controller {
   hideResults() {
     this.resultsTarget.classList.add("hidden")
     this.highlightedIndex = -1
-  }
-
-  escapeHtml(text) {
-    const div = document.createElement("div")
-    div.textContent = text
-    return div.innerHTML
   }
 }

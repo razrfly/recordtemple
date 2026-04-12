@@ -49,8 +49,8 @@ Rails.application.routes.draw do
 
   # API endpoints for autocomplete
   namespace :api do
-    resources :artists, only: [:index]
-    resources :labels, only: [:index]
+    resources :artists, only: [:index, :create]
+    resources :labels, only: [:index, :create]
     resources :prices, only: [:index]
   end
 
