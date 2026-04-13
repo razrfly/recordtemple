@@ -197,6 +197,15 @@ export default class extends Controller {
       console.error("Create error:", error)
       button.disabled = false
       button.classList.remove("opacity-50")
+
+      // Show inline error in the results dropdown
+      const existing = this.resultsTarget.querySelector("[data-create-error]")
+      if (existing) existing.remove()
+      const errorDiv = document.createElement("div")
+      errorDiv.dataset.createError = true
+      errorDiv.className = "px-4 py-2 text-sm text-red-600"
+      errorDiv.textContent = "Failed to create. Please try again."
+      this.resultsTarget.appendChild(errorDiv)
     }
   }
 
