@@ -35,17 +35,12 @@ module Api
 
       artist = Artist.find_or_create_by!(name: name)
       render json: { id: artist.id, name: artist.name }, status: :created
-    rescue ActiveRecord::RecordNotUnique
-      artist = Artist.find_by!(name: name)
+    rescue ActiveRecord::RecordNotUnique => e
+      artist = Artist.find_by(name: name) || Artist.find_by(slug: name.parameterize)
+      raise e unless artist
       render json: { id: artist.id, name: artist.name }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
-    end
-
-    private
-
-    def require_api_user!
-      render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
     end
   end
 end

@@ -35,17 +35,12 @@ module Api
 
       label = Label.find_or_create_by!(name: name)
       render json: { id: label.id, name: label.name }, status: :created
-    rescue ActiveRecord::RecordNotUnique
-      label = Label.find_by!(name: name)
+    rescue ActiveRecord::RecordNotUnique => e
+      label = Label.find_by(name: name) || Label.find_by(slug: name.parameterize)
+      raise e unless label
       render json: { id: label.id, name: label.name }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
-    end
-
-    private
-
-    def require_api_user!
-      render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
     end
   end
 end

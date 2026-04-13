@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
     return if current_user
     redirect_to root_path, flash: { error: 'You are not worthy!' }
   end
+
+  def require_api_user!
+    render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
+  end
 end
