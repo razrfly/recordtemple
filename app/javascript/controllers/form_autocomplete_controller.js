@@ -24,6 +24,7 @@ export default class extends Controller {
     this.abortController = null
     this.debounceTimer = null
     this.lastQuery = ""
+    this.justSelected = false
 
     this.boundHandleKeydown = this.handleKeydown.bind(this)
     this.inputTarget.addEventListener("keydown", this.boundHandleKeydown)
@@ -44,6 +45,12 @@ export default class extends Controller {
   }
 
   search() {
+    // Skip search triggered by focus after a selection
+    if (this.justSelected) {
+      this.justSelected = false
+      return
+    }
+
     clearTimeout(this.debounceTimer)
 
     const query = this.inputTarget.value.trim()
@@ -160,6 +167,7 @@ export default class extends Controller {
     this.hiddenTarget.value = id
     this.inputTarget.value = name
     this.hideResults()
+    this.justSelected = true
     this.inputTarget.focus()
   }
 
@@ -186,12 +194,16 @@ export default class extends Controller {
         body: JSON.stringify({ name: query })
       })
 
-      if (!response.ok) throw new Error("Failed to create")
+      if (!response.ok) {
+        const payload = await response.json().catch(() => null)
+        throw new Error(payload?.error || "Failed to create")
+      }
 
       const item = await response.json()
       this.hiddenTarget.value = item.id
       this.inputTarget.value = item.name
       this.hideResults()
+      this.justSelected = true
       this.inputTarget.focus()
     } catch (error) {
       console.error("Create error:", error)
@@ -204,7 +216,7 @@ export default class extends Controller {
       const errorDiv = document.createElement("div")
       errorDiv.dataset.createError = true
       errorDiv.className = "px-4 py-2 text-sm text-red-600"
-      errorDiv.textContent = "Failed to create. Please try again."
+      errorDiv.textContent = error.message || "Failed to create. Please try again."
       this.resultsTarget.appendChild(errorDiv)
     }
   }
