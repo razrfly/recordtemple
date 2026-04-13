@@ -1,6 +1,6 @@
 module Api
   class ArtistsController < ApplicationController
-    before_action :require_user!, only: [:create]
+    before_action :require_api_user!, only: [:create]
 
     def index
       query = params[:q].to_s.strip
@@ -35,9 +35,17 @@ module Api
 
       artist = Artist.find_or_create_by!(name: name)
       render json: { id: artist.id, name: artist.name }, status: :created
+    rescue ActiveRecord::RecordNotUnique
+      artist = Artist.find_by!(name: name)
+      render json: { id: artist.id, name: artist.name }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
     end
 
+    private
+
+    def require_api_user!
+      render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
+    end
   end
 end

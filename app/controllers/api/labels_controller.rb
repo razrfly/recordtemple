@@ -1,6 +1,6 @@
 module Api
   class LabelsController < ApplicationController
-    before_action :require_user!, only: [:create]
+    before_action :require_api_user!, only: [:create]
 
     def index
       query = params[:q].to_s.strip
@@ -35,8 +35,17 @@ module Api
 
       label = Label.find_or_create_by!(name: name)
       render json: { id: label.id, name: label.name }, status: :created
+    rescue ActiveRecord::RecordNotUnique
+      label = Label.find_by!(name: name)
+      render json: { id: label.id, name: label.name }, status: :ok
     rescue ActiveRecord::RecordInvalid => e
       render json: { error: e.message }, status: :unprocessable_entity
+    end
+
+    private
+
+    def require_api_user!
+      render json: { error: "Unauthorized" }, status: :unauthorized unless current_user
     end
   end
 end
