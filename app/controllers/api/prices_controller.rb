@@ -1,5 +1,7 @@
 module Api
   class PricesController < ApplicationController
+    before_action :require_api_user!, only: [:create]
+
     def index
       query = params[:q].to_s.strip
 
@@ -22,5 +24,23 @@ module Api
       }
     end
 
+    def create
+      price = Price.new(price_params.merge(user_id: current_user.id))
+      if price.save
+        render json: { id: price.id, name: price.title }, status: :created
+      else
+        render json: { errors: price.errors.full_messages }, status: :unprocessable_entity
+      end
+    end
+
+    private
+
+    def price_params
+      params.require(:price).permit(
+        :artist_id, :label_id, :record_format_id,
+        :yearbegin, :yearend, :price_low, :price_high,
+        :detail, :footnote, :media_type
+      )
+    end
   end
 end

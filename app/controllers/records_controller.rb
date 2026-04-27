@@ -138,7 +138,7 @@ class RecordsController < ApplicationController
   def record_params
     params.require(:record).permit(
       :condition, :comment,
-      :artist_id, :label_id, :genre_id, :record_format_id
+      :artist_id, :label_id, :genre_id, :record_format_id, :price_id
     )
   end
 

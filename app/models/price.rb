@@ -35,11 +35,39 @@ class Price < ApplicationRecord
 
   has_many :records
 
+  validates :price_low, :price_high,
+            numericality: { only_integer: true, greater_than_or_equal_to: 0 },
+            allow_nil: true
+  validates :yearbegin, :yearend,
+            numericality: { only_integer: true, greater_than: 1800, less_than: 2100 },
+            allow_nil: true
+  validate :price_low_lte_high
+  validate :yearbegin_lte_end
+
+  before_save :sync_cached_names
+
   delegate :name, to: :artist, prefix: true, allow_nil: true
   delegate :name, to: :label, prefix: true, allow_nil: true
   delegate :name, to: :record_format, prefix: true, allow_nil: true
 
   def title
     [artist_name, label_name, record_format_name, detail].compact.join(' - ')
+  end
+
+  private
+
+  def price_low_lte_high
+    return if price_low.blank? || price_high.blank?
+    errors.add(:price_low, "must be ≤ price_high") if price_low > price_high
+  end
+
+  def yearbegin_lte_end
+    return if yearbegin.blank? || yearend.blank?
+    errors.add(:yearbegin, "must be ≤ yearend") if yearbegin > yearend
+  end
+
+  def sync_cached_names
+    self.cached_artist = artist&.name if artist_id_changed? || cached_artist.blank?
+    self.cached_label = label&.name if label_id_changed? || cached_label.blank?
   end
 end

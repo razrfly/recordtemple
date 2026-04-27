@@ -153,6 +153,16 @@
         </div>
       <% end %>
 
+      <%# Create new entry %>
+      <div class="mt-6 pt-6 border-t border-olive-200">
+        <h4 class="text-sm font-medium text-olive-950 mb-2">Nothing matches?</h4>
+        <%= render "prices/create_panel",
+            default_artist_id: @record.artist_id,
+            default_label_id: @record.label_id,
+            default_format_id: @record.record_format_id,
+            link_url: link_admin_price_review_path(@record) %>
+      </div>
+
       <%# Manual ID entry %>
       <div class="mt-6 pt-6 border-t border-olive-200">
         <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Price ID directly</h4>

@@ -1,0 +1,97 @@
+<%#
+  Locals:
+    artist_source, label_source, format_source — CSS selectors of sibling form inputs (optional)
+    default_artist_id, default_label_id, default_format_id — server-rendered defaults (optional)
+    price_id_hidden_selector, price_label_selector — selectors for the autocomplete to populate (optional)
+    link_url — chain a POST after create (optional, used by Price Review)
+%>
+<% artist_source ||= nil; label_source ||= nil; format_source ||= nil %>
+<% default_artist_id ||= nil; default_label_id ||= nil; default_format_id ||= nil %>
+<% price_id_hidden_selector ||= nil; price_label_selector ||= nil; link_url ||= nil %>
+<%
+  panel_data = { controller: "price-create-toggle" }
+  panel_data[:"price-create-toggle-artist-source-value"] = artist_source if artist_source
+  panel_data[:"price-create-toggle-label-source-value"] = label_source if label_source
+  panel_data[:"price-create-toggle-format-source-value"] = format_source if format_source
+  panel_data[:"price-create-toggle-price-id-hidden-value"] = price_id_hidden_selector if price_id_hidden_selector
+  panel_data[:"price-create-toggle-price-label-value"] = price_label_selector if price_label_selector
+  panel_data[:"price-create-toggle-link-url-value"] = link_url if link_url
+%>
+<%= tag.div(data: panel_data, class: "mt-2") do %>
+  <button type="button"
+          data-action="click->price-create-toggle#open"
+          data-price-create-toggle-target="trigger"
+          class="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 hover:text-emerald-900 transition-colors">
+    <span>+</span>
+    <span>Create new price guide entry</span>
+  </button>
+
+  <div data-price-create-toggle-target="panel" hidden
+       class="mt-3 rounded-xl border border-olive-200 bg-olive-50/50 p-4 space-y-4">
+    <p class="text-xs text-olive-600">
+      A new price guide entry will be created and linked. Artist, label, and format come from the record's current selections.
+    </p>
+
+    <ul data-price-create-toggle-target="errors" hidden
+        class="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700 list-disc list-inside ring-1 ring-red-200"></ul>
+
+    <input type="hidden" data-price-create-toggle-target="artistIdInput" value="<%= default_artist_id %>">
+    <input type="hidden" data-price-create-toggle-target="labelIdInput" value="<%= default_label_id %>">
+    <input type="hidden" data-price-create-toggle-target="formatIdInput" value="<%= default_format_id %>">
+
+    <div class="grid grid-cols-2 gap-3">
+      <div>
+        <label class="block text-xs font-medium text-olive-700 mb-1">Year begin</label>
+        <input type="number" data-price-create-toggle-target="yearbegin" min="1900" max="2099"
+               class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-olive-700 mb-1">Year end</label>
+        <input type="number" data-price-create-toggle-target="yearend" min="1900" max="2099"
+               class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-olive-700 mb-1">Price low ($)</label>
+        <input type="number" data-price-create-toggle-target="priceLow" min="0" step="1"
+               class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+      </div>
+      <div>
+        <label class="block text-xs font-medium text-olive-700 mb-1">Price high ($)</label>
+        <input type="number" data-price-create-toggle-target="priceHigh" min="0" step="1"
+               class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+      </div>
+    </div>
+
+    <div>
+      <label class="block text-xs font-medium text-olive-700 mb-1">Detail</label>
+      <input type="text" data-price-create-toggle-target="detail"
+             placeholder='e.g. 147 "At My Front Door"'
+             class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+    </div>
+
+    <div>
+      <label class="block text-xs font-medium text-olive-700 mb-1">Media type</label>
+      <input type="text" data-price-create-toggle-target="mediaType"
+             placeholder="e.g. Black vinyl"
+             class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+    </div>
+
+    <div>
+      <label class="block text-xs font-medium text-olive-700 mb-1">Footnote</label>
+      <textarea data-price-create-toggle-target="footnote" rows="2"
+                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm"></textarea>
+    </div>
+
+    <div class="flex items-center justify-end gap-2">
+      <button type="button" data-action="click->price-create-toggle#close"
+              class="inline-flex items-center px-3 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-100 transition-colors">
+        Cancel
+      </button>
+      <button type="button" data-action="click->price-create-toggle#submit"
+              data-price-create-toggle-target="submitButton"
+              class="inline-flex items-center px-3 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 transition-colors">
+        Use this entry
+      </button>
+    </div>
+  </div>
+<% end %>
