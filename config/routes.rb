@@ -31,6 +31,7 @@ Rails.application.routes.draw do
         post :clear
       end
     end
+    resources :prices, only: [:edit, :update]
   end
   passwordless_for :users
 
@@ -51,7 +52,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :artists, only: [:index, :create]
     resources :labels, only: [:index, :create]
-    resources :prices, only: [:index]
+    resources :prices, only: [:index, :create]
   end
 
   # Public record catalog with authenticated CRUD

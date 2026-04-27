@@ -79,10 +79,15 @@
             <p class="mt-0.5 text-xs text-olive-400">Not yet matched to a Goldmine entry</p>
           <% end %>
         </div>
-        <div class="mt-4">
+        <div class="mt-4 flex items-center gap-4">
           <%= link_to (@record.price_id.present? ? "Review / Change Price →" : "Link a Price →"),
               admin_price_review_path(@record),
               class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
+          <% if @record.price_id.present? %>
+            <%= link_to "Edit price guide entry →",
+                edit_admin_price_path(@record.price, return_to: admin_record_path(@record)),
+                class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
+          <% end %>
         </div>
       </div>
 

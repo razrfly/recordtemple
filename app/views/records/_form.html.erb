@@ -98,6 +98,34 @@
     The record title is generated from Artist + Label + Format + Songs.
   </p>
 
+  <%# Price guide entry — search existing or create new %>
+  <div>
+    <%= f.label :price_id, "Price guide entry", class: "block text-sm font-medium text-olive-700 mb-1" %>
+    <div data-controller="form-autocomplete"
+         data-form-autocomplete-url-value="/api/prices"
+         class="relative">
+      <%= f.hidden_field :price_id, data: { form_autocomplete_target: "hidden" } %>
+      <input type="text"
+             id="record_price_label"
+             value="<%= record.price&.title %>"
+             placeholder="Search price guide…"
+             autocomplete="off"
+             data-form-autocomplete-target="input"
+             data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+             class="block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+      <div data-form-autocomplete-target="results"
+           class="hidden absolute z-50 w-full mt-1 bg-white rounded-xl shadow-lg ring-1 ring-olive-900/5 max-h-60 overflow-auto">
+      </div>
+    </div>
+    <%= render "prices/create_panel",
+        artist_source: "#record_artist_id",
+        label_source: "#record_label_id",
+        format_source: "#record_record_format_id",
+        price_id_hidden_selector: "#record_price_id",
+        price_label_selector: "#record_price_label" %>
+    <p class="mt-1 text-xs text-olive-500">Pick an existing entry or create a new one if none matches.</p>
+  </div>
+
   <%# Condition %>
   <div>
     <%= f.label :condition, class: "block text-sm font-medium text-olive-700 mb-1" %>

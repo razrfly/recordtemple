@@ -1,0 +1,144 @@
+<div class="mx-auto max-w-3xl px-6 py-12">
+  <div class="mb-4">
+    <%= link_to @return_to, class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
+      <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back
+    <% end %>
+  </div>
+
+  <div class="bg-white shadow-sm rounded-2xl ring-1 ring-olive-900/5 overflow-hidden">
+    <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
+      <h1 class="font-display text-xl font-medium text-olive-950">Edit Price Guide Entry</h1>
+      <p class="mt-1 text-sm text-olive-600">#<%= @price.id %> · <%= @price.title %></p>
+    </div>
+
+    <div class="p-6">
+      <% if @records_linked_count > 1 %>
+        <div class="mb-5 rounded-xl bg-amber-50 p-4 ring-1 ring-amber-200">
+          <p class="text-sm text-amber-800">
+            <span class="font-medium">Linked to <%= pluralize(@records_linked_count, "record") %>.</span>
+            Editing affects all of them.
+          </p>
+        </div>
+      <% end %>
+
+      <% if @price.errors.any? %>
+        <div class="mb-5 rounded-xl bg-red-50 p-4 ring-1 ring-red-200">
+          <p class="text-sm font-medium text-red-700 mb-1">Please fix the following errors:</p>
+          <ul class="list-disc list-inside text-sm text-red-600 space-y-0.5">
+            <% @price.errors.full_messages.each do |msg| %>
+              <li><%= msg %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <%= form_with model: @price, url: admin_price_path(@price), method: :patch, class: "space-y-5" do |f| %>
+        <%= hidden_field_tag :return_to, @return_to %>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <%= f.label :artist_id, "Artist", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <div data-controller="form-autocomplete"
+                 data-form-autocomplete-url-value="/api/artists"
+                 data-form-autocomplete-create-url-value="/api/artists"
+                 class="relative">
+              <%= f.hidden_field :artist_id, data: { form_autocomplete_target: "hidden" } %>
+              <input type="text"
+                     value="<%= @price.artist&.name %>"
+                     placeholder="Search artists..."
+                     autocomplete="off"
+                     data-form-autocomplete-target="input"
+                     data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+                     class="block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+              <div data-form-autocomplete-target="results"
+                   class="hidden absolute z-50 w-full mt-1 bg-white rounded-xl shadow-lg ring-1 ring-olive-900/5 max-h-60 overflow-auto">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :label_id, "Label", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <div data-controller="form-autocomplete"
+                 data-form-autocomplete-url-value="/api/labels"
+                 data-form-autocomplete-create-url-value="/api/labels"
+                 class="relative">
+              <%= f.hidden_field :label_id, data: { form_autocomplete_target: "hidden" } %>
+              <input type="text"
+                     value="<%= @price.label&.name %>"
+                     placeholder="Search labels..."
+                     autocomplete="off"
+                     data-form-autocomplete-target="input"
+                     data-action="input->form-autocomplete#search focus->form-autocomplete#search"
+                     class="block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
+              <div data-form-autocomplete-target="results"
+                   class="hidden absolute z-50 w-full mt-1 bg-white rounded-xl shadow-lg ring-1 ring-olive-900/5 max-h-60 overflow-auto">
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <%= f.label :record_format_id, "Format", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.select :record_format_id,
+                options_for_select(RecordFormat.order(:name).pluck(:name, :id), @price.record_format_id),
+                { include_blank: "Select format..." },
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :media_type, "Media Type", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.text_field :media_type,
+                placeholder: "e.g. Black vinyl",
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :yearbegin, "Year begin", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.number_field :yearbegin, min: 1900, max: 2099,
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :yearend, "Year end", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.number_field :yearend, min: 1900, max: 2099,
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :price_low, "Price low ($)", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.number_field :price_low, min: 0, step: 1,
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+
+          <div>
+            <%= f.label :price_high, "Price high ($)", class: "block text-sm font-medium text-olive-700 mb-1" %>
+            <%= f.number_field :price_high, min: 0, step: 1,
+                class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+          </div>
+        </div>
+
+        <div>
+          <%= f.label :detail, "Detail", class: "block text-sm font-medium text-olive-700 mb-1" %>
+          <%= f.text_field :detail,
+              placeholder: 'e.g. 147 "At My Front Door"',
+              class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+        </div>
+
+        <div>
+          <%= f.label :footnote, "Footnote", class: "block text-sm font-medium text-olive-700 mb-1" %>
+          <%= f.text_area :footnote, rows: 2,
+              class: "block w-full rounded-xl border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm" %>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-olive-200">
+          <%= link_to "Cancel", @return_to,
+              class: "inline-flex items-center px-4 py-2 border border-olive-300 shadow-sm text-sm font-medium rounded-xl text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
+          <%= f.submit "Save changes",
+              class: "inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-xl text-white bg-olive-950 hover:bg-olive-800 transition-colors cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
