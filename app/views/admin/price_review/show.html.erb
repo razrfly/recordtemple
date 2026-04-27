@@ -71,10 +71,28 @@
           <p class="mt-1 text-xs text-olive-400 italic"><%= @record.price.footnote %></p>
         <% end %>
         <div class="mt-4">
-          <%= button_to "Clear price guide link",
-              clear_admin_price_review_path(@record),
-              method: :post,
+          <%= link_to "Edit this entry",
+              edit_admin_price_path(@record.price, return_to: admin_price_review_path(@record)),
               class: "inline-flex items-center px-3 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
+          <div class="mt-3">
+            <%= render "prices/create_panel",
+                panel_id: "price-variant",
+                button_label: "Create variant from this entry",
+                default_artist_id: @record.artist_id,
+                default_label_id: @record.label_id,
+                default_format_id: @record.record_format_id,
+                default_artist_name: @record.artist&.name,
+                default_label_name: @record.label&.name,
+                default_format_name: @record.record_format&.name,
+                default_yearbegin: @record.price.yearbegin,
+                default_yearend: @record.price.yearend,
+                default_price_low: @record.price.price_low,
+                default_price_high: @record.price.price_high,
+                default_detail: @record.price.detail,
+                default_media_type: @record.price.media_type,
+                default_footnote: @record.price.footnote,
+                link_url: link_admin_price_review_path(@record) %>
+          </div>
         </div>
       <% else %>
         <p class="text-sm text-olive-400">No price guide entry linked.</p>
@@ -153,18 +171,21 @@
         </div>
       <% end %>
 
-      <%# Create new entry %>
-      <div class="mt-6 pt-6 border-t border-olive-200">
-        <h4 class="text-sm font-medium text-olive-950 mb-2">Nothing matches?</h4>
-        <%= render "prices/create_panel",
-            default_artist_id: @record.artist_id,
-            default_label_id: @record.label_id,
-            default_format_id: @record.record_format_id,
-            default_artist_name: @record.artist&.name,
-            default_label_name: @record.label&.name,
-            default_format_name: @record.record_format&.name,
-            link_url: link_admin_price_review_path(@record) %>
-      </div>
+      <% unless @record.price.present? %>
+        <%# Create new entry — only when nothing is linked yet; when linked,
+            the "Create variant" trigger lives in the top panel. %>
+        <div class="mt-6 pt-6 border-t border-olive-200">
+          <h4 class="text-sm font-medium text-olive-950 mb-2">Nothing matches?</h4>
+          <%= render "prices/create_panel",
+              default_artist_id: @record.artist_id,
+              default_label_id: @record.label_id,
+              default_format_id: @record.record_format_id,
+              default_artist_name: @record.artist&.name,
+              default_label_name: @record.label&.name,
+              default_format_name: @record.record_format&.name,
+              link_url: link_admin_price_review_path(@record) %>
+        </div>
+      <% end %>
 
       <%# Manual ID entry %>
       <div class="mt-6 pt-6 border-t border-olive-200">

@@ -4,14 +4,23 @@
     artist_name_source, label_name_source, format_name_source — CSS selectors of inputs holding human-readable names (optional)
     default_artist_id, default_label_id, default_format_id — server-rendered ID defaults (optional)
     default_artist_name, default_label_name, default_format_name — server-rendered name defaults (optional)
+    default_yearbegin, default_yearend, default_price_low, default_price_high — pre-fill price fields (optional, used for "Create variant")
+    default_detail, default_media_type, default_footnote — pre-fill descriptive fields (optional)
     price_id_hidden_selector, price_label_selector — selectors for the autocomplete to populate (optional)
     link_url — chain a POST after create (optional, used by Price Review)
+    panel_id — DOM id prefix so the partial can be rendered more than once on a page (optional, default "price-create")
+    button_label — text on the open-trigger button (optional, default "Create new price guide entry")
 %>
 <% artist_source ||= nil; label_source ||= nil; format_source ||= nil %>
 <% artist_name_source ||= nil; label_name_source ||= nil; format_name_source ||= nil %>
 <% default_artist_id ||= nil; default_label_id ||= nil; default_format_id ||= nil %>
 <% default_artist_name ||= nil; default_label_name ||= nil; default_format_name ||= nil %>
+<% default_yearbegin ||= nil; default_yearend ||= nil %>
+<% default_price_low ||= nil; default_price_high ||= nil %>
+<% default_detail ||= nil; default_media_type ||= nil; default_footnote ||= nil %>
 <% price_id_hidden_selector ||= nil; price_label_selector ||= nil; link_url ||= nil %>
+<% panel_id ||= "price-create" %>
+<% button_label ||= "Create new price guide entry" %>
 <%
   panel_data = { controller: "price-create-toggle" }
   panel_data[:"price-create-toggle-artist-source-value"] = artist_source if artist_source
@@ -30,7 +39,7 @@
           data-price-create-toggle-target="trigger"
           class="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 hover:text-emerald-900 transition-colors">
     <span>+</span>
-    <span>Create new price guide entry</span>
+    <span><%= button_label %></span>
   </button>
 
   <div data-price-create-toggle-target="panel" hidden
@@ -56,45 +65,51 @@
 
     <div class="grid grid-cols-2 gap-3">
       <div>
-        <label for="price-create-yearbegin" class="block text-xs font-medium text-olive-700 mb-1">Year begin</label>
-        <input type="number" id="price-create-yearbegin" data-price-create-toggle-target="yearbegin" min="1801" max="2099"
+        <label for="<%= panel_id %>-yearbegin" class="block text-xs font-medium text-olive-700 mb-1">Year begin</label>
+        <input type="number" id="<%= panel_id %>-yearbegin" data-price-create-toggle-target="yearbegin" min="1801" max="2099"
+               value="<%= default_yearbegin %>"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label for="price-create-yearend" class="block text-xs font-medium text-olive-700 mb-1">Year end</label>
-        <input type="number" id="price-create-yearend" data-price-create-toggle-target="yearend" min="1801" max="2099"
+        <label for="<%= panel_id %>-yearend" class="block text-xs font-medium text-olive-700 mb-1">Year end</label>
+        <input type="number" id="<%= panel_id %>-yearend" data-price-create-toggle-target="yearend" min="1801" max="2099"
+               value="<%= default_yearend %>"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label for="price-create-price-low" class="block text-xs font-medium text-olive-700 mb-1">Price low ($)</label>
-        <input type="number" id="price-create-price-low" data-price-create-toggle-target="priceLow" min="0" step="1"
+        <label for="<%= panel_id %>-price-low" class="block text-xs font-medium text-olive-700 mb-1">Price low ($)</label>
+        <input type="number" id="<%= panel_id %>-price-low" data-price-create-toggle-target="priceLow" min="0" step="1"
+               value="<%= default_price_low %>"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label for="price-create-price-high" class="block text-xs font-medium text-olive-700 mb-1">Price high ($)</label>
-        <input type="number" id="price-create-price-high" data-price-create-toggle-target="priceHigh" min="0" step="1"
+        <label for="<%= panel_id %>-price-high" class="block text-xs font-medium text-olive-700 mb-1">Price high ($)</label>
+        <input type="number" id="<%= panel_id %>-price-high" data-price-create-toggle-target="priceHigh" min="0" step="1"
+               value="<%= default_price_high %>"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
     </div>
 
     <div>
-      <label for="price-create-detail" class="block text-xs font-medium text-olive-700 mb-1">Detail</label>
-      <input type="text" id="price-create-detail" data-price-create-toggle-target="detail"
+      <label for="<%= panel_id %>-detail" class="block text-xs font-medium text-olive-700 mb-1">Detail</label>
+      <input type="text" id="<%= panel_id %>-detail" data-price-create-toggle-target="detail"
              placeholder='e.g. 147 "At My Front Door"'
+             value="<%= default_detail %>"
              class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
     </div>
 
     <div>
-      <label for="price-create-media-type" class="block text-xs font-medium text-olive-700 mb-1">Media type</label>
-      <input type="text" id="price-create-media-type" data-price-create-toggle-target="mediaType"
+      <label for="<%= panel_id %>-media-type" class="block text-xs font-medium text-olive-700 mb-1">Media type</label>
+      <input type="text" id="<%= panel_id %>-media-type" data-price-create-toggle-target="mediaType"
              placeholder="e.g. Black vinyl"
+             value="<%= default_media_type %>"
              class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
     </div>
 
     <div>
-      <label for="price-create-footnote" class="block text-xs font-medium text-olive-700 mb-1">Footnote</label>
-      <textarea id="price-create-footnote" data-price-create-toggle-target="footnote" rows="2"
-                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm"></textarea>
+      <label for="<%= panel_id %>-footnote" class="block text-xs font-medium text-olive-700 mb-1">Footnote</label>
+      <textarea id="<%= panel_id %>-footnote" data-price-create-toggle-target="footnote" rows="2"
+                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm"><%= default_footnote %></textarea>
     </div>
 
     <div class="flex items-center justify-end gap-2">
