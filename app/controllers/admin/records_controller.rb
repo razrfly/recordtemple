@@ -7,6 +7,44 @@ module Admin
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
+    # Buckets the price-guide-style RecordFormat names into seven collector-facing
+    # categories. Names not listed fall back to "Other".
+    FORMAT_CATEGORY_MAP = {
+      "LPs: 10/12-inch"                         => "LP",
+      "LPs 10/12-inch"                          => "LP",
+
+      "Singles: 7-inch"                         => %q(7"),
+      "EPs: 7-inch"                             => %q(7"),
+      "EPs: 7-inch 45 rpm"                      => %q(7"),
+      "EPs: 7-inch 33/45"                       => %q(7"),
+      "Gold Standard Singles with '447' prefix" => %q(7"),
+      "Gold Standard Singles with 'GB' prefix"  => %q(7"),
+
+      "Singles: 10/12-inch"                     => %q(12" Single),
+      "Singles: 12-inch"                        => %q(12" Single),
+      "Singles: 12-inch 33/45"                  => %q(12" Single),
+      "EPs: 12-inch"                            => %q(12" Single),
+      "Singles: 14-inch"                        => %q(12" Single),
+
+      "EPs: 10-inch"                            => %q(10"),
+
+      "Singles: 78 rpm"                         => "78",
+      "78 rpm Album"                            => "78",
+      "Albums: 78 rpm"                          => "78",
+
+      "Picture Sleeves"                         => "Picture Disc / Sleeve",
+      "Picture Sleeve"                          => "Picture Disc / Sleeve",
+      "Picture Disc Singles"                    => "Picture Disc / Sleeve",
+      "Gold Standard Picture Sleeves"           => "Picture Disc / Sleeve",
+      "Sound postcard"                          => "Picture Disc / Sleeve",
+      "Plastic Soundsheets/Flexi-Discs"         => "Picture Disc / Sleeve",
+
+      "Promotional Singles"                     => "Promo",
+      "Promotional 12-inch Singles"             => "Promo",
+      "Promotional Singles: 12-inch"            => "Promo",
+      "Promotional LPs"                         => "Promo",
+    }.freeze
+
     def index
       base = Record.where(user_id: COLLECTION_USER_ID)
 
@@ -56,10 +94,8 @@ module Admin
       end
       if params[:format_category].present?
         cat = params[:format_category]
-        records = records.where(
-          "record_formats.name = ? OR record_formats.name LIKE ?",
-          cat, "#{ActiveRecord::Base.sanitize_sql_like(cat)}:%"
-        )
+        raw_names = FORMAT_CATEGORY_MAP.select { |_, bucket| bucket == cat }.keys
+        records = records.where(record_formats: { name: raw_names }) if raw_names.any?
       end
       if params[:condition].present?
         records = records.where(condition: params[:condition])
@@ -240,7 +276,7 @@ module Admin
                                 .group("record_formats.name")
                                 .pluck("record_formats.name", Arel.sql("COUNT(records.id)"))
       category_counts = raw_formats.each_with_object(Hash.new(0)) do |(name, count), h|
-        h[name.split(":").first.strip] += count
+        h[FORMAT_CATEGORY_MAP[name] || "Other"] += count
       end
       @format_categories = category_counts.sort_by { |_, count| -count }
                                           .map { |name, count| { name: name, count: count } }
