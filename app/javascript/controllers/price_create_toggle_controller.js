@@ -61,7 +61,7 @@ export default class extends Controller {
     const text = kind === "select"
       ? (src.options?.[src.selectedIndex]?.text || "")
       : src.value
-    if (text) target.textContent = text
+    target.textContent = text.trim() || "—"
   }
 
   async submit(event) {
