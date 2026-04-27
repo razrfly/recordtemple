@@ -121,6 +121,9 @@
         artist_source: "#record_artist_id",
         label_source: "#record_label_id",
         format_source: "#record_record_format_id",
+        artist_name_source: "[data-form-autocomplete-url-value='/api/artists'] [data-form-autocomplete-target='input']",
+        label_name_source: "[data-form-autocomplete-url-value='/api/labels'] [data-form-autocomplete-target='input']",
+        format_name_source: "#record_record_format_id",
         price_id_hidden_selector: "#record_price_id",
         price_label_selector: "#record_price_label" %>
     <p class="mt-1 text-xs text-olive-500">Pick an existing entry or create a new one if none matches.</p>
