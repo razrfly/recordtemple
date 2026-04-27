@@ -39,7 +39,7 @@ class Price < ApplicationRecord
             numericality: { only_integer: true, greater_than_or_equal_to: 0 },
             allow_nil: true
   validates :yearbegin, :yearend,
-            numericality: { only_integer: true, greater_than: 1800, less_than: 2100 },
+            numericality: { only_integer: true, greater_than_or_equal_to: 1900, less_than: 2100 },
             allow_nil: true
   validate :price_low_lte_high
   validate :yearbegin_lte_end

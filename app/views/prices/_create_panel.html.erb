@@ -41,44 +41,44 @@
 
     <div class="grid grid-cols-2 gap-3">
       <div>
-        <label class="block text-xs font-medium text-olive-700 mb-1">Year begin</label>
-        <input type="number" data-price-create-toggle-target="yearbegin" min="1900" max="2099"
+        <label for="price-create-yearbegin" class="block text-xs font-medium text-olive-700 mb-1">Year begin</label>
+        <input type="number" id="price-create-yearbegin" data-price-create-toggle-target="yearbegin" min="1900" max="2099"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label class="block text-xs font-medium text-olive-700 mb-1">Year end</label>
-        <input type="number" data-price-create-toggle-target="yearend" min="1900" max="2099"
+        <label for="price-create-yearend" class="block text-xs font-medium text-olive-700 mb-1">Year end</label>
+        <input type="number" id="price-create-yearend" data-price-create-toggle-target="yearend" min="1900" max="2099"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label class="block text-xs font-medium text-olive-700 mb-1">Price low ($)</label>
-        <input type="number" data-price-create-toggle-target="priceLow" min="0" step="1"
+        <label for="price-create-price-low" class="block text-xs font-medium text-olive-700 mb-1">Price low ($)</label>
+        <input type="number" id="price-create-price-low" data-price-create-toggle-target="priceLow" min="0" step="1"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
       <div>
-        <label class="block text-xs font-medium text-olive-700 mb-1">Price high ($)</label>
-        <input type="number" data-price-create-toggle-target="priceHigh" min="0" step="1"
+        <label for="price-create-price-high" class="block text-xs font-medium text-olive-700 mb-1">Price high ($)</label>
+        <input type="number" id="price-create-price-high" data-price-create-toggle-target="priceHigh" min="0" step="1"
                class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
       </div>
     </div>
 
     <div>
-      <label class="block text-xs font-medium text-olive-700 mb-1">Detail</label>
-      <input type="text" data-price-create-toggle-target="detail"
+      <label for="price-create-detail" class="block text-xs font-medium text-olive-700 mb-1">Detail</label>
+      <input type="text" id="price-create-detail" data-price-create-toggle-target="detail"
              placeholder='e.g. 147 "At My Front Door"'
              class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
     </div>
 
     <div>
-      <label class="block text-xs font-medium text-olive-700 mb-1">Media type</label>
-      <input type="text" data-price-create-toggle-target="mediaType"
+      <label for="price-create-media-type" class="block text-xs font-medium text-olive-700 mb-1">Media type</label>
+      <input type="text" id="price-create-media-type" data-price-create-toggle-target="mediaType"
              placeholder="e.g. Black vinyl"
              class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm">
     </div>
 
     <div>
-      <label class="block text-xs font-medium text-olive-700 mb-1">Footnote</label>
-      <textarea data-price-create-toggle-target="footnote" rows="2"
+      <label for="price-create-footnote" class="block text-xs font-medium text-olive-700 mb-1">Footnote</label>
+      <textarea id="price-create-footnote" data-price-create-toggle-target="footnote" rows="2"
                 class="block w-full rounded-lg border-olive-300 shadow-sm focus:border-olive-500 focus:ring-olive-500 text-sm"></textarea>
     </div>
 

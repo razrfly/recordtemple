@@ -39,16 +39,20 @@ class RecordsController < ApplicationController
                 .with_attached_songs
 
     # Boost exact artist/label name matches to the top of results
-    # Applied AFTER ransack.result so the custom ORDER BY isn't dropped
+    # Applied AFTER ransack.result so the custom ORDER BY isn't dropped.
+    # Preserve pg_search relevance ordering as a secondary sort within each
+    # CASE bucket so a strong full-text hit beats a weak trigram hit.
     if params[:search].present?
       quoted = Record.connection.quote(ActiveRecord::Base.sanitize_sql_like(params[:search]))
+      existing_orders = records.order_values
       records = records.reorder(
         Arel.sql("CASE " \
           "WHEN records.cached_artist ILIKE #{quoted} THEN 0 " \
           "WHEN records.cached_label ILIKE #{quoted} THEN 1 " \
-          "ELSE 2 END"),
-        "records.id ASC"
+          "ELSE 2 END")
       )
+      records = records.order(*existing_orders) if existing_orders.any?
+      records = records.order("records.id ASC")
     end
 
     # Apply media filters
