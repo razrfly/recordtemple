@@ -124,6 +124,11 @@ export default class extends Controller {
       },
       body
     })
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      this.showErrors(data.errors || ["Failed to link price. Please try again."])
+      return
+    }
     if (res.redirected) {
       window.location = res.url
     } else {

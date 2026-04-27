@@ -160,7 +160,7 @@ class Record < ApplicationRecord
   end
 
   def song_titles
-    songs.map { |blob| blob.filename.to_s.gsub(/\.mp3$/, '') }
+    songs.map { |blob| File.basename(blob.filename.to_s, ".*") }
   end
 
   def title

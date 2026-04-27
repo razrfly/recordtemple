@@ -5,6 +5,7 @@ module Admin
     def edit
       @records_linked_count = @price.records.count
       @return_to = safe_return_to(params[:return_to])
+      @formats = RecordFormat.order(:name).pluck(:name, :id)
     end
 
     def update
@@ -13,6 +14,7 @@ module Admin
         redirect_to @return_to, notice: "Price guide entry updated."
       else
         @records_linked_count = @price.records.count
+        @formats = RecordFormat.order(:name).pluck(:name, :id)
         render :edit, status: :unprocessable_entity
       end
     end
@@ -32,8 +34,9 @@ module Admin
     end
 
     def safe_return_to(path)
-      if path.is_a?(String) && path.start_with?("/admin/", "/records/") && !path.start_with?("//")
-        return path
+      if path.is_a?(String) && !path.start_with?("//")
+        normalized = Pathname.new(path).cleanpath.to_s
+        return normalized if normalized.start_with?("/admin/", "/records/")
       end
       first_record = @price.records.first
       first_record ? admin_record_path(first_record) : admin_root_path
