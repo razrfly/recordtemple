@@ -60,7 +60,7 @@ module Admin
           t: token
         )
       end
-      scope.order(Arel.sql("price_high DESC NULLS LAST")).limit(10)
+      scope.order(Arel.sql("price_high DESC NULLS LAST")).limit(30)
     end
 
     def redirect_with_error(message)
