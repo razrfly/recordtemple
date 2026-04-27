@@ -10,6 +10,7 @@ export default class extends Controller {
   static targets = [
     "panel", "trigger", "errors",
     "artistIdInput", "labelIdInput", "formatIdInput",
+    "artistName", "labelName", "formatName",
     "yearbegin", "yearend", "priceLow", "priceHigh",
     "detail", "footnote", "mediaType",
     "submitButton"
@@ -20,6 +21,9 @@ export default class extends Controller {
     artistSource: String,
     labelSource: String,
     formatSource: String,
+    artistNameSource: String,
+    labelNameSource: String,
+    formatNameSource: String,
     priceIdHidden: String,
     priceLabel: String,
     linkUrl: String
@@ -31,6 +35,9 @@ export default class extends Controller {
     this.prefill(this.artistSourceValue, this.artistIdInputTarget, this.hasArtistSourceValue)
     this.prefill(this.labelSourceValue, this.labelIdInputTarget, this.hasLabelSourceValue)
     this.prefill(this.formatSourceValue, this.formatIdInputTarget, this.hasFormatSourceValue)
+    this.prefillName(this.artistNameSourceValue, this.hasArtistNameTarget && this.artistNameTarget, this.hasArtistNameSourceValue)
+    this.prefillName(this.labelNameSourceValue, this.hasLabelNameTarget && this.labelNameTarget, this.hasLabelNameSourceValue)
+    this.prefillName(this.formatNameSourceValue, this.hasFormatNameTarget && this.formatNameTarget, this.hasFormatNameSourceValue, "select")
     this.panelTarget.hidden = false
     if (this.hasTriggerTarget) this.triggerTarget.hidden = true
   }
@@ -45,6 +52,16 @@ export default class extends Controller {
     if (!present) return
     const src = document.querySelector(selector)
     if (src && src.value) target.value = src.value
+  }
+
+  prefillName(selector, target, present, kind) {
+    if (!present || !target) return
+    const src = document.querySelector(selector)
+    if (!src) return
+    const text = kind === "select"
+      ? (src.options?.[src.selectedIndex]?.text || "")
+      : src.value
+    if (text) target.textContent = text
   }
 
   async submit(event) {

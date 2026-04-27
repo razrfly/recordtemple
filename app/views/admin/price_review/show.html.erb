@@ -51,10 +51,10 @@
     </div>
   </div>
 
-  <%# Currently Linked Price panel %>
+  <%# Currently Linked Price Guide panel %>
   <div class="mb-6 bg-white shadow-sm rounded-xl ring-1 ring-olive-900/5 overflow-hidden">
     <div class="px-6 py-4 border-b border-olive-200 bg-olive-50">
-      <h2 class="font-display text-lg font-medium text-olive-950">Currently Linked Price</h2>
+      <h2 class="font-display text-lg font-medium text-olive-950">Currently Linked Price Guide</h2>
     </div>
     <div class="p-6">
       <% if @record.price.present? %>
@@ -71,13 +71,13 @@
           <p class="mt-1 text-xs text-olive-400 italic"><%= @record.price.footnote %></p>
         <% end %>
         <div class="mt-4">
-          <%= button_to "Clear price link",
+          <%= button_to "Clear price guide link",
               clear_admin_price_review_path(@record),
               method: :post,
               class: "inline-flex items-center px-3 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
         </div>
       <% else %>
-        <p class="text-sm text-olive-400">No price currently linked.</p>
+        <p class="text-sm text-olive-400">No price guide entry linked.</p>
       <% end %>
     </div>
   </div>
@@ -160,6 +160,9 @@
             default_artist_id: @record.artist_id,
             default_label_id: @record.label_id,
             default_format_id: @record.record_format_id,
+            default_artist_name: @record.artist&.name,
+            default_label_name: @record.label&.name,
+            default_format_name: @record.record_format&.name,
             link_url: link_admin_price_review_path(@record) %>
       </div>
 

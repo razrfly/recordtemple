@@ -1,18 +1,25 @@
 <%#
   Locals:
-    artist_source, label_source, format_source — CSS selectors of sibling form inputs (optional)
-    default_artist_id, default_label_id, default_format_id — server-rendered defaults (optional)
+    artist_source, label_source, format_source — CSS selectors of sibling form ID inputs (optional)
+    artist_name_source, label_name_source, format_name_source — CSS selectors of inputs holding human-readable names (optional)
+    default_artist_id, default_label_id, default_format_id — server-rendered ID defaults (optional)
+    default_artist_name, default_label_name, default_format_name — server-rendered name defaults (optional)
     price_id_hidden_selector, price_label_selector — selectors for the autocomplete to populate (optional)
     link_url — chain a POST after create (optional, used by Price Review)
 %>
 <% artist_source ||= nil; label_source ||= nil; format_source ||= nil %>
+<% artist_name_source ||= nil; label_name_source ||= nil; format_name_source ||= nil %>
 <% default_artist_id ||= nil; default_label_id ||= nil; default_format_id ||= nil %>
+<% default_artist_name ||= nil; default_label_name ||= nil; default_format_name ||= nil %>
 <% price_id_hidden_selector ||= nil; price_label_selector ||= nil; link_url ||= nil %>
 <%
   panel_data = { controller: "price-create-toggle" }
   panel_data[:"price-create-toggle-artist-source-value"] = artist_source if artist_source
   panel_data[:"price-create-toggle-label-source-value"] = label_source if label_source
   panel_data[:"price-create-toggle-format-source-value"] = format_source if format_source
+  panel_data[:"price-create-toggle-artist-name-source-value"] = artist_name_source if artist_name_source
+  panel_data[:"price-create-toggle-label-name-source-value"] = label_name_source if label_name_source
+  panel_data[:"price-create-toggle-format-name-source-value"] = format_name_source if format_name_source
   panel_data[:"price-create-toggle-price-id-hidden-value"] = price_id_hidden_selector if price_id_hidden_selector
   panel_data[:"price-create-toggle-price-label-value"] = price_label_selector if price_label_selector
   panel_data[:"price-create-toggle-link-url-value"] = link_url if link_url
@@ -28,9 +35,17 @@
 
   <div data-price-create-toggle-target="panel" hidden
        class="mt-3 rounded-xl border border-olive-200 bg-olive-50/50 p-4 space-y-4">
-    <p class="text-xs text-olive-600">
-      A new price guide entry will be created and linked. Artist, label, and format come from the record's current selections.
-    </p>
+    <div class="rounded-lg bg-white px-3 py-2 ring-1 ring-olive-200">
+      <p class="text-xs uppercase tracking-wide text-olive-500 font-medium">New entry will link</p>
+      <p class="text-sm text-olive-900 mt-0.5">
+        <span data-price-create-toggle-target="artistName" class="font-medium"><%= default_artist_name || "—" %></span>
+        <span class="text-olive-400 mx-1">·</span>
+        <span data-price-create-toggle-target="labelName"><%= default_label_name || "—" %></span>
+        <span class="text-olive-400 mx-1">·</span>
+        <span data-price-create-toggle-target="formatName"><%= default_format_name || "—" %></span>
+      </p>
+      <p class="text-xs text-olive-500 mt-1">Change these on the record above before creating, if wrong.</p>
+    </div>
 
     <ul data-price-create-toggle-target="errors" hidden
         class="rounded-lg bg-red-50 px-3 py-2 text-xs text-red-700 list-disc list-inside ring-1 ring-red-200"></ul>

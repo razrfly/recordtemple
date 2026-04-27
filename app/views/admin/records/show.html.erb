@@ -80,7 +80,7 @@
           <% end %>
         </div>
         <div class="mt-4 flex items-center gap-4">
-          <%= link_to (@record.price_id.present? ? "Review / Change Price →" : "Link a Price →"),
+          <%= link_to (@record.price_id.present? ? "Review / Change Price Guide →" : "Link a Price Guide →"),
               admin_price_review_path(@record),
               class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
           <% if @record.price_id.present? %>
