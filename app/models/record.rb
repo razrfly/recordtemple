@@ -83,7 +83,7 @@ class Record < ApplicationRecord
     "vg+": 4, "very good": 5, good: 6, poor: 7 }
 
   ALLOWED_IMAGE_CONTENT_TYPES = %w[image/jpeg image/png image/webp image/gif].freeze
-  ALLOWED_AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/x-wav audio/x-aiff audio/flac audio/ogg].freeze
+  ALLOWED_AUDIO_CONTENT_TYPES = %w[audio/mpeg audio/x-wav audio/x-aiff audio/flac audio/ogg audio/aac audio/mp4].freeze
 
   has_many_attached :images
   has_many_attached :songs
