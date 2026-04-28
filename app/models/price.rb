@@ -29,9 +29,9 @@
 
 class Price < ApplicationRecord
   belongs_to :artist
-  belongs_to :label
+  belongs_to :label, optional: true
   belongs_to :record_format
-  belongs_to :user
+  belongs_to :user, optional: true
 
   has_many :records
 
