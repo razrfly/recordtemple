@@ -76,14 +76,16 @@
                  class="absolute top-0 bottom-1 bg-olive-700/5 pointer-events-none rounded-sm"
                  style="left: 0%; width: 100%;"></div>
             <%# Handles (positioned absolutely over the bars) %>
-            <button type="button" tabindex="0" aria-label="Minimum price"
+            <button type="button" tabindex="0" role="slider" aria-label="Minimum price"
+                    aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="<%= @price_boundaries.last %>"
                     data-price-histogram-target="lowHandle"
                     data-action="pointerdown->price-histogram#startDragLow"
                     class="absolute top-0 -ml-2 h-[calc(100%-0.25rem)] w-4 cursor-ew-resize touch-none flex items-center justify-center group focus:outline-none"
                     style="left: 0%;">
               <span class="block w-1.5 h-full bg-olive-950 rounded-full ring-2 ring-white shadow-sm group-focus:ring-olive-600 group-hover:bg-black transition-colors"></span>
             </button>
-            <button type="button" tabindex="0" aria-label="Maximum price"
+            <button type="button" tabindex="0" role="slider" aria-label="Maximum price"
+                    aria-orientation="horizontal" aria-valuemin="0" aria-valuemax="<%= @price_boundaries.last %>"
                     data-price-histogram-target="highHandle"
                     data-action="pointerdown->price-histogram#startDragHigh"
                     class="absolute top-0 -ml-2 h-[calc(100%-0.25rem)] w-4 cursor-ew-resize touch-none flex items-center justify-center group focus:outline-none"
@@ -135,7 +137,27 @@
     <% end %>
   </div>
 
-  <%# Dropdowns row — all four together so they never wrap apart %>
+  <%# Type pills — multi-select checkboxes (matches public /records q[record_type_id_in][] pattern) %>
+  <% if @record_types.present? %>
+    <div class="flex items-center gap-1.5 flex-wrap">
+      <span class="text-xs font-semibold uppercase tracking-wide text-olive-500">Type</span>
+      <% selected_type_ids = Array(params[:record_type_id_in]).map(&:to_s) %>
+      <% @record_types.each do |t| %>
+        <% checked = selected_type_ids.include?(t[:id].to_s) %>
+        <label class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-full cursor-pointer transition-all
+                       bg-olive-200 text-olive-950 hover:bg-olive-300 has-[:checked]:bg-olive-950 has-[:checked]:text-white has-[:checked]:hover:bg-olive-950">
+          <input type="checkbox" name="record_type_id_in[]" value="<%= t[:id] %>"
+                 <%= "checked" if checked %>
+                 data-action="change->auto-submit#submit"
+                 class="sr-only">
+          <span><%= t[:name] %></span>
+          <span class="opacity-70 tabular-nums"><%= number_with_delimiter(t[:count]) %></span>
+        </label>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# Dropdowns row — all together so they never wrap apart %>
   <div class="flex flex-wrap items-center gap-3 w-full">
     <select name="pricing" aria-label="Pricing filter" data-action="change->auto-submit#submit"
             class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
@@ -166,18 +188,8 @@
       </select>
     <% end %>
 
-    <% if @record_types.present? %>
-      <select name="record_type_id" aria-label="Type filter" data-action="change->auto-submit#submit"
-              class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-        <option value="">All Types</option>
-        <% @record_types.each do |t| %>
-          <option value="<%= t[:id] %>" <%= "selected" if params[:record_type_id].to_s == t[:id].to_s %>><%= t[:name] %> (<%= number_with_delimiter(t[:count]) %>)</option>
-        <% end %>
-      </select>
-    <% end %>
-
     <%# Clear filters %>
-    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :record_type_id, :min_value, :max_value, :price_source, :top_n).values.any?(&:present?) %>
+    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :record_type_id_in, :min_value, :max_value, :price_source, :top_n).values.any?(&:present?) %>
       <%= link_to "Clear filters", admin_records_path,
           class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
     <% end %>

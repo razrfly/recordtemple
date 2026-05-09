@@ -68,8 +68,9 @@ module Admin
       if params[:genre_id].present?
         records = records.where(genre_id: params[:genre_id])
       end
-      if params[:record_type_id].present?
-        records = records.where(record_formats: { record_type_id: params[:record_type_id] })
+      type_ids = Array(params[:record_type_id_in]).reject(&:blank?)
+      if type_ids.any?
+        records = records.where(record_formats: { record_type_id: type_ids })
       end
       if params[:condition].present?
         records = records.where(condition: params[:condition])
@@ -244,24 +245,18 @@ module Admin
         else                "COALESCE((#{Record.best_value_sql}), 0)"
       end
 
-      values = Record.where(user_id: COLLECTION_USER_ID)
-                     .joins("LEFT JOIN prices ON prices.id = records.price_id")
-                     .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
-                     .pluck(Arel.sql(value_expr))
-
-      counts = Array.new(PRICE_BUCKET_BOUNDARIES.length, 0)
-      values.each do |v|
-        val = v.to_f
-        idx = PRICE_BUCKET_BOUNDARIES.length - 1
-        PRICE_BUCKET_BOUNDARIES.each_cons(2).with_index do |(_, next_b), i|
-          if val < next_b
-            idx = i
-            break
-          end
-        end
-        counts[idx] += 1
+      bucket_sql = PRICE_BUCKET_BOUNDARIES.each_cons(2).map.with_index do |(lower, upper), i|
+        predicate = i.zero? ? "#{value_expr} < #{upper}" : "#{value_expr} >= #{lower} AND #{value_expr} < #{upper}"
+        Arel.sql("SUM(CASE WHEN #{predicate} THEN 1 ELSE 0 END)")
       end
-      counts
+      bucket_sql << Arel.sql("SUM(CASE WHEN #{value_expr} >= #{PRICE_BUCKET_BOUNDARIES.last} THEN 1 ELSE 0 END)")
+
+      Record.where(user_id: COLLECTION_USER_ID)
+            .joins("LEFT JOIN prices ON prices.id = records.price_id")
+            .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
+            .pluck(*bucket_sql)
+            .first
+            .map(&:to_i)
     end
 
     def load_filter_options
