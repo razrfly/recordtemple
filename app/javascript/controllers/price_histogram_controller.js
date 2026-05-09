@@ -23,6 +23,10 @@ export default class extends Controller {
 
     this.boundPointerMove = this.onPointerMove.bind(this)
     this.boundPointerUp = this.onPointerUp.bind(this)
+    this.boundLowKeydown = (event) => this.onHandleKeydown(event, "low")
+    this.boundHighKeydown = (event) => this.onHandleKeydown(event, "high")
+    this.lowHandleTarget.addEventListener("keydown", this.boundLowKeydown)
+    this.highHandleTarget.addEventListener("keydown", this.boundHighKeydown)
 
     this.render()
   }
@@ -30,6 +34,8 @@ export default class extends Controller {
   disconnect() {
     document.removeEventListener("pointermove", this.boundPointerMove)
     document.removeEventListener("pointerup", this.boundPointerUp)
+    this.lowHandleTarget.removeEventListener("keydown", this.boundLowKeydown)
+    this.highHandleTarget.removeEventListener("keydown", this.boundHighKeydown)
   }
 
   startDragLow(event) {
@@ -80,6 +86,32 @@ export default class extends Controller {
     document.addEventListener("pointerup", this.boundPointerUp)
   }
 
+  onHandleKeydown(event, handle) {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return
+
+    event.preventDefault()
+
+    const step = event.key === "ArrowLeft" ? -1 : event.key === "ArrowRight" ? 1 : 0
+    if (handle === "low") {
+      if (event.key === "Home") {
+        this.lowPos = 0
+      } else if (event.key === "End") {
+        this.lowPos = this.highPos - 1
+      } else {
+        this.lowPos = Math.max(0, Math.min(this.highPos - 1, this.lowPos + step))
+      }
+    } else if (event.key === "Home") {
+      this.highPos = this.lowPos + 1
+    } else if (event.key === "End") {
+      this.highPos = this.maxPosition
+    } else {
+      this.highPos = Math.min(this.maxPosition, Math.max(this.lowPos + 1, this.highPos + step))
+    }
+
+    this.render()
+    this.commit()
+  }
+
   render() {
     const lowPct = (this.lowPos / this.maxPosition) * 100
     const highPct = (this.highPos / this.maxPosition) * 100
@@ -97,6 +129,7 @@ export default class extends Controller {
     })
 
     this.rangeLabelTarget.textContent = this.formatRange()
+    this.updateHandleAria()
   }
 
   commit() {
@@ -132,5 +165,14 @@ export default class extends Controller {
     const hi = this.boundariesValue[this.highPos]
     if (this.lowPos === 0) return `Up to ${this.formatPrice(hi)}`
     return `${this.formatPrice(lo)} – ${this.formatPrice(hi)}`
+  }
+
+  updateHandleAria() {
+    const lowValue = this.boundariesValue[this.lowPos] || 0
+    const highValue = this.highPos === this.maxPosition ? this.boundariesValue[this.boundariesValue.length - 1] : this.boundariesValue[this.highPos]
+    this.lowHandleTarget.setAttribute("aria-valuenow", String(lowValue))
+    this.lowHandleTarget.setAttribute("aria-valuetext", this.lowPos === 0 ? "No minimum price" : `Minimum ${this.formatPrice(lowValue)}`)
+    this.highHandleTarget.setAttribute("aria-valuenow", String(highValue))
+    this.highHandleTarget.setAttribute("aria-valuetext", this.highPos === this.maxPosition ? "No maximum price" : `Maximum ${this.formatPrice(highValue)}`)
   }
 }

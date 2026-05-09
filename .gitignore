@@ -27,6 +27,7 @@
 
 /public/assets
 *.dump
+*.dump-*
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
@@ -45,6 +46,9 @@
 # Tailwind Plus licensed templates (do not commit)
 /vendor/tailwind-plus/
 
+# Codex / MCP local config (may contain secrets)
+/.codex/
+
 # Test artifacts
 /test-results/
 
@@ -52,4 +56,3 @@
 /config/credentials/*.key
 /config/credentials/**/*.key
 /config/*.key
-
