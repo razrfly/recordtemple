@@ -7,43 +7,9 @@ module Admin
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
-    # Buckets the price-guide-style RecordFormat names into seven collector-facing
-    # categories. Names not listed fall back to "Other".
-    FORMAT_CATEGORY_MAP = {
-      "LPs: 10/12-inch"                         => "LP",
-      "LPs 10/12-inch"                          => "LP",
-
-      "Singles: 7-inch"                         => %q(7"),
-      "EPs: 7-inch"                             => %q(7"),
-      "EPs: 7-inch 45 rpm"                      => %q(7"),
-      "EPs: 7-inch 33/45"                       => %q(7"),
-      "Gold Standard Singles with '447' prefix" => %q(7"),
-      "Gold Standard Singles with 'GB' prefix"  => %q(7"),
-
-      "Singles: 10/12-inch"                     => %q(12" Single),
-      "Singles: 12-inch"                        => %q(12" Single),
-      "Singles: 12-inch 33/45"                  => %q(12" Single),
-      "EPs: 12-inch"                            => %q(12" Single),
-      "Singles: 14-inch"                        => %q(12" Single),
-
-      "EPs: 10-inch"                            => %q(10"),
-
-      "Singles: 78 rpm"                         => "78",
-      "78 rpm Album"                            => "78",
-      "Albums: 78 rpm"                          => "78",
-
-      "Picture Sleeves"                         => "Picture Disc / Sleeve",
-      "Picture Sleeve"                          => "Picture Disc / Sleeve",
-      "Picture Disc Singles"                    => "Picture Disc / Sleeve",
-      "Gold Standard Picture Sleeves"           => "Picture Disc / Sleeve",
-      "Sound postcard"                          => "Picture Disc / Sleeve",
-      "Plastic Soundsheets/Flexi-Discs"         => "Picture Disc / Sleeve",
-
-      "Promotional Singles"                     => "Promo",
-      "Promotional 12-inch Singles"             => "Promo",
-      "Promotional Singles: 12-inch"            => "Promo",
-      "Promotional LPs"                         => "Promo",
-    }.freeze
+    # Log-spaced price bucket boundaries for the histogram range filter.
+    # 23 boundaries → 23 buckets (last is overflow: $5,000+).
+    PRICE_BUCKET_BOUNDARIES = [0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 3000, 5000].freeze
 
     def index
       base = Record.where(user_id: COLLECTION_USER_ID)
@@ -65,7 +31,7 @@ module Admin
       # Price source (controls default sort + Min $ semantics)
       price_source = %w[guide my discogs].include?(params[:price_source]) ? params[:price_source] : "best"
 
-      # Min value filter (source-aware)
+      # Min/Max value filter (source-aware)
       if params[:min_value].present?
         floor = params[:min_value].to_f
         records = case price_source
@@ -73,6 +39,16 @@ module Admin
           when "my"      then records.where("records.value >= ?", floor)
           when "discogs" then records.where("discogs_releases.lowest_price >= ?", floor)
           else                records.where("(#{Record.best_value_sql}) >= ?", floor)
+        end
+      end
+
+      if params[:max_value].present?
+        ceiling = params[:max_value].to_f
+        records = case price_source
+          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) <= ?", ceiling)
+          when "my"      then records.where("records.value <= ?", ceiling)
+          when "discogs" then records.where("discogs_releases.lowest_price <= ?", ceiling)
+          else                records.where("(#{Record.best_value_sql}) <= ?", ceiling)
         end
       end
 
@@ -92,10 +68,8 @@ module Admin
       if params[:genre_id].present?
         records = records.where(genre_id: params[:genre_id])
       end
-      if params[:format_category].present?
-        cat = params[:format_category]
-        raw_names = FORMAT_CATEGORY_MAP.select { |_, bucket| bucket == cat }.keys
-        records = records.where(record_formats: { name: raw_names }) if raw_names.any?
+      if params[:record_type_id].present?
+        records = records.where(record_formats: { record_type_id: params[:record_type_id] })
       end
       if params[:condition].present?
         records = records.where(condition: params[:condition])
@@ -126,6 +100,8 @@ module Admin
           end
           @stats = compute_stats(base)
           load_filter_options
+          @price_boundaries = PRICE_BUCKET_BOUNDARIES
+          @price_distribution = compute_price_distribution(price_source)
         end
         format.csv do
           send_csv_export(records.limit(top_n || 10_000))
@@ -260,6 +236,34 @@ module Admin
       }
     end
 
+    def compute_price_distribution(price_source)
+      value_expr = case price_source
+        when "guide"   then "COALESCE((#{Record.adjusted_value_sql}), 0)"
+        when "my"      then "COALESCE(records.value, 0)"
+        when "discogs" then "COALESCE(discogs_releases.lowest_price, 0)"
+        else                "COALESCE((#{Record.best_value_sql}), 0)"
+      end
+
+      values = Record.where(user_id: COLLECTION_USER_ID)
+                     .joins("LEFT JOIN prices ON prices.id = records.price_id")
+                     .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
+                     .pluck(Arel.sql(value_expr))
+
+      counts = Array.new(PRICE_BUCKET_BOUNDARIES.length, 0)
+      values.each do |v|
+        val = v.to_f
+        idx = PRICE_BUCKET_BOUNDARIES.length - 1
+        PRICE_BUCKET_BOUNDARIES.each_cons(2).with_index do |(_, next_b), i|
+          if val < next_b
+            idx = i
+            break
+          end
+        end
+        counts[idx] += 1
+      end
+      counts
+    end
+
     def load_filter_options
       base = Record.where(user_id: COLLECTION_USER_ID)
 
@@ -271,15 +275,12 @@ module Admin
                      .pluck(Arel.sql("genres.id"), Arel.sql("genres.name"), Arel.sql("COUNT(records.id)"))
                      .map { |id, name, count| { id: id, name: name, count: count } }
 
-      raw_formats = RecordFormat.joins(:records)
+      @record_types = RecordType.joins(record_formats: :records)
                                 .where(records: { user_id: COLLECTION_USER_ID })
-                                .group("record_formats.name")
-                                .pluck("record_formats.name", Arel.sql("COUNT(records.id)"))
-      category_counts = raw_formats.each_with_object(Hash.new(0)) do |(name, count), h|
-        h[FORMAT_CATEGORY_MAP[name] || "Other"] += count
-      end
-      @format_categories = category_counts.sort_by { |_, count| -count }
-                                          .map { |name, count| { name: name, count: count } }
+                                .group("record_types.id", "record_types.name")
+                                .order(Arel.sql("COUNT(records.id) DESC"))
+                                .pluck("record_types.id", "record_types.name", Arel.sql("COUNT(records.id)"))
+                                .map { |id, name, count| { id: id, name: name, count: count } }
 
       @conditions = base.group(:condition)
                         .count

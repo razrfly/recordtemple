@@ -45,6 +45,7 @@ class Record < ApplicationRecord
   belongs_to :price, optional: true
   belongs_to :user
   belongs_to :record_format
+  has_one :record_type, through: :record_format
   belongs_to :artist
   belongs_to :label
   belongs_to :discogs_release, optional: true
@@ -194,7 +195,7 @@ class Record < ApplicationRecord
   end
 
   def self.ransackable_associations(auth_object = nil)
-    %w[artist label genre record_format]
+    %w[artist label genre record_format record_type]
   end
 
   def self.ransortable_attributes(auth_object = nil)
