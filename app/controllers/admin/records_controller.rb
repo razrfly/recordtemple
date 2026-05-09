@@ -8,6 +8,7 @@ module Admin
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
     # Log-spaced price bucket boundaries for the histogram range filter.
+    # Keep these fixed constants because they are interpolated into bucket SQL.
     # 23 boundaries → 23 buckets (last is overflow: $5,000+).
     PRICE_BUCKET_BOUNDARIES = [0, 5, 10, 15, 20, 25, 30, 40, 50, 60, 75, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 1500, 2000, 3000, 5000].freeze
 
@@ -245,6 +246,8 @@ module Admin
         else                "COALESCE((#{Record.best_value_sql}), 0)"
       end
 
+      # value_expr must stay selected from the whitelist above; validate it before use
+      # if future changes ever derive it from dynamic or user-controlled input.
       bucket_sql = PRICE_BUCKET_BOUNDARIES.each_cons(2).map.with_index do |(lower, upper), i|
         predicate = i.zero? ? "#{value_expr} < #{upper}" : "#{value_expr} >= #{lower} AND #{value_expr} < #{upper}"
         Arel.sql("SUM(CASE WHEN #{predicate} THEN 1 ELSE 0 END)")

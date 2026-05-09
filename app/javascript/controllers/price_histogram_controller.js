@@ -170,8 +170,15 @@ export default class extends Controller {
   updateHandleAria() {
     const lowValue = this.boundariesValue[this.lowPos] || 0
     const highValue = this.highPos === this.maxPosition ? this.boundariesValue[this.boundariesValue.length - 1] : this.boundariesValue[this.highPos]
+    const minValue = this.boundariesValue[0] || 0
+    const maxValue = this.boundariesValue[this.boundariesValue.length - 1]
+
+    this.lowHandleTarget.setAttribute("aria-valuemin", String(minValue))
+    this.lowHandleTarget.setAttribute("aria-valuemax", String(highValue))
     this.lowHandleTarget.setAttribute("aria-valuenow", String(lowValue))
     this.lowHandleTarget.setAttribute("aria-valuetext", this.lowPos === 0 ? "No minimum price" : `Minimum ${this.formatPrice(lowValue)}`)
+    this.highHandleTarget.setAttribute("aria-valuemin", String(lowValue))
+    this.highHandleTarget.setAttribute("aria-valuemax", String(maxValue))
     this.highHandleTarget.setAttribute("aria-valuenow", String(highValue))
     this.highHandleTarget.setAttribute("aria-valuetext", this.highPos === this.maxPosition ? "No maximum price" : `Maximum ${this.formatPrice(highValue)}`)
   }
