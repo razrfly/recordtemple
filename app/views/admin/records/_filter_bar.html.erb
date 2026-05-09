@@ -33,15 +33,7 @@
       <% end %>
     </div>
 
-    <div class="flex items-center gap-1.5" data-controller="debounce" data-debounce-wait-value="400">
-      <label for="min_value" class="text-xs font-medium text-olive-500">Min $</label>
-      <input type="number" id="min_value" name="min_value" value="<%= params[:min_value] %>"
-             min="0" step="1" placeholder="0"
-             data-action="input->debounce#submit"
-             class="w-24 rounded-lg border-0 py-1.5 px-2.5 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-    </div>
-
-    <div class="flex items-center gap-1.5">
+    <div class="flex items-center gap-1.5 ml-auto">
       <label for="top_n" class="text-xs font-medium text-olive-500">Show</label>
       <select id="top_n" name="top_n" data-action="change->auto-submit#submit"
               class="rounded-lg border-0 py-1.5 pl-2.5 pr-7 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
@@ -52,6 +44,71 @@
       </select>
     </div>
   </div>
+
+  <%# Price histogram + dual-handle range slider %>
+  <% if @price_distribution.present? && @price_boundaries.present? %>
+    <% max_count = @price_distribution.max %>
+    <% sqrt_max = max_count > 0 ? Math.sqrt(max_count) : 0 %>
+    <div class="w-full pb-3 mb-1 border-b border-olive-100"
+         data-controller="price-histogram"
+         data-price-histogram-boundaries-value="<%= @price_boundaries.to_json %>"
+         data-price-histogram-counts-value="<%= @price_distribution.to_json %>">
+      <div class="flex items-center gap-4">
+        <span class="text-xs font-semibold uppercase tracking-wide text-olive-500 w-20 shrink-0">Price</span>
+
+        <div class="flex-1 min-w-0">
+          <div class="relative h-12 select-none" data-price-histogram-target="track">
+            <%# Bars %>
+            <div class="absolute inset-x-0 bottom-1 top-0 flex items-stretch gap-px">
+              <% @price_distribution.each_with_index do |count, i| %>
+                <% h = sqrt_max > 0 ? (Math.sqrt(count) / sqrt_max * 100) : 0 %>
+                <div class="flex-1 flex flex-col justify-end">
+                  <div data-price-histogram-target="bar"
+                       data-active="true"
+                       class="w-full rounded-sm bg-olive-200 data-[active=true]:bg-olive-700 transition-colors duration-100"
+                       style="height: <%= [h, 6].max.round(1) %>%;"
+                       title="<%= number_with_delimiter(count) %> records"></div>
+                </div>
+              <% end %>
+            </div>
+            <%# Selection band (subtle highlight under the active range) %>
+            <div data-price-histogram-target="selection"
+                 class="absolute top-0 bottom-1 bg-olive-700/5 pointer-events-none rounded-sm"
+                 style="left: 0%; width: 100%;"></div>
+            <%# Handles (positioned absolutely over the bars) %>
+            <button type="button" tabindex="0" aria-label="Minimum price"
+                    data-price-histogram-target="lowHandle"
+                    data-action="pointerdown->price-histogram#startDragLow"
+                    class="absolute top-0 -ml-2 h-[calc(100%-0.25rem)] w-4 cursor-ew-resize touch-none flex items-center justify-center group focus:outline-none"
+                    style="left: 0%;">
+              <span class="block w-1.5 h-full bg-olive-950 rounded-full ring-2 ring-white shadow-sm group-focus:ring-olive-600 group-hover:bg-black transition-colors"></span>
+            </button>
+            <button type="button" tabindex="0" aria-label="Maximum price"
+                    data-price-histogram-target="highHandle"
+                    data-action="pointerdown->price-histogram#startDragHigh"
+                    class="absolute top-0 -ml-2 h-[calc(100%-0.25rem)] w-4 cursor-ew-resize touch-none flex items-center justify-center group focus:outline-none"
+                    style="left: 100%;">
+              <span class="block w-1.5 h-full bg-olive-950 rounded-full ring-2 ring-white shadow-sm group-focus:ring-olive-600 group-hover:bg-black transition-colors"></span>
+            </button>
+          </div>
+          <div class="flex items-center justify-between text-[11px] mt-1">
+            <span class="text-olive-400 font-medium tabular-nums">$0</span>
+            <span data-price-histogram-target="rangeLabel"
+                  class="font-semibold text-olive-900 tabular-nums">Any price</span>
+            <span class="text-olive-400 font-medium tabular-nums">$<%= @price_boundaries.last >= 1000 ? "#{@price_boundaries.last / 1000}k+" : "#{@price_boundaries.last}+" %></span>
+          </div>
+        </div>
+
+        <button type="button" data-action="price-histogram#reset"
+                class="text-xs font-medium text-olive-500 hover:text-olive-900 underline underline-offset-2 shrink-0">
+          reset
+        </button>
+      </div>
+
+      <input type="hidden" name="min_value" value="<%= params[:min_value] %>" data-price-histogram-target="minInput">
+      <input type="hidden" name="max_value" value="<%= params[:max_value] %>" data-price-histogram-target="maxInput">
+    </div>
+  <% end %>
 
   <%# Confidence pills — radio inputs so has-[:checked] drives active state without server re-render %>
   <div class="flex items-center gap-1.5 flex-wrap">
@@ -109,18 +166,18 @@
       </select>
     <% end %>
 
-    <% if @format_categories.present? %>
-      <select name="format_category" aria-label="Format filter" data-action="change->auto-submit#submit"
+    <% if @record_types.present? %>
+      <select name="record_type_id" aria-label="Type filter" data-action="change->auto-submit#submit"
               class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
-        <option value="">All Formats</option>
-        <% @format_categories.each do |f| %>
-          <option value="<%= f[:name] %>" <%= "selected" if params[:format_category] == f[:name] %>><%= f[:name] %> (<%= number_with_delimiter(f[:count]) %>)</option>
+        <option value="">All Types</option>
+        <% @record_types.each do |t| %>
+          <option value="<%= t[:id] %>" <%= "selected" if params[:record_type_id].to_s == t[:id].to_s %>><%= t[:name] %> (<%= number_with_delimiter(t[:count]) %>)</option>
         <% end %>
       </select>
     <% end %>
 
     <%# Clear filters %>
-    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :format_category, :min_value, :price_source, :top_n).values.any?(&:present?) %>
+    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :record_type_id, :min_value, :max_value, :price_source, :top_n).values.any?(&:present?) %>
       <%= link_to "Clear filters", admin_records_path,
           class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
     <% end %>

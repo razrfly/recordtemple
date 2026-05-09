@@ -151,22 +151,22 @@
       <button type="button"
               data-action="click->filter-toggle#toggle"
               class="flex items-center justify-between w-full text-sm font-medium text-olive-700 mb-3">
-        <span>Format</span>
+        <span>Type</span>
         <svg data-filter-toggle-target="icon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
         </svg>
       </button>
       <div data-filter-toggle-target="content" class="space-y-2 hidden">
-        <% @formats.each do |format| %>
+        <% @record_types.each do |type| %>
           <label class="flex items-center gap-3 cursor-pointer group">
             <input type="checkbox"
-                   name="q[record_format_id_in][]"
-                   value="<%= format[:id] %>"
-                   <%= "checked" if params.dig(:q, :record_format_id_in)&.include?(format[:id].to_s) %>
+                   name="q[record_type_id_in][]"
+                   value="<%= type[:id] %>"
+                   <%= "checked" if params.dig(:q, :record_type_id_in)&.include?(type[:id].to_s) %>
                    data-action="change->auto-submit#submit"
                    class="w-4 h-4 rounded border-olive-300 text-olive-600 focus:ring-olive-500">
-            <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900 truncate"><%= format[:name] %></span>
-            <span class="text-xs text-olive-400"><%= number_with_delimiter(format[:count]) %></span>
+            <span class="flex-1 text-sm text-olive-600 group-hover:text-olive-900 truncate"><%= type[:name] %></span>
+            <span class="text-xs text-olive-400"><%= number_with_delimiter(type[:count]) %></span>
           </label>
         <% end %>
       </div>

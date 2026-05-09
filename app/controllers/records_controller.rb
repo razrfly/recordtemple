@@ -189,13 +189,13 @@ class RecordsController < ApplicationController
                    .pluck(Arel.sql("genres.id"), Arel.sql("genres.name"), Arel.sql("COUNT(records.id)"))
                    .map { |id, name, count| { id: id, name: name, count: count } }
 
-    # Get format counts
-    @formats = RecordFormat.joins(:records)
-                           .where(records: { user_id: COLLECTION_USER_ID })
-                           .group("record_formats.id", "record_formats.name")
-                           .order(Arel.sql("COUNT(records.id) DESC"))
-                           .pluck(Arel.sql("record_formats.id"), Arel.sql("record_formats.name"), Arel.sql("COUNT(records.id)"))
-                           .map { |id, name, count| { id: id, name: name, count: count } }
+    # Get type counts (joined through record_formats)
+    @record_types = RecordType.joins(record_formats: :records)
+                              .where(records: { user_id: COLLECTION_USER_ID })
+                              .group("record_types.id", "record_types.name")
+                              .order(Arel.sql("COUNT(records.id) DESC"))
+                              .pluck(Arel.sql("record_types.id"), Arel.sql("record_types.name"), Arel.sql("COUNT(records.id)"))
+                              .map { |id, name, count| { id: id, name: name, count: count } }
 
     # Get condition counts - use a simpler approach
     @conditions = base_scope.group(:condition)

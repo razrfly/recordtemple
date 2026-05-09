@@ -89,6 +89,26 @@
       <% end %>
     <% end %>
 
+    <%# Type filter chips - batch load to avoid N+1 %>
+    <% type_ids = Array(params.dig(:q, :record_type_id_in)) %>
+    <% selected_types = type_ids.any? ? RecordType.where(id: type_ids).index_by { |t| t.id.to_s } : {} %>
+    <% type_ids.each do |type_id| %>
+      <% type = selected_types[type_id.to_s] %>
+      <% if type %>
+        <% clear_params = request.query_parameters.deep_dup %>
+        <% clear_params[:q][:record_type_id_in] = clear_params[:q][:record_type_id_in] - [type_id.to_s] %>
+        <% clear_params[:q].delete(:record_type_id_in) if clear_params[:q][:record_type_id_in].empty? %>
+        <%= link_to build_path.call(clear_params),
+            class: "inline-flex items-center gap-1.5 px-3 py-1.5 bg-olive-100 text-olive-700 text-sm rounded-full hover:bg-olive-200 transition-colors",
+            data: { turbo_frame: turbo_frame } do %>
+          Type: "<%= type.name %>"
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <%# Media filter chips %>
     <% if show_media %>
       <% if params[:has_images] == "1" %>
