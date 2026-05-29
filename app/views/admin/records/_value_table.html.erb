@@ -24,6 +24,8 @@
               </div>
             </div>
           </th>
+          <th scope="col" class="px-4 py-3 text-center" title="Images"><%= value_sort_link("has_images", "🖼") %></th>
+          <th scope="col" class="px-4 py-3 text-center" title="Audio"><%= value_sort_link("has_songs", "♪") %></th>
           <th scope="col" class="px-4 py-3 text-right text-xs font-semibold uppercase tracking-wide text-olive-500">Updated</th>
           <th scope="col" class="px-4 py-3"></th>
         </tr>
@@ -75,6 +77,20 @@
             <td class="px-4 py-3">
               <%= render "admin/records/confidence_badge", level: record[:confidence_level] || Record.compute_confidence(record) %>
             </td>
+            <td class="px-4 py-3 text-center text-sm">
+              <% if record[:has_images] %>
+                <span class="text-emerald-600" title="Has images">✓</span>
+              <% else %>
+                <span class="text-olive-300" title="Missing images">—</span>
+              <% end %>
+            </td>
+            <td class="px-4 py-3 text-center text-sm">
+              <% if record[:has_songs] %>
+                <span class="text-emerald-600" title="Has audio">✓</span>
+              <% else %>
+                <span class="text-olive-300" title="Missing audio">—</span>
+              <% end %>
+            </td>
             <td class="px-4 py-3 text-right text-xs text-olive-400 whitespace-nowrap" title="<%= time_ago_in_words(record.updated_at) %> ago">
               <%= record.updated_at.year == Time.current.year ? record.updated_at.strftime("%b %-d") : record.updated_at.strftime("%b %-d, %Y") %>
             </td>
@@ -86,7 +102,7 @@
 
         <% if records.empty? %>
           <tr>
-            <td colspan="12" class="px-4 py-12 text-center text-sm text-olive-400">
+            <td colspan="14" class="px-4 py-12 text-center text-sm text-olive-400">
               No records match the current filters.
             </td>
           </tr>

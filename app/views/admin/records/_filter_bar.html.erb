@@ -188,8 +188,22 @@
       </select>
     <% end %>
 
+    <select name="images" aria-label="Images filter" data-action="change->auto-submit#submit"
+            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+      <option value="">All Images</option>
+      <option value="has" <%= "selected" if params[:images] == "has" %>>Has images (<%= number_with_delimiter(@images_counts[:has]) %>)</option>
+      <option value="missing" <%= "selected" if params[:images] == "missing" %>>Missing images (<%= number_with_delimiter(@images_counts[:missing]) %>)</option>
+    </select>
+
+    <select name="audio" aria-label="Audio filter" data-action="change->auto-submit#submit"
+            class="rounded-lg border-0 py-1.5 pl-3 pr-8 text-xs font-medium text-olive-700 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white">
+      <option value="">All Audio</option>
+      <option value="has" <%= "selected" if params[:audio] == "has" %>>Has audio (<%= number_with_delimiter(@audio_counts[:has]) %>)</option>
+      <option value="missing" <%= "selected" if params[:audio] == "missing" %>>Missing audio (<%= number_with_delimiter(@audio_counts[:missing]) %>)</option>
+    </select>
+
     <%# Clear filters %>
-    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :record_type_id_in, :min_value, :max_value, :price_source, :top_n).values.any?(&:present?) %>
+    <% if params.slice(:search, :confidence, :pricing, :condition, :genre_id, :record_type_id_in, :min_value, :max_value, :price_source, :top_n, :images, :audio).values.any?(&:present?) %>
       <%= link_to "Clear filters", admin_records_path,
           class: "text-xs font-medium text-olive-500 hover:text-olive-700 underline underline-offset-2" %>
     <% end %>
