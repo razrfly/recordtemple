@@ -65,6 +65,18 @@ module Admin
         records = records.where("(prices.price_high IS NULL OR prices.price_high = 0) AND (records.value IS NULL OR records.value = 0)")
       end
 
+      # Media presence filters (use EXISTS predicates, not the joins-based scopes,
+      # to avoid DISTINCT conflicting with with_valuation's SELECT + ORDER BY)
+      case params[:images]
+      when "has"     then records = records.where(Record::HAS_IMAGES_SQL)
+      when "missing" then records = records.where("NOT (#{Record::HAS_IMAGES_SQL})")
+      end
+
+      case params[:audio]
+      when "has"     then records = records.where(Record::HAS_SONGS_SQL)
+      when "missing" then records = records.where("NOT (#{Record::HAS_SONGS_SQL})")
+      end
+
       # Ransack filters for genre, format, condition
       if params[:genre_id].present?
         records = records.where(genre_id: params[:genre_id])
@@ -284,6 +296,15 @@ module Admin
                         .count
                         .sort_by { |_, count| -count }
                         .map { |condition, count| { value: condition, count: count } }
+
+      @images_counts = {
+        has:     base.where(Record::HAS_IMAGES_SQL).count,
+        missing: base.where("NOT (#{Record::HAS_IMAGES_SQL})").count
+      }
+      @audio_counts = {
+        has:     base.where(Record::HAS_SONGS_SQL).count,
+        missing: base.where("NOT (#{Record::HAS_SONGS_SQL})").count
+      }
     end
 
     def sort_sql_for(column)
@@ -297,6 +318,8 @@ module Admin
       when "label"         then "LOWER(labels.name)"
       when "condition"     then "records.condition"
       when "confidence"    then "(#{Record.confidence_sql})"
+      when "has_images"    then Record::HAS_IMAGES_SQL
+      when "has_songs"     then Record::HAS_SONGS_SQL
       else Record.best_value_sql
       end
     end
