@@ -1,11 +1,6 @@
 <div class="mx-auto max-w-5xl px-6 py-12 lg:px-10">
 
-  <%# Flash notices %>
-  <% if notice.present? %>
-    <div class="mb-6 rounded-xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-emerald-200">
-      <%= notice %>
-    </div>
-  <% end %>
+  <%# Flash is rendered globally in layouts/application.html.erb %>
 
   <%# Header %>
   <header class="mb-8">
@@ -134,7 +129,7 @@
           <% end %>
         </div>
         <div class="mt-4">
-          <%= link_to (@record.discogs_release_id? ? "Change Discogs link →" : "Search Discogs →"), admin_discogs_review_path(@record),
+          <%= link_to (@record.discogs_release_id? ? "Change Discogs link →" : "Search Discogs →"), admin_discogs_review_path(@record, return_to: admin_record_path(@record)),
               class: "text-xs font-medium text-olive-600 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
         </div>
       </div>

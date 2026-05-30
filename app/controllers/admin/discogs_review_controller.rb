@@ -5,6 +5,7 @@ module Admin
     COLLECTION_USER_ID = 1
 
     before_action :set_record, only: [:show, :search, :link, :skip]
+    before_action :set_return_to, only: [:show, :search]
 
     # GET /admin/discogs_review
     def index
@@ -91,7 +92,7 @@ module Admin
         matching_service = DiscogsMatchingService.new(@record)
         matching_service.link!(discogs_release, confidence: 100, method: "manual")
 
-        redirect_to admin_discogs_review_index_path,
+        redirect_to safe_return_to(params[:return_to]),
           notice: "Linked '#{@record.title}' to Discogs ##{discogs_id}"
       rescue => e
         Rails.logger.error("Discogs link failed: #{e.class} - #{e.message}")
@@ -102,16 +103,16 @@ module Admin
     # POST /admin/discogs_review/:id/skip
     def skip
       if @record.update(discogs_skip_review: true, discogs_skip_reason: params[:reason])
-        redirect_to admin_discogs_review_index_path,
+        redirect_to safe_return_to(params[:return_to]),
           notice: "Marked '#{@record.title}' as skipped"
       else
         Rails.logger.error("Skip failed for record #{@record.id}: #{@record.errors.full_messages.join(', ')}")
-        redirect_to admin_discogs_review_path(@record),
+        redirect_to admin_discogs_review_path(@record, return_to: safe_return_to(params[:return_to])),
           alert: "Could not skip record, please try again."
       end
     rescue => e
       Rails.logger.error("Skip failed: #{e.class} - #{e.message}")
-      redirect_to admin_discogs_review_path(@record),
+      redirect_to admin_discogs_review_path(@record, return_to: safe_return_to(params[:return_to])),
         alert: "Could not skip record, please try again."
     end
 
@@ -119,6 +120,11 @@ module Admin
 
     def set_record
       @record = Record.where(user_id: COLLECTION_USER_ID).find(params[:id])
+    end
+
+    def set_return_to
+      @return_to = safe_return_to(params[:return_to])
+      @back_to_record = @return_to != admin_discogs_review_index_path
     end
 
     def review_queue_scope
@@ -162,7 +168,15 @@ module Admin
     end
 
     def redirect_with_error(message)
-      redirect_to admin_discogs_review_path(@record), alert: message
+      redirect_to admin_discogs_review_path(@record, return_to: safe_return_to(params[:return_to])), alert: message
+    end
+
+    def safe_return_to(path)
+      if path.is_a?(String) && !path.start_with?("//")
+        normalized = Pathname.new(path).cleanpath.to_s
+        return normalized if normalized.start_with?("/admin/", "/records/")
+      end
+      admin_discogs_review_index_path
     end
   end
 end

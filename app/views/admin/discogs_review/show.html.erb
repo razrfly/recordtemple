@@ -1,11 +1,11 @@
 <div class="mx-auto max-w-4xl px-6 py-12">
   <%# Back link %>
   <div class="mb-4">
-    <%= link_to admin_discogs_review_index_path, class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
+    <%= link_to @return_to, class: "inline-flex items-center text-sm text-olive-600 hover:text-olive-950 transition-colors" do %>
       <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
       </svg>
-      Back to Queue
+      <%= @back_to_record ? "Back to Record" : "Back to Queue" %>
     <% end %>
   </div>
 
@@ -54,6 +54,7 @@
 
       <%# Skip form flush right %>
       <%= form_with url: skip_admin_discogs_review_path(@record), method: :post, local: true, class: "flex items-center gap-2 flex-shrink-0" do |f| %>
+        <%= hidden_field_tag :return_to, @return_to %>
         <%= f.select :reason,
             [["No match found", "no_match"], ["Not on Discogs", "not_on_discogs"], ["Compilation/Various", "compilation"], ["Other", "other"]],
             {},
@@ -72,6 +73,7 @@
     <div class="p-6">
       <%# Search form %>
       <%= form_with url: search_admin_discogs_review_path(@record), method: :post, data: { turbo: false }, class: "mb-6" do |f| %>
+        <%= hidden_field_tag :return_to, @return_to %>
         <div class="flex space-x-2">
           <%= f.text_field :query,
               value: params[:query].presence || @auto_query,
@@ -121,7 +123,7 @@
                       rel: "noopener noreferrer",
                       class: "inline-flex items-center px-2.5 py-1.5 border border-olive-300 shadow-sm text-xs font-medium rounded-lg text-olive-700 bg-white hover:bg-olive-50 transition-colors" %>
                   <%= button_to "Link",
-                      link_admin_discogs_review_path(@record, discogs_id: candidate["id"]),
+                      link_admin_discogs_review_path(@record, discogs_id: candidate["id"], return_to: @return_to),
                       method: :post,
                       class: "inline-flex items-center px-2.5 py-1.5 border border-transparent shadow-sm text-xs font-medium rounded-lg text-white bg-olive-950 hover:bg-olive-800 transition-colors" %>
                 </div>
@@ -147,6 +149,7 @@
       <div class="mt-6 pt-6 border-t border-olive-200">
         <h4 class="text-sm font-medium text-olive-950 mb-2">Or enter Discogs ID directly</h4>
         <%= form_with url: link_admin_discogs_review_path(@record), method: :post, local: true, class: "flex space-x-2" do |f| %>
+          <%= hidden_field_tag :return_to, @return_to %>
           <%= f.number_field :discogs_id,
               placeholder: "e.g. 12345678",
               min: 1,
