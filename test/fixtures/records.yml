@@ -18,50 +18,6 @@
 #  record_format_id :integer
 #  user_id          :integer
 #
-# Indexes
-#
-#  index_records_on_artist_id         (artist_id)
-#  index_records_on_genre_id          (genre_id)
-#  index_records_on_label_id          (label_id)
-#  index_records_on_price_id          (price_id)
-#  index_records_on_record_format_id  (record_format_id)
-#  index_records_on_user_id           (user_id)
-#  records_fts_idx                    (to_tsvector('english'::regconfig, COALESCE(comment, ''::text))) USING gin
-#
-# Foreign Keys
-#
-#  fk_rails_...  (artist_id => artists.id)
-#  fk_rails_...  (genre_id => genres.id)
-#  fk_rails_...  (label_id => labels.id)
-#  fk_rails_...  (price_id => prices.id)
-#  fk_rails_...  (record_format_id => record_formats.id)
-#  fk_rails_...  (user_id => users.id)
-#
 
-one:
-  genre: one
-  value: 1
-  comment: MyText
-  price: one
-  condition: 1
-  user: one
-  identifier: one
-  cached_artist: MyString
-  cached_label: MyString
-  record_format: one
-  artist: one
-  label: one
-
-two:
-  genre: two
-  value: 1
-  comment: MyText
-  price: two
-  condition: 1
-  user: two
-  identifier: two
-  cached_artist: MyString
-  cached_label: MyString
-  record_format: two
-  artist: two
-  label: two
+# Intentionally empty: the default scaffold rows are unused and were stale.
+# Tests (e.g. the admin filter integration tests) build records explicitly.

@@ -9,10 +9,5 @@
 #  record_type_id :integer
 #
 
-one:
-  name: MyString
-  record_type: one
-
-two:
-  name: MyString
-  record_type: two
+# Intentionally empty: the default scaffold rows are unused and were stale.
+# Tests that need record formats build them explicitly.

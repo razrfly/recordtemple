@@ -13,10 +13,5 @@
 #  index_genres_on_slug  (slug) UNIQUE
 #
 
-one:
-  name: MyString
-  slug: MyString
-
-two:
-  name: MyString
-  slug: MyString
+# Intentionally empty: the default scaffold rows are unused and were stale
+# (duplicate slugs violated the unique index). Tests build genres explicitly.

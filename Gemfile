@@ -89,6 +89,9 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  # minitest 6 is incompatible with railties 8.1's line-filtering test runner
+  # (Runnable#run arity change), which makes `bin/rails test` report 0 runs.
+  gem "minitest", "< 6"
 end
 
 gem "kamal", "~> 2.0"
