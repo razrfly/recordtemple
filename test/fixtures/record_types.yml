@@ -8,8 +8,5 @@
 #  updated_at :datetime
 #
 
-one:
-  name: MyString
-
-two:
-  name: MyString
+# Intentionally empty: the default scaffold rows are unused and were stale.
+# Tests that need record types build them explicitly.

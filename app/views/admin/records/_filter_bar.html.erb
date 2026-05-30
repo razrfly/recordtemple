@@ -99,6 +99,34 @@
                   class="font-semibold text-olive-900 tabular-nums">Any price</span>
             <span class="text-olive-400 font-medium tabular-nums">$<%= @price_boundaries.last >= 1000 ? "#{@price_boundaries.last / 1000}k+" : "#{@price_boundaries.last}+" %></span>
           </div>
+
+          <%# Exact numeric entry — these hold the real filter values; the slider
+              handles are a visual approximation. Blank Max = no upper bound. %>
+          <div class="flex items-center gap-3 mt-2">
+            <label class="flex items-center gap-1.5 text-[11px] font-medium text-olive-500">
+              Min
+              <span class="relative">
+                <span class="pointer-events-none absolute inset-y-0 left-2 flex items-center text-olive-400 text-xs">$</span>
+                <input type="number" name="min_value" value="<%= params[:min_value] %>"
+                       data-price-histogram-target="minInput"
+                       data-action="change->price-histogram#onMinInput keydown->price-histogram#onInputKeydown"
+                       inputmode="numeric" min="0" step="1" placeholder="No min" aria-label="Minimum price"
+                       class="w-24 rounded-lg border-0 py-1 pl-5 pr-2 text-xs font-medium text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white tabular-nums">
+              </span>
+            </label>
+            <span class="text-olive-300 text-xs">–</span>
+            <label class="flex items-center gap-1.5 text-[11px] font-medium text-olive-500">
+              Max
+              <span class="relative">
+                <span class="pointer-events-none absolute inset-y-0 left-2 flex items-center text-olive-400 text-xs">$</span>
+                <input type="number" name="max_value" value="<%= params[:max_value] %>"
+                       data-price-histogram-target="maxInput"
+                       data-action="change->price-histogram#onMaxInput keydown->price-histogram#onInputKeydown"
+                       inputmode="numeric" min="0" step="1" placeholder="No max" aria-label="Maximum price"
+                       class="w-24 rounded-lg border-0 py-1 pl-5 pr-2 text-xs font-medium text-olive-900 ring-1 ring-inset ring-olive-900/10 focus:ring-2 focus:ring-olive-600 bg-white tabular-nums">
+              </span>
+            </label>
+          </div>
         </div>
 
         <button type="button" data-action="price-histogram#reset"
@@ -106,9 +134,6 @@
           reset
         </button>
       </div>
-
-      <input type="hidden" name="min_value" value="<%= params[:min_value] %>" data-price-histogram-target="minInput">
-      <input type="hidden" name="max_value" value="<%= params[:max_value] %>" data-price-histogram-target="maxInput">
     </div>
   <% end %>
 

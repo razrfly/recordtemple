@@ -19,42 +19,6 @@
 #  record_format_id :integer
 #  user_id          :integer
 #
-# Indexes
-#
-#  index_prices_on_cached_artist_trigram  (cached_artist)
-#  index_prices_on_cached_label_trigram   (cached_label)
-#  index_prices_on_detail_trigram         (detail)
-#  index_prices_on_media_type_trigram     (media_type)
-#
 
-one:
-  cached_artist: MyString
-  media_type: MyString
-  cached_label: MyString
-  detail: MyString
-  price_low: 1
-  price_high: 1
-  yearbegin: 1
-  yearend: 1
-  footnote: MyText
-  artist: one
-  label: one
-  record_format: one
-  freebase: one
-  user: one
-
-two:
-  cached_artist: MyString
-  media_type: MyString
-  cached_label: MyString
-  detail: MyString
-  price_low: 1
-  price_high: 1
-  yearbegin: 1
-  yearend: 1
-  footnote: MyText
-  artist: two
-  label: two
-  record_format: two
-  freebase: two
-  user: two
+# Intentionally empty: the default scaffold rows are unused and were stale.
+# Tests that need prices build them explicitly.

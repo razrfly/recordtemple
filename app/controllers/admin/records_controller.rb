@@ -32,24 +32,26 @@ module Admin
       # Price source (controls default sort + Min $ semantics)
       price_source = %w[guide my discogs].include?(params[:price_source]) ? params[:price_source] : "best"
 
-      # Min/Max value filter (source-aware)
+      # Min/Max value filter (source-aware). Bind the threshold through an explicit
+      # numeric cast: min/max arrive as floats (e.g. "52.0"), which Postgres cannot
+      # parse against the integer columns (records.value, discogs lowest_price).
       if params[:min_value].present?
         floor = params[:min_value].to_f
         records = case price_source
-          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) >= ?", floor)
-          when "my"      then records.where("records.value >= ?", floor)
-          when "discogs" then records.where("discogs_releases.lowest_price >= ?", floor)
-          else                records.where("(#{Record.best_value_sql}) >= ?", floor)
+          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) >= CAST(? AS numeric)", floor)
+          when "my"      then records.where("records.value >= CAST(? AS numeric)", floor)
+          when "discogs" then records.where("discogs_releases.lowest_price >= CAST(? AS numeric)", floor)
+          else                records.where("(#{Record.best_value_sql}) >= CAST(? AS numeric)", floor)
         end
       end
 
       if params[:max_value].present?
         ceiling = params[:max_value].to_f
         records = case price_source
-          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) <= ?", ceiling)
-          when "my"      then records.where("records.value <= ?", ceiling)
-          when "discogs" then records.where("discogs_releases.lowest_price <= ?", ceiling)
-          else                records.where("(#{Record.best_value_sql}) <= ?", ceiling)
+          when "guide"   then records.where("prices.price_high > 0 AND (#{Record.adjusted_value_sql}) <= CAST(? AS numeric)", ceiling)
+          when "my"      then records.where("records.value <= CAST(? AS numeric)", ceiling)
+          when "discogs" then records.where("discogs_releases.lowest_price <= CAST(? AS numeric)", ceiling)
+          else                records.where("(#{Record.best_value_sql}) <= CAST(? AS numeric)", ceiling)
         end
       end
 

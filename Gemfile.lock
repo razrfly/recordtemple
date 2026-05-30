@@ -208,8 +208,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (6.0.1)
-      prism (~> 1.5)
+    minitest (5.27.0)
     msgpack (1.8.0)
     multi_xml (0.8.0)
       bigdecimal (>= 3.1, < 5)
@@ -262,7 +261,6 @@ GEM
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
-    prism (1.7.0)
     psych (5.3.1)
       date
       stringio
@@ -426,6 +424,7 @@ DEPENDENCIES
   jbuilder
   kamal (~> 2.0)
   letter_opener
+  minitest (< 6)
   pagy (~> 9.0)
   passwordless (~> 1.8)
   pg (~> 1.1)

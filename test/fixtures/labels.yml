@@ -12,15 +12,7 @@
 #
 #  index_labels_on_name  (name) UNIQUE
 #  index_labels_on_slug  (slug) UNIQUE
-#  labels_fts_idx        (to_tsvector('english'::regconfig, (COALESCE(name, ''::character varying))::text)) USING gin
 #
 
-one:
-  name: MyString
-  freebase: one
-  slug: MyString
-
-two:
-  name: MyString
-  freebase: two
-  slug: MyString
+# Intentionally empty: the default scaffold rows are unused and were stale
+# (referenced a removed `freebase` column). Tests build labels explicitly.
