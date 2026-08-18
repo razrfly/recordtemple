@@ -3,7 +3,7 @@
 module Admin
   class RecordsController < BaseController
     COLLECTION_USER_ID = 1
-    before_action :set_record, only: [:show, :edit, :update, :destroy, :add_images, :add_songs, :destroy_attachment, :preview]
+    before_action :set_record, only: [:show, :edit, :update, :add_images, :add_songs, :destroy_attachment, :preview]
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
@@ -148,15 +148,9 @@ module Admin
       end
     end
 
-    def destroy
-      if @record.destroy
-        redirect_to admin_records_path, notice: "Record deleted."
-      else
-        redirect_to admin_record_path(@record), alert: "Could not delete record: #{@record.errors.full_messages.to_sentence}"
-      end
-    rescue ActiveRecord::InvalidForeignKey
-      redirect_to admin_record_path(@record), alert: "Cannot delete: record has dependent data that must be removed first."
-    end
+    # #destroy lives on RecordsController now — the admin Danger Zone links to
+    # the shared confirm_delete flow so the typed-DELETE friction cannot be
+    # bypassed by an admin-only route (#384).
 
     def preview
       render partial: "preview_card", layout: false

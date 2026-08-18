@@ -139,8 +139,9 @@
 
   <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
 
-    <%# Section A: Media %>
-    <div class="space-y-6">
+    <%# Section A: Media. The id is the landing point for the "remove individual
+        files instead" escape hatch on the delete confirmation page (#384). %>
+    <div id="media" class="space-y-6 scroll-mt-6">
       <div class="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-olive-900/5">
         <h2 class="text-xs font-semibold uppercase tracking-wide text-olive-500 mb-4">Cover Images</h2>
 
@@ -148,7 +149,16 @@
           <div class="mb-4 grid grid-cols-2 gap-3">
             <% @record.images.joins(:blob).order("active_storage_blobs.filename").each do |img| %>
               <div class="relative group">
-                <%= image_tag img, class: "w-full h-32 object-cover rounded-lg ring-1 ring-olive-900/10" %>
+                <div class="relative h-32 rounded-lg ring-1 ring-olive-900/10 overflow-hidden">
+                  <%= render "records/missing_image_placeholder" %>
+                  <%# .image-error collapses the img on load failure and uncovers the
+                      placeholder, so a blob missing from S3 (#346) does not render a
+                      broken glyph on the very page you come here to fix it from. %>
+                  <%= image_tag img,
+                      class: "absolute inset-0 w-full h-full object-cover image-loading",
+                      data: { controller: "image-loader",
+                              action: "load->image-loader#loaded error->image-loader#error" } %>
+                </div>
                 <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 rounded-lg">
                   <%= link_to "Remove",
                       destroy_attachment_admin_record_path(@record, blob_signed_id: img.blob.signed_id),
@@ -254,25 +264,34 @@
     </div>
   </div>
 
-  <%# Danger Zone %>
+  <%# Danger Zone. Not a <details>: collapsing this hid the feature without
+      adding any real safety. The trailing ellipsis on the button signals
+      "opens a confirmation step", not "deletes now". %>
   <div class="mt-8 border border-red-200 rounded-xl overflow-hidden">
-    <details class="group">
-      <summary class="flex items-center justify-between px-4 py-3 bg-red-50 cursor-pointer list-none">
-        <span class="text-sm font-medium text-red-700">Danger Zone</span>
-        <svg class="w-4 h-4 text-red-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-        </svg>
-      </summary>
-      <div class="px-4 py-4 bg-white">
-        <p class="text-sm text-olive-600 mb-4">Permanently delete this record and all associated data. This cannot be undone.</p>
-        <%= button_to admin_record_path(@record),
-            method: :delete,
-            form: { data: { turbo_confirm: "Permanently delete this record? This cannot be undone." } },
-            class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors" do %>
-          Delete Record Permanently
+    <div class="px-4 py-3 bg-red-50">
+      <span class="text-sm font-medium text-red-700">Danger Zone</span>
+    </div>
+    <div class="px-4 py-4 bg-white">
+      <%# Routes into the shared public confirmation flow so there is one code
+          path and one copy deck (#384). Never say "all associated data" —
+          enumerate what goes and what stays. %>
+      <% counts = @record.media_counts %>
+      <p class="text-sm text-olive-600 mb-4">
+        <% if @record.has_media? %>
+          <% present = [] %>
+          <% present << pluralize(counts[:images], "image") if counts[:images].positive? %>
+          <% present << pluralize(counts[:songs], "audio file") if counts[:songs].positive? %>
+          This record has <%= present.to_sentence %>
+          (<%= number_to_human_size(@record.media_bytes) %>).
+          Deleting removes them permanently.
+        <% else %>
+          No images or audio are attached, so only the catalog entry is removed.
         <% end %>
-      </div>
-    </details>
+        The price guide entry, artist, and label are not affected.
+      </p>
+      <%= link_to "Delete this record…", confirm_delete_record_path(@record),
+          class: "inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors" %>
+    </div>
   </div>
 
 </div>

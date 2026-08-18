@@ -9,7 +9,9 @@ Rails.application.routes.draw do
   # Admin area
   namespace :admin, constraints: AdminConstraint.new do
     root to: "dashboard#index"
-    resources :records, only: [:index, :show, :update, :destroy] do
+    # No :destroy — record deletion is consolidated onto the public
+    # confirm_delete flow so there is one code path and one copy deck (#384).
+    resources :records, only: [:index, :show, :update] do
       member do
         patch :add_images
         patch :add_songs
@@ -56,7 +58,9 @@ Rails.application.routes.draw do
   end
 
   # Public record catalog with authenticated CRUD
-  resources :records, except: [:destroy]
+  resources :records do
+    member { get :confirm_delete }
+  end
 
   # Discovery pages for artists and labels
   resources :artists, only: [:index, :show] do

@@ -3,9 +3,10 @@ class RecordsController < ApplicationController
   # This is a single-user collection display
   COLLECTION_USER_ID = 1
 
-  before_action :require_user!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :require_collection_owner!, only: [:new, :create, :edit, :update, :destroy]
-  before_action :set_record, only: [:edit, :update, :destroy]
+  before_action :require_user!, only: [:new, :create, :edit, :update, :confirm_delete, :destroy]
+  before_action :require_collection_owner!, only: [:new, :create, :edit, :update, :confirm_delete, :destroy]
+  before_action :set_record, only: [:edit, :update]
+  before_action :set_record_for_delete, only: [:confirm_delete, :destroy]
 
   def index
     add_breadcrumb("Collection")
@@ -122,9 +123,36 @@ class RecordsController < ApplicationController
     end
   end
 
+  # Tier B confirmation page. Tier A (no media) never reaches this — its button
+  # posts DELETE directly with a turbo_confirm.
+  def confirm_delete
+    build_record_breadcrumbs(@record)
+  end
+
   def destroy
-    @record.destroy
-    redirect_to records_path, notice: "Record deleted."
+    # Re-derive the tier server-side. A record can gain attachments between page
+    # render and submit, and Tier A posts a plain DELETE that a client could aim
+    # at a media-bearing record. Without this the friction is decorative.
+    if @record.has_media? && params[:confirm] != "DELETE"
+      return redirect_to confirm_delete_record_path(@record),
+                         alert: "Type DELETE exactly to confirm.",
+                         status: :see_other
+    end
+
+    # Captured before the destroy: #title reads song_titles off the attachments.
+    title = @record.title
+    counts = @record.media_counts
+
+    @record.destroy!
+    redirect_to records_path, notice: deletion_notice(title, counts), status: :see_other
+  rescue ActiveRecord::InvalidForeignKey
+    redirect_to confirm_delete_record_path(@record),
+                alert: "Couldn't delete this record: other data still references it. Nothing was removed.",
+                status: :see_other
+  rescue ActiveRecord::RecordNotDestroyed => e
+    redirect_to confirm_delete_record_path(@record),
+                alert: "Couldn't delete this record: #{e.record.errors.full_messages.to_sentence}. Nothing was removed.",
+                status: :see_other
   end
 
   private
@@ -133,10 +161,27 @@ class RecordsController < ApplicationController
     @record = base_scope.find(params[:id])
   end
 
+  # Eager-loads attachments so media_counts/media_bytes on the confirm page do
+  # not N+1, and turns a stale tab or double submit into a redirect, not a 404.
+  def set_record_for_delete
+    @record = base_scope.with_attached_images.with_attached_songs.find(params[:id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to records_path, alert: "That record no longer exists."
+  end
+
+  # Never says "and all associated data" — always enumerate what goes and what
+  # stays, because the price guide entry, artist and label all survive (#384).
+  def deletion_notice(title, counts)
+    parts = []
+    parts << helpers.pluralize(counts[:images], "image") if counts[:images].positive?
+    parts << helpers.pluralize(counts[:songs], "audio file") if counts[:songs].positive?
+    return %(Deleted "#{title}".) if parts.empty?
+
+    %(Deleted "#{title}" along with #{parts.to_sentence}. The price guide entry was kept.)
+  end
+
   def require_collection_owner!
-    unless current_user&.id == COLLECTION_USER_ID
-      redirect_to records_path, alert: "Not authorized."
-    end
+    redirect_to records_path, alert: "Not authorized." unless collection_owner?
   end
 
   def record_params

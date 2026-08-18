@@ -173,6 +173,14 @@
     }
   }
 
+  /* Set by image_loader_controller when the file fails to load - most often a
+     blob that is missing from S3 (#346). Collapsing the element rather than
+     hiding it uncovers whatever placeholder the parent tile paints, instead of
+     leaving the browser's broken-image glyph on top of it. */
+  .image-error {
+    display: none;
+  }
+
   /* Skeleton placeholder for image containers */
   .image-skeleton {
     background: linear-gradient(
