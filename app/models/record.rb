@@ -77,8 +77,8 @@ class Record < ApplicationRecord
 
   # Legacy Photo/Song models - kept for backwards compatible URLs
   # Actual files are served via Active Storage (images/songs attachments)
-  has_many :photos
-  has_many :legacy_songs, class_name: "Song", foreign_key: "record_id"
+  has_many :photos, dependent: :destroy
+  has_many :legacy_songs, class_name: "Song", foreign_key: "record_id", dependent: :destroy
 
   enum :condition, { mint: 1, "near mint": 2, "vg++": 3,
     "vg+": 4, "very good": 5, good: 6, poor: 7 }
@@ -164,8 +164,28 @@ class Record < ApplicationRecord
     songs.map { |blob| File.basename(blob.filename.to_s, ".*") }
   end
 
+  # --- Deletion blast radius (issue #384) ---
+  # Drives the two-tier delete confirmation: no media is disposable metadata,
+  # media means real unrecoverable work. Re-derived server-side on #destroy.
+
+  def has_media?
+    images.attached? || songs.attached?
+  end
+
+  # .size rather than .count so eager-loaded attachments are counted in memory.
+  def media_counts
+    { images: images.size, songs: songs.size }
+  end
+
+  # Blobs missing from S3 (#346) must not blow up the sum.
+  def media_bytes
+    (images + songs).sum { |attachment| attachment.blob&.byte_size.to_i }
+  end
+
   def title
-    [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact.join(' - ')
+    # compact_blank, not compact: song_titles.join returns "" for a record with
+    # no audio, which would otherwise leave a dangling " - " on the end.
+    [artist_name, label_name, record_format_name, song_titles.join(' - ')].compact_blank.join(' - ')
   end
 
   def breadcrumb_title(max_length: 90)

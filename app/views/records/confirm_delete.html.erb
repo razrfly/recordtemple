@@ -1,0 +1,185 @@
+<%# Record delete confirmation (issue #384).
+    Reached directly for a record with media, and from the admin Danger Zone for
+    any record. The typed DELETE is enforced server-side in #destroy — this page
+    is not the gate, and it drops the input entirely when there is no media,
+    because #destroy skips the check in that case too.
+
+    The thumbnails are the friction. "4 images will be deleted" is abstract;
+    four photographs you took yourself is not. %>
+<% counts = @record.media_counts %>
+<% file_count = counts.values.sum %>
+<%# Every attachment in the collection, not Record#sorted_images: that filters
+    on content_type, and a confirmation page must show a tile for every file
+    that is about to be destroyed or the count and the grid disagree. %>
+<% images = @record.images.sort_by { |a| a.filename.to_s } %>
+<% songs = @record.songs.to_a %>
+<%# Same &./to_i defensiveness as Record#media_bytes: a blob row outlives its
+    stored file when the file is missing from S3 (#346). %>
+<% image_bytes = images.sum { |a| a.blob&.byte_size.to_i } %>
+<% song_bytes = songs.sum { |a| a.blob&.byte_size.to_i } %>
+<% tile_classes = "relative aspect-square rounded-lg bg-olive-100 ring-1 ring-olive-900/10 overflow-hidden" %>
+
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-8">
+  <%= render "shared/breadcrumbs" %>
+
+  <%= link_to "← Back to record", record_path(@record), class: "text-sm text-olive-600 hover:text-olive-900" %>
+
+  <h1 class="mt-4 text-2xl font-display text-olive-950" tabindex="-1" id="confirm-delete-heading">
+    Delete this record?
+  </h1>
+
+  <div class="mt-2 pb-4 border-b border-olive-200">
+    <p class="text-lg text-olive-900"><%= @record.artist_name || "Unknown Artist" %></p>
+    <p class="text-sm text-olive-600">
+      <%= [@record.label_name, @record.record_format_name, @record.yearbegin].compact_blank.join(" · ") %>
+      <%= render "records/condition_badge", condition: @record.condition %>
+    </p>
+  </div>
+
+  <% if @record.has_media? %>
+    <%# --- What is destroyed. Panels are told apart by heading text and glyph,
+          never by colour alone. --- %>
+    <section class="mt-6 bg-white border-2 border-red-300 rounded-xl p-4" aria-labelledby="destroyed-heading">
+      <h2 id="destroyed-heading" class="text-sm font-semibold text-red-700 uppercase tracking-wide">
+        ⚠ Permanently destroyed
+      </h2>
+
+      <% if counts[:images].positive? %>
+        <p class="mt-3 text-olive-900">
+          <%= pluralize(counts[:images], "image") %> · <%= number_to_human_size(image_bytes) %>
+        </p>
+
+        <%# Wireframe 4 caps mobile at 2 tiles, Wireframe 3 caps desktop at 12.
+            Both caps are plain Tailwind visibility — no JS, no second render. %>
+        <div class="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
+          <% images.first(12).each_with_index do |img, i| %>
+            <div class="<%= tile_classes %> <%= "hidden sm:block" if i >= 2 %>">
+              <%= render "records/missing_image_placeholder" %>
+              <%# On load failure .image-error collapses this img and uncovers the
+                  placeholder behind it, so a blob missing from S3 (#346) renders a
+                  tile rather than a broken glyph. No S3 round-trip to find out. %>
+              <%= image_tag cdn_image_url(img.variant(ImageVariants::THUMB_SMALL)),
+                  class: "absolute inset-0 w-full h-full object-cover image-loading",
+                  alt: "Image #{i + 1} of #{counts[:images]} attached to #{@record.title}",
+                  loading: "lazy",
+                  decoding: "async",
+                  data: { controller: "image-loader",
+                          action: "load->image-loader#loaded error->image-loader#error" } %>
+            </div>
+          <% end %>
+
+          <%# Counts are already stated in the line above, so the chips are decoration. %>
+          <% if counts[:images] > 2 %>
+            <div class="<%= tile_classes %> sm:hidden flex items-center justify-center bg-olive-200 text-olive-700 text-sm font-medium" aria-hidden="true">
+              +<%= counts[:images] - 2 %>
+            </div>
+          <% end %>
+          <% if counts[:images] > 12 %>
+            <div class="<%= tile_classes %> hidden sm:flex items-center justify-center bg-olive-200 text-olive-700 text-sm font-medium" aria-hidden="true">
+              +<%= counts[:images] - 12 %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if counts[:songs].positive? %>
+        <p class="mt-4 text-olive-900">
+          <%= pluralize(counts[:songs], "audio file") %> · <%= number_to_human_size(song_bytes) %>
+        </p>
+        <%# A real list with the filenames as text — never an icon on its own. %>
+        <ul class="mt-2 space-y-1.5">
+          <% songs.each do |song| %>
+            <li class="flex items-baseline justify-between gap-3 text-sm">
+              <span class="text-olive-800 truncate">♪ <%= song.filename %></span>
+              <span class="shrink-0 text-olive-500 tabular-nums">
+                <%= number_to_human_size(song.blob&.byte_size.to_i) %>
+              </span>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+
+      <p class="mt-4 text-sm text-red-700">
+        These files are deleted from storage and cannot be recovered. There is no undo.
+      </p>
+    </section>
+  <% else %>
+    <section class="mt-6 bg-white border border-olive-300 rounded-xl p-4" aria-labelledby="destroyed-heading">
+      <h2 id="destroyed-heading" class="text-sm font-semibold text-olive-700 uppercase tracking-wide">
+        Nothing is destroyed
+      </h2>
+      <p class="mt-3 text-sm text-olive-800">
+        No images or audio are attached, so only the catalog entry is removed.
+      </p>
+    </section>
+  <% end %>
+
+  <%# --- What survives. This is the direct fix for the mis-described blast
+        radius: the old copy implied these went too. They do not. The "N other
+        records" counts make preservation concrete rather than a promise. --- %>
+  <% artist_others = @record.artist ? @record.artist.records.where.not(id: @record.id).count : 0 %>
+  <% label_others = @record.label ? @record.label.records.where.not(id: @record.id).count : 0 %>
+  <section class="mt-4 bg-white border border-olive-300 rounded-xl p-4" aria-labelledby="kept-heading">
+    <h2 id="kept-heading" class="text-sm font-semibold text-olive-700 uppercase tracking-wide">
+      ✓ Kept — not affected by this delete
+    </h2>
+    <ul class="mt-3 space-y-1 text-sm text-olive-800">
+      <% if @record.price.present? %>
+        <li>✓ Price guide entry — <%= @record.price.detail.presence || "##{@record.price_id}" %></li>
+      <% end %>
+      <li>
+        ✓ Artist — <%= @record.artist_name || "—" %>
+        <% if artist_others.positive? %>
+          <span class="text-olive-500">· <%= pluralize(artist_others, "other record") %></span>
+        <% end %>
+      </li>
+      <li>
+        ✓ Label — <%= @record.label_name || "—" %>
+        <% if label_others.positive? %>
+          <span class="text-olive-500">· <%= pluralize(label_others, "other record") %></span>
+        <% end %>
+      </li>
+      <li>✓ Genre — <%= @record.genre&.name || "—" %></li>
+      <% if @record.discogs_release.present? %>
+        <li>✓ Discogs release — <%= @record.discogs_release.title.presence || @record.discogs_release_id %></li>
+      <% end %>
+    </ul>
+  </section>
+
+  <%= form_with url: record_path(@record), method: :delete, class: "mt-6" do |f| %>
+    <%# No autofocus: it would jump past the Destroyed and Kept panels, which is
+        exactly backwards — the consequence has to be read before the field that
+        commits to it. %>
+    <% if @record.has_media? %>
+      <%= label_tag :confirm, "Type DELETE to confirm",
+          class: "block text-sm font-medium text-olive-900" %>
+      <%= text_field_tag :confirm, nil,
+          autocomplete: "off",
+          "aria-describedby": "confirm-hint",
+          class: "mt-1 block w-full sm:w-64 rounded-lg border-olive-300 focus:border-olive-500 focus:ring-olive-500" %>
+      <p id="confirm-hint" class="mt-1 text-xs text-olive-500">
+        Type DELETE exactly, in capitals.
+      </p>
+    <% end %>
+
+    <%# DOM order is Delete then Cancel, so on mobile Cancel stacks full-width
+        below Delete — a thumb reaching the bottom of the screen hits Cancel. %>
+    <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-3">
+      <%= f.submit(@record.has_media? ? "Delete record and #{pluralize(file_count, 'file')}" : "Delete record",
+          class: "w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 transition-colors cursor-pointer") %>
+      <%= link_to "Cancel", record_path(@record),
+          class: "w-full sm:w-auto inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-olive-700 bg-white ring-1 ring-olive-900/10 rounded-lg hover:bg-olive-100 transition-colors" %>
+    </div>
+  <% end %>
+
+  <% if @record.has_media? %>
+    <%# Routes into the existing destroy_attachment flow, which is very often
+        what the user actually wanted. %>
+    <div class="mt-8 pt-6 border-t border-olive-200">
+      <p class="text-sm text-olive-600">Only wanted to clear out the files?</p>
+      <%= link_to "Remove individual images or audio and keep the record →",
+          admin_record_path(@record, anchor: "media"),
+          class: "mt-1 inline-block text-sm font-medium text-olive-700 hover:text-olive-950 underline underline-offset-2 transition-colors" %>
+    </div>
+  <% end %>
+</div>
