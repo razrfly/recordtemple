@@ -26,7 +26,7 @@ Record Temple hosts a comprehensive database of vinyl records:
 | CSS | Tailwind CSS 4 |
 | JavaScript | Hotwire (Turbo + Stimulus), importmap |
 | Authentication | Passwordless (magic link) |
-| Deployment | Fly.io |
+| Deployment | Kamal 2 (self-hosted Mac Mini) |
 
 ## Prerequisites
 
@@ -157,27 +157,55 @@ bin/rails test:system
 
 ## Deployment
 
-Deployed on [Fly.io](https://fly.io) with:
+Deployed with [Kamal 2](https://kamal-deploy.org) to a self-hosted Mac Mini on the LAN.
 
-- **Region**: Dallas (dfw)
-- **Processes**: web (Rails), worker (Sidekiq)
-- **Database**: Fly Postgres
-- **Storage**: AWS S3 (cdn4.recordtemple.com)
+| Item | Value |
+|------|-------|
+| Host | `192.168.1.205` (SSH user `holden`) |
+| Domain | recordtemple.com (Kamal proxy, `app_port` 3000) |
+| Registry | ghcr.io (`razrfly/recordtemple`, arm64 build) |
+| Roles | `web` (Rails), `worker` (Sidekiq) |
+| Database | PostgreSQL on the **host**, not dockerized: `recordtemple_prod` |
+| Redis | Homebrew Redis on the host |
+| Storage | AWS S3 (cdn4.recordtemple.com) |
+
+Config lives in `config/deploy.yml`; secrets in `.kamal/secrets` (gitignored — pulled
+from the keychain / `gh`, never raw values).
+
+Containers reach the host Postgres and Redis via `host.docker.internal`, and the host
+`pg_hba.conf` trusts only the Docker bridge network — so production Postgres is **not**
+reachable from other machines on the LAN. Dump it over SSH (see below).
 
 ### Deploy
 
 ```bash
-fly deploy
+kamal deploy
 ```
 
 ### Useful Commands
 
 ```bash
-fly logs                    # View logs
-fly ssh console             # SSH into app
-fly postgres connect        # Connect to database
-fly secrets list            # View secrets
+kamal app logs -f           # Tail logs
+kamal shell                 # Bash in the app container
+kamal console               # Rails console
+kamal app details           # Container status
+kamal deploy --version=...  # Roll back to a prior image
 ```
+
+### Pulling Production Data Locally
+
+Postgres only trusts the Docker network, so dump through SSH rather than connecting
+directly:
+
+```bash
+ssh holden@192.168.1.205 'pg_dump -Fc --no-owner --no-acl recordtemple_prod' > latest.dump
+dropdb --if-exists recordtemple_dev && createdb recordtemple_dev
+pg_restore --no-owner --no-acl -d recordtemple_dev latest.dump
+bin/rails db:migrate
+```
+
+Images referenced by the restored data live in S3, so development shows them without
+any extra sync (see File Storage Configuration above).
 
 ## Project Structure
 
