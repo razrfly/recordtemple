@@ -115,6 +115,16 @@ class Record < ApplicationRecord
   scope :discogs_high_confidence, -> { where("discogs_confidence >= ?", 85) }
   scope :discogs_low_confidence, -> { discogs_matched.where("discogs_confidence < ?", 85) }
 
+  # Discogs coverage predicates. Raw SQL rather than the joins-based scopes above so
+  # they compose with with_valuation's explicit SELECT + ORDER BY (same reason
+  # HAS_IMAGES_SQL / HAS_SONGS_SQL exist). with_valuation LEFT JOINs discogs_releases,
+  # so an unmatched record and a matched-but-unpriced one both surface as a NULL
+  # lowest_price — which is exactly what MISSING_DISCOGS_PRICE_SQL wants.
+  HAS_DISCOGS_PRICE_SQL = "discogs_releases.lowest_price IS NOT NULL".freeze
+  MISSING_DISCOGS_PRICE_SQL = "discogs_releases.lowest_price IS NULL".freeze
+  DISCOGS_UNMATCHED_SQL = "records.discogs_release_id IS NULL".freeze
+  DISCOGS_MATCHED_NO_PRICE_SQL = "records.discogs_release_id IS NOT NULL AND discogs_releases.lowest_price IS NULL".freeze
+
   # Discovery scopes use EXISTS subqueries to avoid DISTINCT + ORDER BY conflicts
   HAS_IMAGES_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'images')".freeze
   HAS_SONGS_SQL = "EXISTS (SELECT 1 FROM active_storage_attachments WHERE record_type = 'Record' AND record_id = records.id AND name = 'songs')".freeze

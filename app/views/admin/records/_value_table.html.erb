@@ -68,10 +68,16 @@
               <% end %>
             </td>
             <td class="px-4 py-3 text-sm text-right tabular-nums text-olive-700">
+              <%# Distinguish the two gap states — they need different fixes (find a
+                  match vs re-fetch the release) and used to render identically. %>
               <% if record[:discogs_lowest_price].present? %>
                 $<%= number_with_delimiter(record[:discogs_lowest_price].to_f.round(0)) %>
+              <% elsif record.discogs_skip_review %>
+                <span class="text-olive-300 text-xs" title="Skipped<%= ": #{record.discogs_skip_reason}" if record.discogs_skip_reason.present? %>">skip</span>
+              <% elsif record.discogs_release_id %>
+                <span class="text-amber-600 text-xs" title="Matched to Discogs, no price — needs a re-fetch">no price</span>
               <% else %>
-                <span class="text-olive-300">—</span>
+                <span class="text-olive-300" title="Not matched to Discogs">—</span>
               <% end %>
             </td>
             <td class="px-4 py-3">

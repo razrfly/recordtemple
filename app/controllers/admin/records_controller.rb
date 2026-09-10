@@ -7,6 +7,8 @@ module Admin
 
     CONFIDENCE_LEVELS = %w[High Medium Low Suspect].freeze
 
+    DISCOGS_FILTERS = %w[has_price missing_price unmatched matched_no_price skipped].freeze
+
     # Log-spaced price bucket boundaries for the histogram range filter.
     # Keep these fixed constants because they are interpolated into bucket SQL.
     # 23 boundaries → 23 buckets (last is overflow: $5,000+).
@@ -61,10 +63,26 @@ module Admin
         records = records.where("prices.price_high > 0")
       when "has_personal"
         records = records.where("records.value > 0")
-      when "has_discogs"
-        records = records.where("discogs_releases.lowest_price IS NOT NULL")
       when "no_price"
         records = records.where("(prices.price_high IS NULL OR prices.price_high = 0) AND (records.value IS NULL OR records.value = 0)")
+      end
+
+      # Discogs coverage filter — its own facet so it composes with the Pricing
+      # dropdown instead of competing with it. The three gap states exclude records
+      # deliberately passed over (discogs_skip_review) so the worklist reflects real
+      # remaining work; "skipped" surfaces them on purpose.
+      @discogs_filter = normalize_discogs_filter
+      case @discogs_filter
+      when "has_price"
+        records = records.where(Record::HAS_DISCOGS_PRICE_SQL)
+      when "missing_price"
+        records = records.where(Record::MISSING_DISCOGS_PRICE_SQL).where(discogs_skip_review: false)
+      when "unmatched"
+        records = records.where(Record::DISCOGS_UNMATCHED_SQL).where(discogs_skip_review: false)
+      when "matched_no_price"
+        records = records.where(Record::DISCOGS_MATCHED_NO_PRICE_SQL).where(discogs_skip_review: false)
+      when "skipped"
+        records = records.where(discogs_skip_review: true)
       end
 
       # Media presence filters (use EXISTS predicates, not the joins-based scopes,
@@ -100,7 +118,10 @@ module Admin
       end
       sort_col = params[:sort] || default_sort
       direction = params[:direction] == "asc" ? "ASC" : "DESC"
-      records = records.order(Arel.sql("#{sort_sql_for(sort_col)} #{direction} NULLS LAST"))
+      # records.id breaks ties deterministically: value ties run large (dozens of
+      # records share a given best_value), so without it the top-N cutoff and the
+      # page boundaries shift between requests and a shared link is not reproducible.
+      records = records.order(Arel.sql("#{sort_sql_for(sort_col)} #{direction} NULLS LAST"), :id)
 
       top_n = params[:top_n].to_i
       top_n = nil unless [100, 500, 1000, 2000].include?(top_n)
@@ -219,6 +240,15 @@ module Admin
       params.require(:record).permit(:value, :condition, :comment, :artist_id, :label_id, :genre_id, :record_format_id, :price_id)
     end
 
+    # Legacy bookmarks used ?pricing=has_discogs before Discogs got its own facet.
+    # Map rather than redirect: the filter bar submits into a turbo-frame, and a
+    # redirect would break that flow.
+    def normalize_discogs_filter
+      return params[:discogs] if DISCOGS_FILTERS.include?(params[:discogs])
+      return "has_price" if params[:discogs].blank? && params[:pricing] == "has_discogs"
+      nil
+    end
+
     def compute_stats(base_scope)
       valuation_scope = base_scope.with_valuation
 
@@ -239,10 +269,24 @@ module Admin
         confidence_stats[level] = { count: count, value: value.to_f }
       end
 
+      # Discogs coverage over base_scope, so covered/total is the same denominator
+      # Total Records reports — the card and its neighbour always agree. Like them
+      # it ignores the filter dropdowns but does follow an active text search:
+      # searching narrows all three cards together. A deliberately-skipped record
+      # counts as resolved, otherwise coverage could never reach 100%.
+      discogs_covered, discogs_skipped = base_scope
+        .joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
+        .pick(
+          Arel.sql("COUNT(*) FILTER (WHERE #{Record::HAS_DISCOGS_PRICE_SQL} OR records.discogs_skip_review)"),
+          Arel.sql("COUNT(*) FILTER (WHERE records.discogs_skip_review)")
+        )
+
       {
         total_count: total_count,
         total_value: total_value,
-        confidence: confidence_stats
+        confidence: confidence_stats,
+        discogs_covered: discogs_covered.to_i,
+        discogs_skipped: discogs_skipped.to_i
       }
     end
 
@@ -300,6 +344,22 @@ module Admin
       @audio_counts = {
         has:     base.where(Record::HAS_SONGS_SQL).count,
         missing: base.where("NOT (#{Record::HAS_SONGS_SQL})").count
+      }
+
+      # Five buckets in one pass with FILTER aggregates rather than five COUNT(*)
+      # round-trips the way images/audio above do.
+      has_price, missing_price, unmatched, matched_no_price, skipped =
+        base.joins("LEFT JOIN discogs_releases ON discogs_releases.id = records.discogs_release_id")
+            .pick(
+              Arel.sql("COUNT(*) FILTER (WHERE #{Record::HAS_DISCOGS_PRICE_SQL})"),
+              Arel.sql("COUNT(*) FILTER (WHERE #{Record::MISSING_DISCOGS_PRICE_SQL} AND NOT records.discogs_skip_review)"),
+              Arel.sql("COUNT(*) FILTER (WHERE #{Record::DISCOGS_UNMATCHED_SQL} AND NOT records.discogs_skip_review)"),
+              Arel.sql("COUNT(*) FILTER (WHERE (#{Record::DISCOGS_MATCHED_NO_PRICE_SQL}) AND NOT records.discogs_skip_review)"),
+              Arel.sql("COUNT(*) FILTER (WHERE records.discogs_skip_review)")
+            )
+      @discogs_counts = {
+        has_price: has_price, missing_price: missing_price, unmatched: unmatched,
+        matched_no_price: matched_no_price, skipped: skipped
       }
     end
 
